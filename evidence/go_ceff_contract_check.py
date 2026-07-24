@@ -15,7 +15,7 @@ from pathlib import Path
 import sys
 
 
-ROOT = Path(__file__).resolve().parents[3]
+ROOT = Path(__file__).resolve().parents[1]
 TEX = ROOT / "NR_Holography.tex"
 
 
