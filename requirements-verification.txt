@@ -1,0 +1,11 @@
+# Dependency manifest for the verification scripts in calculations/.
+# Install into an ISOLATED environment only (never auto-install into the
+# system/global Python), e.g.:
+#   python -m venv .venv-verify
+#   .venv-verify\Scripts\python -m pip install -r calculations/requirements-verification.txt
+#
+# sympy pulls in mpmath automatically.  No other third-party package is
+# required by the verification scripts in calculations/ (checked 2026-07-24:
+# no numpy imports remain).
+sympy==1.14.0
+
