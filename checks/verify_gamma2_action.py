@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Regression test for the Gamma^2 DFT action section of the SM.
+"""Regression test for the renormalized on-shell action section of the SM.
 
-Guards the 2026-07-23 additions (SM section "The Gamma^2 DFT action and
-its on-shell value", labels SMgamma2 / SMgamma2flux / SMgamma2value):
+Guards the 2026-07-23 additions (now under SM section "Renormalized
+on-shell action", labels SMgamma2 / SMgamma2flux / SMgamma2value):
 
 * the Gamma^2 rewriting of the lecture notes [Park:2025core, (2.121)-(2.122)]:
   e^{-2d} S_0 = e^{-2d} L_{Gamma^2} + d_A(e^{-2d} B^A),
@@ -55,7 +55,7 @@ def dA(e, A):
 def check_tex_contract() -> None:
     compact = re.sub(r"\s+", "", TEX_PATH.read_text(encoding="utf-8"))
     required = {
-        "section title": r"The$\Gamma^{2}$DFTactionanditson-shellvalue",
+        "section title": r"\section{Renormalizedon-shellaction}",
         "B^A definition": r"B^{A}=4\cH^{AB}\partial_{B}d-\partial_{B}\cH^{AB}",
         "universal flux": r"e^{-2d}B^{y}=-2\,\partial_{y}e^{-2d}",
         "renormalized value": r"S_{\rmren}=-\frac{8\sqrt{\mu}}{16\piGl}",
