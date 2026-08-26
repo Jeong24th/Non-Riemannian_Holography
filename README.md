@@ -2,7 +2,7 @@
 
 Reproducibility scripts supporting the manuscript **“Long Strings and Non-Riemannian Hair”** by Shaun D. Hampton, Hyun-Cheol Kim, Jae-Hyuk Oh, and Jeong-Hyuck Park.
 
-This archive contains the symbolic and analytic checks used to verify the Riemannian and non-Riemannian holographic response, doubled-yet-gauged worldsheet reduction, effective Gomis–Ooguri limit, covariant charges, radial branches, BRST closure, and supersymmetry statements.
+The scripts check the Riemannian and non-Riemannian response formulas, the doubled-yet-gauged worldsheet reduction, the Gomis–Ooguri limit, covariant charges, radial branches, the linear Virasoro condition, and supersymmetry.
 
 ## Environment
 
@@ -32,7 +32,18 @@ python checks/verify_brst_w1.py
 python checks/verify_gamma2_action.py
 ```
 
-Additional independent/domain/negative-control checks are under `evidence/`.
+The Riemannian falloff check also runs
+`checks/verify_exact_projected_fluctuations.py`.  The charge calculations can be
+run separately:
+
+```bash
+python checks/dft_asymptotic_charge.py
+python checks/dft_covariant_phase_space.py
+python checks/dft_translation_charge.py
+python checks/dft_zero_mode_symplectic.py
+```
+
+Additional domain checks and negative controls are under `evidence/`.
 
 ## Mathematica suite
 
@@ -50,7 +61,12 @@ the `mathematica/` folder, open `NRH00_RunAll.nb`, and use *Evaluation → Evalu
 Notebook*.  See `mathematica/README.md` for the file-by-file coverage table and method
 notes.
 
-Some contract-aware guards also compare verified expressions against `NR_Holography.tex`. For those checks, place the manuscript source at the repository root. Their independent algebraic checks remain documented in the scripts.
+The manuscript source is not included in this software archive.  When
+`NR_Holography.tex` is absent, the core scripts run their algebraic checks and
+print that the LaTeX string comparison was skipped.  To check the displayed
+formulas as well, place the manuscript source at the repository root.  The
+contract-only script `evidence/go_ceff_contract_check.py` also requires that
+file.
 
 ## Scope
 

@@ -33,6 +33,29 @@ def sector_dft_metric(dimension: int) -> sp.Matrix:
     return dft_metric(dimension)
 
 
+def kim_nr_frame_rotations() -> tuple[sp.Matrix, sp.Matrix]:
+    """Upper-index local Lorentz rotations for Kim's aligned NR frame.
+
+    The unbarred tangential interchange has determinant -1.  The simultaneous
+    radial reflection makes the full three-dimensional transformation proper,
+    so it admits the Spin(1,2) lift used in the Killing-spinor calculation.
+    """
+    root2 = sp.sqrt(2)
+    unbarred = sp.Matrix(
+        [[0, 1 / root2, 0], [root2, 0, 0], [0, 0, -1]]
+    )
+    barred = sp.diag(1 / root2, root2, 1)
+    return unbarred, barred
+
+
+def rotate_nr_vielbeins_to_kim(
+    v: sp.Matrix, vbar: sp.Matrix
+) -> tuple[sp.Matrix, sp.Matrix]:
+    """Rotate upper-local-index NR double vielbeins to Kim's frame."""
+    unbarred, barred = kim_nr_frame_rotations()
+    return sp.simplify(v * unbarred), sp.simplify(vbar * barred)
+
+
 def nr_vielbeins() -> tuple[sp.Matrix, sp.Matrix, sp.Matrix]:
     root2 = sp.sqrt(2)
     v = sp.Matrix(
@@ -56,6 +79,7 @@ def nr_vielbeins() -> tuple[sp.Matrix, sp.Matrix, sp.Matrix]:
         ]
     )
     eta = sp.Matrix([[0, -1, 0], [-1, 0, 0], [0, 0, 1]])
+    v, vbar = rotate_nr_vielbeins_to_kim(v, vbar)
     return v, vbar, eta
 
 
@@ -306,8 +330,10 @@ def projected_killing_system(
     }
 
     # Coefficients of the independent jets (f,f',f'') in E and partial_+ E.
-    e_jets = [sp.Matrix([0, 1]), sp.Matrix([1, 0]), sp.zeros(2, 1)]
-    de_jets = [sp.zeros(2, 1), sp.Matrix([0, 1]), sp.Matrix([1, 0])]
+    # In Kim's proper three-dimensional frame the Spin lift maps the old
+    # profile (l f',f) to (-sqrt(2) f,l f').  Here l=1 by substitution.
+    e_jets = [sp.Matrix([-sp.sqrt(2), 0]), sp.Matrix([0, 1]), sp.zeros(2, 1)]
+    de_jets = [sp.zeros(2, 1), sp.Matrix([-sp.sqrt(2), 0]), sp.Matrix([0, 1])]
     internal_identity = sp.eye(16)
 
     def derivative_map(a_index: int, jet: int) -> sp.Matrix:
@@ -370,6 +396,8 @@ def projected_killing_system(
         print("basis vectors:")
         for vector in stacked.nullspace():
             print(vector.T)
+    if nullity != 4:
+        raise AssertionError(f"expected four internal Weyl polarizations, got {nullity}")
 
 
 def prove_symbolic_candidate(
@@ -431,8 +459,8 @@ def prove_symbolic_candidate(
         10: -sp.I * a_sphere / 2,
         11: sp.I * a_sphere / 2,
     }
-    e_jets = [sp.Matrix([0, 1]), sp.Matrix([l, 0]), sp.zeros(2, 1)]
-    de_jets = [sp.zeros(2, 1), sp.Matrix([0, 1]), sp.Matrix([l, 0])]
+    e_jets = [sp.Matrix([-sp.sqrt(2), 0]), sp.Matrix([0, l]), sp.zeros(2, 1)]
+    de_jets = [sp.zeros(2, 1), sp.Matrix([-sp.sqrt(2), 0]), sp.Matrix([0, l])]
 
     def simplify_zero(matrix: sp.Matrix) -> sp.Matrix:
         return matrix.applyfunc(lambda value: sp.factor(sp.cancel(value)))
@@ -490,6 +518,8 @@ def prove_symbolic_candidate(
     print("symbolic all-theta/l candidate residual count =", len(nonzero_residuals))
     for residual in nonzero_residuals[:10]:
         print(" ", residual)
+    if nonzero_residuals:
+        raise AssertionError("Kim-frame ten-dimensional Killing candidate has residuals")
 
 
 def build_three_dimensional(l: sp.Symbol):
@@ -541,8 +571,8 @@ def check_three_dimensional_profile(
         omega.append(sp.simplify(connection))
     v_up_lower = jmetric * v * eta
     vbar_up_lower = jmetric * vbar * (-eta)
-    e_jets = [sp.Matrix([0, 1]), sp.Matrix([l, 0]), sp.zeros(2, 1)]
-    de_jets = [sp.zeros(2, 1), sp.Matrix([0, 1]), sp.Matrix([l, 0])]
+    e_jets = [sp.Matrix([-root2, 0]), sp.Matrix([0, l]), sp.zeros(2, 1)]
+    de_jets = [sp.zeros(2, 1), sp.Matrix([-root2, 0]), sp.Matrix([0, l])]
     success = True
     for jet in range(3):
         derivative_maps = []
@@ -562,7 +592,9 @@ def check_three_dimensional_profile(
             dirac += gamma_flat[p_index] * projected
         residual = sp.simplify(dirac + e_jets[jet] / (root2 * l))
         success = success and residual == sp.zeros(2, 1)
-    print("E=(l f',f) satisfies the quoted D=3 equations =", success)
+    print("E=(-sqrt(2) f,l f') satisfies the quoted D=3 equations =", success)
+    if not success:
+        raise AssertionError("Kim-frame three-dimensional Killing profile failed")
 
 
 def build_ten_dimensional(l: sp.Symbol, theta: sp.Symbol):
@@ -669,4 +701,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

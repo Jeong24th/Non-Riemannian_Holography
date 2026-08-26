@@ -3,7 +3,7 @@
 dictionary (no sympy required).
 
 This isolates the DECISIVE orientation/sign content of
-calculations/verify_lambda_limit_ws.py (checks 9-11 there) in exact
+checks/verify_lambda_limit_ws.py (checks 9-11 there) in exact
 integer polynomial arithmetic over commuting monomials, so it runs on
 any Python >= 3.8 without third-party packages.
 
@@ -26,7 +26,7 @@ Guarded facts:
   5) unflipped: Kim DeltaL = -(paper DeltaL with s = +1)           -> True
 
 Exit codes: 0 = ALL CHECKS PASSED; 1 = failure.
-Usage: python calculations/verify_lambda_limit_sign_core.py [--selftest-fail]
+Usage: python checks/verify_lambda_limit_sign_core.py [--selftest-fail]
 """
 
 from __future__ import annotations

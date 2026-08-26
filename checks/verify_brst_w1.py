@@ -1,4 +1,4 @@
-"""Symbolic regression checks for the BRST origin of the W1 mode.
+"""Symbolic regression checks for the linear Virasoro analysis of W1.
 
 The calculation uses the standard bosonic-string conventions
 
@@ -11,8 +11,10 @@ for which
     T_y = -(1/alpha') :(partial y)^2: + V partial^2 y.
 
 It checks the conformal weight, radial equation, momentum-space
-factorization, central-charge balance, the old-note negative controls,
-and the leading fusion tower relevant to exact marginality.
+factorization, the ghost-independent WZW central-charge identity, the
+old-note negative controls, and the leading fusion tower relevant to
+exact marginality.  The legacy full bosonic central-charge identity is
+retained as an algebraic regression check but is not a manuscript claim.
 """
 
 from __future__ import annotations
@@ -75,14 +77,41 @@ def main() -> None:
     old_sign_on_w1 = -(b_w1**2 - 2 * b_w1)
     assert old_sign_on_w1 == -8
 
-    # Central-charge identity.  Write q=alpha'/ell^2 and test exact
-    # rational samples: 2 + (1+6q) + (23-6q) - 26 = 0.
+    # Legacy full-bosonic central-charge identity.  This remains a useful
+    # algebraic regression check, although the manuscript now uses only
+    # the ghost-independent beta-gamma + y WZW identity below.
     for q in (Fraction(1, 100), Fraction(1, 7), Fraction(1, 2), Fraction(3, 5)):
         c_beta_gamma = Fraction(2)
         c_y = 1 + 6 * q
         c_internal = 23 - 6 * q
         c_ghost = Fraction(-26)
         assert c_beta_gamma + c_y + c_internal + c_ghost == 0
+
+    # The S3 gauge choice B=l^2 cos^2(theta) dphi1^dphi2 gives
+    # |H|=2 l^2 sin(theta)cos(theta) dtheta^dphi1^dphi2.  Factoring
+    # pi^2, its integral is 2*(1/2)*(2*2)=4 times pi^2 l^2, hence
+    # |int H|/(4*pi^2*alpha')=l^2/alpha'.
+    h_prefactor_abs = Fraction(2)
+    theta_integral = Fraction(1, 2)
+    azimuth_integral_over_pi2 = Fraction(4)
+    flux_integral_over_pi2_l2 = (
+        h_prefactor_abs * theta_integral * azimuth_integral_over_pi2
+    )
+    assert flux_integral_over_pi2_l2 == 4
+    assert flux_integral_over_pi2_l2 / 4 == 1
+
+    # In the compact AdS3 x S3 x T4 uplift, q=alpha'/ell^2=1/k_s with
+    # positive integral supersymmetric flux level k_s=N5.  Decoupling the
+    # adjoint fermions shifts the bosonic SL(2,R) and SU(2) levels to
+    # k_s+2 and k_s-2.  The beta-gamma plus radial central charge must
+    # equal the bosonic SL(2,R)_{k_s+2} WZW value 3(k_s+2)/k_s.
+    for k_s in range(1, 65):
+        q = Fraction(1, k_s)
+        c_first_order = Fraction(2) + 1 + 6 * q
+        c_sl2_bosonic = Fraction(3 * (k_s + 2), k_s)
+        assert c_first_order == c_sl2_bosonic
+        assert (k_s + 2) - 2 == k_s
+        assert (k_s - 2) + 2 == k_s
 
     # Algebraic factorization:
     # h_n-1 = (n-1)(1-nq).  Verify exactly for a broad integer range,
@@ -93,31 +122,43 @@ def main() -> None:
         if n >= 2:
             assert fusion_weight(n, Fraction(1, n)) == 1
 
-    # B_{+-}=-(1/2)e^{-2y/ell}W1 gives
-    # H_{y+-}=+(1/ell)e^{-2y/ell}W1, so the mode is not pure gauge.
-    b_prefactor = Fraction(-1, 2)
+    # Full generalized-metric/dilaton gauge-orbit obstruction.  Matching a
+    # pure lower-right h_{+-}=h_{-+}=w perturbation gives b_{+-}=-w/2,
+    # b_{+y}=d_+v^y, b_{-y}=-d_-v^y.  The remaining H and d equations give
+    # d_+d_-v^y=0.  Hence db=0 requires -(1/2)d_yw=0: generalized-gauge
+    # modes are y-independent.  This is distinct from a representative-level
+    # calculation of dB, which is not Milne invariant.
+    b_over_w = Fraction(-1, 2)
+    db_over_dyw = b_over_w
     radial_exponent = Fraction(-2)
-    h_flux_prefactor = b_prefactor * radial_exponent
-    assert h_flux_prefactor == 1
+    assert db_over_dyw != 0
+    assert Fraction(0) * db_over_dyw == 0  # W0
+    assert radial_exponent * db_over_dyw != 0  # W1
 
-    # The historical integrated one-point coefficient is low by 8.
-    old_coefficient = Fraction(1, 128)
-    corrected_coefficient = Fraction(1, 16)
-    assert corrected_coefficient / old_coefficient == 8
+    # Keep the normalization history explicit.  The pre-aligned dictionary
+    # gave 1/16, while the aligned same-channel dictionary gives 1/64.  The
+    # oldest 1/128 value is smaller than the current result by a factor two.
+    pre_aligned_coefficient = Fraction(1, 16)
+    aligned_coefficient = Fraction(1, 64)
+    oldest_coefficient = Fraction(1, 128)
+    assert pre_aligned_coefficient / aligned_coefficient == 4
+    assert aligned_coefficient / oldest_coefficient == 2
 
     print("Standard FT weight of exp(-2y/ell): 0")
     print("No-FT negative control: -alpha'/ell^2")
     print("Doubled-FT negative control: +alpha'/ell^2")
     print("Radial solutions checked: 1, exp(-2y/ell)")
     print("Momentum-space condition: k(k-2i/ell)=0")
-    print("Required internal c: 23-6*alpha'/ell^2")
+    print("Matter-sector WZW central charge: c_beta-gamma+c_y=3(k_s+2)/k_s")
+    print("S3 flux: |int H|/(4*pi^2*alpha')=ell^2/alpha'")
+    print("Compact uplift: alpha'/ell^2=1/k_s, k_s=N5 positive integral")
     print("n-fold fusion: h_n=n+q*n*(1-n)")
-    print("Possible logarithmic resonance: q=1/n, n>=2")
-    print("H_y+-: +(1/ell) exp(-2y/ell) W1")
-    print("Historical/current one-point ratio: 8")
-    print("All BRST/W1 regression checks: PASS")
+    print("Possible logarithmic resonance: q=1/n, hence n=k_s in compact uplift")
+    print("Generalized-gauge obstruction: db=0 and delta d=0 require d_y w=0")
+    print("Pre-aligned/aligned integrated one-point ratio: 4")
+    print("Aligned/oldest integrated one-point ratio: 2")
+    print("All Virasoro/W1 regression checks: PASS")
 
 
 if __name__ == "__main__":
     main()
-

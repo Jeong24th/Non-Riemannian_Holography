@@ -4,10 +4,15 @@ non-Riemannian background -> curved first-order (GO-type) action with the
 hair coupling; boundary limit -> GO + (SMvertex).
 
 Provenance: session verification 2026-07-24 (scratchpad dyg_reduction.py),
-promoted to calculations/ after the Codex cross-review of the pending SM
+promoted to checks/ after a cross-review of the pending SM
 worldsheet-section restructuring (see SM_DYG_WORLDSHEET_REVISION_PLAN.md
-and SM_DYG_RESTRUCTURE_DRAFT_CLAUDE.md).  NR_Holography.tex is NOT read or
-modified by this script.
+and SM_DYG_RESTRUCTURE_DRAFT_CLAUDE.md).  The restructure itself was
+applied to the manuscript (P-004 record); the label-scoped LaTeX
+contracts required by the draft's apply checklist were added 2026-08-10
+(author instruction), so NR_Holography.tex is now READ (never modified)
+to pin the (SMdyg)/(SMdygconstraints)/(SMdygGO)/(SMGO)/(SMvertex)
+coefficient strings inside their named displays; every symbolic
+reduction check remains independent of the manuscript.
 
 Setup (Lorentzian conformal gauge; commuting placeholders dx*, bx* for the
 worldsheet derivatives d = d_sigma, db = d_sigmabar; overall 1/(2 pi
@@ -19,9 +24,9 @@ alpha') suppressed; doubled ordering (tilde_+, tilde_-, tilde_y; +, -, y)):
   Dx^A = (d tx_mu - a_mu ; d x^mu),  Dbx^A = (db tx_mu - ab_mu ; db x^mu),
 
 with the exact NR blocks of (NRHcompact): upper-left H^{mu nu} =
-diag(0,0,1), mixed block M = Y (x) tau+ - Yb (x) tau-, lower-right
-K_{mu nu} + e_y e_y with K = W (tau+ tau- + tau- tau+), where (Morand-Park
-(1,1) data)
+diag(0,0,1), mixed block M = Y (x) tau+ - Yb (x) tau-, and the displayed
+representative's lower-right block W (tau+ tau- + tau- tau+) + e_y e_y,
+where (Morand-Park (1,1) data)
 
   tau+ = (cosh(chi/2), -e^{-sigma} sinh(chi/2)),
   tau- = (-e^{sigma} sinh(chi/2), cosh(chi/2)),
@@ -35,7 +40,9 @@ Guarded facts:
     = 0 (two-dimensional kernel), while H^{ty ty} = 1 is invertible ---
     so the transverse auxiliary components are Gaussian and the
     longitudinal ones are Lagrange multipliers (NOT "H^{mu nu} = 0").
-  - Mixed and K blocks of (NRHcompact) equal their Morand-Park forms.
+  - Mixed and lower-right blocks equal the displayed Morand-Park-form
+    representative.  Local Milne shifts change these component data while
+    leaving the full generalized metric fixed.
   - a_pm variation coefficients are proportional to Y^mu (tau+ . dbx) and
     -Yb^mu (tau- . dx): each lightcone doublet enters through a single
     combination (the orthogonal one is the gauged direction), enforcing
@@ -46,7 +53,7 @@ Guarded facts:
     multipliers beta = -(a.Y), betab = +(ab.Yb) (gauge a_- = ab_+ = 0),
       L_phys = dy dby + beta (tau+ . dbx) + betab (tau- . dx)
                + (W/2)[ (tau+ . dx)(tau- . dbx) + (tau- . dx)(tau+ . dbx) ],
-    i.e. the K-block descends SYMMETRICALLY, valid at every radius on the
+    i.e. the lower-right W block descends SYMMETRICALLY, valid at every radius on the
     exact non-Riemannian saddle (curved first-order action; the free GO CFT
     statements apply only in the boundary limit).
   - The unit-Jacobian shift beta -> beta - (W/2)(tau- . dx) removes the
@@ -64,7 +71,7 @@ Guarded facts:
 
 Exit codes: 0 = ALL CHECKS PASSED; 1 = at least one check failed;
 2 = missing dependency.  Usage:
-    python calculations/verify_dyg_reduction.py [--selftest-fail] [--strict-pin]
+    python checks/verify_dyg_reduction.py [--selftest-fail] [--strict-pin]
 (--selftest-fail deliberately flips the expectation of the chi->0 GO+W
 check to demonstrate hard failure; it must exit 1.  --strict-pin turns a
 SymPy version different from the pin into a dependency error, exit 2.)
@@ -72,7 +79,9 @@ SymPy version different from the pin into a dependency error, exit 2.)
 
 from __future__ import annotations
 
+import re
 import sys
+from pathlib import Path
 
 PINNED_SYMPY = "1.14.0"
 
@@ -92,7 +101,7 @@ try:
     import sympy as sp
 except ImportError:
     print(f"[DEPENDENCY ERROR] SymPy {PINNED_SYMPY} is required. "
-          "Install per calculations/requirements-verification.txt "
+          "Install per requirements-verification.txt "
           "(isolated environment only).", file=sys.stderr)
     sys.exit(2)
 
@@ -106,6 +115,93 @@ def check(name: str, actual, expected) -> None:
         FAILURES.append(name)
 
 
+BE_RE = re.compile(r"\\be(?![A-Za-z])")
+EE_RE = re.compile(r"\\ee(?![A-Za-z])")
+
+
+def _labelled_equation(text: str, label: str) -> str:
+    """Label-scoped ``\\be ... \\label{label} ... \\ee`` extraction.
+
+    Same contract semantics as verify_response_dictionary.py (C-033): a
+    fragment relocated to a different equation, or a renamed/missing
+    label, must fail; ``(?![A-Za-z])`` keeps ``\\begin`` from matching
+    the project display macro ``\\be``.
+    """
+    token = rf"\label{{{label}}}"
+    if text.count(token) != 1:
+        raise AssertionError(f"label {label!r} must occur exactly once")
+    label_pos = text.index(token)
+    starts = [m.start() for m in BE_RE.finditer(text, 0, label_pos)]
+    if not starts:
+        raise AssertionError(f"no display start before label {label!r}")
+    start = starts[-1]
+    if EE_RE.search(text, start, label_pos):
+        raise AssertionError(f"label {label!r} is outside its display")
+    if BE_RE.search(text, start + 3, label_pos):
+        raise AssertionError(f"nested display start before label {label!r}")
+    end_match = EE_RE.search(text, label_pos)
+    if not end_match:
+        raise AssertionError(f"no display end after label {label!r}")
+    return text[start:end_match.end()]
+
+
+def tex_contracts() -> None:
+    """Pin the applied-restructure displays to this file's derivations.
+
+    Derivation artifacts (rule 7(vi)): every fragment below is the
+    LaTeX image of a quantity derived by the symbolic checks in main()
+    -- (SMdyg) normalization 1/(4 pi alpha') anchors the reduction
+    input; (SMdygconstraints) are the multiplier constraints; (SMdygGO)
+    is L_phys after the unit-Jacobian shift; (SMGO)+(SMvertex) are its
+    chi->0 limit with the inherited (1/4 pi alpha') W coefficient.
+    """
+    tex_path = Path(__file__).resolve().parents[1] / "NR_Holography.tex"
+    fixture = r"\be RIGHT \label{target}\ee \be NEEDLE \label{other}\ee"
+    check("parser control: wrong-equation fragment invisible",
+          "NEEDLE" in _labelled_equation(fixture, "target"), False)
+    missing_rejected = False
+    try:
+        _labelled_equation(fixture, "missing")
+    except AssertionError:
+        missing_rejected = True
+    check("parser control: missing label rejected", missing_rejected, True)
+    if not tex_path.is_file():
+        print("LaTeX contracts: SKIP (NR_Holography.tex is not in the archive)")
+        return
+    tex = tex_path.read_text(encoding="utf-8")
+    contracts = {
+        "SMdyg": [
+            r"S_{\rmdyg}=\frac{1}{4\pi\alpha'}",
+            r"-\epsilon^{\alpha\beta}D_{\alpha}x^{M}\cA_{\betaM}",
+        ],
+        "SMdygconstraints": [
+            r"\tau^{+}_{\mu}\bar\partialx^{\mu}=0",
+            r"\tau^{-}_{\mu}\partialx^{\mu}=0",
+        ],
+        "SMdygGO": [
+            r"L_{\rmNR}=\frac{1}{2\pi\alpha'}\Big(\partialy\,\bar\partialy",
+            r"+\half\cW\,\tau^{+}_{\mu}\partialx^{\mu}\,"
+            r"\tau^{-}_{\nu}\bar\partialx^{\nu}",
+        ],
+        "SMGO": [
+            r"L_{\rmGO}=\frac{1}{2\pi\alpha'}\big(\beta\,\bar\partialx^{+}"
+            r"+\brbeta\,\partialx^{-}+\partialy\,\bar\partialy\big)",
+        ],
+        "SMvertex": [
+            r"V_{\cW}=\frac{1}{4\pi\alpha'}\,\cW(x^{+},x^{-})\,"
+            r"\partialx^{+}\bar\partialx^{-}",
+        ],
+    }
+    for label, fragments in contracts.items():
+        try:
+            block = re.sub(r"\s+", "", _labelled_equation(tex, label))
+        except AssertionError as exc:
+            check(f"[{label}] labelled display located ({exc})", False, True)
+            continue
+        for fragment in fragments:
+            check(f"[{label}] pins {fragment[:44]}", fragment in block, True)
+
+
 def main(selftest_fail: bool = False, strict_pin: bool = False) -> None:
     print(f"sys.executable : {sys.executable}")
     print(f"python version : {sys.version.split()[0]}")
@@ -115,7 +211,7 @@ def main(selftest_fail: bool = False, strict_pin: bool = False) -> None:
     if strict_pin and sp.__version__ != PINNED_SYMPY:
         print(f"[DEPENDENCY ERROR] SymPy {PINNED_SYMPY} is required "
               f"(--strict-pin; found {sp.__version__}). Install per "
-              "calculations/requirements-verification.txt "
+              "requirements-verification.txt "
               "(isolated environment only).", file=sys.stderr)
         sys.exit(2)
     if selftest_fail:
@@ -163,7 +259,7 @@ def main(selftest_fail: bool = False, strict_pin: bool = False) -> None:
     K2 = sp.simplify(W * (X * Xb.T + Xb * X.T))
     K2paper = sp.Matrix([[-W * es * sp.sinh(chi), W * sp.cosh(chi)],
                          [W * sp.cosh(chi), -W * sp.sinh(chi) / es]])
-    check("K block of (NRHcompact) = W(tau+ tau- + tau- tau+)",
+    check("displayed lower-right W block = W(tau+ tau- + tau- tau+)",
           sp.simplify(K2 - K2paper) == sp.zeros(2, 2), True)
 
     # worldsheet fields (commuting placeholders)
@@ -287,6 +383,8 @@ def main(selftest_fail: bool = False, strict_pin: bool = False) -> None:
           sp.simplify((sym_c - pullback_c) - W * tauM_dx * tauP_bx) == 0,
           True)
 
+    tex_contracts()
+
     if FAILURES:
         print("FAILED CHECKS: " + "; ".join(FAILURES))
         sys.exit(1)
@@ -297,4 +395,3 @@ def main(selftest_fail: bool = False, strict_pin: bool = False) -> None:
 if __name__ == "__main__":
     main(selftest_fail="--selftest-fail" in sys.argv[1:],
          strict_pin="--strict-pin" in sys.argv[1:])
-

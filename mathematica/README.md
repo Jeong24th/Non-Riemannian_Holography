@@ -35,8 +35,8 @@ and **Code symbol dictionary** below the file table.
 | `NRH07_SM_KillingSpinors.wl` | SM 6 | uplift checks SM (101)–(102) factor by factor; **exact rational ten-dimensional probes: S₀⁽¹⁰⁾ = 0 and (P S P̄)⁽¹⁰⁾ = 0 for both uplifts, including one-sided hair**; exact vacuum isometries SM (103)–(104); the stabilizer system SM (105); the complex 3+3+4 Clifford representation, Majorana intertwiner and barred algebra SM (106)–(110) with the count chain; **the vacuum Killing spinor with arbitrary chiral profile SM (111)/(116), both internal channels**; the rank-six hairy jet system SM (117); the Hill system SM (112)–(114) and the global counts by monodromy; the complementary-halves bookkeeping |
 | `NRH08_SM_BoundaryCandidate.wl` | SM 7 | projector selection in the candidate action SM (118)–(119); non-abelian gauge invariance SM (120); the Witt symmetries SM (121)–(122); boundary isometry ⇔ chirality; **the chiral fermionic transformations SM (123)–(124) with exact Grassmann arithmetic (Jordan–Wigner realization)**; the extra chiral transformation SM (125)–(126) |
 
-Equation numbers refer to the 2026-08-26 build of the manuscript (Letter Eqs. (1)–(16),
-SM (1)–(125)); the LaTeX labels quoted inside the files are stable across rebuilds.
+Equation numbers refer to the manuscript snapshot used to prepare the suite and may
+shift in later builds.  The LaTeX labels quoted inside the files are the stable links.
 
 The suite currently comprises **183 exact checks**; the reference run passes 183/183.
 
@@ -147,7 +147,7 @@ same checks.
 | JW | Jordan–Wigner: the matrix realization of anticommuting (Grassmann) generators used for the fermionic checks |
 | μ (mu-dichotomy) | the endpoint parameter of the on-shell action: μ = L₊L₋ on the R branch, μ = L₊L₋/2 on the NR branch |
 | k = l²/α′ | the flux (WZW) level fixed by the S³ NS–NS flux; α′ is the string tension parameter, w the winding number |
-| SM (n) / Eq. (n) | equation numbers of the Supplemental Material / Letter, as of the 2026-08-26 build; the LaTeX labels quoted in the files are stable across rebuilds |
+| SM (n) / Eq. (n) | equation numbers in the reference manuscript snapshot; use the quoted LaTeX labels when numbers shift |
 
 ## Code symbol dictionary
 
@@ -197,8 +197,6 @@ same checks.
 ## Provenance
 
 These files were drafted with AI assistance (Anthropic Claude, Fable 5) in the
-AI-assisted cross-verification workflow described in the paper's Acknowledgments, and
-machine-executed end to end (the 169/169 reference run above).  The physics content
-they check is that of the manuscript; the Python guard scripts in `checks/` remain the
-primary reproducibility archive, and the two implementations are independent of each
-other.
+cross-verification workflow described in the paper's Acknowledgments.  The complete
+suite was then run in Mathematica (the 183/183 reference run above).  The Python
+scripts in `checks/` provide a separate implementation of many of the same formulas.

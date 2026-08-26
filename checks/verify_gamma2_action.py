@@ -18,11 +18,18 @@ on-shell action", labels SMgamma2 / SMgamma2flux / SMgamma2value):
   on-shell action), for arbitrary W0(x+,x-), W1(x+,x-);
 * the renormalized value S_ren = -(8 sqrt(mu))/(16 pi G l) Vol_2, read at
   the interior locus e^{-2d} = 0;
+* the quadratic-response normalization in Kim's aligned frame: one
+  functional derivative gives K=h^(2)/(32 pi G l), while the source coupling
+  -2 h^(0) K supplies an additional one-half in the connected Hessian; the
+  Riemannian kernel 3 l^2/(4 pi x^4) therefore reproduces
+  (8 pi)^(-2)(c/2)x^(-4) for c=3l/(2G);
+* the fixed-dilaton Ward identities and the scoped vanishing of the
+  non-Riemannian same-channel Hessians;
 * the LaTeX contract for the displayed formulas.
 
 Run from any directory with
 
-    python calculations/verify_gamma2_action.py
+    python checks/verify_gamma2_action.py
 
 (The connection gates take a few minutes of exact rational arithmetic.)
 """
@@ -53,15 +60,37 @@ def dA(e, A):
 
 
 def check_tex_contract() -> None:
+    if not TEX_PATH.is_file():
+        print("LaTeX contract: SKIP (NR_Holography.tex is not in the archive)")
+        return
     compact = re.sub(r"\s+", "", TEX_PATH.read_text(encoding="utf-8"))
     required = {
-        "section title": r"\section{Renormalizedon-shellaction}",
-        "B^A definition": r"B^{A}=4\cH^{AB}\partial_{B}d-\partial_{B}\cH^{AB}",
+        "section title": r"\section{RenormalizedOn-ShellAction}",
+        "quadratic-action origin": (
+            r"S_{\Gamma^{2}}=(16\piG)^{-1}\int_{\Sigma_{3}}"
+            r"[\cL_{\Gamma^{2}}-2\Lambda_{\rmDFT}e^{-2d}]"
+        ),
+        "quadratic counterterm": (
+            r"S_{\rmct}=-(16\piG)^{-1}(4/l)"
+            r"\int_{\partial\Sigma_{3}}\rd^{2}x\,e^{-2d}"
+        ),
+        "B^M definition": r"B^{M}=4\cH^{MN}\partial_{N}d-\partial_{N}\cH^{MN}",
+        "response matrix": r"\label{SMresponsematrix}",
+        "stress Hessian": r"\label{SMstresshessian}",
+        "continuity check": r"\label{SMcontinuitycheck}",
+        "R two-point function": r"\label{SMRtwopt}",
+        "NR two-point function": r"\label{SMNRtwopt}",
+        "R response kernel": r"\frac{3l^{2}}{4\pi(\Deltax^{+})^{4}}",
+        "NR scope": (
+            r"Inthefixed-dilaton,log-freeensembledefinedabove"
+            r",same-channelsourcesatthedisplayedlinearorder"
+        ),
+        "NR response-kernel scope": r"same-channelresponsekernelsvanish",
         "universal flux": r"e^{-2d}B^{y}=-2\,\partial_{y}e^{-2d}",
         "renormalized value": r"S_{\rmren}=-\frac{8\sqrt{\mu}}{16\piGl}",
         "CPS cross-link": r"theboundaryvectorofthe$\Gamma^{2}$DFTaction",
         "Letter soft clause": (
-            r"dropsoutoftheNoetherchargeandofthe"
+            r"Themode$W_{1}$itselfdropsoutoftheNoetherchargeandthe"
             r"renormalizedon-shellaction~\cite{SM}"
         ),
         "long-string energy": (
@@ -73,7 +102,39 @@ def check_tex_contract() -> None:
     missing = [k for k, v in required.items() if v not in compact]
     if missing:
         raise AssertionError("NR_Holography.tex out of sync: " + ", ".join(missing))
+    if not (
+        compact.index(required["quadratic-action origin"])
+        < compact.index(r"\label{SMSren2}")
+        < compact.index(r"\label{SMgamma2}")
+    ):
+        raise AssertionError("Gamma^2 derivation must precede SMSren2")
     print("LaTeX contract: PASS")
+
+
+def correlator_checks() -> None:
+    G, l = sp.symbols("G l", nonzero=True)
+    pi = sp.pi
+    c = 3 * l / (2 * G)
+    response_weight = 1 / (32 * pi * G * l)
+
+    # h_{+\bar+}^{(2)} = 2L_+ and its right-moving counterpart.
+    assert sp.simplify(response_weight * 2 - 1 / (16 * pi * G * l)) == 0
+
+    # The regular Riemannian response kernel fixes the Brown--Henneaux
+    # stress-tensor two-point normalization.
+    response_kernel = 3 * l**2 / (4 * pi)
+    source_coupling_factor = sp.Rational(1, 2)
+    cft_coefficient = c / (2 * (8 * pi) ** 2)
+    assert sp.simplify(
+        source_coupling_factor * response_weight * response_kernel
+        - cft_coefficient
+    ) == 0
+
+    # Negative controls: omitting the extra one-half from the -2hK source
+    # coupling gives precisely the disputed factor-two result and must fail.
+    assert sp.simplify(response_weight * response_kernel - cft_coefficient) != 0
+    assert sp.simplify(response_kernel - cft_coefficient) != 0
+    print("S_ren one-/two-point normalization and negative controls: PASS")
 
 
 def riemannian_H(g, B):
@@ -324,6 +385,7 @@ def saddle_checks() -> None:
 
 def main() -> None:
     check_tex_contract()
+    correlator_checks()
     saddle_checks()
     gamma_gates()
     print("All checks passed.")
@@ -331,4 +393,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

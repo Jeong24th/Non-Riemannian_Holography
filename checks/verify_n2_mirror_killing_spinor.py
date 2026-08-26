@@ -29,6 +29,7 @@ from verify_10d_killing_spinor import (
     block_diag,
     clifford_matrices,
     riemannian_vielbeins,
+    rotate_nr_vielbeins_to_kim,
     sector_dft_metric,
     semi_covariant_connection,
     spin_connection,
@@ -62,6 +63,7 @@ def extremal_minus_general_vielbeins(
         ]
     )
     eta = sp.Matrix([[0, -1, 0], [-1, 0, 0], [0, 0, 1]])
+    v, vbar = rotate_nr_vielbeins_to_kim(v, vbar)
     return v, vbar, eta
 
 
@@ -386,8 +388,14 @@ def main() -> None:
             "bar-chirality", chirality_sign,
             "residual count on epsilon'=(F(x^-),0):", len(nonzero),
         )
+        if len(basis) != 4 or nonzero:
+            raise AssertionError(
+                f"Kim-frame primed mirror failed for bar-chirality {chirality_sign}"
+            )
+
+    if not sphere_integrable or p_lower + pbar_lower != jmetric:
+        raise AssertionError("Kim-frame primed background or S3 connection failed")
 
 
 if __name__ == "__main__":
     main()
-

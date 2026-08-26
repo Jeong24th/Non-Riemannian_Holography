@@ -34,14 +34,14 @@ not fix its orientation), and finite-W1 exact marginality is withheld.
 
 Exit codes: 0 = ALL CHECKS PASSED; 1 = at least one check failed;
 2 = missing dependency.  Usage:
-    python calculations/verify_lambda_limit_ws.py [--selftest-fail] [--strict-pin]
+    python checks/verify_lambda_limit_ws.py [--selftest-fail] [--strict-pin]
 (--selftest-fail deliberately flips the expectation of check 10 to
 demonstrate that the harness fails hard; it must exit 1.  --strict-pin
 turns a SymPy version different from the pin into a dependency error,
 exit 2, instead of the default warning.)
 
 A stdlib-only core of the decisive sign checks (9-11) is provided in
-calculations/verify_lambda_limit_sign_core.py for Pythons without sympy.
+checks/verify_lambda_limit_sign_core.py for Pythons without sympy.
 """
 
 from __future__ import annotations
@@ -66,7 +66,7 @@ try:
     import sympy as sp
 except ImportError:
     print(f"[DEPENDENCY ERROR] SymPy {PINNED_SYMPY} is required. "
-          "Install per calculations/requirements-verification.txt "
+          "Install per requirements-verification.txt "
           "(isolated environment only).", file=sys.stderr)
     sys.exit(2)
 
@@ -89,7 +89,7 @@ def main(selftest_fail: bool = False, strict_pin: bool = False) -> None:
     if strict_pin and sp.__version__ != PINNED_SYMPY:
         print(f"[DEPENDENCY ERROR] SymPy {PINNED_SYMPY} is required "
               f"(--strict-pin; found {sp.__version__}). Install per "
-              "calculations/requirements-verification.txt "
+              "requirements-verification.txt "
               "(isolated environment only).", file=sys.stderr)
         sys.exit(2)
     if selftest_fail:

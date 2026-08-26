@@ -26,6 +26,7 @@ from verify_10d_killing_spinor import (
     clifford_matrices,
     dft_metric,
     riemannian_vielbeins,
+    rotate_nr_vielbeins_to_kim,
     semi_covariant_connection,
     sector_dft_metric,
     spin_connection,
@@ -60,6 +61,7 @@ def exact_nr_vielbeins(
         ]
     )
     eta = sp.Matrix([[0, -1, 0], [-1, 0, 0], [0, 0, 1]])
+    v, vbar = rotate_nr_vielbeins_to_kim(v, vbar)
     return v, vbar, eta
 
 
@@ -90,6 +92,7 @@ def extremal_plus_vielbeins(
         ]
     )
     eta = sp.Matrix([[0, -1, 0], [-1, 0, 0], [0, 0, 1]])
+    v, vbar = rotate_nr_vielbeins_to_kim(v, vbar)
     return v, vbar, eta
 
 
@@ -120,6 +123,7 @@ def extremal_plus_general_vielbeins(
         ]
     )
     eta = sp.Matrix([[0, -1, 0], [-1, 0, 0], [0, 0, 1]])
+    v, vbar = rotate_nr_vielbeins_to_kim(v, vbar)
     return v, vbar, eta
 
 
@@ -150,6 +154,7 @@ def extremal_minus_vielbeins(
         ]
     )
     eta = sp.Matrix([[0, -1, 0], [-1, 0, 0], [0, 0, 1]])
+    v, vbar = rotate_nr_vielbeins_to_kim(v, vbar)
     return v, vbar, eta
 
 
@@ -687,11 +692,6 @@ def asymptotic_general_profile() -> None:
     vbar1[0, 0] = lm
     vbar1[3, 0] = -wh / 2
     vbar1[3, 1] = -lp
-    v = v0 + u * v1
-    vbar = vbar0 + u * vbar1
-    p_lower = sp.expand(v * eta * v.T)
-    pbar_lower = sp.expand(vbar * (-eta) * vbar.T)
-
     dv_plus = sp.zeros(6, 3)
     dv_plus[1, 0] = -lpp * u
     dv_plus[4, 0] = -whp * u / 2
@@ -704,6 +704,13 @@ def asymptotic_general_profile() -> None:
     dvbar_minus = sp.zeros(6, 3)
     dvbar_minus[0, 0] = lmm * u
     dvbar_minus[3, 0] = -whm * u / 2
+    v1, vbar1 = rotate_nr_vielbeins_to_kim(v1, vbar1)
+    dv_plus, dvbar_plus = rotate_nr_vielbeins_to_kim(dv_plus, dvbar_plus)
+    dv_minus, dvbar_minus = rotate_nr_vielbeins_to_kim(dv_minus, dvbar_minus)
+    v = v0 + u * v1
+    vbar = vbar0 + u * vbar1
+    p_lower = sp.expand(v * eta * v.T)
+    pbar_lower = sp.expand(vbar * (-eta) * vbar.T)
     dv_y = -2 * u * v1 / l
     dvbar_y = -2 * u * vbar1 / l
 
@@ -763,8 +770,8 @@ def asymptotic_general_profile() -> None:
     f0, f1, f2 = sp.symbols("f f_p f_pp")
     g0, g1 = sp.symbols("g0 g1")
     gp0, gp1, gm0, gm1 = sp.symbols("g0_p g1_p g0_m g1_m")
-    e0 = sp.Matrix([l * f1, f0])
-    de0_plus = sp.Matrix([l * f2, f1])
+    e0 = sp.Matrix([-root2 * f0, l * f1])
+    de0_plus = sp.Matrix([-root2 * f1, l * f2])
     g = sp.Matrix([g0, g1])
     spinor = e0 + u * g
     partials = {
@@ -955,8 +962,8 @@ def find_opposite_vacuum_projector() -> None:
     sigma2 = sp.Matrix([[0, -sp.I], [sp.I, 0]])
     sigma3 = sp.diag(1, -1)
     a_sphere = sp.sin(theta_point) * sigma3 - sp.cos(theta_point) * sigma2
-    e_jets = [sp.Matrix([1, 0]), sp.zeros(2, 1)]
-    de_jets = [sp.zeros(2, 1), sp.Matrix([1, 0])]
+    e_jets = [sp.Matrix([0, 1]), sp.zeros(2, 1)]
+    de_jets = [sp.zeros(2, 1), sp.Matrix([0, 1])]
     internal_identity = sp.eye(16)
     chirality_internal = sp.kronecker_product(
         sp.eye(2), sigma3, sp.kronecker_product(sigma3, sigma3)
@@ -1478,12 +1485,12 @@ def build_extremal_plus_variable_hair_system() -> None:
         if any(value != 0 for value in row):
             print(" ", row)
     candidate = {
-        e1: 0,
-        ep1: 0,
-        em1: 0,
-        ey1: 0,
+        e0: 0,
+        ep0: 0,
         em0: 0,
         ey0: 0,
+        em1: 0,
+        ey1: 0,
     }
     candidate_residual = [
         sp.factor(entry.subs(candidate))
@@ -1491,7 +1498,9 @@ def build_extremal_plus_variable_hair_system() -> None:
         for entry in equation
         if sp.factor(entry.subs(candidate)) != 0
     ]
-    print("residuals on E=(F(x+),0) =", candidate_residual)
+    print("residuals on E=(0,F(x+)) =", candidate_residual)
+    if candidate_residual:
+        raise AssertionError("Kim-frame variable-hair Killing candidate failed")
 
 
 def build_most_general_extremal_plus_system() -> None:
@@ -1597,12 +1606,12 @@ def build_most_general_extremal_plus_system() -> None:
         if any(value != 0 for value in row):
             print(" ", row)
     candidate = {
-        e1: 0,
-        ep1: 0,
-        em1: 0,
-        ey1: 0,
+        e0: 0,
+        ep0: 0,
         em0: 0,
         ey0: 0,
+        em1: 0,
+        ey1: 0,
     }
     candidate_residual = [
         sp.factor(entry.subs(candidate))
@@ -1610,7 +1619,9 @@ def build_most_general_extremal_plus_system() -> None:
         for entry in equation
         if sp.factor(entry.subs(candidate)) != 0
     ]
-    print("residuals on E=(F(x+),0) =", candidate_residual)
+    print("residuals on E=(0,F(x+)) =", candidate_residual)
+    if candidate_residual:
+        raise AssertionError("Kim-frame general one-sided Killing candidate failed")
 
 
 def check_lightcone_exchange() -> None:
@@ -1700,4 +1711,3 @@ if __name__ == "__main__":
         build_most_general_extremal_plus_system()
     if not selections or "parity" in selections:
         check_lightcone_exchange()
-
