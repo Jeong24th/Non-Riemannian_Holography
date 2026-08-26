@@ -34,6 +34,19 @@ python checks/verify_gamma2_action.py
 
 Additional independent/domain/negative-control checks are under `evidence/`.
 
+## Mathematica suite
+
+`mathematica/` contains an independent exact-symbolic verification of the displayed
+equations of the Letter and the Supplemental Material, organized in paper order and
+implemented in Mathematica (tested with 13.2; the free Wolfram Engine also works):
+
+```bash
+wolframscript -file mathematica/NRH00_RunAll.wl
+```
+
+runs all 169 checks (about ten minutes) and exits nonzero on any failure.  See
+`mathematica/README.md` for the file-by-file coverage table and method notes.
+
 Some contract-aware guards also compare verified expressions against `NR_Holography.tex`. For those checks, place the manuscript source at the repository root. Their independent algebraic checks remain documented in the scripts.
 
 ## Scope
