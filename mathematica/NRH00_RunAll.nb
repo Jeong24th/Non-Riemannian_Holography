@@ -1,0 +1,80 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      2175,         71]
+NotebookOptionsPosition[      1740,         57]
+NotebookOutlinePosition[      2042,         71]
+CellTagsIndexPosition[      1999,         68]
+WindowTitle->NRH00_RunAll.nb
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["NRH00 \[LongDash] Run every verification file", "Title"],
+
+Cell["\<\
+Runs the complete Mathematica verification suite for \"Long Strings and \
+Non-Riemannian
+Hair\" in paper order and prints a grand PASS/FAIL summary.  Each section \
+file clears
+the Global` context and reloads the shared toolbox, so they can equally be \
+run alone.
+
+Usage (command line):    wolframscript -file NRH00_RunAll.wl
+Usage (notebook):        open this file in Mathematica and evaluate it.
+The whole suite completes in roughly ten minutes on a laptop.\
+\>", "Text"],
+
+Cell["\<\
+NRH`$Dir = If[$InputFileName =!= \"\", DirectoryName[$InputFileName], \
+NotebookDirectory[]];
+NRH`$Files = {
+   \"NRH02_Letter_Riemannian.wl\",
+   \"NRH03_Letter_NonRiemannian.wl\",
+   \"NRH04_SM_LinearResponse.wl\",
+   \"NRH05_SM_Charges_Action.wl\",
+   \"NRH06_SM_Worldsheet.wl\",
+   \"NRH07_SM_KillingSpinors.wl\",
+   \"NRH08_SM_BoundaryCandidate.wl\"};
+NRH`$AllResults = {};
+NRH`$DeferExit = True;   (* report everything; exit code is decided by the \
+grand summary *)
+
+Scan[Get[FileNameJoin[{NRH`$Dir, #}]] &, NRH`$Files];
+
+NRH`$DeferExit = False;
+NRH`GrandSummary[];\
+\>", "Input"]
+},
+WindowTitle->"NRH00_RunAll.nb",
+FrontEndVersion->"13.2 for Microsoft Windows (64-bit) (January 30, 2023)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[587, 21, 62, 0, 70, "Title",ExpressionUUID->"af6d6fd9-680c-4c6b-a53c-24478fba0dbe"],
+Cell[652, 23, 484, 11, 70, "Text",ExpressionUUID->"21eb3dea-4109-426e-b19d-f5e95939fa68"],
+Cell[1139, 36, 597, 19, 70, "Input",ExpressionUUID->"932228f0-4bd5-4047-b59e-76fd22b5bbee"]
+}
+]
+*)
+
+(* End of internal cache information *)

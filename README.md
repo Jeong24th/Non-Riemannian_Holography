@@ -44,8 +44,11 @@ implemented in Mathematica (tested with 13.2; the free Wolfram Engine also works
 wolframscript -file mathematica/NRH00_RunAll.wl
 ```
 
-runs all 169 checks (about ten minutes) and exits nonzero on any failure.  See
-`mathematica/README.md` for the file-by-file coverage table and method notes.
+runs all 169 checks (about ten minutes) and exits nonzero on any failure.  Every file
+is also provided as a double-clickable `.nb` notebook with identical content — download
+the `mathematica/` folder, open `NRH00_RunAll.nb`, and use *Evaluation → Evaluate
+Notebook*.  See `mathematica/README.md` for the file-by-file coverage table and method
+notes.
 
 Some contract-aware guards also compare verified expressions against `NR_Holography.tex`. For those checks, place the manuscript source at the repository root. Their independent algebraic checks remain documented in the scripts.
 

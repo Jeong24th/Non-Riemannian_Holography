@@ -35,7 +35,7 @@
 
 
 ClearAll["Global`*"];
-Get[FileNameJoin[{DirectoryName[$InputFileName], "NRH01_DFT_Tools.wl"}]];
+Get[FileNameJoin[{If[$InputFileName =!= "", DirectoryName[$InputFileName], NotebookDirectory[]], "NRH01_DFT_Tools.wl"}]];
 NRH`BeginFile["NRH07_SM_KillingSpinors.wl"];
 
 JJ3 = ODDJ[3];

@@ -28,7 +28,7 @@
 
 
 ClearAll["Global`*"];
-Get[FileNameJoin[{DirectoryName[$InputFileName], "NRH01_DFT_Tools.wl"}]];
+Get[FileNameJoin[{If[$InputFileName =!= "", DirectoryName[$InputFileName], NotebookDirectory[]], "NRH01_DFT_Tools.wl"}]];
 NRH`BeginFile["NRH02_Letter_Riemannian.wl"];
 
 xs = {xp, xm, Function[e, (2 u/l) D[e, u]]};

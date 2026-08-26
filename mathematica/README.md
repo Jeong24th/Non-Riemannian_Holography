@@ -49,6 +49,14 @@ runs everything (about ten minutes) and exits nonzero if any check fails.  Each
 directory) and can be run alone the same way, or opened and evaluated in the Mathematica
 front end, where the cell markers render titles and explanations as a notebook.
 
+**Notebooks.**  Every file is also provided as a double-clickable notebook with the
+identical content: download the whole `mathematica/` folder, open `NRH00_RunAll.nb`
+(or any section notebook, e.g. `NRH03_Letter_NonRiemannian.nb`) in Mathematica, and use
+*Evaluation → Evaluate Notebook*.  The section notebooks locate `NRH01_DFT_Tools.wl` in
+the same directory, so keep the folder together.  The `.nb` files are generated from the
+`.wl` sources, which remain the canonical, diff-able versions; the two always carry the
+same checks.
+
 ## Method notes
 
 * **Rational radial variables.**  The Riemannian saddle is handled with u = e^{2y/l}, so
