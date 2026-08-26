@@ -227,6 +227,116 @@ NRH`CheckZero["SM(56): NR cocycle  e1 (e2 L' + 2 L e2') - alpha L  =  d/dx (e1 e
 
 
 (* ::Section:: *)
+(*The charge Poisson algebra, assembled from the surface-charge one-form*)
+
+
+(* ::Text:: *)
+(*This section treats the Poisson algebra itself, not only its ingredients.  On the*)
+(*covariant phase space the bracket of two integrable surface charges is defined by*)
+(*   {Q[eps], Q[eta]} := delta_eta Q[eps] = Int k_eps[delta_eta fields],*)
+(*so everything follows from the finite one-form verified above,  k^{-y}[eps+] =*)
+(*(4/l) eps+ delta L_+  (and its mirror).  We verify, in order:*)
+(*  (i)   integrability: the one-form is the exact variation of the charge density*)
+(*        (4/l) eps L_pm - the "finite, integrable" property in the SM's wording;*)
+(*  (ii)  the assembled bracket density minus the adjoint charge density Q[[eps,eta]] is*)
+(*        a total derivative in BOTH chiralities - the centerless algebra SM (56) -*)
+(*        while opposite-chirality charges Poisson-commute identically;*)
+(*  (iii) on the Riemannian side the same assembly with the anomalous delta L of Eq. (9)*)
+(*        leaves the central density -(1/(4 pi G l))(l^2/4) eps1 eps2''', whose*)
+(*        normalization (16 pi G)^{-1}(4/l) = 1/(4 pi G l) matches the Letter's charge,*)
+(*        and which NRH02 already identified as c = 3l/2G;*)
+(*  (iv)  bracket consistency: the central cocycle is antisymmetric modulo total*)
+(*        derivatives, the Witt bracket obeys the Jacobi identity exactly, and the*)
+(*        Gelfand-Fuchs cocycle condition (the Jacobi identity of the centrally extended*)
+(*        algebra) holds modulo total derivatives;*)
+(*  (v)   the mixed adjusted C-bracket (with the Barnich-Troessaert field-dependence*)
+(*        terms): its leftover carries NO surface potential, so the mixed charge bracket*)
+(*        vanishes on the physical phase space;*)
+(*  (vi)  the minus-sector mirror of the same-chirality closure, with its own closed*)
+(*        chiral B-gauge leftover of vanishing potential.*)
+
+
+(* (i) integrability: k = delta[(4/l) eps L] *)
+NRH`CheckZero["(i) k^{-y}[eps+] = delta[(4/l) eps+ L+]  (the charge exists and is integrable)",
+   Together[kPlus - D[4/l ep[xp] LQ, LQ] dLpF[xp]]];
+NRH`CheckZero["(i) mirror:  k^{y+}[eps-] = delta[(4/l) eps- L-]",
+   Together[kMinus - D[4/l em[xm] LQ, LQ] dLmF[xm]]];
+
+(* (ii) the assembled bracket, both chiralities, and the mixed bracket *)
+adjNR[a_, b_, x_] := a[x] D[b[x], x] - b[x] D[a[x], x];
+brPP = Together[(kPlus /. ep -> e1f) /.
+   dLpF -> Function[x, e2f[x] Derivative[1][Lp][x] + 2 Lp[x] Derivative[1][e2f][x]]];
+NRH`CheckZero["(ii) {Q[e1+], Q[e2+]} - Q[[e1,e2]] is a total derivative: centerless plus sector",
+   {ELx[Lp, Together[brPP - 4/l adjNR[e1f, e2f, xp] Lp[xp]]],
+    ELx[e1f, Together[brPP - 4/l adjNR[e1f, e2f, xp] Lp[xp]]],
+    ELx[e2f, Together[brPP - 4/l adjNR[e1f, e2f, xp] Lp[xp]]]}];
+brMM = Together[(kMinus /. em -> e1g) /.
+   dLmF -> Function[x, e2g[x] Derivative[1][Lm][x] + 2 Lm[x] Derivative[1][e2g][x]]];
+ELm[f_, e_] := Together[D[e, f[xm]] - D[D[e, Derivative[1][f][xm]], xm]
+   + D[D[e, Derivative[2][f][xm]], {xm, 2}] - D[D[e, Derivative[3][f][xm]], {xm, 3}]];
+NRH`CheckZero["(ii) minus-sector mirror: {Q[e1-], Q[e2-]} - Q[[e1,e2]] is a total derivative",
+   {ELm[Lm, Together[brMM - 4/l adjNR[e1g, e2g, xm] Lm[xm]]],
+    ELm[e1g, Together[brMM - 4/l adjNR[e1g, e2g, xm] Lm[xm]]],
+    ELm[e2g, Together[brMM - 4/l adjNR[e1g, e2g, xm] Lm[xm]]]}];
+NRH`CheckZero["(ii) opposite chiralities Poisson-commute: delta_{eps-} L+ = 0 kills the mixed bracket",
+   {kPlus /. dLpF -> (0 &), kMinus /. dLmF -> (0 &)}];
+
+(* (iii) Riemannian side: same assembly with the anomalous transformation of Eq. (9).
+   The state-independent -2 l eps'' piece of the SM(50) potential drops out of the
+   variation, so the bracket density is (4/l) eps1 delta_eps2 L+ with the anomaly. *)
+brR = Together[4/l e1f[xp] (e2f[xp] D[Lp[xp], xp] + 2 Lp[xp] D[e2f[xp], xp]
+      - l^2/4 D[e2f[xp], {xp, 3}])];
+centralDensity = -4/l l^2/4 e1f[xp] D[e2f[xp], {xp, 3}];
+NRH`CheckZero["(iii) R bracket - adjoint - central = total derivative  (Brown-Henneaux center isolated)",
+   {ELx[Lp, Together[brR - 4/l adjNR[e1f, e2f, xp] Lp[xp] - centralDensity]],
+    ELx[e1f, Together[brR - 4/l adjNR[e1f, e2f, xp] Lp[xp] - centralDensity]],
+    ELx[e2f, Together[brR - 4/l adjNR[e1f, e2f, xp] Lp[xp] - centralDensity]]}];
+NRH`CheckZero["(iii) normalization chain: (16 pi G)^{-1} (4/l) = 1/(4 pi G l), the Letter's charge normalization",
+   Together[1/(16 Pi G) 4/l - 1/(4 Pi G l)]];
+
+(* (iv) bracket consistency: antisymmetry of the cocycle, Witt Jacobi, cocycle condition *)
+NRH`CheckZero["(iv) the central cocycle is antisymmetric modulo total derivatives",
+   {ELx[e1f, Together[e1f[xp] D[e2f[xp], {xp, 3}] + e2f[xp] D[e1f[xp], {xp, 3}]]],
+    ELx[e2f, Together[e1f[xp] D[e2f[xp], {xp, 3}] + e2f[xp] D[e1f[xp], {xp, 3}]]]}];
+NRH`CheckZero["(iv) Witt Jacobi identity: [[e1,e2],e3] + cyclic = 0 exactly",
+   Module[{br = Function[{a, b}, a D[b, xp] - b D[a, xp]]},
+      Together[br[br[e1f[xp], e2f[xp]], e3f[xp]] + br[br[e2f[xp], e3f[xp]], e1f[xp]]
+         + br[br[e3f[xp], e1f[xp]], e2f[xp]]]]];
+NRH`CheckZero["(iv) Gelfand-Fuchs cocycle condition: c(e1,[e2,e3]) + cyclic = total derivative",
+   Module[{cc = Function[{a, b}, a D[b, {xp, 3}]], br = Function[{a, b}, a D[b, xp] - b D[a, xp]],
+      jj, el4},
+      el4[f_, e_] := Together[D[e, f[xp]] - D[D[e, Derivative[1][f][xp]], xp]
+         + D[D[e, Derivative[2][f][xp]], {xp, 2}] - D[D[e, Derivative[3][f][xp]], {xp, 3}]
+         + D[D[e, Derivative[4][f][xp]], {xp, 4}]];
+      jj = Together[cc[e1f[xp], br[e2f[xp], e3f[xp]]] + cc[e2f[xp], br[e3f[xp], e1f[xp]]]
+         + cc[e3f[xp], br[e1f[xp], e2f[xp]]]];
+      {el4[e1f, jj], el4[e2f, jj], el4[e3f, jj]}]];
+
+(* (v) the mixed adjusted C-bracket carries no surface potential *)
+xiMeOf[e_, LPval_] := {-l^2 z LPval D[e, {xm, 2}]/2, 0, +l D[e, xm]/2, 0, e, -l D[e, xm]/2};
+dpLp = e1f[xp] D[Lp[xp], xp] + 2 Lp[xp] D[e1f[xp], xp];
+dmLm = e2g[xm] D[Lm[xm], xm] + 2 Lm[xm] D[e2g[xm], xm];
+deltaPXm = D[xiMeOf[e2g[xm], Lp[xp] + tt dpLp], tt] /. tt -> 0;
+deltaMXp = D[(xiPe[e1f[xp]] /. Lm[xm] -> Lm[xm] + tt dmLm), tt] /. tt -> 0;
+mixedAdj = Together[CBracket[xiPe[e1f[xp]], xiMeOf[e2g[xm], Lp[xp]], xsZ] - deltaPXm + deltaMXp];
+NRH`Check["(v) the adjusted mixed bracket has a leftover (the raw closure fails, as it should)",
+   ! NRH`ZeroQ[mixedAdj]];
+NRH`CheckZero["(v) but its Khat surface potentials vanish at the boundary: mixed charge bracket = 0",
+   {Limit[Together[eDenz KhatComp[HNRz, dNRz, mixedAdj, 5, 6, xsZ]], z -> 0],
+    Limit[Together[eDenz KhatComp[HNRz, dNRz, mixedAdj, 4, 6, xsZ]], z -> 0]}];
+
+(* (vi) minus-sector mirror of the same-chirality closure *)
+alphaM = e1g[xm] D[e2g[xm], xm] - e2g[xm] D[e1g[xm], xm];
+bracketDiffM = Together[CBracket[xiMeOf[e1g[xm], Lp[xp]], xiMeOf[e2g[xm], Lp[xp]], xsZ]
+   - xiMeOf[alphaM, Lp[xp]]];
+NRH`Check["(vi) minus-sector C-bracket closes up to a closed B-gauge parameter (slot x~- only)",
+   Together[bracketDiffM[[{1, 3, 4, 5, 6}]]] === {0, 0, 0, 0, 0} && ! PossibleZeroQ[bracketDiffM[[2]]]];
+NRH`CheckZero["(vi) that leftover is chiral and closed, and carries no surface potential",
+   {D[bracketDiffM[[2]], xp], D[bracketDiffM[[2]], z],
+    Limit[Together[eDenz KhatComp[HNRz, dNRz, {0, zm[xm], 0, 0, 0, 0}, 4, 6, xsZ]], z -> 0]}];
+
+
+(* ::Section:: *)
 (*SM (57)-(61): the Gamma^2 identity, the flux, and the renormalized action*)
 
 

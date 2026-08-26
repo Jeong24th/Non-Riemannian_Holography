@@ -44,7 +44,7 @@ implemented in Mathematica (tested with 13.2; the free Wolfram Engine also works
 wolframscript -file mathematica/NRH00_RunAll.wl
 ```
 
-runs all 169 checks (about ten minutes) and exits nonzero on any failure.  Every file
+runs all 183 checks (about ten minutes) and exits nonzero on any failure.  Every file
 is also provided as a double-clickable `.nb` notebook with identical content — download
 the `mathematica/` folder, open `NRH00_RunAll.nb`, and use *Evaluation → Evaluate
 Notebook*.  See `mathematica/README.md` for the file-by-file coverage table and method
