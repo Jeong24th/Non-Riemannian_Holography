@@ -188,7 +188,7 @@ def main() -> int:
 
     # NR branch: no beta-barbeta term in SMdygGO, hence inverse c_eff^2=0.
     checks.check(
-        "NR relativizing channel has 1/c_eff^2 = 0 at every radius",
+        "NR type-changing channel has 1/c_eff^2 = 0 at every radius",
         r"\beta\brbeta" not in source[source.index(r"\label{SMdygGO}") - 500 : source.index(r"\label{SMdygGO}")],
     )
 

@@ -19,7 +19,7 @@ which the former +2 signs violate: delta S_0 = 4 d_+d_- h^(0) != 0):
   delta d = delta d^(0) - (l/8) y d_+d_- h_{ominus,bar-oplus}^(0),
   tails -(l/2)y d_pm^2 h^(0), and the y^2 branch +(l^2/8)y^2 D4 h^(0);
   the previously printed (l/8) C y display is rejected.
-* E3: the exclusion of generic relativizing sources is a property of the
+* E3: the exclusion of generic type-changing sources is a property of the
   fixed-dilaton, log-free sector, not of the field equations; the old
   sentence attributing it to ``SMNRsol`` is rejected.
 * E4: the response dictionary is uniform,

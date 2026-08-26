@@ -101,7 +101,7 @@ same checks.
   flat metric η = ((0,−1,0),(−1,0,0),(0,0,1)); the barred frame has η̄ = −η.  In code
   the symbols ⊕ and ⊖ are written `p`(lus)/`op` and `m`(inus)/`om`: for instance
   `hpm` is the fluctuation component h_{⊕⊖̄} and `Kmp` is the response K_{⊖⊕̄}.
-* **State data.**  L₊(x⁺) and L₋(x⁻) are the two chiral Banados (stress-sector)
+* **State data.**  L₊(x⁺) and L₋(x⁻) are the two chiral Banados (stress-tensor)
   functions.  W₀(x⁺,x⁻) and W₁(x⁺,x⁻) are the two radial modes of the hair
   W = W₀ + e^{−2y/l}W₁ + (inhomogeneous terms): W₀ is the non-normalizable marginal
   source (locally pure gauge), W₁ the normalizable "soft hair".
