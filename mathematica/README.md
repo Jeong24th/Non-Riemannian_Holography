@@ -17,6 +17,10 @@ probes), the same exact pipeline is evaluated in exact **rational arithmetic** a
 explicitly quoted rational parameter values, matching the probe style quoted in the SM
 text.
 
+If a term, an abbreviation, or a code symbol is unfamiliar, see the sections
+**How to read the files**, **Notation and conventions**, **Glossary of abbreviations**,
+and **Code symbol dictionary** below the file table.
+
 ## Files
 
 | File | Verifies | Contents |
@@ -56,6 +60,120 @@ identical content: download the whole `mathematica/` folder, open `NRH00_RunAll.
 the same directory, so keep the folder together.  The `.nb` files are generated from the
 `.wl` sources, which remain the canonical, diff-able versions; the two always carry the
 same checks.
+
+## How to read the files
+
+* Each `.wl` file is organized like a short paper: markers such as `(* ::Title:: *)`,
+  `(* ::Section:: *)`, `(* ::Text:: *)` render as headings and explanatory prose when
+  the file is opened in Mathematica.  The `.nb` notebooks show the same content with
+  the formatting already applied.
+* Every verification is a single call of the small framework loaded from
+  `NRH01_DFT_Tools.wl`:
+  - ``NRH`CheckZero["label", expr]`` proves that `expr` (a scalar, a list, or a whole
+    matrix) is **identically zero** as a symbolic expression;
+  - ``NRH`Check["label", statement]`` records a structural true/false claim
+    (a rank, a set equality, a "contains no ..." statement).
+  Each check prints `[PASS]` or `[FAIL]`; each file ends with an `n/n` summary, and
+  `NRH00_RunAll.wl` prints the grand total.  Any failure makes a command-line run exit
+  with a nonzero code.
+* "Exact" means: arbitrary functions stay arbitrary.  When a check says it holds "for
+  arbitrary chiral L±(x±)", the functions `Lp[xp]`, `Lm[xm]` are never specialized —
+  the zero is an identity of symbolic algebra, not a numerical coincidence.
+* "Modulo total derivatives": densities that sit under a boundary integral are compared
+  with an **Euler–Lagrange test** — a density in one variable is a total derivative if
+  and only if all of its variational (Euler–Lagrange) derivatives vanish.  This is how
+  statements like "the cocycle is a total derivative" are decided exactly.
+
+## Notation and conventions (following the paper)
+
+* **Coordinates.**  Boundary lightcone x^± = (t ± lφ)/√2 with φ ~ φ + 2π; y is the
+  holographic radial coordinate and the boundary sits at y → ∞; l is the AdS₃ radius.
+  Three interchangeable radial variables appear in the code, chosen to keep every
+  computation rational: `u` = e^{2y/l} (Riemannian side), `z` = e^{−2y/l} = 1/u
+  (charge falloffs), and the non-Riemannian variable `ch` = χ with
+  `T` = e^{χ/(2√2)} rationalizing all hyperbolic functions.
+* **Doubled indices.**  The fixed coordinate order is
+  x^M = (x̃₊, x̃₋, ỹ; x⁺, x⁻, y): the three dual ("winding") coordinates first, then
+  the three physical ones.  All 6×6 matrices use this order (4×4 on the boundary,
+  20×20 in the ten-dimensional probes).  The section condition sets all dual
+  derivatives to zero, which is what the derivative operators in the code implement.
+* **Frame (flat) indices.**  The three-dimensional lightcone frame is (⊕, ⊖, y) with
+  flat metric η = ((0,−1,0),(−1,0,0),(0,0,1)); the barred frame has η̄ = −η.  In code
+  the symbols ⊕ and ⊖ are written `p`(lus)/`op` and `m`(inus)/`om`: for instance
+  `hpm` is the fluctuation component h_{⊕⊖̄} and `Kmp` is the response K_{⊖⊕̄}.
+* **State data.**  L₊(x⁺) and L₋(x⁻) are the two chiral Banados (stress-sector)
+  functions.  W₀(x⁺,x⁻) and W₁(x⁺,x⁻) are the two radial modes of the hair
+  W = W₀ + e^{−2y/l}W₁ + (inhomogeneous terms): W₀ is the non-normalizable marginal
+  source (locally pure gauge), W₁ the normalizable "soft hair".
+* **Derived variables.**  ψ± := L±^{−1/2} (Hill variables), Π = L₊L₋,
+  q = e^{−2y/l}√(Π/2), χ = 2√2 arctanh q.  The Hill equation (l²/2)s″ = L s governs
+  the Riemannian Killing spinors; A± = ψ±″/ψ± is its potential data.
+
+## Glossary of abbreviations
+
+| Abbreviation | Meaning |
+|---|---|
+| DFT | Double Field Theory: the metric, Kalb–Ramond field B, and dilaton unified as one object on doubled coordinates, with T-duality manifest |
+| O(D,D), J | the T-duality group and its invariant metric J_MN (off-diagonal unit blocks in our basis) |
+| H_MN | the generalized metric — the O(D,D) tensor packaging (g, B); it obeys the constraint H J H = J |
+| d | the DFT dilaton: e^{−2d} = √(−g) e^{−2φ} on Riemannian backgrounds |
+| P, P̄ | the projectors (J ± H)/2; their mixed components carry the physical fluctuations |
+| EDFE | Einstein Double Field Equations G_MN = T_MN; on these saddles G_MN = 2 l^{−2} J_MN |
+| Γ (semi-covariant connection) | the torsionless DFT analogue of the Christoffel symbols, determined by H and d |
+| S_ABCD, S_AB, S₍₀₎ | the semi-covariant Riemann, Ricci, and scalar curvatures of DFT |
+| ĥL (generalized Lie derivative) | the DFT gauge transformation combining diffeomorphisms and B-field gauge shifts |
+| R / NR | the two exact saddles: the Riemannian (Banados/BTZ) branch and the everywhere non-Riemannian branch |
+| type (n, n̄) | the Morand–Park classification of non-Riemannian generalized metrics; type (1,1) is the Gomis–Ooguri geometry |
+| GO | Gomis–Ooguri: the non-relativistic string theory describing the long-string sector |
+| SNC | string Newton–Cartan geometry; τ± are its clock one-forms, m_μ^± its mass gauge fields |
+| BTZ | the Banados–Teitelboim–Zanelli black hole (constant L± > 0) |
+| BH | Brown–Henneaux: the asymptotic Virasoro symmetry of AdS₃ with central charge c = 3l/2G |
+| PBH | Penrose–Brown–Henneaux: the radial completion of a boundary diffeomorphism into the bulk |
+| FG | Fefferman–Graham gauge for the radial expansion |
+| GKPW | the Gubser–Klebanov–Polyakov–Witten source/partition-function dictionary |
+| Ward identities | the boundary conservation laws of the response tensor, Eq. (7) of the Letter |
+| KS | Killing spinor; SDFT = supersymmetric DFT; MW = Majorana–Weyl spinor conditions |
+| Hill equation | (l²/2)s″ = L(x)s: the periodic-coefficient ODE controlling the Riemannian Killing spinors and their monodromy |
+| DYG | the doubled-yet-gauged worldsheet action, which couples the string directly to H_MN |
+| FT | the Fradkin–Tseytlin worldsheet dilaton coupling (it improves the stress tensor by −l^{−1}∂²y) |
+| OPE | operator product expansion (worldsheet CFT) |
+| c_eff | the effective Gomis–Ooguri speed of light, c_eff² = 2F = 2(e^{2y/l} + L₊L₋e^{−2y/l}) |
+| C-bracket | the DFT bracket of doubled gauge parameters (the analogue of the Lie bracket) |
+| PRRS | Park–Rey–Rim–Sakatani: the DFT covariant-phase-space construction of surface charges (arXiv:1507.07545) |
+| K^{AB}, Θ, k_ξ | Noether surface potential, symplectic potential, and the surface-charge one-form built from them |
+| BT | Barnich–Troessaert: the adjustment of brackets for field-dependent asymptotic parameters |
+| Witt algebra | the centerless Virasoro algebra of chiral reparametrizations |
+| GF cocycle | Gelfand–Fuchs: the Virasoro two-cocycle ∮ε₁∂³ε₂, whose cocycle condition is the Jacobi identity of the centrally extended algebra |
+| JW | Jordan–Wigner: the matrix realization of anticommuting (Grassmann) generators used for the fermionic checks |
+| μ (mu-dichotomy) | the endpoint parameter of the on-shell action: μ = L₊L₋ on the R branch, μ = L₊L₋/2 on the NR branch |
+| k = l²/α′ | the flux (WZW) level fixed by the S³ NS–NS flux; α′ is the string tension parameter, w the winding number |
+| SM (n) / Eq. (n) | equation numbers of the Supplemental Material / Letter, as of the 2026-08-26 build; the LaTeX labels quoted in the files are stable across rebuilds |
+
+## Code symbol dictionary
+
+| In the code | In the paper |
+|---|---|
+| `Lp[xp]`, `Lm[xm]` | the chiral Banados data L₊(x⁺), L₋(x⁻) |
+| `ep[xp]`, `em[xm]` (also `e1f`, `e2f`, `e1g`, `e2g`, `al`) | asymptotic-symmetry parameters ε⁺(x⁺), ε⁻(x⁻) (and the off-shell PBH test function α⁺) |
+| `W0[xp,xm]`, `W1[xp,xm]` | the hair modes W₀, W₁ |
+| `psip[xp]`, `psim[xm]` | ψ± = L±^{−1/2} |
+| `u`, `z`, `ch`, `T`, `LT` | e^{2y/l}, e^{−2y/l}, χ, e^{χ/(2√2)}, log T (kept as an independent symbol) |
+| `hpp`, `hpm`, `hmp`, `hmm`, `dd` | the fixed-frame fluctuations h_{⊕⊕̄}, h_{⊕⊖̄}, h_{⊖⊕̄}, h_{⊖⊖̄} and δd |
+| `Kpp`, `Kpm`, `Kmp`, `Kmm`, `T0` | the boundary responses K_{⊕⊕̄}, K_{⊕⊖̄}, K_{⊖⊕̄}, K_{⊖⊖̄} and T₍₀₎ |
+| `Hinf`, `dinf`, `H0` | the boundary data H^∞, d^∞ = −y/l and the induced 4×4 boundary generalized metric H⁽⁰⁾ |
+| `Vinf`, `Vbinf`, `V0`, `Vb0`, `eta3`/`etab3` | the aligned double-vielbeins V^∞, V̄^∞, their boundary restrictions, and the flat metrics η, η̄ |
+| `GammaDFT`, `RiemannR4`, `RicciS`, `ScalarS0`, `EinsteinG` | Γ_CAB, R_CDAB, S_AB, S₍₀₎, G_AB |
+| `GenLieH`, `GenLieD` | ĥL_ξ H_MN and ĥL_ξ d |
+| `Gamma2Density`, `GammaBVector` | the Γ²-Lagrangian density and its boundary vector B^M |
+| `NoetherK`, `KhatComp`, `ThetaHat`, `kPlus`/`kMinus` | K^{AB}, K̂^{AB}, e^{−2d}Θ̂^A, and the finite charge one-forms k^{∓y}[ε^±] |
+| `CBracket` | the DFT C-bracket of doubled vectors |
+| `xiPlus`, `xiMinus`, `xiIso`, `xiPBH` | the asymptotic generators ξ[ε±], the exact vacuum isometries ξ[v±, ω±], and the PBH vector ξ[α⁺] |
+| `tauP`, `tauM`, `esig` | the SNC clock forms τ± and e^σ = √(L₊/L₋) |
+| `FF`, `rho`, `GG`/`Gp` | the radial source F, the kernel ρ(χ), and the profile G(χ) with its derivative |
+| `Gam[a]`, `GamBar[a]`, `Gam11`, `BB10` | the ten-dimensional Γ^{p̂}, the barred Γ̄^{p̂̄} = Γ^{p̂}Γ¹¹, the chirality Γ¹¹, and the Majorana intertwiner 𝖡₁₀ |
+| `th[i]` | the Jordan–Wigner Grassmann generators θᵢ |
+| `phiP`/`phiM`, `psiP`/`psiM`, `Ap`/`Am`, `Lam` | the boundary-candidate fields φ^±, ψ^±, the internal gauge field 𝔸_±, and the gauge parameter Λ |
+| ``NRH`CheckZero``, ``NRH`Check`` | "this expression is identically zero" / "this structural statement is true" |
 
 ## Method notes
 
