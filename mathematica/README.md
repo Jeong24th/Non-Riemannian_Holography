@@ -27,18 +27,21 @@ and **Code symbol dictionary** below the file table.
 |---|---|---|
 | `NRH00_RunAll.wl` | — | runs the whole suite, grand PASS/FAIL summary |
 | `NRH01_DFT_Tools.wl` | shared toolbox | O(D,D) metric, projectors, torsionless semi-covariant connection, curvatures S_ABCD / Ricci / S_(0) (closed form **and** contraction form), Einstein curvature G_AB, generalized Lie derivative, Gamma^2 density, boundary vector B^A, double-vielbein spin connection, PASS/FAIL framework |
-| `NRH02_Letter_Riemannian.wl` | Letter Eqs. (1)–(10) | Banados family in DFT variables; **G_MN = 2 l^-2 J_MN exactly for arbitrary chiral L±(x±)**; boundary data (4); Ward identities (7); asymptotic symmetry (8)–(9) with the anomalous term; c = 3l/2G; two-point normalization; horizon; Gomis–Ooguri channel structure |
-| `NRH03_Letter_NonRiemannian.wl` | Letter Eqs. (11)–(16), SM 4 | the exact non-Riemannian matrix (12)–(13); **the full EDFE with a generic hair profile W(x+,x-,chi) collapses to the single radial ODE d²W/dχ² = F of SM (66)–(67), and Eq. (15) solves it** — for arbitrary chiral L±(x±) and arbitrary W₀, W₁(x⁺,x⁻); the SNC clock forms (14); the B-shift removal of W₀; the asymptotic laws (16): δL± anomaly-free, the third derivative in δW₁ |
-| `NRH04_SM_LinearResponse.wl` | SM 1 | aligned frame SM (10)–(13); exact fixed-frame projections SM (29)–(30), (44)–(45) incl. h⁽²⁾_{⊕⊖̄} = W₁/2; **the linearized system SM (17) re-derived from the nonlinear G_MN**; its general solution SM (19); log-free conditions SM (20); the crossed Γ²-quadratic action SM (22)–(23) with the coset completion; response normalization SM (31) and the one-point functions; PBH data SM (34) and the two-point normalization (8π)⁻²(c/2) |
-| `NRH05_SM_Charges_Action.wl` | SM 2, SM 3 | Noether surface potential K^{AB} (PRRS Eq. (A.4)); Riemannian potential components SM (50); the Brown–Henneaux cocycle; **the NR charge one-form SM (52): k = (4/l) ε δL± with every Θ̂-component vanishing and W₁ dropping out componentwise (SM (53)–(54))**; centerless bracket closure SM (56); **the charge Poisson algebra assembled from the one-form: integrability (k = δQ), {Q,Q} = Q[[·,·]] in both chiral sectors and Poisson-commuting opposite sectors, the isolated Brown–Henneaux central density with its normalization chain, antisymmetry / Witt-Jacobi / Gelfand–Fuchs cocycle conditions, the zero-charge mixed adjusted bracket, and the minus-sector closure mirror**; the Γ² identity SM (57); the flux SM (58) with the μ-dichotomy; the renormalized action SM (60)–(61); the two interior endpoints |
-| `NRH06_SM_Worldsheet.wl` | SM 5 | first-order form SM (75) ↔ E = g − B; c_eff SM (76); the clock kernel and the exact reduced NR Lagrangian routes SM (78)–(79), (94); the GO vertex coefficient SM (81); the winding-probe energy SM (82) with √(−det g₂) = l e^{−2d}; the flux level SM (95); the Fradkin–Tseytlin radial weight SM (96)–(98) with marginal roots {1, e^{−2y/l}}; the contraction bookkeeping behind exact marginality of V_W[W₀] |
-| `NRH07_SM_KillingSpinors.wl` | SM 6 | uplift checks SM (101)–(102) factor by factor; **exact rational ten-dimensional probes: S₀⁽¹⁰⁾ = 0 and (P S P̄)⁽¹⁰⁾ = 0 for both uplifts, including one-sided hair**; exact vacuum isometries SM (103)–(104); the stabilizer system SM (105); the complex 3+3+4 Clifford representation, Majorana intertwiner and barred algebra SM (106)–(110) with the count chain; **the vacuum Killing spinor with arbitrary chiral profile SM (111)/(116), both internal channels**; the rank-six hairy jet system SM (117); the Hill system SM (112)–(114) and the global counts by monodromy; the complementary-halves bookkeeping |
-| `NRH08_SM_BoundaryCandidate.wl` | SM 7 | projector selection in the candidate action SM (118)–(119); non-abelian gauge invariance SM (120); the Witt symmetries SM (121)–(122); boundary isometry ⇔ chirality; **the chiral fermionic transformations SM (123)–(124) with exact Grassmann arithmetic (Jordan–Wigner realization)**; the extra chiral transformation SM (125)–(126) |
+| `NRH02_Letter_Riemannian.wl` | Letter labels `Rfields`–`Rcorrelators` | Banados family in DFT variables; **G_MN = 2 l^-2 J_MN exactly for arbitrary chiral L±(x±)**; `boundaryH` and `Rboundaryframe`; `RDFTconservation` and `Rcontinuity`; `Rkilling`–`Rcorrelators`; c = 3l/2G; horizon and Gomis–Ooguri channel structure |
+| `NRH03_Letter_NonRiemannian.wl` | Letter labels `NRvariables`–`NRasympt`; SM labels `NRhill`–`NRGprofile`, `SMWshift`, `SNCtau`, `SMWisB` | exact non-Riemannian matrix and dilaton; **the full EDFE with generic W(x+,x-,chi) collapses to `NRchiODE`, and `NRWgeneral` solves it** for arbitrary chiral L± and arbitrary W₀, W₁; SNC clocks; B-shift removal of W₀; anomaly-free δL± and the third derivative in δW₁ |
+| `NRH04_SM_LinearResponse.wl` | SM 1 labels `SMinfinityvielbein`–`SMRtwopt` | limiting frame and flat metrics; fixed-frame projections `SMexactprojectionR`/`SMexactprojectionNR`; **`SMNRlin` re-derived from the nonlinear G_MN**; `SMNRsol`, `SMlogfreeconditions`, `SMrwquadratic`/`SMrwvariation`; `SMresponsematrix`, one-point functions, PBH kernel and two-point normalization |
+| `NRH05_SM_Charges_Action.wl` | SM 2–3 labels `SMRpotentialcomponents`–`SMgamma2value` | Noether surface potential; Brown–Henneaux cocycle; **`SMCPSresult` with every Θ̂-component vanishing and W₁ dropping out through `SMNRchargecancellation`**; `SMCPSalgebra`; the charge Poisson algebra; `SMgamma2`, `SMgamma2flux`, cutoff and renormalized value |
+| `NRH06_SM_Worldsheet.wl` | SM 5 labels `SMRfirstorder`–`SMBRSTmomentum` | Riemannian first-order form and `SMceff`; SNC kernel and `SMdygconstraints`/`SMdygGO`; `SMGO`, `SMvertex`, `SMlongstringE`, `SMdeltaL`; `SMWZWlevel`; Fradkin–Tseytlin radial weight and marginal roots |
+| `NRH07_SM_KillingSpinors.wl` | SM 6 labels `SMuplift`–`SMhairyKS` | uplift checks and exact ten-dimensional probes; `SMexactiso` and `SMweighteddilaton`; `SMNRlocalstabilizer`; Clifford/Majorana/barred-algebra package; `SMkillingspinor`, `SMreducedDirac`, `SMinternalprojectors`, `SMspinorcountchain`, and `SMhairyKS`; Hill-system and monodromy checks |
+| `NRH08_SM_BoundaryCandidate.wl` | SM 7 labels `SMcandidateD`–`SMcandidateextraL` | projector selection and candidate action; non-abelian gauge invariance; commuting Witt symmetries; boundary isometry ⇔ chirality; chiral fermionic transformations with exact Grassmann arithmetic; the extra chiral transformation |
 
-Equation numbers refer to the manuscript snapshot used to prepare the suite and may
-shift in later builds.  The LaTeX labels quoted inside the files are the stable links.
+Coverage is keyed to LaTeX labels rather than snapshot-dependent equation numbers.
+`MANUSCRIPT_MAP.md` gives the current number of every label used by the suite and pins
+the exact manuscript source by SHA-256.
 
-The suite currently comprises **183 exact checks**; the reference run passes 183/183.
+The suite currently comprises **183 exact checks**; the recorded reference execution
+passes 183/183.  See `REFERENCE_RUN.md` for the neutral environment, command, result,
+and reproducibility limitations.
 
 ## Running
 
@@ -147,7 +150,7 @@ same checks.
 | JW | Jordan–Wigner: the matrix realization of anticommuting (Grassmann) generators used for the fermionic checks |
 | μ (mu-dichotomy) | the endpoint parameter of the on-shell action: μ = L₊L₋ on the R branch, μ = L₊L₋/2 on the NR branch |
 | k = l²/α′ | the flux (WZW) level fixed by the S³ NS–NS flux; α′ is the string tension parameter, w the winding number |
-| SM (n) / Eq. (n) | equation numbers in the reference manuscript snapshot; use the quoted LaTeX labels when numbers shift |
+| SM (n) / Eq. (n) | equation numbers in the source build pinned by `MANUSCRIPT_MAP.md`; use the quoted LaTeX labels as stable identifiers |
 
 ## Code symbol dictionary
 
@@ -194,9 +197,8 @@ same checks.
   realized as Jordan–Wigner matrices, so anticommutation is ordinary matrix algebra and
   no sign bookkeeping is done by hand.
 
-## Provenance
+## Reference execution
 
-These files were drafted with AI assistance (Anthropic Claude, Fable 5) in the
-cross-verification workflow described in the paper's Acknowledgments.  The complete
-suite was then run in Mathematica (the 183/183 reference run above).  The Python
-scripts in `checks/` provide a separate implementation of many of the same formulas.
+The executable identities are accompanied by the environment and result record in
+`REFERENCE_RUN.md`.  The Python scripts in `checks/` provide a separate implementation
+of many of the same formulas.

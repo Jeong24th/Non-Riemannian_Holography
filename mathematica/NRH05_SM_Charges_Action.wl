@@ -8,28 +8,28 @@
 (*This file verifies, in paper order:*)
 (**)
 (*  SM 2 (charges):*)
-(*   - the Riemannian surface-potential components SM (50) [SMRpotentialcomponents]:*)
+(*   - the Riemannian surface-potential components SM (44) [SMRpotentialcomponents]:*)
 (*        lim e^{-2d} Khat^{-y}[eps+] = (4/l) eps+ L+ - 2 l eps+'',  and its minus mirror;*)
-(*   - the Brown-Henneaux central-charge identity behind Eq. (9)/SM (50): the charge*)
+(*   - the Brown-Henneaux central-charge identity behind Eq. (9)/SM (44): the charge*)
 (*        cocycle reduces to a total derivative plus -(l^2/4) eps1 d^3 eps2;*)
-(*   - the non-Riemannian charge one-form SM (52) [SMCPSresult]:*)
+(*   - the non-Riemannian charge one-form SM (45) [SMCPSresult]:*)
 (*        k^{-y}[eps+] = (4/l) eps+ dL+  (and mirror), with all Thetahat components*)
 (*        vanishing at the boundary;*)
-(*   - the state-dependent falloffs SM (53) [SMNRchargefalloffs];*)
-(*   - the componentwise W_1 cancellation SM (54) [SMNRchargecancellation]:  the charge*)
+(*   - the state-dependent falloffs SM (46) [SMNRchargefalloffs];*)
+(*   - the componentwise W_1 cancellation SM (47) [SMNRchargecancellation]:  the charge*)
 (*        one-form contains neither W_1 nor delta W_1 nor the opposite-chirality delta L;*)
-(*   - the centerless algebra SM (56) [SMCPSalgebra]: same-chirality C-brackets close on*)
+(*   - the centerless algebra SM (49) [SMCPSalgebra]: same-chirality C-brackets close on*)
 (*        the vector representative up to closed B-gauge parameters of vanishing potential,*)
 (*        and the NR cocycle density is a total derivative (c_charge = 0).*)
 (**)
 (*  SM 3 (action):*)
-(*   - the Gamma^2 identity SM (57) [SMgamma2]:  e^{-2d} S_(0) = L_{Gamma^2} + d_M(e^{-2d} B^M),*)
+(*   - the Gamma^2 identity SM (50) [SMgamma2]:  e^{-2d} S_(0) = L_{Gamma^2} + d_M(e^{-2d} B^M),*)
 (*        verified exactly on BOTH saddles (arbitrary chiral L_pm; arbitrary W_0, W_1 hair*)
 (*        on the non-Riemannian side);*)
-(*   - the flux SM (58) [SMgamma2flux]:  B^y = 4 d_y d,  e^{-2d} B^y = -2 d_y e^{-2d}*)
+(*   - the flux SM (51) [SMgamma2flux]:  B^y = 4 d_y d,  e^{-2d} B^y = -2 d_y e^{-2d}*)
 (*        = -(4/l)(e^{2y/l} + mu e^{-2y/l})  with  mu = L+L- (R) and mu = L+L-/2 (NR),*)
 (*        independently of the hair;*)
-(*   - the cutoff computation SM (60) [SMgamma2cutoff] and the renormalized value SM (61);*)
+(*   - the cutoff computation SM (53) [SMgamma2cutoff] and the renormalized value SM (54);*)
 (*   - the endpoint loci: Killing horizon u^2 = L+L- (R) vs q = 1, u^2 = L+L-/2 (NR).*)
 
 
@@ -77,7 +77,7 @@ KhatComp[HH_, dd_, xUp_, a_, b_, xs_] := Module[{bv = GammaBVector[HH, dd, xs]},
 
 
 (* ::Section:: *)
-(*SM (50): Riemannian surface-potential components and the central charge*)
+(*SM (44): Riemannian surface-potential components and the central charge*)
 
 
 xsU = {xp, xm, Function[e, (2 u/l) D[e, u]]};
@@ -94,12 +94,12 @@ xiMinus = {-l^2/(2 u) Lp[xp] D[em[xm], {xm, 2}], 0, +l/2 D[em[xm], xm],
    l^2/(4 u) D[em[xm], {xm, 2}], em[xm], -l/2 D[em[xm], xm]};
 
 KfullP = Together[Exp[-2 dR] KhatComp[HR, dR, xiPlus, 5, 6, xsU]];
-NRH`CheckZero["SM(50): lim e^{-2d} Khat^{-y}[eps+] = (4/l) eps+ L+ - 2 l eps+''",
+NRH`CheckZero["SM(44): lim e^{-2d} Khat^{-y}[eps+] = (4/l) eps+ L+ - 2 l eps+''",
    Together[Limit[KfullP, u -> Infinity]
       - (4/l ep[xp] Lp[xp] - 2 l D[ep[xp], {xp, 2}])]];
 (* the display quotes Khat^{y+}; we compute the component pair (y, x+) accordingly *)
 KfullM = Together[Exp[-2 dR] KhatComp[HR, dR, xiMinus, 6, 4, xsU]];
-NRH`CheckZero["SM(50): lim e^{-2d} Khat^{y+}[eps-] = -(4/l) eps- L- + 2 l eps-''  (mirror)",
+NRH`CheckZero["SM(44): lim e^{-2d} Khat^{y+}[eps-] = -(4/l) eps- L- + 2 l eps-''  (mirror)",
    Together[Limit[KfullM, u -> Infinity]
       - (-(4/l) em[xm] Lm[xm] + 2 l D[em[xm], {xm, 2}])]];
 
@@ -122,7 +122,7 @@ NRH`Check["the central term itself is NOT a total derivative (the center is real
 
 
 (* ::Section:: *)
-(*SM (52)-(54): the non-Riemannian charge one-form*)
+(*SM (45)-(47): the non-Riemannian charge one-form*)
 
 
 (* ::Text:: *)
@@ -152,7 +152,7 @@ eDenz = (1 - Lp[xp] Lm[xm] z^2/2)/z;
 NRH`Check["truncation obeys H J H = J through z^2",
    Module[{c = Expand[HNRz . JJ . HNRz - JJ]},
       AllTrue[Flatten[c], PossibleZeroQ[Coefficient[#, z, 0]] && PossibleZeroQ[Coefficient[#, z, 1]] && PossibleZeroQ[Coefficient[#, z, 2]] &]]];
-NRH`CheckZero["SM(53): state-dependent falloffs delta H^-_+ = 2 z dL+, delta H^+_- = -2 z dL-, delta H_{+-} = z dW1",
+NRH`CheckZero["SM(46): state-dependent falloffs delta H^-_+ = 2 z dL+, delta H^+_- = -2 z dL-, delta H_{+-} = z dW1",
    {D[HNRz[[2, 4]], Lp[xp]] - 2 z, D[HNRz[[1, 5]], Lm[xm]] + 2 z, D[HNRz[[4, 5]], W1[xp, xm]] - z}];
 
 (* variation along the state directions *)
@@ -175,7 +175,7 @@ ThetaHat = Table[
          {b, 6}];
       Together[eDenz val - (D[eDenzT (GammaBVector[HNRzT, dNRzT, xsZ][[a]]), tt] /. tt -> 0)]],
    {a, 4, 6}];
-NRH`CheckZero["SM(52): lim e^{-2d} Thetahat^{+,-,y} = 0 at the boundary",
+NRH`CheckZero["SM(45): lim e^{-2d} Thetahat^{+,-,y} = 0 at the boundary",
    Map[Limit[#, z -> 0] &, ThetaHat]];
 
 chargeOneForm[xiOf_, aa_, bb_] := Module[{xi, xiT, varied, fieldDep, thetaTerm},
@@ -191,17 +191,17 @@ xiM = Function[{lp, lm}, {-l^2 z lp D[em[xm], {xm, 2}]/2, 0, +l D[em[xm], xm]/2,
 
 kPlus = chargeOneForm[xiP, 5, 6];
 kMinus = chargeOneForm[xiM, 4, 6];
-NRH`CheckZero["SM(52): k^{-y}[eps+] = (4/l) eps+ dL+",
+NRH`CheckZero["SM(45): k^{-y}[eps+] = (4/l) eps+ dL+",
    Together[kPlus - 4/l ep[xp] dLpF[xp]]];
-NRH`CheckZero["SM(52): k^{+y}[eps-] = (4/l) eps- dL-",
+NRH`CheckZero["SM(45): k^{+y}[eps-] = (4/l) eps- dL-",
    Together[kMinus - 4/l em[xm] dLmF[xm]]];
-NRH`Check["SM(54): W_1, delta W_1, and the opposite-chirality delta L all drop out componentwise",
+NRH`Check["SM(47): W_1, delta W_1, and the opposite-chirality delta L all drop out componentwise",
    FreeQ[{kPlus, kMinus}, W1] && FreeQ[{kPlus, kMinus}, dW1F] &&
    FreeQ[kPlus, dLmF] && FreeQ[kMinus, dLpF]];
 
 
 (* ::Section:: *)
-(*SM (55)-(56): bracket closure and the centerless algebra*)
+(*SM (48)-(49): bracket closure and the centerless algebra*)
 
 
 CBracket[x_, y_, xs_] := Module[{xd = JJ . x, yd = JJ . y, dim = 6},
@@ -214,14 +214,14 @@ CBracket[x_, y_, xs_] := Module[{xd = JJ . x, yd = JJ . y, dim = 6},
 xiPe = Function[{e}, {0, l^2 z Lm[xm] D[e, {xp, 2}]/2, -l D[e, xp]/2, e, 0, -l D[e, xp]/2}];
 alphaP = e1[xp] D[e2[xp], xp] - e2[xp] D[e1[xp], xp];
 bracketDiff = Together[CBracket[xiPe[e1[xp]], xiPe[e2[xp]], xsZ] - xiPe[alphaP]];
-NRH`Check["SM(56): the same-chirality C-bracket closes up to a closed B-gauge parameter (slot x~+ only)",
+NRH`Check["SM(49): the same-chirality C-bracket closes up to a closed B-gauge parameter (slot x~+ only)",
    Together[bracketDiff[[2 ;; 6]]] === {0, 0, 0, 0, 0} && ! PossibleZeroQ[bracketDiff[[1]]]];
-NRH`CheckZero["SM(56): the leftover reducibility parameter is chiral and closed:  d_- and d_y of it vanish",
+NRH`CheckZero["SM(49): the leftover reducibility parameter is chiral and closed:  d_- and d_y of it vanish",
    {D[bracketDiff[[1]], xm], D[bracketDiff[[1]], z]}];
-NRH`CheckZero["SM(56): the closed B-gauge parameter carries no surface potential",
+NRH`CheckZero["SM(49): the closed B-gauge parameter carries no surface potential",
    Limit[Together[eDenz KhatComp[HNRz, dNRz, {zp[xp], 0, 0, 0, 0, 0}, 5, 6, xsZ]], z -> 0]];
 (* centerless cocycle: without the anomalous term the density is a total derivative *)
-NRH`CheckZero["SM(56): NR cocycle  e1 (e2 L' + 2 L e2') - alpha L  =  d/dx (e1 e2 L)   =>  c_charge = 0",
+NRH`CheckZero["SM(49): NR cocycle  e1 (e2 L' + 2 L e2') - alpha L  =  d/dx (e1 e2 L)   =>  c_charge = 0",
    Together[e1[xp] (e2[xp] D[Lp[xp], xp] + 2 Lp[xp] D[e2[xp], xp])
       - alphaP Lp[xp] - D[e1[xp] e2[xp] Lp[xp], xp]]];
 
@@ -239,7 +239,7 @@ NRH`CheckZero["SM(56): NR cocycle  e1 (e2 L' + 2 L e2') - alpha L  =  d/dx (e1 e
 (*  (i)   integrability: the one-form is the exact variation of the charge density*)
 (*        (4/l) eps L_pm - the "finite, integrable" property in the SM's wording;*)
 (*  (ii)  the assembled bracket density minus the adjoint charge density Q[[eps,eta]] is*)
-(*        a total derivative in BOTH chiralities - the centerless algebra SM (56) -*)
+(*        a total derivative in BOTH chiralities - the centerless algebra SM (49) -*)
 (*        while opposite-chirality charges Poisson-commute identically;*)
 (*  (iii) on the Riemannian side the same assembly with the anomalous delta L of Eq. (9)*)
 (*        leaves the central density -(1/(4 pi G l))(l^2/4) eps1 eps2''', whose*)
@@ -282,7 +282,7 @@ NRH`CheckZero["(ii) opposite chiralities Poisson-commute: delta_{eps-} L+ = 0 ki
    {kPlus /. dLpF -> (0 &), kMinus /. dLmF -> (0 &)}];
 
 (* (iii) Riemannian side: same assembly with the anomalous transformation of Eq. (9).
-   The state-independent -2 l eps'' piece of the SM(50) potential drops out of the
+   The state-independent -2 l eps'' piece of the SM(44) potential drops out of the
    variation, so the bracket density is (4/l) eps1 delta_eps2 L+ with the anomaly. *)
 brR = Together[4/l e1f[xp] (e2f[xp] D[Lp[xp], xp] + 2 Lp[xp] D[e2f[xp], xp]
       - l^2/4 D[e2f[xp], {xp, 3}])];
@@ -337,17 +337,17 @@ NRH`CheckZero["(vi) that leftover is chiral and closed, and carries no surface p
 
 
 (* ::Section:: *)
-(*SM (57)-(61): the Gamma^2 identity, the flux, and the renormalized action*)
+(*SM (50)-(54): the Gamma^2 identity, the flux, and the renormalized action*)
 
 
 (* Riemannian saddle, exact in u *)
 gammaR = GammaDFT[HR, dR, xsU];
-NRH`CheckZero["SM(57) on R:  e^{-2d} S_(0) = L_Gamma2 + d_M(e^{-2d} B^M)",
+NRH`CheckZero["SM(50) on R:  e^{-2d} S_(0) = L_Gamma2 + d_M(e^{-2d} B^M)",
    Together[Exp[-2 dR] ScalarS0[HR, dR, xsU]
       - Gamma2Density[HR, dR, gammaR, xsU]
       - Sum[DblD[Exp[-2 dR] GammaBVector[HR, dR, xsU][[m]], m, xsU], {m, 6}]]];
 BvecR = GammaBVector[HR, dR, xsU];
-NRH`CheckZero["SM(58) on R:  B^y = 4 d_y d  and  e^{-2d}B^y = -(4/l)(u + L+L-/u)",
+NRH`CheckZero["SM(51) on R:  B^y = 4 d_y d  and  e^{-2d}B^y = -(4/l)(u + L+L-/u)",
    {Together[BvecR[[6]] - 4 (2 u/l) D[dR, u]],
     Together[Exp[-2 dR] BvecR[[6]] + 4/l (u + Lp[xp] Lm[xm]/u)]}];
 
@@ -368,25 +368,25 @@ NRHZeroNR[label_, e_] := NRH`CheckZero[label,
    Together[ExpandAll[TrigToExp[e /. ch -> 2 Sqrt[2] Log[T]]] /. Log[T] -> LT]];
 
 gammaNRc = GammaDFT[HNRchi, dNRchi, xsNR];
-NRHZeroNR["SM(57) on NR (arbitrary W): e^{-2d} S_(0) = L_Gamma2 + d_M(e^{-2d} B^M)",
+NRHZeroNR["SM(50) on NR (arbitrary W): e^{-2d} S_(0) = L_Gamma2 + d_M(e^{-2d} B^M)",
    Exp[-2 dNRchi] ScalarS0[HNRchi, dNRchi, xsNR]
       - Gamma2Density[HNRchi, dNRchi, gammaNRc, xsNR]
       - Sum[DblD[Exp[-2 dNRchi] GammaBVector[HNRchi, dNRchi, xsNR][[m]], m, xsNR], {m, 6}]];
 BvecNR = GammaBVector[HNRchi, dNRchi, xsNR];
-NRH`Check["SM(58)-(59) on NR: B^pm and B^y contain no W  (the hair never enters the flux)",
+NRH`Check["SM(51)-(52) on NR: B^pm and B^y contain no W  (the hair never enters the flux)",
    FreeQ[Together[BvecNR], W]];
-NRHZeroNR["SM(58) on NR: B^y = 4 d_y d",
+NRHZeroNR["SM(51) on NR: B^y = 4 d_y d",
    BvecNR[[6]] - 4 (chy D[dNRchi, ch] + D[dNRchi, Ysym])];
 (* e^{-2d} = u - (L+L-/2)/u exactly, so e^{-2d}B^y = -(4/l)(u + mu/u), mu = L+L-/2 *)
 eNRu = u - Lp[xp] Lm[xm]/(2 u);
-NRH`CheckZero["SM(58) on NR: -2 d_y e^{-2d} = -(4/l)(u + (L+L-/2)/u)   [mu-dichotomy]",
+NRH`CheckZero["SM(51) on NR: -2 d_y e^{-2d} = -(4/l)(u + (L+L-/2)/u)   [mu-dichotomy]",
    Together[-2 (2 u/l) D[eNRu, u] + 4/l (u + Lp[xp] Lm[xm]/(2 u))]];
 
-(* SM (60)-(61): cutoff algebra and the renormalized value *)
+(* SM (53)-(54): cutoff algebra and the renormalized value *)
 SrenY = 1/(16 Pi G) (4/l (Exp[2 Y/l] + mu Exp[-2 Y/l]) - 8/l Sqrt[mu] - 4/l (Exp[2 Y/l] - mu Exp[-2 Y/l]));
-NRH`CheckZero["SM(60): the regulated combination equals (8 mu/l) e^{-2Y/l} - (8/l) Sqrt[mu]",
+NRH`CheckZero["SM(53): the regulated combination equals (8 mu/l) e^{-2Y/l} - (8/l) Sqrt[mu]",
    Together[SrenY - 1/(16 Pi G) (8 mu/l Exp[-2 Y/l] - 8/l Sqrt[mu])]];
-NRH`CheckZero["SM(61): Y -> Infinity limit gives  S_ren = -(8 Sqrt[mu])/(16 pi G l) Int d^2x",
+NRH`CheckZero["SM(54): Y -> Infinity limit gives  S_ren = -(8 Sqrt[mu])/(16 pi G l) Int d^2x",
    Limit[SrenY, Y -> Infinity, Assumptions -> l > 0 && mu > 0] + 8 Sqrt[mu]/(16 Pi G l)];
 NRH`CheckZero["endpoints: e^{-2d} = 0 at u^2 = L+L- (R horizon) and u^2 = L+L-/2 (NR, q = 1)",
    {Together[Exp[-2 dR] /. u -> Sqrt[Lp[xp] Lm[xm]]],

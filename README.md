@@ -59,7 +59,9 @@ runs all 183 checks (about ten minutes) and exits nonzero on any failure.  Every
 is also provided as a double-clickable `.nb` notebook with identical content — download
 the `mathematica/` folder, open `NRH00_RunAll.nb`, and use *Evaluation → Evaluate
 Notebook*.  See `mathematica/README.md` for the file-by-file coverage table and method
-notes.
+notes.  The neutral reference-execution record is in
+`mathematica/REFERENCE_RUN.md`, and `mathematica/MANUSCRIPT_MAP.md` records the
+current manuscript SHA-256 and LaTeX-label-to-equation-number mapping.
 
 The manuscript source is not included in this software archive.  When
 `NR_Holography.tex` is absent, the core scripts run their algebraic checks and

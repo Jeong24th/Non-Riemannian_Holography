@@ -11,7 +11,8 @@
 (*  Eq. (1)  [label Rfields]        NS-NS Banados family (metric, B-field, dilaton);*)
 (*  Eq. (2)  [label RDFTfields]     its packaging into the DFT pair (H_MN, e^{-2d});*)
 (*  Eq. (3)  [label Rboundary]      the asymptotic falloffs;*)
-(*  Eq. (4)  [label boundaryH]      the constant boundary data H^infty, d^infty = -y/l;*)
+(*  Eq. (4a) [label boundaryH]      the constant boundary data H^infty, d^infty = -y/l;*)
+(*  Eq. (4b) [label Rboundaryframe] the aligned D=2 boundary double-vielbein representative;*)
 (*  Eq. (6b) [label RDFTconservation] the conserved tensor T_AB built from K_{a bbar}, T_(0);*)
 (*  Eq. (7)  [label Rcontinuity]    the boundary Ward identities;*)
 (*  Eq. (8)  [label Rkilling]       the asymptotic-symmetry generator;*)
@@ -23,8 +24,8 @@
 (*Everything is exact and symbolic for ARBITRARY chiral functions L_+(x^+), L_-(x^-).*)
 (*We use the rational radial variable u := Exp[2y/l]  (so e^{-2y/l} = 1/u), with the*)
 (*radial derivative  d/dy = (2u/l) d/du.  This keeps all expressions rational and lets*)
-(*Mathematica decide every identity exactly.  Equation numbers quoted here are those of*)
-(*the 2026-08-26 build of the manuscript; the LaTeX labels are stable identifiers.*)
+(*Mathematica decide every identity exactly.  LaTeX labels are the stable identifiers;*)
+(*the current number mapping and manuscript SHA-256 are recorded in MANUSCRIPT_MAP.md.*)
 
 
 ClearAll["Global`*"];
@@ -60,7 +61,7 @@ NRH`CheckZero["Eq.(2): e^{-2d} = e^{2y/l}(1 - L+ L- e^{-4y/l})",
 
 
 (* ::Section:: *)
-(*The Einstein double field equation  G_MN = 2 l^-2 J_MN   (quoted after Eq. (15))*)
+(*The Einstein double field equation  G_MN = 2 l^-2 J_MN   (quoted after Eq. (14))*)
 
 
 (* ::Text:: *)
@@ -96,13 +97,13 @@ Module[{P = (JJ + HR)/2, gamma = curvR["Gamma"], compat, tr},
 
 
 (* ::Section:: *)
-(*Eq. (3) - Eq. (4):  asymptotics and the type-(1,1) boundary data*)
+(*Eq. (3) - Eq. (4b):  asymptotics, type-(1,1) boundary data, and aligned frame*)
 
 
 Hinf = {{0, 0, 0, 1, 0, 0}, {0, 0, 0, 0, -1, 0}, {0, 0, 1, 0, 0, 0},
         {1, 0, 0, 0, 0, 0}, {0, -1, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 1}};
 
-NRH`CheckZero["Eq.(4): H^infty matches the displayed 6x6 matrix",
+NRH`CheckZero["Eq.(4a) [boundaryH]: H^infty matches the displayed 6x6 matrix",
    Map[Limit[#, u -> Infinity] &, HR, {2}] - Hinf];
 NRH`CheckZero["Eq.(3): H - H^infty = O(e^{-2y/l})  (every entry vanishes at the boundary)",
    Map[Limit[#, u -> Infinity] &, HR - Hinf, {2}]];
@@ -112,7 +113,7 @@ NRH`CheckZero["Eq.(3): d + y/l = O(e^{-4y/l}):  u * (d + y/l) still vanishes at 
 (* The boundary block (rows/cols x~+, x~-, x+, x-) is the type-(1,1) generalized metric:
    its upper-left 2x2 block (the would-be inverse metric) vanishes identically. *)
 H0 = Hinf[[{1, 2, 4, 5}, {1, 2, 4, 5}]];
-NRH`Check["Eq.(4): induced boundary H^(0) has vanishing upper-left block (type (1,1))",
+NRH`Check["Eq.(4a) [boundaryH]: induced boundary H^(0) has vanishing upper-left block (type (1,1))",
    H0[[1 ;; 2, 1 ;; 2]] === {{0, 0}, {0, 0}}];
 
 
@@ -121,9 +122,9 @@ NRH`Check["Eq.(4): induced boundary H^(0) has vanishing upper-left block (type (
 
 
 (* ::Text:: *)
-(*On the constant boundary representative Eq. (4), the conservation of*)
+(*On the constant boundary representative Eq. (4a), the conservation of*)
 (*T_AB = 4 V^(0)_[A^a Vbar^(0)_B]^bbar K_{a bbar} - (1/2) J_AB T_(0)  reduces to ordinary*)
-(*divergences.  With the boundary vielbeins of SM (12) [label SMboundaryvielbein] we*)
+(*divergences.  With the lower-index boundary vielbeins of Eq. (4b) [Rboundaryframe] we*)
 (*evaluate  partial^A T_AB = J^{AC} partial_C T_AB  componentwise for arbitrary response*)
 (*functions K_{a bbar}(x^+, x^-), T_(0)(x^+, x^-), and read off the displayed identities:*)
 (*   partial_- K_{op bop} + (1/4) partial_+ T_(0) = 0,*)
@@ -132,11 +133,11 @@ NRH`Check["Eq.(4): induced boundary H^(0) has vanishing upper-left block (type (
 
 
 J4 = ODDJ[2];
-V0 = {{1/Sqrt[2], 0}, {0, 0}, {0, -Sqrt[2]}, {0, 0}};        (* SM (12), rows (x~+,x~-,x+,x-) *)
+V0 = {{1/Sqrt[2], 0}, {0, 0}, {0, -Sqrt[2]}, {0, 0}};        (* Eq. (4b), rows (x~+,x~-,x+,x-) *)
 Vb0 = {{0, 0}, {0, 1/Sqrt[2]}, {0, 0}, {Sqrt[2], 0}};
-eta2 = {{0, -1}, {-1, 0}};   etab2 = {{0, 1}, {1, 0}};       (* 2x2 blocks of SM (13) *)
+eta2 = {{0, -1}, {-1, 0}};   etab2 = {{0, 1}, {1, 0}};       (* flat metrics stated below Eq. (4b) *)
 
-NRH`CheckZero["SM(12): boundary vielbeins reproduce P^(0) and Pbar^(0)",
+NRH`CheckZero["Eq.(4b) [Rboundaryframe]: boundary vielbeins reproduce P^(0) and Pbar^(0)",
    {V0 . eta2 . Transpose[V0] - (J4 + H0)/2, Vb0 . etab2 . Transpose[Vb0] - (J4 - H0)/2}];
 
 kmat = {{Kpp[xp, xm], Kpm[xp, xm]}, {Kmp[xp, xm], Kmm[xp, xm]}};  (* K_{a bbar}, rows (op,om), cols (bop,bom) *)
@@ -212,7 +213,7 @@ NRH`CheckZero["delta_eps H = O(e^{-2y/l})   (leading falloff of the Banados vari
 (*   delta_eps T = eps T' + 2 T eps' - (c/12) eps''' :*)
 (*   (c/12) = (l^2/4) * (1/(2 G l))  =>  c = 3l/2G.*)
 (*The connected two-point normalization quoted in Eq. (10) is the arithmetic identity*)
-(*   (1/(64 pi G l)) * (3 l^2/(4 pi)) = (8 pi)^{-2} (c/2),  cf. SM (36)-(38).*)
+(*   (1/(64 pi G l)) * (3 l^2/(4 pi)) = (8 pi)^{-2} (c/2),  cf. SM (34)-(35).*)
 
 
 THol = 8 Pi (Lp[xp]/(16 Pi G l));

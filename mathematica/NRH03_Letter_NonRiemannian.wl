@@ -11,14 +11,14 @@
 (*  Eq. (11) [NRvariables]   the variables (Pi, q, e^sigma, chi);*)
 (*  Eq. (12) [NRHcompact]    the everywhere non-Riemannian generalized metric;*)
 (*  Eq. (13) [NRdilaton]     the DFT dilaton  e^{-2d} = e^{2y/l}(1-q^2);*)
-(*  Eq. (14) [SNCtau]        the SNC clock forms and their Banados-frame asymptotics;*)
-(*  Eq. (15) [NRWgeneral]    the exact hair profile W(x^+, x^-, chi), and the claim that*)
-(*                           (12)-(13) with (15) solve  G_MN = 2 l^-2 J_MN  for arbitrary*)
+(*  Eq. (14) [NRWgeneral]    the exact hair profile W(x^+, x^-, chi), and the claim that*)
+(*                           (12)-(13) with (14) solve  G_MN = 2 l^-2 J_MN  for arbitrary*)
 (*                           chiral L_pm(x^pm) and arbitrary W_0(x), W_1(x);*)
-(*  SM (63)-(68)             the exact radial reduction  d^2 W/d chi^2 = F;*)
-(*  SM (70)-(71)             the finite B-shift that removes W_0, and the pointwise*)
-(*                           W-as-B identity used on the worldsheet;*)
-(*  Eq. (16) [NRasympt]      the asymptotic transformation laws: delta_eps L_pm without*)
+(*  SM (56)-(62) [NRhill-NRGprofile] the exact radial reduction d^2 W/d chi^2 = F;*)
+(*  SM (65)-(66) [SMBtransform, SMWshift] the finite B-shift that removes W_0;*)
+(*  SM (71) [SNCtau]         the SNC clock forms and their Banados-frame asymptotics;*)
+(*  SM (77) [SMWisB]         the pointwise W-as-B identity used on the worldsheet;*)
+(*  Eq. (15) [NRasympt]      the asymptotic transformation laws: delta_eps L_pm without*)
 (*                           anomaly and the inhomogeneous third derivative in delta_eps W_1*)
 (*                           (verified in the near-boundary expansion, where W_1 is defined).*)
 (**)
@@ -26,7 +26,7 @@
 (*worksheet coordinates (x^+, x^-, chi) with the exact chain rules*)
 (*   d chi/dy    = -(2 Sqrt[2]/l) Sinh[chi/Sqrt[2]] ,*)
 (*   d chi/dx^pm = -Sqrt[2] Sinh[chi/Sqrt[2]] psi_pm'/psi_pm ,     psi_pm := L_pm^{-1/2},*)
-(*(equivalent to SM (63)-(64); both rules are themselves re-derived below) and treat the*)
+(*(equivalent to SM (56)-(58); the rules are themselves re-derived below) and treat the*)
 (*explicit -y/l term of the dilaton through a bookkeeping symbol Y with dY/dy = 1.*)
 (*For the exact zero tests every hyperbolic function is rationalized by  chi -> 2 Sqrt[2] Log[T],*)
 (*so that expressions become Laurent polynomials in the algebraically independent monomials*)
@@ -79,28 +79,28 @@ NRHZeroNR["Eq.(13): e^{-2d} e^{-2y/l} = 1 - q^2 with q = tanh(chi/(2 Sqrt[2]))",
    e^{2d} = e^{-2y/l} cosh^2(chi/(2 Sqrt[2])) and e^{-2y/l} = Sqrt[2] q psi_+ psi_-,
    q = tanh(chi/(2 Sqrt[2])), Sqrt[Pi] = 1/(psi_+ psi_-), the psi's cancel and the claim
    becomes the pure hyperbolic identity checked here. *)
-NRHZeroNR["SM(63)-(64): d chi/dy = -(4 Sqrt[Pi]/l) e^{2d}  (hyperbolic identity form)",
+NRHZeroNR["SM(56)-(58): d chi/dy = -(4 Sqrt[Pi]/l) e^{2d}  (hyperbolic identity form)",
    chy + (4 Sqrt[2]/l) Tanh[ch/(2 Sqrt[2])] Cosh[ch/(2 Sqrt[2])]^2];
 NRHZeroNR["SM: RG rapidity  mu d chi/d mu = -2 Sqrt[2] Sinh[chi/Sqrt[2]]",
    l chy + 2 Sqrt[2] Sinh[ch/Sqrt[2]]];
 
 
 (* ::Section:: *)
-(*SM (63)-(68): exact radial operator identities*)
+(*SM (56)-(62) [NRhill-NRGprofile]: exact radial operator identities*)
 
 
 chiq = 2 Sqrt[2] ArcTanh[q];
-NRH`CheckZero["SM(64): d chi/d q = 2 Sqrt[2]/(1-q^2)",
+NRH`CheckZero["SM(57) [NRradialchange]: d chi/d q = 2 Sqrt[2]/(1-q^2)",
    Together[D[chiq, q] - 2 Sqrt[2]/(1 - q^2)]];
-NRH`CheckZero["SM(65): (1-q^2)^2/8 (d^2/dq^2 - 2q/(1-q^2) d/dq) f(chi(q)) = f''(chi(q))",
+NRH`CheckZero["SM(58) [NRradialoperator]: transformed radial operator equals f''(chi(q))",
    Together[(1 - q^2)^2/8 (D[ff[chiq], {q, 2}] - 2 q/(1 - q^2) D[ff[chiq], q])
       - Derivative[2][ff][chiq]]];
 rho = Together[4 Sqrt[2] D[Sinh[ch]/Sinh[ch/Sqrt[2]], ch]];
 Gp[c_] := 4 Sqrt[2] (Sinh[c]/Sinh[c/Sqrt[2]] - Sqrt[2]);   (* G'(chi), with G(0) = 0 *)
-NRHZeroNR["SM(67)-(68): d^2 G/d chi^2 = rho(chi)", D[Gp[ch], ch] - rho];
-NRH`CheckZero["SM(68): G'(0) = 0  (the G-integrand vanishes at chi = 0)",
+NRHZeroNR["SM(61)-(62) [NRg, NRGprofile]: d^2 G/d chi^2 = rho(chi)", D[Gp[ch], ch] - rho];
+NRH`CheckZero["SM(62) [NRGprofile]: G'(0) = 0  (the G-integrand vanishes at chi = 0)",
    Limit[Gp[ch], ch -> 0]];
-NRH`CheckZero["SM(68): d^2/dchi^2 (e^{s chi} - 1 - s chi) = e^{s chi},  s = +1, -1",
+NRH`CheckZero["SM(62) [NRGprofile]: d^2/dchi^2 (e^{s chi} - 1 - s chi) = e^{s chi},  s = +1, -1",
    {D[Exp[ch] - 1 - ch, {ch, 2}] - Exp[ch], D[Exp[-ch] - 1 + ch, {ch, 2}] - Exp[-ch]}];
 
 
@@ -113,9 +113,9 @@ NRH`CheckZero["SM(68): d^2/dchi^2 (e^{s chi} - 1 - s chi) = e^{s chi},  s = +1, 
 (*(x^+, x^-, chi) we evaluate the full doubled curvature of (12)-(13) and verify:*)
 (*  (i)  the scalar equation holds identically:  S_(0) = -4/l^2  for ANY W;*)
 (*  (ii) the whole tensor equation (P S Pbar)_MN = 0 collapses to the single radial ODE*)
-(*       d^2 W/d chi^2 = F  of SM (66)-(67) - no other independent equation remains;*)
+(*       d^2 W/d chi^2 = F  of SM (59)-(60) - no other independent equation remains;*)
 (*  (iii) with the ODE imposed,  G_MN = 2 l^-2 J_MN  holds exactly.*)
-(*The source F carries the Hill data  A_pm = psi_pm''/psi_pm  of SM (63).*)
+(*The source F carries the Hill data  A_pm = psi_pm''/psi_pm  of SM (56) [NRhill].*)
 
 
 FF = l^2/(16 psip[xp] psim[xm]) (
@@ -130,14 +130,14 @@ NRHZeroNR["EDFE scalar: S_(0) = -4/l^2 for ARBITRARY W(x^+, x^-, chi)",
 odeRule = Derivative[0, 0, 2][W][xp, xm, ch] -> FF;
 NRH`Check["the tensor equation is not empty: (P S Pbar) contains d^2W/dchi^2",
    ! FreeQ[curvNR["PSPbar"], Derivative[0, 0, 2][W]]];
-NRHZeroNR["EDFE tensor: (P S Pbar)_MN = 0  <=>  d^2W/dchi^2 = F   [SM (66)-(67)]",
+NRHZeroNR["EDFE tensor: (P S Pbar)_MN = 0  <=>  d^2W/dchi^2 = F   [SM (59)-(60)]",
    curvNR["PSPbar"] /. odeRule];
 NRHZeroNR["G_MN = 2 l^-2 J_MN on the ODE shell",
    (curvNR["G"] /. odeRule) - 2/l^2 JJ];
 
 
 (* ::Section:: *)
-(*Eq. (15): the exact profile solves the ODE, hence the full EDFE*)
+(*Eq. (14) [NRWgeneral]: the exact profile solves the ODE, hence the full EDFE*)
 
 
 Wexact = W0[xp, xm] + W1[xp, xm] ch psip[xp] psim[xm]/2 +
@@ -146,9 +146,9 @@ Wexact = W0[xp, xm] + W1[xp, xm] ch psip[xp] psim[xm]/2 +
       - 2 (Derivative[1][psip][xp] + Derivative[1][psim][xm])^2 (Exp[ch] - 1 - ch)
       + 2 (Derivative[1][psip][xp] - Derivative[1][psim][xm])^2 (Exp[-ch] - 1 + ch));
 
-NRHZeroNR["Eq.(15) solves d^2W/dchi^2 = F  (via G'' = rho)",
+NRHZeroNR["Eq.(14) [NRWgeneral] solves d^2W/dchi^2 = F  (via G'' = rho)",
    (D[Wexact, {ch, 2}] /. {Derivative[2][GG][ch] -> D[Gp[ch], ch]}) - FF];
-NRH`Check["Eq.(15): W_0 and W_1 multiply the two homogeneous modes {1, chi/(2 Sqrt[Pi])}",
+NRH`Check["Eq.(14) [NRWgeneral]: W_0 and W_1 multiply the two homogeneous modes {1, chi/(2 Sqrt[Pi])}",
    {D[Wexact, W0[xp, xm]],
     Together[D[Wexact, W1[xp, xm]] - ch psip[xp] psim[xm]/2]} === {1, 0}];
 NRH`CheckZero["near the boundary chi = 2 Sqrt[2] q + O(q^3): homogeneous modes ~ {1, e^{-2y/l}}",
@@ -156,14 +156,14 @@ NRH`CheckZero["near the boundary chi = 2 Sqrt[2] q + O(q^3): homogeneous modes ~
 
 
 (* ::Section:: *)
-(*SM (70)-(71) and SM (93): finite B-shifts of the exact matrix*)
+(*SM (65)-(66) [SMBtransform, SMWshift] and SM (77) [SMWisB]: finite B-shifts*)
 
 
 bshift = {{1, 0, 0, 0, 0, 0}, {0, 1, 0, 0, 0, 0}, {0, 0, 1, 0, 0, 0},
    {0, bpm, 0, 1, 0, 0}, {-bpm, 0, 0, 0, 1, 0}, {0, 0, 0, 0, 0, 1}};
-NRHZeroNR["SM(70)-(71): Omega_b H(W) Omega_b^T = H(W - 2 b_{+-}) exactly, d untouched",
+NRHZeroNR["SM(65)-(66) [SMBtransform, SMWshift]: Omega_b H(W) Omega_b^T = H(W - 2 b_{+-}) exactly, d untouched",
    bshift . HNRof[Wf[xp, xm, ch]] . Transpose[bshift] - HNRof[Wf[xp, xm, ch] - 2 bpm]];
-NRHZeroNR["SM(93): H(W) = Omega_b H(0) Omega_b^T with b_{+-} = -W/2 (pointwise identity)",
+NRHZeroNR["SM(77) [SMWisB]: H(W) = Omega_b H(0) Omega_b^T with b_{+-} = -W/2 (pointwise identity)",
    (bshift /. bpm -> -Wf[xp, xm, ch]/2) . HNRof[0] . Transpose[bshift /. bpm -> -Wf[xp, xm, ch]/2]
       - HNRof[Wf[xp, xm, ch]]];
 NRH`Check["Omega_b is O(3,3):  Omega J Omega^T = J",
@@ -171,7 +171,7 @@ NRH`Check["Omega_b is O(3,3):  Omega J Omega^T = J",
 
 
 (* ::Section:: *)
-(*Eq. (14): SNC clock forms*)
+(*SM (71) [SNCtau]: SNC clock forms*)
 
 
 tauP = {Cosh[ch/2], -esig^-1 Sinh[ch/2], 0};   (* components (dx^+, dx^-, dy) *)
@@ -184,7 +184,7 @@ NRHZeroNR["unit clock determinant: tau+ ^ tau- = dx+ ^ dx-",
 (* Banados-frame asymptotics, expanded in q:  tau+ = dx+ - L_- e^{-2y/l} dx- + O(e^{-4y/l}),
    using e^{-2y/l} = Sqrt[2] q psi_+ psi_-  and  L_- = 1/psi_-^2. *)
 tauPq = tauP /. ch -> chiq;
-NRH`CheckZero["Eq.(14): tau+ = dx+ - L_- e^{-2y/l} dx- + O(e^{-4y/l})",
+NRH`CheckZero["SM(71) [SNCtau]: tau+ = dx+ - L_- e^{-2y/l} dx- + O(e^{-4y/l})",
    {SeriesCoefficient[tauPq[[1]], {q, 0, 0}] - 1,
     SeriesCoefficient[tauPq[[1]], {q, 0, 1}],
     Together[SeriesCoefficient[tauPq[[2]], {q, 0, 1}] + Sqrt[2] psip[xp]/psim[xm]],
@@ -193,13 +193,13 @@ NRH`CheckZero["Eq.(14): tau+ = dx+ - L_- e^{-2y/l} dx- + O(e^{-4y/l})",
 
 
 (* ::Section:: *)
-(*Eq. (16): asymptotic transformation laws  (near-boundary expansion)*)
+(*Eq. (15) [NRasympt]: asymptotic transformation laws  (near-boundary expansion)*)
 
 
 (* ::Text:: *)
 (*For the asymptotic statement we work in the rational radial variable u = e^{2y/l} with*)
 (*W_0 = 0 and the normalizable hair W = W_1(x^+, x^-)/u.  The homogeneous truncation is*)
-(*legitimate here because the inhomogeneous parts of Eq. (15) start at O(u^-2), beyond*)
+(*legitimate here because the inhomogeneous parts of Eq. (14) start at O(u^-2), beyond*)
 (*every order matched below.  The generator is Eq. (8) with the radial tails of xi^pm*)
 (*removed and the dual tails retained, as stated in the Letter.  We verify in the*)
 (*1/u expansion (through the normalizable order) that*)
@@ -235,7 +235,7 @@ xiUpNR = {
 lieHNR = GenLieH[xiUpNR, HNRu, xsU];
 lieDNR = GenLieD[xiUpNR, dNRu, xsU];
 
-(* Eq. (16) transformation laws, written in the psi parametrization:
+(* Eq. (15) transformation laws, written in the psi parametrization:
    delta L = eps dL + 2 L d eps  <=>  delta psi = eps d psi - psi d eps. *)
 dPsiP = ep[xp] D[psip[xp], xp] - psip[xp] D[ep[xp], xp];
 dPsiM = em[xm] D[psim[xm], xm] - psim[xm] D[em[xm], xm];
@@ -248,14 +248,14 @@ depsHNR = (D[HNRuGen, PSPv] dPsiP + D[HNRuGen, PSMv] dPsiM + D[HNRuGen, W1v] dW1
    {PSPv -> psip[xp], PSMv -> psim[xm], W1v -> W1[xp, xm]};
 
 seriesZero[m_, ord_] := Map[Function[e, Together[Normal[Series[e, {u, Infinity, ord}]]]], m, {2}];
-NRH`CheckZero["Eq.(16): Lhat_xi H - delta_(L,W1) H = O(u^-2) componentwise",
+NRH`CheckZero["Eq.(15) [NRasympt]: Lhat_xi H - delta_(L,W1) H = O(u^-2) componentwise",
    seriesZero[lieHNR - depsHNR, 1]];
-NRH`CheckZero["Eq.(16): delta psi law is equivalent to delta L = eps dL + 2 L d eps (no anomaly)",
+NRH`CheckZero["Eq.(15) [NRasympt]: delta psi law is equivalent to delta L = eps dL + 2 L d eps (no anomaly)",
    Together[(D[1/PSPv^2, PSPv] dPsiP /. PSPv -> psip[xp])
       - (ep[xp] D[LpPsi, xp] + 2 LpPsi D[ep[xp], xp])]];
-NRH`CheckZero["Eq.(16): Lhat_xi d = O(u^-2)",
+NRH`CheckZero["Eq.(15) [NRasympt]: Lhat_xi d = O(u^-2)",
    Together[Normal[Series[lieDNR, {u, Infinity, 1}]]]];
-NRH`Check["Eq.(16): delta_eps L_pm carries NO third-derivative anomaly",
+NRH`Check["Eq.(15) [NRasympt]: delta_eps L_pm carries NO third-derivative anomaly",
    FreeQ[{dPsiP, dPsiM}, Derivative[3][_][_]]];
 
 NRH`FileSummary[];

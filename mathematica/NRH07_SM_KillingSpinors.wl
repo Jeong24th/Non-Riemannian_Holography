@@ -7,7 +7,7 @@
 (* ::Text:: *)
 (*This file verifies, in the order of SM 6:*)
 (**)
-(*  SM (101)-(102)  the Riemannian uplift AdS3 x S3 x R4: R(S3) = +6/l^2, H^2(S3) = +24/l^2*)
+(*  SM (88)-(93) [SMupliftblocks--SMuplift]  the Riemannian uplift AdS3 x S3 x R4: R(S3) = +6/l^2, H^2(S3) = +24/l^2*)
 (*      (cancelling the AdS3 values verified in NRH02), the per-factor identity*)
 (*      R_{mu nu} = (1/4) H_{mu rho sigma} H_nu^{rho sigma}, and the doubled sector scalars*)
 (*      S_(0)(S3) = +4/l^2, S_(0)(R4) = 0;*)
@@ -16,19 +16,19 @@
 (*      text for the hairy branch);  the ten-dimensional connection is NOT the sum of the*)
 (*      sector connections - its dilaton trace term mixes the sectors - so this is a*)
 (*      genuine D = 10 statement;*)
-(*  SM (103)-(104)  the exact infinite-dimensional vacuum isometries (arbitrary chiral*)
+(*  SM (104)-(105) [SMexactiso, SMweighteddilaton]  the exact infinite-dimensional vacuum isometries (arbitrary chiral*)
 (*      v^pm and omega_pm) and the weighted dilaton condition;*)
-(*  SM (105)  the local stabilizer system: the c/Sqrt[L] obstruction and the exact*)
+(*  SM (103) [SMNRlocalstabilizer]  the local stabilizer system: the c/Sqrt[L] obstruction and the exact*)
 (*      one-sided weight structure of (W_0, W_1);*)
-(*  SM (106)-(110)  the complex 3+3+4 Clifford representation, Gamma_11, the Majorana*)
+(*  SM (107)-(113) [SMcomplexblocks--SMspinorcountchain]  the complex 3+3+4 Clifford representation, Gamma_11, the Majorana*)
 (*      intertwiner B_10 (denoted BB10 here), the barred algebra, and the count chain*)
 (*      32_C -> 32_R -> 16_R -> 4_R;*)
-(*  SM (111) and SM (116)  the vacuum Killing spinor with arbitrary chiral profile:*)
+(*  SM (106) and SM (111) [SMkillingspinor, SMreducedDirac]  the vacuum Killing spinor with arbitrary chiral profile:*)
 (*      the exact three-dimensional spin connection of the aligned vacuum frame, the two*)
 (*      displayed nonzero components, and both internal channels of the reduced system;*)
-(*  SM (117)  the rank-six jet system of the one-sided hairy branch and its solution*)
+(*  SM (114) [SMhairyKS]  the rank-six jet system of the one-sided hairy branch and its solution*)
 (*      space  e_0 = 0, e_1 = F_+(x^+), d_+ F_+ unconstrained;*)
-(*  SM (112)-(114)  the Riemannian Hill system, and the global counts by Hill monodromy*)
+(*  SM (98)-(99) [SMRcomponentHill, SMRlocalKS]  the Riemannian Hill system, and the global counts by Hill monodromy*)
 (*      (antiperiodic sixteen at L = -1/4; the unipotent L = 0 monodromy with its 2 pi*)
 (*      shift retaining only constants; no kernel for constant L > 0);*)
 (*  the complementary-halves bookkeeping of the sixteen constant modes.*)
@@ -42,7 +42,7 @@ JJ3 = ODDJ[3];
 
 
 (* ::Section:: *)
-(*SM (101)-(102): the Riemannian uplift, factor by factor*)
+(*SM (88)-(93): the Riemannian uplift, factor by factor*)
 
 
 coordsS = {th, f1, f2};
@@ -55,9 +55,9 @@ ricS = Table[Together[Sum[D[chrS[[k, i, j]], coordsS[[k]]], {k, 3}] - Sum[D[chrS
 rSclr = Simplify[Sum[giS[[i, j]] ricS[[i, j]], {i, 3}, {j, 3}]];
 hS = Table[D[BS[[j, k]], coordsS[[i]]] + D[BS[[k, i]], coordsS[[j]]] + D[BS[[i, j]], coordsS[[k]]], {i, 3}, {j, 3}, {k, 3}];
 h2S = Simplify[Sum[hS[[i, j, k]] hS[[a, b, c]] giS[[i, a]] giS[[j, b]] giS[[k, c]], {i, 3}, {j, 3}, {k, 3}, {a, 3}, {b, 3}, {c, 3}]];
-NRH`CheckZero["SM(102): R(S3) = +6/l^2 and H^2(S3) = +24/l^2  (pairwise cancellation with AdS3)",
+NRH`CheckZero["SM(93): R(S3) = +6/l^2 and H^2(S3) = +24/l^2  (pairwise cancellation with AdS3)",
    {rSclr - 6/l^2, h2S - 24/l^2}];
-NRH`CheckZero["SM(102): R_{mu nu} = (1/4) H_{mu rho sigma} H_nu^{rho sigma} on the S3 factor",
+NRH`CheckZero["SM(93): R_{mu nu} = (1/4) H_{mu rho sigma} H_nu^{rho sigma} on the S3 factor",
    Simplify[ricS - 1/4 Table[Sum[hS[[i, r, s]] hS[[j, a, b]] giS[[r, a]] giS[[s, b]], {r, 3}, {s, 3}, {a, 3}, {b, 3}], {i, 3}, {j, 3}]]];
 
 HS = Map[Together, RiemannianH[gS, BS], {2}];
@@ -123,7 +123,7 @@ Block[{l = lval},
 
 
 (* ::Section:: *)
-(*SM (103)-(104): exact vacuum isometries*)
+(*SM (104)-(105): exact vacuum isometries*)
 
 
 Hinf3 = {{0, 0, 0, 1, 0, 0}, {0, 0, 0, 0, -1, 0}, {0, 0, 1, 0, 0, 0},
@@ -132,19 +132,19 @@ xsU = {xp, xm, Function[e, (2 u/l) D[e, u]]};
 dinf = -1/2 Log[u];
 xiIso = {om1[xp], om2[xm], -l/2 (D[vp[xp], xp] - D[vm[xm], xm]),
    vp[xp], vm[xm], -l/2 (D[vp[xp], xp] + D[vm[xm], xm])};
-NRH`CheckZero["SM(103): Lhat_xi H^infty = 0 for arbitrary chiral v^pm and omega_pm",
+NRH`CheckZero["SM(104): Lhat_xi H^infty = 0 for arbitrary chiral v^pm and omega_pm",
    Map[Together, GenLieH[xiIso, Hinf3, xsU], {2}]];
-NRH`CheckZero["SM(104): Lhat_xi d = 0  (the radial component compensates the divergence)",
+NRH`CheckZero["SM(105): Lhat_xi d = 0  (the radial component compensates the divergence)",
    Together[GenLieD[xiIso, dinf, xsU]]];
-NRH`CheckZero["SM(104): equivalently  d_M(e^{-2d} xi^M) = 0",
+NRH`CheckZero["SM(105): equivalently  d_M(e^{-2d} xi^M) = 0",
    Together[Sum[DblD[Exp[-2 dinf] xiIso[[m]], m, xsU], {m, 6}]]];
 
 
 (* ::Section:: *)
-(*SM (105): the local stabilizer system*)
+(*SM (103): the local stabilizer system*)
 
 
-NRH`CheckZero["SM(105): eps = c/Sqrt[L] solves  eps dL + 2 L d eps = 0  (the generic obstruction)",
+NRH`CheckZero["SM(103): eps = c/Sqrt[L] solves  eps dL + 2 L d eps = 0  (the generic obstruction)",
    Together[cc/Sqrt[LL[x]] D[LL[x], x] + 2 LL[x] D[cc/Sqrt[LL[x]], x]]];
 HNRone = Module[{Wn = W0[xp, xm] + W1[xp, xm]/u},
    {{0, 0, 0, 1, 0, 0},
@@ -162,12 +162,12 @@ depsOne = (D[HNRoneGen, LPv] (ep[xp] D[Lp[xp], xp] + 2 Lp[xp] D[ep[xp], xp])
    + D[HNRoneGen, W0v] (ep[xp] D[W0[xp, xm], xp] + W0[xp, xm] D[ep[xp], xp])
    + D[HNRoneGen, W1v] (ep[xp] D[W1[xp, xm], xp] + 2 W1[xp, xm] D[ep[xp], xp])) /.
    {LPv -> Lp[xp], W0v -> W0[xp, xm], W1v -> W1[xp, xm]};
-NRH`CheckZero["SM(105): exact one-sided identity  Lhat_xi H = delta H,  with weights (1,2) for (W0, W1)",
+NRH`CheckZero["SM(103): exact one-sided identity  Lhat_xi H = delta H,  with weights (1,2) for (W0, W1)",
    Map[Together, lieOne - depsOne, {2}]];
 
 
 (* ::Section:: *)
-(*SM (106)-(110): the complex 3+3+4 Clifford representation and the Majorana structure*)
+(*SM (107)-(113): the complex 3+3+4 Clifford representation and the Majorana structure*)
 
 
 s1 = {{0, 1}, {1, 0}}; s2 = {{0, -I}, {I, 0}}; s3 = {{1, 0}, {0, -1}};
@@ -180,7 +180,7 @@ gamOm = -Sqrt[2] {{0, 1}, {0, 0}};
 gamY = s3;
 gam3 = {gamOp, gamOm, gamY};
 eta3flat = {{0, -1, 0}, {-1, 0, 0}, {0, 0, 1}};
-NRH`CheckZero["SM(111) rep: {gamma^p, gamma^q} = 2 eta^{pq}  (3d lightcone blocks)",
+NRH`CheckZero["SM(107) rep: {gamma^p, gamma^q} = 2 eta^{pq}  (3d lightcone blocks)",
    Flatten[Table[gam3[[i]] . gam3[[j]] + gam3[[j]] . gam3[[i]] - 2 eta3flat[[i, j]] id2, {i, 3}, {j, 3}]]];
 
 Gam[a_] := Which[
@@ -188,26 +188,26 @@ Gam[a_] := Which[
    a <= 6, KroneckerProduct[id2, tauP3[[a - 3]], s2, id4],
    True, KroneckerProduct[id2, id2, s3, rho[[a - 6]]]];
 eta10 = ArrayFlatten[{{eta3flat, 0, 0}, {0, IdentityMatrix[3], 0}, {0, 0, id4}}];
-NRH`CheckZero["SM(107): {Gamma^p, Gamma^q} = 2 eta_{(10)}^{pq} I_32",
+NRH`CheckZero["SM(108): {Gamma^p, Gamma^q} = 2 eta_{(10)}^{pq} I_32",
    Flatten[Table[Gam[a] . Gam[b] + Gam[b] . Gam[a] - 2 eta10[[a, b]] id32, {a, 10}, {b, 10}]]];
 Gam11 = KroneckerProduct[id2, id2, s3, rho[[5]]];
-NRH`CheckZero["SM(107): Gamma_11^2 = 1 and {Gamma_11, Gamma^p} = 0",
+NRH`CheckZero["SM(108): Gamma_11^2 = 1 and {Gamma_11, Gamma^p} = 0",
    Join[Flatten[Gam11 . Gam11 - id32], Flatten[Table[Gam11 . Gam[a] + Gam[a] . Gam11, {a, 10}]]]];
 BB10 = KroneckerProduct[id2, s2, id2, s1, s2];
 conj[m_] := m /. Complex[re_, im_] :> Complex[re, -im];
-NRH`CheckZero["SM(108): BB10 Gamma^p BB10^{-1} = (Gamma^p)^*, same for Gamma_11, and BB10 BB10^* = 1",
+NRH`CheckZero["SM(109): BB10 Gamma^p BB10^{-1} = (Gamma^p)^*, same for Gamma_11, and BB10 BB10^* = 1",
    Join[Flatten[Table[BB10 . Gam[a] . Inverse[BB10] - conj[Gam[a]], {a, 10}]],
       Flatten[BB10 . Gam11 . Inverse[BB10] - conj[Gam11]],
       Flatten[BB10 . conj[BB10] - id32]]];
 GamBar[a_] := Gam[a] . Gam11;
-NRH`CheckZero["SM(109): {Gammabar, Gammabar} = -2 eta,  Gammabar_{pq} = -Gamma_{pq},  same Majorana intertwiner",
+NRH`CheckZero["SM(110): {Gammabar, Gammabar} = -2 eta,  Gammabar_{pq} = -Gamma_{pq},  same Majorana intertwiner",
    Join[
       Flatten[Table[GamBar[a] . GamBar[b] + GamBar[b] . GamBar[a] + 2 eta10[[a, b]] id32, {a, 10}, {b, 10}]],
       Flatten[Table[(GamBar[a] . GamBar[b] - GamBar[b] . GamBar[a])/2
          + (Gam[a] . Gam[b] - Gam[b] . Gam[a])/2, {a, 10}, {b, 10}]],
       Flatten[Table[BB10 . GamBar[a] . Inverse[BB10] - conj[GamBar[a]], {a, 10}]]]];
 
-(* SM (110): the count chain.  Real dimensions of the Majorana kernel under successive
+(* SM (113): the count chain.  Real dimensions of the Majorana kernel under successive
    projections.  Realify C^32 as R^64 and impose eps^* = BB10 eps as a real-linear
    condition; then add the Weyl projector, the S^3-slot projector on a fixed spinor
    eta0, and the auxiliary sigma3 projector. *)
@@ -215,25 +215,25 @@ realify[m_] := ArrayFlatten[{{Re[m], -Im[m]}, {Im[m], Re[m]}}];
 (* eps^* = BB10 eps:  Re eps - i Im eps = BB10 (Re eps + i Im eps):
    (Re BB10) Re - (Im BB10) Im = Re  and  (Im BB10) Re + (Re BB10) Im = -Im *)
 majoranaOps = ArrayFlatten[{{Re[BB10] - id32, -Im[BB10]}, {Im[BB10], Re[BB10] + id32}}];
-NRH`Check["SM(110): the Majorana condition leaves 32 real components",
+NRH`Check["SM(113): the Majorana condition leaves 32 real components",
    64 - MatrixRank[majoranaOps] == 32];
 weylOps = realify[(id32 - Gam11)/2];   (* impose Gamma_11 eps = + eps *)
-NRH`Check["SM(110): adding the Weyl condition leaves 16 real components",
+NRH`Check["SM(113): adding the Weyl condition leaves 16 real components",
    64 - MatrixRank[Join[majoranaOps, weylOps]] == 16];
 (* The last arrow of the chain: the two background reductions are the restriction of the
    S^3 slot to the (torsionful parallel) spinor line and the auxiliary zeta_+ projection;
    the R^4 chirality is then tied by the Weyl condition.  We verify the resulting
    dimension in the complex form - Weyl AND S^3-line AND zeta_+ leave a 4-dimensional
    complex space - whose Majorana-real section is the real basis Xi_{+r}, r = 1..4, of
-   SM (115[SMinternalprojectors]): the 4_R endpoint of the chain. *)
+   SM (112) [SMinternalprojectors]: the 4_R endpoint of the chain. *)
 projS3perp = KroneckerProduct[id2, {{0, 0}, {0, 1}}, id2, id4];  (* kill the component off the eta0 = (1,0) line *)
 projAuxPerp = KroneckerProduct[id2, id2, {{0, 0}, {0, 1}}, id4]; (* kill the zeta_- component *)
-NRH`Check["SM(110): Weyl + S^3-line + zeta_+ leave complex dimension 4 (the Xi_{+r} span)",
+NRH`Check["SM(113): Weyl + S^3-line + zeta_+ leave complex dimension 4 (the Xi_{+r} span)",
    32 - MatrixRank[Join[(id32 - Gam11)/2, projS3perp, projAuxPerp]] == 4];
 
 
 (* ::Section:: *)
-(*SM (111) and SM (116): the vacuum Killing spinor with arbitrary chiral profile*)
+(*SM (106) and SM (111): the vacuum Killing spinor with arbitrary chiral profile*)
 
 
 Vinf = {{1/Sqrt[2], 0, 0}, {0, 0, 0}, {0, 0, -1/Sqrt[2]},
@@ -266,41 +266,41 @@ DPbar[Es_, pb_] := Sum[(JJ3 . Vbinf)[[a, pb]] DA[Es, a], {a, 6}];
 slashD[Es_] := Sum[gam3[[p]] . DP[Es, p], {p, 3}];
 
 Evac = {-Sqrt[2] ff[xp], l Derivative[1][ff][xp]};
-NRH`CheckZero["SM(111): D_{pbar} E = 0 for E = (-Sqrt[2] f(x+), l f'(x+)), arbitrary chiral f",
+NRH`CheckZero["SM(106): D_{pbar} E = 0 for E = (-Sqrt[2] f(x+), l f'(x+)), arbitrary chiral f",
    Together[Flatten[Table[DPbar[Evac, pb], {pb, 3}]]]];
-NRH`CheckZero["SM(111): gamma^p D_p E = -E/(Sqrt[2] l)",
+NRH`CheckZero["SM(106): gamma^p D_p E = -E/(Sqrt[2] l)",
    Together[slashD[Evac] + Evac/(Sqrt[2] l)]];
-NRH`CheckZero["SM(116): reduced system  gamma^p D_p E = (1/(Sqrt[2] l)) diag(-1,1).E + (0,0;1,0).d_+E",
+NRH`CheckZero["SM(111): reduced system  gamma^p D_p E = (1/(Sqrt[2] l)) diag(-1,1).E + (0,0;1,0).d_+E",
    Module[{Eg = {ee0[xp], ee1[xp]}},
       Together[slashD[Eg] - 1/(Sqrt[2] l) {{-1, 0}, {0, 1}} . Eg - {{0, 0}, {1, 0}} . D[Eg, xp]]]];
-NRH`CheckZero["SM(116): the opposite channel E = (0, g(x+)) has eigenvalue +1/(Sqrt[2] l)",
+NRH`CheckZero["SM(111): the opposite channel E = (0, g(x+)) has eigenvalue +1/(Sqrt[2] l)",
    Together[slashD[{0, gg[xp]}] - {0, gg[xp]}/(Sqrt[2] l)]];
-NRH`CheckZero["SM(116): both channels also satisfy D_{pbar} E = 0",
+NRH`CheckZero["SM(111): both channels also satisfy D_{pbar} E = 0",
    Together[Flatten[Table[DPbar[{0, gg[xp]}, pb], {pb, 3}]]]];
 
 
 (* ::Section:: *)
-(*SM (117): the rank-six jet system of the one-sided hairy branch*)
+(*SM (114): the rank-six jet system of the one-sided hairy branch*)
 
 
 jetVars = {e0, e1, ep0, ep1, em0, em1, ey0, ey1};
 jetSys = {LpS uu e0, em0, W1S uu e0 + 2 Sqrt[2] l em1, ey0, ey1,
    2 e0 + l ey0, 2 LpS uu em0 + 2 ep0 + Sqrt[2] ey1};
 jm = Table[D[jetSys[[i]], jetVars[[j]]], {i, Length[jetSys]}, {j, 8}];
-NRH`Check["SM(117): the displayed system has rank six (seven relations, one dependent)",
+NRH`Check["SM(114): the displayed system has rank six (seven relations, one dependent)",
    MatrixRank[jm] == 6];
 kernelJ = NullSpace[jm];
-NRH`Check["SM(117): the solution space is exactly {e_1, d_+ e_1} - one arbitrary chiral profile",
+NRH`Check["SM(114): the solution space is exactly {e_1, d_+ e_1} - one arbitrary chiral profile",
    Sort[RowReduce[kernelJ]] === Sort[{{0, 1, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 1, 0, 0, 0, 0}}]];
-NRH`Check["SM(117): the mechanism: W_1 multiplies only e_0, and the survivor has e_0 = 0",
+NRH`Check["SM(114): the mechanism: W_1 multiplies only e_0, and the survivor has e_0 = 0",
    Union[Cases[jetSys, W1S x_ :> x, Infinity]] === {uu e0}];
 
 
 (* ::Section:: *)
-(*SM (112)-(114): the Hill system and the global counts by monodromy*)
+(*SM (98)-(99): the Hill system and the global counts by monodromy*)
 
 
-NRH`CheckZero["SM(112)-(114): the first-order pair (d+ u = Sqrt[2]/l v, d+ v = Sqrt[2]/l L u) closes into (l^2/2) s'' = L s",
+NRH`CheckZero["SM(98)-(99): the first-order pair (d+ u = Sqrt[2]/l v, d+ v = Sqrt[2]/l L u) closes into (l^2/2) s'' = L s",
    Module[{vv = l/Sqrt[2] D[sfun[xp], xp]},
       Together[l/Sqrt[2] (D[vv, xp] - Sqrt[2]/l Lp[xp] sfun[xp])
          - (l^2/2 D[sfun[xp], {xp, 2}] - Lp[xp] sfun[xp])]]];
@@ -323,7 +323,7 @@ NRH`Check["constant L > 0: monodromy multipliers e^{pm 2 Sqrt[L0] pi} are real a
 (* ::Text:: *)
 (*In each spin sector's reduced two-component basis, the Riemannian L = 0 family keeps the*)
 (*constant modes with nonvanishing upper entry, while the L = 0, W_1 != 0 non-Riemannian*)
-(*family keeps the e_0 = 0 complement (SM (117) above): disjoint, with union the full*)
+(*family keeps the e_0 = 0 complement (SM (114) above): disjoint, with union the full*)
 (*basis.  With four internal polarizations per surviving sector this is the*)
 (*(4,4) + (4,4) = 16 splitting of the constant Killing-spinor modes admitted by the*)
 (*periodic spin structure - the massless-BTZ and hairy counts quoted in the Letter.*)
