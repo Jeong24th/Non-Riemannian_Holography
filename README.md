@@ -1,6 +1,6 @@
 # Non-Riemannian Holography Verification
 
-Reproducibility scripts supporting the manuscript **“Long-String Holography and Non-Riemannian Hair”** by Shaun D. Hampton, Hyun-Cheol Kim, Jae-Hyuk Oh, and Jeong-Hyuck Park.
+Reproducibility scripts supporting the manuscript **“Non-Riemannian Hair in Long-String Holography”** by Shaun D. Hampton, Hyun-Cheol Kim, Jae-Hyuk Oh, and Jeong-Hyuck Park.
 
 The scripts check the Riemannian and non-Riemannian response formulas, the doubled-yet-gauged worldsheet reduction, the Gomis–Ooguri limit, covariant charges, radial branches, the linear Virasoro condition, and supersymmetry.
 

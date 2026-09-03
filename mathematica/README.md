@@ -3,7 +3,7 @@
 Symbolic Mathematica verification of the displayed equations of
 
 > S. D. Hampton, H.-C. Kim, J.-H. Oh and J.-H. Park,
-> *Long-String Holography and Non-Riemannian Hair* (Letter + Supplemental Material),
+> *Non-Riemannian Hair in Long-String Holography* (Letter + Supplemental Material),
 
 organized **in the order of the paper**: the two Letter sections first, then the seven
 Supplemental Material sections.  It complements the Python/SymPy scripts in `checks/`

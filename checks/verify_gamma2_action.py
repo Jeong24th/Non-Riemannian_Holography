@@ -71,30 +71,31 @@ def check_tex_contract() -> None:
             r"[\cL_{\Gamma^{2}}-2\Lambda_{\rmDFT}e^{-2d}]"
         ),
         "quadratic counterterm": (
-            r"S_{\rmct}=-(16\piG)^{-1}(4/l)"
-            r"\int_{\partial\Sigma_{3}}\rd^{2}x\,e^{-2d}"
+            r"S_{\rmct}=-\frac{1}{16\piG}\frac4l"
+            r"\int_{y=Y}\rd^2x\,e^{-2d}"
         ),
         "B^M definition": r"B^{M}=4\cH^{MN}\partial_{N}d-\partial_{N}\cH^{MN}",
         "response matrix": r"\label{SMresponsematrix}",
         "stress Hessian": r"\label{SMstresshessian}",
         "continuity check": r"\label{SMcontinuitycheck}",
         "R two-point function": r"\label{SMRtwopt}",
-        "NR two-point function": r"\label{SMNRtwopt}",
+        "NR two-point function": r"\label{SMNRhairhessian}",
         "R response kernel": r"\frac{3l^{2}}{4\pi(\Deltax^{+})^{4}}",
         "NR scope": (
-            r"Inthefixed-dilaton,log-freeensembledefinedabove"
-            r",same-channelsourcesatthedisplayedlinearorder"
+            r"Intherestrictedsourcesectordefinedabove,theadmissible"
+            r"same-channelnormalizablekernelsvanishatthisorder"
         ),
-        "NR response-kernel scope": r"same-channelresponsekernelsvanish",
+        "NR response-kernel scope": r"same-channelnormalizableresponsekernelsvanish",
         "universal flux": r"e^{-2d}B^{y}=-2\,\partial_{y}e^{-2d}",
         "renormalized value": r"S_{\rmren}=-\frac{8\sqrt{\mu}}{16\piGl}",
         "CPS cross-link": r"theboundaryvectorofthe$\Gamma^{2}$DFTaction",
         "Letter soft clause": (
-            r"Themode$W_{1}$itselfdropsoutoftheNoetherchargeandthe"
+            r"$W_{1}$dropsoutofboththechargesandthesource-free"
             r"renormalizedon-shellaction~\cite{SM}"
         ),
         "long-string energy": (
-            r"E(y)=\frac{wl}{\alpha'}\Big[e^{-2d}-\big(e^{2y/l}"
+            r"E(y)=\frac{wl}{\alpha'}\Big[\big(e^{2y/l}"
+            r"-L_{+}L_{-}e^{-2y/l}\big)-\big(e^{2y/l}"
             r"+L_{+}L_{-}e^{-2y/l}\big)\Big]"
             r"=-\frac{2wl}{\alpha'}\,L_{+}L_{-}\,e^{-2y/l}"
         ),

@@ -85,11 +85,11 @@ def check_tex_contract() -> bool:
         "complete-solution phrase": r"Thecompletesolutionis",
         "E3 general type-changing source": r"h_{\ominus\bar\oplus}^{(0)}(x^+,x^-)",
         "E3 sector-based exclusion": (
-            r"Inthefixed-dilaton,log-freesectorusedintheLetter"
+            r"ThephasespaceoftheLetteristhesmallerfixed-dilaton,log-freesector"
         ),
         "E4 aligned mixed one-point": (
-            r"\int\rd^{2}x\,\langleK_{\oplus\bar{\ominus}}\rangle"
-            r"=\frac{1}{64\piGl}\int\rd^{2}x\,W_{1}"
+            r"\langle\KCFT_{\oplus\bar\ominus}\rangle"
+            r"=W_{1}/(64\piGl)"
         ),
     }
     missing = [name for name, fragment in required.items() if fragment not in compact]

@@ -22,9 +22,8 @@ Notebook[{
 Cell["NRH00 \[LongDash] Run every verification file", "Title"],
 
 Cell["\<\
-Runs the complete Mathematica verification suite for \"Long-String Holography \
-and
-Non-Riemannian Hair\" in paper order and prints a grand PASS/FAIL summary.  \
+Runs the complete Mathematica verification suite for \"Non-Riemannian Hair in \
+Long-String Holography\" in paper order and prints a grand PASS/FAIL summary.  \
 Each section file clears
 the Global` context and reloads the shared toolbox, so they can equally be \
 run alone.

@@ -1,8 +1,8 @@
 # Equation ledger — every numbered display of the paper, in order
 
 Keyed to the manuscript source with SHA-256
-`2E9C2B1DED2D582D44E3A01B55CEDF1045E5E5BCD0EBA55B2464E3E46F41FD41` (2026-09-03, title
-"Long-String Holography and Non-Riemannian Hair"), whose isolated build has Letter (1)–(16)
+`2A35115ECDFABF94454CC321592CC397027B3FD8C0000894961E7517DA85E3C3` (2026-09-04, title
+"Non-Riemannian Hair in Long-String Holography"), whose isolated build has Letter (1)–(16)
 with (4a/4b) and (9a/9b) and SM (1)–(130).  For each display the ledger names the file and the check
 label(s) that verify it, or states why no computation applies.
 
@@ -63,7 +63,7 @@ lines); "→ N" means the label starts with that equation reference.
 | 20 | `SMNRradialintegration` | elementary radial identities | NRH04 "SM(20): D_y{1, e^{−2y/l}} = 0, …" | V |
 | 21 | `SMNRsol` | general solution | NRH04 "SM(21) solves…", "SM(19) reproduces…", "SM(31)-(32)…", "SM(27): d_y delta d = …" | V |
 | 22 | `SMcrosspairs` | source–response pairs | NRH04 "SM(25): UV momenta…", "SM(26): the finite piece equals…" (all four pairings) | V |
-| 23 | `SMlogfreeconditions` | fixed-dilaton, log-free conditions | NRH04 "SM(23): the log coefficients are exact multiples of the three r^(0) conditions" | V |
+| 23 | `SMlogfreeconditions` | fixed-dilaton, log-free conditions | NRH04 "SM(23): the log coefficients are exact multiples of the three r^(0) conditions"; the remaining diagonal combination is the h_pm linear coefficient in the verified general solution SM (21) | V° |
 | 24 | `SMrwquadratic` | crossed quadratic action | NRH04 "SM(24): Gamma^2 quadratic density = −(1/2) e^{2y/l} dy r dy w" | V |
 | 25 | `SMrwvariation` | its UV variation | NRH04 "SM(25): UV momenta give…" | V |
 | 26 | `SMSren2` | finite cutoff variation, all four channels | NRH04 "SM(26): …" (six checks: coset family, restricted on-shell sector, vacuum momentum, divergent pieces, finite piece, non-triviality) | V |
@@ -128,10 +128,10 @@ lines); "→ N" means the label starts with that equation reference.
 | 85 | `SMWZWlevel` | k = l²/α′ | NRH06 "SM(85): k = |Int_{S^3} H| / (4 pi^2 alpha') = l^2/alpha'" | V |
 | 86 | `SMFTweight` | T_y, h_y(a) | NRH06 "SM(86): the two OPE contributions assemble to h_y(a)/(z−w)^2" | V |
 | 87 | `SMBRSTradial` | (∂²_y + (2/l)∂_y)f = 0 | NRH06 "SM(87): the marginal roots…", "SM(87): (d_y^2 + (2/l) d_y) f = 0…" | V |
-| 88 | `SMBRSTmomentum` | h_y(k), roots k = 0, 2i/l | NRH06 "SM(88): h_y(i k) = … P = k − i/l…" | V |
+| 88 | `SMBRSTmomentum` | h_y(p_y), roots p_y = 0, 2i/l | NRH06 "SM(88): h_y(i p_y) = … P_y = p_y − i/l…" | V |
 | 89 | `SMBRSTvertex` | U_{W₁} is a (1,1) primary | SM 86–88 plus NRH06 "<x^+ x^−> = 0…" (W₁ has weight (0,0)) | V° |
 | 90 | `SMBRSTcentral` | c_y = 1 + 6α′/l², total 3(k+2)/k | NRH06 "SM(90): c_y/2 = …", "SM(90): c_{beta gamma} + c_y = …" | V |
-| 91 | `SMWgaugeobstruction` | W₀ gauge, e^{−2y/l}W₁ not | NRH06 "SM(91): Lhat_xi H^infty = D H^infty + H^infty D^T…", "SM(91): the conditions force…", "SM(91): (db)_{+−y} = …", "SM(91): v^y = … so closure forces d_y w = 0" | V |
+| 91 | `SMWgaugeobstruction` | W₀ gauge, e^{−2y/l}W₁ not | NRH06 "SM(91): Lhat_xi H^infty = D H^infty + H^infty D^T…", "SM(91): the conditions force…", "SM(91): (db)_{+−y} = …", "SM(91): v^y = … so closure forces d_y varpi = 0" | V |
 | 92 | `SMBRSTfusion` | self-contraction, h_n, resonances | NRH06 "SM(92): …" (three checks) | V |
 | 93 | `SMupliftblocks` | H₁₀ = H₃ ⊕ H_{S³} ⊕ H_{R⁴}, d₁₀ = d₃ + d_{S³} | NRH07 `d10Assemble` and the two ten-dimensional probes "S_(0)^{(10)} = 0", "(P S Pbar)^{(10)} = 0" | V |
 | 94 | `SMDFTKilling` | generalized Killing equations | — (definition; `GenLieH`/`GenLieD` implement it: NRH07 "SM(109)…", "SM(110)…") | D |

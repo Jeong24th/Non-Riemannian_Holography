@@ -28,7 +28,7 @@
 (*  the Gomis-Ooguri contraction bookkeeping behind the exact marginality of V_W[W_0];*)
 (*  SM (90) [SMBRSTcentral]  the central charge c_y = 1 + 6 alpha'/l^2 and 3(k+2)/k;*)
 (*  SM (91) [SMWgaugeobstruction]  the D-matrix form of the gauge transformation, the solved*)
-(*        conditions, and the closure argument d_y w = 0;*)
+(*        conditions, and the closure argument d_y varpi = 0;*)
 (*  SM (92) [SMBRSTfusion]  the self-contraction exponent, h_n, and the resonant levels q = 1/n.*)
 
 
@@ -175,9 +175,9 @@ NRH`CheckZero["SM(87): the marginal roots of h_y are a = 0 and a = -2/l  (modes 
    {hy /. aa -> 0, hy /. aa -> -2/l}];
 NRH`CheckZero["SM(87): (d_y^2 + (2/l) d_y) f = 0  for  f = W0 + W1 e^{-2y/l}",
    Module[{f = W0c + W1c Exp[-2 yy/l]}, Together[D[f, {yy, 2}] + 2/l D[f, yy]]]];
-NRH`CheckZero["SM(88): h_y(i k) = (alpha'/4) k (k - 2 i/l) and P = k - i/l gives (alpha'/4)(P^2 + 1/l^2)",
-   {Together[(-ap/4 (I k) (I k + 2/l)) - ap/4 k (k - 2 I/l)],
-    Together[ap/4 k (k - 2 I/l) - ap/4 ((k - I/l)^2 + 1/l^2)]}];
+NRH`CheckZero["SM(88): h_y(i p_y) = (alpha'/4) p_y (p_y - 2 i/l) and P_y = p_y - i/l gives (alpha'/4)(P_y^2 + 1/l^2)",
+   {Together[(-ap/4 (I pY) (I pY + 2/l)) - ap/4 pY (pY - 2 I/l)],
+    Together[ap/4 pY (pY - 2 I/l) - ap/4 ((pY - I/l)^2 + 1/l^2)]}];
 
 
 (* ::Section:: *)
@@ -231,9 +231,9 @@ NRH`CheckZero["SM(90): c_{beta gamma} + c_y = 2 + (1 + 6/k) = 3(k+2)/k",
 (*For a section-compatible xi^M = (lambda~_mu, v^mu) acting on the constant H^infty, the generalized*)
 (*Lie derivative is the displayed  delta_xi H = D H^infty + H^infty D^T  with*)
 (*D = ((-(dv)^T, 0), (b, dv)),  b = d lambda~.  We verify this form against the toolbox, then solve*)
-(*delta_xi H = h(w)  (h_{+-} = h_{-+} = w, all other components zero)  and  Lhat_xi d = 0  for the*)
+(*delta_xi H = h(varpi)  (h_{+-} = h_{-+} = varpi, all other components zero)  and  Lhat_xi d = 0  for the*)
 (*derivative data, reproducing the displayed conditions, and finally the closure of b,*)
-(*   0 = (db)_{+-y} = -2 d_+ d_- v^y - (1/2) d_y w ,   which forces  d_y w = 0.*)
+(*   0 = (db)_{+-y} = -2 d_+ d_- v^y - (1/2) d_y varpi ,   which forces  d_y varpi = 0.*)
 
 
 JJ6 = ODDJ[3];
@@ -258,15 +258,15 @@ eqsW = DeleteCases[Union[Flatten[DmatS . Hinf6 + Hinf6 . Transpose[DmatS] - hW]]
 dilW = vy0 (-1/l) - 1/2 (dvs[1, 1] + dvs[2, 2] + dvs[3, 3]);   (* Lhat_xi d with d = -y/l, xi^y = vy0 *)
 unkW = {dvs[3, 1], dvs[3, 2], dvs[3, 3], dvs[2, 1], dvs[1, 2], b12, b13, b23, vy0};
 solW = Solve[Join[eqsW, {dilW}] == 0, unkW];
-NRH`Check["SM(91): the conditions force d_y v^mu = 0, d_- v^+ = 0 = d_+ v^-, b_{+-} = -w/2, b_{+y} = d_+ v^y, b_{-y} = -d_- v^y, v^y = -(l/2)(d_+ v^+ + d_- v^-)",
+NRH`Check["SM(91): the conditions force d_y v^mu = 0, d_- v^+ = 0 = d_+ v^-, b_{+-} = -varpi/2, b_{+y} = d_+ v^y, b_{-y} = -d_- v^y, v^y = -(l/2)(d_+ v^+ + d_- v^-)",
    Length[solW] == 1 &&
    Together[(unkW /. First[solW]) - {0, 0, 0, 0, 0, -ww/2, dvs[1, 3], -dvs[2, 3], -l/2 (dvs[1, 1] + dvs[2, 2])}] === {0, 0, 0, 0, 0, 0, 0, 0, 0}];
-NRH`CheckZero["SM(91): (db)_{+-y} = d_+ b_{-y} + d_- b_{y+} + d_y b_{+-} = -2 d_+ d_- v^y - (1/2) d_y w",
+NRH`CheckZero["SM(91): (db)_{+-y} = d_+ b_{-y} + d_- b_{y+} + d_y b_{+-} = -2 d_+ d_- v^y - (1/2) d_y varpi",
    Module[{bp = {{0, -w2[xp, xm, yy]/2, D[vyf[xp, xm, yy], xp]}, {w2[xp, xm, yy]/2, 0, -D[vyf[xp, xm, yy], xm]},
        {-D[vyf[xp, xm, yy], xp], D[vyf[xp, xm, yy], xm], 0}}},
       Together[D[bp[[2, 3]], xp] + D[bp[[3, 1]], xm] + D[bp[[1, 2]], yy]
          + 2 D[vyf[xp, xm, yy], xp, xm] + 1/2 D[w2[xp, xm, yy], yy]]]];
-NRH`CheckZero["SM(91): v^y = -(l/2)(d_+ v^+(x^+) + d_- v^-(x^-)) has d_+ d_- v^y = 0, so closure forces d_y w = 0: W_0 is gauge, e^{-2y/l} W_1 is not",
+NRH`CheckZero["SM(91): v^y = -(l/2)(d_+ v^+(x^+) + d_- v^-(x^-)) has d_+ d_- v^y = 0, so closure forces d_y varpi = 0: W_0 is gauge, e^{-2y/l} W_1 is not",
    D[-l/2 (D[vpf[xp], xp] + D[vmf[xm], xm]), xp, xm]];
 
 

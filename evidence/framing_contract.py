@@ -7,7 +7,7 @@ import argparse
 import sys
 
 
-TITLE = "Long Strings and Non-Riemannian Hair"
+TITLE = "Non-Riemannian Hair in Long-String Holography"
 
 ABSTRACT = r"""
 Long strings, macroscopic winding strings near the NS--NS $AdS_3$ boundary,

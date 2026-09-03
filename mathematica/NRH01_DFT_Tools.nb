@@ -23,7 +23,7 @@ Cell["NRH01 \[LongDash] Shared DFT Toolbox", "Title"],
 
 Cell["\<\
 This file is the shared toolbox for the Mathematica verification of
-\"Long-String Holography and Non-Riemannian Hair\" (NR_Holography.tex, Letter \
+\"Non-Riemannian Hair in Long-String Holography\" (NR_Holography.tex, Letter \
 + Supplemental Material).
 
 It implements, in plain matrix language, the semi-covariant Double Field \

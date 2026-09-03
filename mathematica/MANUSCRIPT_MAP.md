@@ -1,7 +1,7 @@
 # Current Manuscript Equation Map
 
 This map is keyed to the manuscript source with SHA-256
-`2E9C2B1DED2D582D44E3A01B55CEDF1045E5E5BCD0EBA55B2464E3E46F41FD41`.
+`2A35115ECDFABF94454CC321592CC397027B3FD8C0000894961E7517DA85E3C3`.
 LaTeX labels are the stable identifiers; the numbers below are the numbers in that
 source build (Letter (1)-(16) with (4a/4b) and (9a/9b); SM (1)-(130)).  Unnumbered displays
 and prose statements verified by the suite are listed in `EQUATION_LEDGER.md`, which walks
