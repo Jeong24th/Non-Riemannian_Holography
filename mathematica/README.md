@@ -42,8 +42,8 @@ numbered display of the paper in order** — Letter (1)–(16) and SM (1)–(130
 for each one, the check(s) that verify it, or states that it is a definition or a cited
 statement with nothing to compute.
 
-The suite currently comprises **242 exact checks**; the recorded reference execution
-passes 242/242.  See `REFERENCE_RUN.md` for the neutral environment, command,
+The suite currently comprises **243 exact checks**; the recorded reference execution
+passes 243/243.  See `REFERENCE_RUN.md` for the neutral environment, command,
 result, and reproducibility limitations.
 
 ## Running

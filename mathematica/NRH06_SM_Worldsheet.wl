@@ -17,8 +17,9 @@
 (*        symmetric block descent, modulo the product of the two constraints;*)
 (*  SM (79) [SMGO], SM (80) [SMvertex]  the Gomis-Ooguri limit and the hair vertex*)
 (*        coefficient  (1/4 pi alpha') W d x^+ dbar x^-;*)
-(*  SM (81) [SMlongstringE]  the winding-string potential, including the exact identity*)
-(*        Sqrt[-det g_2] = l e^{-2d} for the static winding probe;*)
+(*  SM (81) [SMlongstringE]  the winding-string energy of the static embedding t = tau,*)
+(*        phi = w sigma, y = const: the longitudinal determinant, the B_{t phi} coupling, and*)
+(*        the cancellation of the tension term;*)
 (*  SM (85) [SMWZWlevel]  the flux level  k = l^2/alpha';*)
 (*  SM (86)-(88) [SMFTweight, SMBRSTradial, SMBRSTmomentum]  the Fradkin-Tseytlin-improved*)
 (*        radial weight  h_y(a) = -(alpha'/4) a (a + 2/l)  and its two marginal roots*)
@@ -102,12 +103,14 @@ gBan = {{2 Lp, -(u + Lp Lm/u), 0}, {-(u + Lp Lm/u), 2 Lm, 0}, {0, 0, 1}};
 et = {1/Sqrt[2], 1/Sqrt[2], 0};          (* d x^mu / dt *)
 ephi = {l wN/Sqrt[2], -l wN/Sqrt[2], 0}; (* d x^mu / d sigma, phi = w sigma *)
 g2 = {{et . gBan . et, et . gBan . ephi}, {ephi . gBan . et, ephi . gBan . ephi}};
-NRH`CheckZero["SM(81): Sqrt[-det g_2] = l w e^{-2d}   (exact, arbitrary chiral L_pm)",
+NRH`CheckZero["SM(81): -det g_(t,phi) = l^2 (e^{2y/l} - L+L- e^{-2y/l})^2 per winding, i.e. the Nambu-Goto area density l(e^{2y/l} - L+L- e^{-2y/l})  (exact, arbitrary chiral L_pm)",
    Together[-Det[g2] - (l wN (u - Lp Lm/u))^2]];
 (* B_{t phi} = l (e^{2y/l} + L+ L- e^{-2y/l}) per winding unit *)
 BtphiPerW = l (u + Lp Lm/u);
-NRH`CheckZero["SM(81): E(y) = (w l/alpha')[e^{-2d} - (e^{2y/l} + L+L- e^{-2y/l})] = -(2 w l/alpha') L+L- e^{-2y/l}",
+NRH`CheckZero["SM(81): E(y) = (w l/alpha')[(e^{2y/l} - L+L- e^{-2y/l}) - (e^{2y/l} + L+L- e^{-2y/l})] = -(2 w l/alpha') L+L- e^{-2y/l}",
    Together[wN l/ap ((u - Lp Lm/u) - (u + Lp Lm/u)) + 2 wN l/ap Lp Lm/u]];
+NRH`CheckZero["SM(81) remark: with phi_0 = 0 the area density equals l e^{-2d} (a coincidence of the gauge choice, not a property of the Nambu-Goto action)",
+   Together[l (u - Lp Lm/u) - l u (1 - Lp Lm/u^2)]];
 
 
 (* ::Section:: *)

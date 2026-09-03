@@ -121,7 +121,7 @@ lines); "→ N" means the label starts with that equation reference.
 | 78 | `SMdygGO` | exact reduced Lagrangian | NRH06 "SM(83): symmetric-block route − antisymmetric-clock route = W (tau− . dx)(tau+ . dbar x)", "SM(79)-(80): at chi -> 0 the W coupling reduces to…" | V° |
 | 79 | `SMGO` | Gomis–Ooguri limit | NRH06 "SM(79)-(80)…"; contraction bookkeeping | V |
 | 80 | `SMvertex` | V_W = (1/4πα′)W∂x⁺∂̄x⁻ | NRH06 "SM(80): with the 1/(2 pi alpha') prefactor this is V_W = …" | V |
-| 81 | `SMlongstringE` | winding-string energy | NRH06 "SM(81): Sqrt[−det g_2] = l w e^{-2d}", "SM(81): E(y) = …" | V |
+| 81 | `SMlongstringE` | winding-string energy | NRH06 "SM(81): −det g_(t,phi) = l^2 (e^{2y/l} − L+L− e^{−2y/l})^2 per winding…", "SM(81): E(y) = …", "SM(81) remark: with phi_0 = 0 the area density equals l e^{-2d}…" | V |
 | 82 | `SMWisB` | H(W) = Ω_bH(0)Ω_bᵀ, b_{+−} = −W/2 | NRH03 "SM(82) [SMWisB]…" | V |
 | 83 | `SMdeltaL` | antisymmetric clock coupling | NRH06 "SM(83): …" | V |
 | 84 | `SMFTsector` | S_y, S_FT | — (definitions; used in SM 86) | D |
@@ -181,6 +181,7 @@ lines); "→ N" means the label starts with that equation reference.
 * SM 1: the vacuum has no first-order boundary momentum (no vacuum one-point function) (NRH04, SM (26) block).
 * SM 3: the endpoints e^{−2d} = 0 for both branches (NRH05).
 * SM 5.1: E_{+−} = 0, E_{−+} = −2F, E_{±±} = 2L± (NRH02, NRH06); −det g_∥ = F² − 4L₊L₋ = e^{−4d_R} (NRH06).
+* SM 5.2, before (81): −det g_(t,φ) = l²(e^{2y/l} − L₊L₋e^{−2y/l})² for the static winding embedding, the Nambu–Goto area density per winding, and B_{tφ} = l(e^{2y/l} + L₊L₋e^{−2y/l}) (NRH06).
 * SM 5.2: the Gomis–Ooguri contraction table behind the exact marginality of V_W[W₀] (NRH06).
 * SM 6: the two ten-dimensional exact probes of S₍₀₎⁽¹⁰⁾ = 0 = (PSP̄)⁽¹⁰⁾ for both uplifts (NRH07); the displayed vacuum spin-connection components; the Hill-monodromy counts; the complementary-halves bookkeeping.
 * SM 6, text below (106): e^{±σ}sinh(χ/2) = uL±[1 + u²Π/3 + …] (NRH03).

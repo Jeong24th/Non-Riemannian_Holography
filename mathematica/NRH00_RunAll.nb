@@ -31,7 +31,7 @@ run alone.
 
 Usage (command line):    wolframscript -file NRH00_RunAll.wl
 Usage (notebook):        open this file in Mathematica and evaluate it.
-The whole suite completes in a few minutes on a laptop (242 checks; see \
+The whole suite completes in a few minutes on a laptop (243 checks; see \
 REFERENCE_RUN.md).\
 \>", "Text"],
 
@@ -73,11 +73,11 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[587, 21, 62, 0, 70, "Title",ExpressionUUID->"1a6691bd-b03d-4425-a4c4-a4ef789bc12b"],
-Cell[652, 23, 515, 12, 70, "Text",ExpressionUUID->"1afea1fa-7efc-4f43-a513-29cab4256735"],
-Cell[1170, 37, 497, 14, 70, "Input",ExpressionUUID->"be54b362-5991-43de-b9cc-5e4c180a3d69"],
-Cell[1670, 53, 70, 0, 70, "Input",ExpressionUUID->"5af6c23f-6e5d-4392-8448-432dee8962ab"],
-Cell[1743, 55, 68, 3, 70, "Input",ExpressionUUID->"f04a1969-0570-4d22-b65a-856cacea1667"]
+Cell[587, 21, 62, 0, 70, "Title",ExpressionUUID->"ab343851-be5d-4ccc-9ec6-a3bf5db0f0ca"],
+Cell[652, 23, 515, 12, 70, "Text",ExpressionUUID->"83422b2f-df4b-4d8d-961b-21581d8447d2"],
+Cell[1170, 37, 497, 14, 70, "Input",ExpressionUUID->"391a2235-3041-4e8d-8515-4391a09f194f"],
+Cell[1670, 53, 70, 0, 70, "Input",ExpressionUUID->"941ee705-d68b-4823-ade6-a404035bdea7"],
+Cell[1743, 55, 68, 3, 70, "Input",ExpressionUUID->"cb13bb70-eb5d-4616-851c-60409ad4a670"]
 }
 ]
 *)

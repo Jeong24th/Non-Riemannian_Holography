@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     17971,        410]
-NotebookOptionsPosition[     15173,        371]
-NotebookOutlinePosition[     15482,        385]
-CellTagsIndexPosition[     15439,        382]
+NotebookDataLength[     18383,        417]
+NotebookOptionsPosition[     15583,        378]
+NotebookOutlinePosition[     15892,        392]
+CellTagsIndexPosition[     15849,        389]
 WindowTitle->NRH06_SM_Worldsheet.nb
 WindowFrame->Normal*)
 
@@ -41,9 +41,11 @@ the
   SM (79) [SMGO], SM (80) [SMvertex]  the Gomis-Ooguri limit and the hair \
 vertex
         coefficient  (1/4 pi alpha') W d x^+ dbar x^-;
-  SM (81) [SMlongstringE]  the winding-string potential, including the exact \
-identity
-        Sqrt[-det g_2] = l e^{-2d} for the static winding probe;
+  SM (81) [SMlongstringE]  the winding-string energy of the static embedding \
+t = tau,
+        phi = w sigma, y = const: the longitudinal determinant, the B_{t phi} \
+coupling, and
+        the cancellation of the tension term;
   SM (85) [SMWZWlevel]  the flux level  k = l^2/alpha';
   SM (86)-(88) [SMFTweight, SMBRSTradial, SMBRSTmomentum]  the \
 Fradkin-Tseytlin-improved
@@ -159,14 +161,19 @@ ephi = {l wN/Sqrt[2], -l wN/Sqrt[2], 0}; (* d x^mu / d sigma, phi = w sigma \
 *)
 g2 = {{et . gBan . et, et . gBan . ephi}, {ephi . gBan . et, ephi . gBan . \
 ephi}};
-NRH`CheckZero[\"SM(81): Sqrt[-det g_2] = l w e^{-2d}   (exact, arbitrary \
-chiral L_pm)\",
+NRH`CheckZero[\"SM(81): -det g_(t,phi) = l^2 (e^{2y/l} - L+L- e^{-2y/l})^2 \
+per winding, i.e. the Nambu-Goto area density l(e^{2y/l} - L+L- e^{-2y/l})  \
+(exact, arbitrary chiral L_pm)\",
    Together[-Det[g2] - (l wN (u - Lp Lm/u))^2]];
 (* B_{t phi} = l (e^{2y/l} + L+ L- e^{-2y/l}) per winding unit *)
 BtphiPerW = l (u + Lp Lm/u);
-NRH`CheckZero[\"SM(81): E(y) = (w l/alpha')[e^{-2d} - (e^{2y/l} + L+L- \
-e^{-2y/l})] = -(2 w l/alpha') L+L- e^{-2y/l}\",
-   Together[wN l/ap ((u - Lp Lm/u) - (u + Lp Lm/u)) + 2 wN l/ap Lp Lm/u]];\
+NRH`CheckZero[\"SM(81): E(y) = (w l/alpha')[(e^{2y/l} - L+L- e^{-2y/l}) - \
+(e^{2y/l} + L+L- e^{-2y/l})] = -(2 w l/alpha') L+L- e^{-2y/l}\",
+   Together[wN l/ap ((u - Lp Lm/u) - (u + Lp Lm/u)) + 2 wN l/ap Lp Lm/u]];
+NRH`CheckZero[\"SM(81) remark: with phi_0 = 0 the area density equals l \
+e^{-2d} (a coincidence of the gauge choice, not a property of the Nambu-Goto \
+action)\",
+   Together[l (u - Lp Lm/u) - l u (1 - Lp Lm/u^2)]];\
 \>", "Input"],
 
 Cell["SM (85): the flux level", "Section"],
@@ -384,34 +391,34 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[594, 21, 68, 0, 70, "Title",ExpressionUUID->"23045b09-8664-4f57-9a29-6c4aaf24e63a"],
-Cell[665, 23, 1779, 38, 70, "Text",ExpressionUUID->"06910732-3b3e-40d1-b4bc-633deea449b8"],
-Cell[2447, 63, 219, 5, 70, "Input",ExpressionUUID->"9f63e4ba-c629-4bd9-8b85-439b57c566df"],
-Cell[2669, 70, 74, 0, 70, "Section",ExpressionUUID->"288de10a-602b-4451-a0bd-283e69fc456b"],
-Cell[2746, 72, 1131, 24, 70, "Input",ExpressionUUID->"9eed0c6e-bda6-4429-83c1-854f3af842ae"],
-Cell[3880, 98, 99, 2, 70, "Section",ExpressionUUID->"48313566-59a7-4969-81e1-e6cb4bcebc86"],
-Cell[3982, 102, 1073, 21, 70, "Input",ExpressionUUID->"09d72ab3-0d49-4bb8-980d-aaeca2f2fac0"],
-Cell[5058, 125, 1178, 23, 70, "Input",ExpressionUUID->"289243f8-6f04-4c32-a75f-5cf9e53ee9f0"],
-Cell[6239, 150, 52, 0, 70, "Section",ExpressionUUID->"87a8eaf8-2071-4424-be6e-5cd78c7fbf48"],
-Cell[6294, 152, 841, 17, 70, "Input",ExpressionUUID->"f96574eb-b6b2-41ad-b42f-fe651e13ad0d"],
-Cell[7138, 171, 42, 0, 70, "Section",ExpressionUUID->"eb0b93ff-35e0-42ff-b401-64360af76d81"],
-Cell[7183, 173, 330, 7, 70, "Input",ExpressionUUID->"da96efad-6a0c-4d28-aadd-8963f0d91d92"],
-Cell[7516, 182, 67, 0, 70, "Section",ExpressionUUID->"a826924a-1b7b-446b-a313-2f51630df7b7"],
-Cell[7586, 184, 544, 12, 70, "Text",ExpressionUUID->"844754bd-6f77-4962-a44d-290a3d386709"],
-Cell[8133, 198, 871, 19, 70, "Input",ExpressionUUID->"3f57d461-9991-43cd-9696-298543b93993"],
-Cell[9007, 219, 97, 2, 70, "Section",ExpressionUUID->"283a42f6-1dae-4bce-839f-152ff1e9eee5"],
-Cell[9107, 223, 469, 11, 70, "Text",ExpressionUUID->"653e37c0-1108-459e-ba74-19d3c1ffe4c0"],
-Cell[9579, 236, 577, 13, 70, "Input",ExpressionUUID->"15d290a2-4dba-4ab0-a764-96518969f57b"],
-Cell[10159, 251, 109, 3, 70, "Section",ExpressionUUID->"9d800799-b9a7-4fa8-be3b-6931cab2523f"],
-Cell[10271, 256, 472, 10, 70, "Text",ExpressionUUID->"15037403-832d-4526-b5cb-0dddb40c1684"],
-Cell[10746, 268, 501, 9, 70, "Input",ExpressionUUID->"7f22852e-dad7-44e5-b02c-c84abd15cc48"],
-Cell[11250, 279, 106, 3, 70, "Section",ExpressionUUID->"875b3bbc-9ff3-4678-976f-9e988ec278d8"],
-Cell[11359, 284, 566, 12, 70, "Text",ExpressionUUID->"5b10b768-6424-418f-a15e-5b6cfaf1ada9"],
-Cell[11928, 298, 831, 17, 70, "Input",ExpressionUUID->"66d62bb4-e917-4ab5-96c5-894aab3343dd"],
-Cell[12762, 317, 1653, 30, 70, "Input",ExpressionUUID->"3acf8c77-b043-4341-8e4b-ecfa259778e7"],
-Cell[14418, 349, 116, 3, 70, "Section",ExpressionUUID->"698e8545-93bf-4610-9414-9a430a7e2e5e"],
-Cell[14537, 354, 594, 13, 70, "Input",ExpressionUUID->"83e0b793-86da-4fb1-a91a-01a70cb58e18"],
-Cell[15134, 369, 35, 0, 70, "Input",ExpressionUUID->"1f57ab50-1c93-4cbb-b31a-0a50ac475011"]
+Cell[594, 21, 68, 0, 70, "Title",ExpressionUUID->"b6e9759c-df6c-4cac-aab5-eca9d79b4732"],
+Cell[665, 23, 1854, 40, 70, "Text",ExpressionUUID->"bc29f52f-99ac-4bcc-a2de-35216f14f68f"],
+Cell[2522, 65, 219, 5, 70, "Input",ExpressionUUID->"c7c2eb1b-d881-4101-8fec-89216efb2baf"],
+Cell[2744, 72, 74, 0, 70, "Section",ExpressionUUID->"b292a8c2-479f-4ed6-bd99-064a57adb444"],
+Cell[2821, 74, 1131, 24, 70, "Input",ExpressionUUID->"4e8ec309-0576-4406-9527-0bd539a96c98"],
+Cell[3955, 100, 99, 2, 70, "Section",ExpressionUUID->"637c1a06-525c-4520-9935-bbea01715f87"],
+Cell[4057, 104, 1073, 21, 70, "Input",ExpressionUUID->"5fd49b84-2b90-412c-84b4-23b599e0810c"],
+Cell[5133, 127, 1178, 23, 70, "Input",ExpressionUUID->"cbd5396f-6a56-47d4-a5a8-79dfef96c772"],
+Cell[6314, 152, 52, 0, 70, "Section",ExpressionUUID->"048f63e6-9865-4b9a-b18f-d23d8d37218a"],
+Cell[6369, 154, 1176, 22, 70, "Input",ExpressionUUID->"be0e2f41-8761-49d5-a0bc-e5c9888d7bf3"],
+Cell[7548, 178, 42, 0, 70, "Section",ExpressionUUID->"c3a3f822-6b77-472d-8da2-b5318f5ae939"],
+Cell[7593, 180, 330, 7, 70, "Input",ExpressionUUID->"277645ea-4ffe-4ec7-be59-6736ae3d4aea"],
+Cell[7926, 189, 67, 0, 70, "Section",ExpressionUUID->"fd0c7e32-5100-4617-8c85-56ea01b4a5fb"],
+Cell[7996, 191, 544, 12, 70, "Text",ExpressionUUID->"2ab06ab8-5b56-4a43-ab8c-14c0bc2adf90"],
+Cell[8543, 205, 871, 19, 70, "Input",ExpressionUUID->"873faacb-11e3-4b30-aa93-c26eb0abe05b"],
+Cell[9417, 226, 97, 2, 70, "Section",ExpressionUUID->"81806759-2ac0-41c7-ba38-8010b40ee718"],
+Cell[9517, 230, 469, 11, 70, "Text",ExpressionUUID->"cd76b769-33e4-47b8-b2e1-d6c503eb6647"],
+Cell[9989, 243, 577, 13, 70, "Input",ExpressionUUID->"ccc7960f-8cca-4fad-b3d4-ebc92afd548c"],
+Cell[10569, 258, 109, 3, 70, "Section",ExpressionUUID->"78370fc9-1fe5-4682-aa5e-40736409d0f9"],
+Cell[10681, 263, 472, 10, 70, "Text",ExpressionUUID->"0a5e6bae-1c58-4fcb-aafd-fb1da1a993d9"],
+Cell[11156, 275, 501, 9, 70, "Input",ExpressionUUID->"3ecbd48a-cedb-48e4-b59b-624a6abe61b8"],
+Cell[11660, 286, 106, 3, 70, "Section",ExpressionUUID->"ce961914-6328-47c6-a74d-e02ff2b1f654"],
+Cell[11769, 291, 566, 12, 70, "Text",ExpressionUUID->"792c00e9-f6ad-402d-a759-c99f55b48bec"],
+Cell[12338, 305, 831, 17, 70, "Input",ExpressionUUID->"733140a7-2351-45f1-ac7a-d6542be48ffb"],
+Cell[13172, 324, 1653, 30, 70, "Input",ExpressionUUID->"9df44f1b-233d-42db-9fe4-ab4eecf7ce5b"],
+Cell[14828, 356, 116, 3, 70, "Section",ExpressionUUID->"d303e67f-d80c-4a06-8316-f85c7b3926df"],
+Cell[14947, 361, 594, 13, 70, "Input",ExpressionUUID->"897de696-4247-4887-aed8-d45da6a85589"],
+Cell[15544, 376, 35, 0, 70, "Input",ExpressionUUID->"a75e5433-4520-4642-bdb7-dbe8085120cf"]
 }
 ]
 *)

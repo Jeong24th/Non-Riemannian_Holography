@@ -11,7 +11,7 @@
 (**)
 (*Usage (command line):    wolframscript -file NRH00_RunAll.wl*)
 (*Usage (notebook):        open this file in Mathematica and evaluate it.*)
-(*The whole suite completes in a few minutes on a laptop (242 checks; see REFERENCE_RUN.md).*)
+(*The whole suite completes in a few minutes on a laptop (243 checks; see REFERENCE_RUN.md).*)
 
 
 NRH`$Dir = If[$InputFileName =!= "", DirectoryName[$InputFileName], NotebookDirectory[]];

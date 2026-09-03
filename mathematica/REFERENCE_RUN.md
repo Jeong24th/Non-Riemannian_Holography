@@ -6,10 +6,10 @@ symbolic predicates in this directory.
 - Environment: Mathematica 13.2 (Windows), `wolframscript`
 - Entry point: `NRH00_RunAll.wl`
 - Command: `wolframscript -file NRH00_RunAll.wl`
-- Result: 242/242 exact checks passed
-  (NRH02 30, NRH03 32, NRH04 49, NRH05 38, NRH06 27, NRH07 52, NRH08 14)
+- Result: 243/243 exact checks passed
+  (NRH02 30, NRH03 32, NRH04 49, NRH05 38, NRH06 28, NRH07 52, NRH08 14)
 - Exit behavior: a failed check produces a nonzero command-line exit status
-- Typical runtime: a few minutes (184 s wall time for the recorded execution); the longest single file is
+- Typical runtime: a few minutes (190 s wall time for the recorded execution); the longest single file is
   `NRH04_SM_LinearResponse.wl` (the second-order expansion of the Gamma^2 density with
   four fluctuation channels and the exact variation identity on the BTZ background)
 
