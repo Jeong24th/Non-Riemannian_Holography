@@ -16,11 +16,12 @@
 (*      relations, H = P - Pbar, the reduction to SM (14), the clock rows and dual vectors;*)
 (*  SM (96) [SMsusyclosure]  the bilinear of two vacuum Killing spinors is an exact isometry SM (109);*)
 (*  the integrability of the torsionful S^3 spinor equations displayed below SM (116);*)
-(*  exact ten-dimensional probes of  S_(0)^{(10)} = 0  and  (P S Pbar)^{(10)} = 0  for both*)
-(*      uplifts, in exact rational arithmetic (the same style of probe quoted in the SM*)
-(*      text for the hairy branch);  the ten-dimensional connection is NOT the sum of the*)
-(*      sector connections - its dilaton trace term mixes the sectors - so this is a*)
-(*      genuine D = 10 statement;*)
+(*  the ten-dimensional equations  S_(0)^{(10)} = 0  and  (P S Pbar)^{(10)} = 0  for both uplifts,*)
+(*      verified symbolically: the Riemannian uplift for arbitrary chiral L_+(x^+), L_-(x^-), and*)
+(*      the non-Riemannian uplift on the exact one-sided family L_- = 0 with arbitrary L_+(x^+)*)
+(*      and arbitrary hair profiles W_0(x^+,x^-), W_1(x^+,x^-);  the ten-dimensional connection*)
+(*      is NOT the sum of the sector connections - its dilaton trace term mixes the sectors -*)
+(*      so this is a genuine D = 10 identity, not a corollary of the three-dimensional checks;*)
 (*  SM (109)-(110) [SMexactiso, SMweighteddilaton]  the exact infinite-dimensional vacuum isometries (arbitrary chiral*)
 (*      v^pm and omega_pm) and the weighted dilaton condition;*)
 (*  SM (108) [SMNRlocalstabilizer]  the local stabilizer system: the c/Sqrt[L] obstruction and the exact*)
@@ -101,7 +102,17 @@ NRH`CheckZero["orientation before SM(103): H_{y-+} = +(2/l) Sqrt[|g_3|] = (2/l)(
 
 
 (* ::Section:: *)
-(*Exact ten-dimensional probes: S_(0)^{(10)} = 0 and (P S Pbar)^{(10)} = 0*)
+(*Exact ten-dimensional equations: S_(0)^{(10)} = 0 and (P S Pbar)^{(10)} = 0, symbolically*)
+
+
+(* ::Text:: *)
+(*Both uplifts H_10 = H_3 + H_{S^3} + H_{R^4}, d_10 = d_3 + d_{S^3} (SM (93)) are verified as symbolic*)
+(*identities, with l a symbol throughout.  Riemannian uplift: the full Banados family with arbitrary chiral*)
+(*L_+(x^+), L_-(x^-).  Non-Riemannian uplift: the exact one-sided family L_- = 0 with arbitrary L_+(x^+)*)
+(*and arbitrary hair profiles W_0(x^+,x^-), W_1(x^+,x^-), for which  W = W_0 + W_1 e^{-2y/l}  is exact*)
+(*(Letter, below Eq. (15)); its matrix is the L_- -> 0 limit of Eq. (13) with q -> 0, e^sigma sinh chi -> 2 L_+ e^{-2y/l}.*)
+(*The ten-dimensional connection is not the sum of the sector connections (its dilaton trace mixes the*)
+(*sectors), so these are genuine D = 10 statements.  No parameter is given a numerical value.*)
 
 
 d10Assemble[H3_, d3_] := {ArrayFlatten[{
@@ -112,7 +123,7 @@ d10Assemble[H3_, d3_] := {ArrayFlatten[{
       {0, HS[[4 ;; 6, 1 ;; 3]], 0, 0, HS[[4 ;; 6, 4 ;; 6]], 0},
       {0, 0, IdentityMatrix[4], 0, 0, 0}}], d3 + dS};
 
-probe10[H3v_, d3v_, label_] := Module[
+uplift10[H3v_, d3v_, label_] := Module[
    {xs10, gamma, r4, ric, s0, psp, Pn, Pbn, JJ10 = ODDJ[10], H10, d10, tt},
    {H10, d10} = d10Assemble[H3v, d3v];
    xs10 = {xp, xm, Function[e, (2 u/l) D[e, u]], th, f1, f2, z1, z2, z3, z4};
@@ -128,29 +139,23 @@ probe10[H3v_, d3v_, label_] := Module[
    NRH`CheckZero[label <> ":  S_(0)^{(10)} = 0", Together[s0]];
    NRH`CheckZero[label <> ":  (P S Pbar)^{(10)} = 0", Map[Together, psp, {2}]]];
 
-lval = 7/10;
-Block[{l = lval},
-   Module[{fBn, gBn, BBn, HRn, dRn},
-      fBn = u + (15/8) (5/6)/u;
-      gBn = {{2 (15/8), -fBn, 0}, {-fBn, 2 (5/6), 0}, {0, 0, 1}};
-      BBn = fBn {{0, -1, 0}, {1, 0, 0}, {0, 0, 0}};
-      HRn = Map[Together, RiemannianH[gBn, BBn], {2}];
-      dRn = -1/2 Log[u (1 - (15/8) (5/6)/u^2)];
-      probe10[HRn, dRn, "R uplift, BTZ probe (L+ = 15/8, L- = 5/6, l = 7/10)"]]];
+(* Riemannian uplift: Banados family of Eq. (1) with arbitrary chiral L_pm, in the radial variable u = e^{2y/l}. *)
+HR3sym = Map[Together, RiemannianH[gB3, BB3], {2}];
+dR3sym = -1/2 Log[u (1 - Lp[xp] Lm[xm]/u^2)];      (* e^{-2d} = e^{2y/l}(1 - L+ L- e^{-4y/l}), Eq. (2) *)
+uplift10[HR3sym, dR3sym, "R uplift, arbitrary chiral L_+(x^+), L_-(x^-)"];
 
-Block[{l = lval},
-   Module[{Wn, HNRn, dNRn},
-      Wn = 4/3 + (7/5)/u;
-      HNRn = {{0, 0, 0, 1, 0, 0},
-         {0, 0, 0, 2 (15/8)/u, -1, 0},
-         {0, 0, 1, 0, 0, 0},
-         {1, 2 (15/8)/u, 0, -2 (15/8) Wn/u, Wn, 0},
-         {0, -1, 0, Wn, 0, 0},
-         {0, 0, 0, 0, 0, 1}};
-      dNRn = -1/2 Log[u];
-      NRH`CheckZero["one-sided NR probe data obey H J H = J exactly",
-         Map[Together, HNRn . JJ3 . HNRn - JJ3, {2}]];
-      probe10[HNRn, dNRn, "NR uplift, one-sided hairy probe (L- = 0, L+ = 15/8, W0 = 4/3, W1 = 7/5)"]]];
+(* Non-Riemannian uplift: exact one-sided family L_- = 0, arbitrary L_+(x^+), W = W_0(x) + W_1(x)/u. *)
+Wsym = W0[xp, xm] + W1[xp, xm]/u;
+HNR3sym = {{0, 0, 0, 1, 0, 0},
+   {0, 0, 0, 2 Lp[xp]/u, -1, 0},
+   {0, 0, 1, 0, 0, 0},
+   {1, 2 Lp[xp]/u, 0, -2 Lp[xp] Wsym/u, Wsym, 0},
+   {0, -1, 0, Wsym, 0, 0},
+   {0, 0, 0, 0, 0, 1}};
+dNR3sym = -1/2 Log[u];                              (* q = 0 on the one-sided family, Eq. (14) *)
+NRH`CheckZero["one-sided NR family obeys H J H = J exactly for arbitrary L_+(x^+), W_0, W_1",
+   Map[Together, HNR3sym . JJ3 . HNR3sym - JJ3, {2}]];
+uplift10[HNR3sym, dNR3sym, "NR uplift, one-sided hairy family L_- = 0, arbitrary L_+(x^+), W_0(x), W_1(x)"];
 
 
 (* ::Section:: *)

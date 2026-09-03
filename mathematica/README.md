@@ -11,11 +11,11 @@ with an independent implementation in a second computer-algebra system, in the s
 of the co-author Mathematica notebooks used within the collaboration (not part of this
 archive).
 
-Everything here is **exact symbolic computation** — no floating point.  Where a fully
-general symbolic run would be prohibitively slow (only the ten-dimensional curvature
-probes), the same exact pipeline is evaluated in exact **rational arithmetic** at
-explicitly quoted rational parameter values, matching the probe style quoted in the SM
-text.
+Everything here is **exact symbolic computation** — no floating point and no numerical
+parameter values.  Every check is an identity in the symbolic data (arbitrary chiral
+profiles `L_±(x^±)`, arbitrary hair profiles `W_0`, `W_1`, symbolic `l`), including the
+ten-dimensional curvature equations of both uplifts, which are evaluated as 20×20
+symbolic computations rather than at sample points.
 
 If a term, an abbreviation, or a code symbol is unfamiliar, see the sections
 **How to read the files**, **Notation and conventions**, **Glossary of abbreviations**,
@@ -32,7 +32,7 @@ and **Code symbol dictionary** below the file table.
 | `NRH04_SM_LinearResponse.wl` | SM 1 labels `SMcosetreconstruction`–`SMNRhairhessian` (SM (4)–(45)) | vielbein variations; **the exact Γ²-variation identity SM (11)–(12) verified on BTZ with generic fluctuations**, and its on-shell reduction to SM (13); limiting frame and flat metrics; fixed-frame projections `SMexactprojectionR`/`SMexactprojectionNR`; **`SMNRlin` re-derived from the nonlinear G_MN**; `SMNRsol`, `SMlogfreeconditions`, `SMrwquadratic`/`SMrwvariation`; **the complete four-channel boundary variation `SMSren2`** and `SMscalarcutoffresponse`; `SMresponsematrix`, canonical-source factor and Hessians, one-point functions (also from Eq. (9a) nonlinearly on the NR family), PBH kernel and two-point normalization |
 | `NRH05_SM_Charges_Action.wl` | SM 2–3 labels `SMCPSform`–`SMgamma2value` (SM (47)–(59)) | Noether surface potential; Brown–Henneaux cocycle; **`SMCPSresult` with every Θ̂-component vanishing and W₁ dropping out through `SMNRchargecancellation`**; `SMCPSalgebra` and its footnote; the charge Poisson algebra; `SMgamma2`, `SMgamma2flux`, cutoff and renormalized value |
 | `NRH06_SM_Worldsheet.wl` | SM 5 labels `SMRfirstorder`–`SMBRSTfusion` (SM (74)–(92)) | Riemannian first-order form and `SMceff`; SNC kernel and `SMdygconstraints`/`SMdygGO`; `SMGO`, `SMvertex`, `SMlongstringE`, `SMdeltaL`; `SMWZWlevel`; Fradkin–Tseytlin radial weight, marginal roots and the central charge `SMBRSTcentral`; the gauge-obstruction derivation `SMWgaugeobstruction`; the fusion exponent and resonances `SMBRSTfusion` |
-| `NRH07_SM_KillingSpinors.wl` | SM 6 labels `SMupliftblocks`–`SMhairyKS` (SM (93)–(119)) | uplift checks for both factors and exact ten-dimensional probes; `SMRlocaliso`; `SMexactiso` and `SMweighteddilaton`; `SMNRlocalstabilizer`; **the exact non-Riemannian double vielbein `SMvielbein`/`SMvielbeincheck`**; Clifford/Majorana/barred-algebra package; `SMkillingspinor`, `SMreducedDirac`, `SMinternalprojectors` (including the S³ spinor integrability), `SMspinorcountchain`, and `SMhairyKS`; **the Killing-spinor bilinear of `SMsusyclosure` is an exact vacuum isometry `SMexactiso`**; Hill-system and monodromy checks |
+| `NRH07_SM_KillingSpinors.wl` | SM 6 labels `SMupliftblocks`–`SMhairyKS` (SM (93)–(119)) | uplift checks for both factors and **the ten-dimensional equations S_(0)^{(10)} = 0 = (P S Pbar)^{(10)} verified symbolically for both uplifts** (arbitrary chiral L±; one-sided hairy family with arbitrary W₀, W₁); `SMRlocaliso`; `SMexactiso` and `SMweighteddilaton`; `SMNRlocalstabilizer`; **the exact non-Riemannian double vielbein `SMvielbein`/`SMvielbeincheck`**; Clifford/Majorana/barred-algebra package; `SMkillingspinor`, `SMreducedDirac`, `SMinternalprojectors` (including the S³ spinor integrability), `SMspinorcountchain`, and `SMhairyKS`; **the Killing-spinor bilinear of `SMsusyclosure` is an exact vacuum isometry `SMexactiso`**; Hill-system and monodromy checks |
 | `NRH08_SM_BoundaryCandidate.wl` | SM 7 labels `SMcandidateD`–`SMcandidatetrivialL` (SM (120)–(130)) | projector selection and candidate action; non-abelian gauge invariance; commuting Witt symmetries; boundary isometry ⇔ chirality; chiral fermionic transformations with exact Grassmann arithmetic; the extra chiral transformation; the equation-of-motion redundancies |
 
 Coverage is keyed to LaTeX labels rather than snapshot-dependent equation numbers.
@@ -106,7 +106,7 @@ same checks.
 * **Doubled indices.**  The fixed coordinate order is
   x^M = (x̃₊, x̃₋, ỹ; x⁺, x⁻, y): the three dual ("winding") coordinates first, then
   the three physical ones.  All 6×6 matrices use this order (4×4 on the boundary,
-  20×20 in the ten-dimensional probes).  The section condition sets all dual
+  20×20 in the ten-dimensional uplift checks).  The section condition sets all dual
   derivatives to zero, which is what the derivative operators in the code implement.
 * **Frame (flat) indices.**  The three-dimensional lightcone frame is (⊕, ⊖, y) with
   flat metric η = ((0,−1,0),(−1,0,0),(0,0,1)); the barred frame has η̄ = −η.  In code

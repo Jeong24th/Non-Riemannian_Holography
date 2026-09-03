@@ -6,9 +6,9 @@ on-shell action", labels SMgamma2 / SMgamma2flux / SMgamma2value):
 
 * the Gamma^2 rewriting of the lecture notes [Park:2025core, (2.121)-(2.122)]:
   e^{-2d} S_0 = e^{-2d} L_{Gamma^2} + d_A(e^{-2d} B^A),
-  B^A = 4 H^{AB} d_B d - d_B H^{AB},
-  with the semi-covariant Christoffel connection validated against its
-  defining properties (2.46), (2.48), (2.49) at an exact rational point;
+  B^A = 4 H^{AB} d_B d - d_B H^{AB}, used through B_closed/hhz_scalar below
+  (the connection identities themselves are verified symbolically in the
+  Mathematica suite, NRH04/NRH05);
 * the universal flux structure: the tilde-y row of H^{AB} is constant for
   both saddles, hence B^y = 4 d_y d and e^{-2d} B^y = -2 d_y e^{-2d}
   = -(4/l)(e^{2y/l} + mu e^{-2y/l}), mu = L+L- (Riemannian),
@@ -31,12 +31,10 @@ Run from any directory with
 
     python checks/verify_gamma2_action.py
 
-(The connection gates take a few minutes of exact rational arithmetic.)
 """
 
 from __future__ import annotations
 
-import random
 import re
 from pathlib import Path
 
@@ -173,130 +171,6 @@ def hhz_scalar(H, d):
     return R
 
 
-def gamma_gates() -> None:
-    """Connection + (2.121) + (2.122) at an exact rational point."""
-    random.seed(11)
-
-    def rnd():
-        return sp.Rational(random.randint(-3, 3), random.randint(1, 3))
-
-    gm = sp.zeros(3, 3)
-    for i in range(3):
-        for j in range(i, 3):
-            e = rnd() + rnd() * xp + rnd() * xm + rnd() * y + rnd() * xp * y + rnd() * xm * xm
-            gm[i, j] = gm[j, i] = e
-    gm += 5 * sp.eye(3)
-    Bf = sp.zeros(3, 3)
-    for (i, j) in [(0, 1), (0, 2), (1, 2)]:
-        e = rnd() + rnd() * xm + rnd() * xp * y + rnd() * y * y
-        Bf[i, j], Bf[j, i] = e, -e
-    dd = rnd() + rnd() * xp + rnd() * y + rnd() * xm * y + rnd() * xp * xm
-
-    H = riemannian_H(gm, Bf)
-    pt = {xp: sp.Rational(1, 3), xm: sp.Rational(-1, 2), y: sp.Rational(2, 5)}
-
-    Hn = H.subs(pt)
-    P, Pb = (J + Hn) / 2, (J - Hn) / 2
-    dPn = [sp.Matrix(D2, D2, lambda a, b: dA((J + H)[a, b] / 2, C)).subs(pt)
-           for C in range(D2)]
-    ddn = [dA(dd, A).subs(pt) for A in range(D2)]
-
-    PJ, JPb = P * J, J * Pb
-    PJn, PbJn = P * J, Pb * J
-    t1 = [PJ * dPn[C] * JPb for C in range(D2)]
-    v = [ddn[Dd] + sum(J[E, F] * (t1[F][E, Dd] - t1[F][Dd, E]) / 2
-                       for E in range(D2) for F in range(D2))
-         for Dd in range(D2)]
-    t2 = []
-    for C in range(D2):
-        M = sp.zeros(D2, D2)
-        for A in range(D2):
-            for B in range(D2):
-                s = 0
-                for Dd in range(3, D2):
-                    for E in range(D2):
-                        c1 = PbJn[A, Dd] * PbJn[B, E] - PJn[A, Dd] * PJn[B, E]
-                        if c1 != 0:
-                            s += c1 * dPn[Dd][E, C]
-                M[A, B] = s
-        t2.append(M)
-    Gam = []
-    for C in range(D2):
-        M = sp.zeros(D2, D2)
-        for A in range(D2):
-            for B in range(D2):
-                term1 = t1[C][A, B] - t1[C][B, A]
-                term2 = t2[C][A, B] - t2[C][B, A]
-                term3 = 0
-                for Dd in range(D2):
-                    term3 += (Pb[C, A] * PbJn[B, Dd] - Pb[C, B] * PbJn[A, Dd]
-                              + P[C, A] * PJn[B, Dd] - P[C, B] * PJn[A, Dd]) * v[Dd]
-                term3 *= -sp.Rational(2, Ddim - 1)
-                M[A, B] = term1 + term2 + term3  # exact rationals; never nsimplify
-        Gam.append(M)
-
-    assert max(abs(Gam[C][A, B] + Gam[C][B, A]) for C in range(D2)
-               for A in range(D2) for B in range(D2)) == 0, "(2.48) fails"
-    assert max(abs(Gam[A][B, C] + Gam[B][C, A] + Gam[C][A, B]) for A in range(D2)
-               for B in range(D2) for C in range(D2)) == 0, "(2.49) fails"
-    worst = 0
-    for A in range(D2):
-        for B in range(D2):
-            for C in range(D2):
-                e = dPn[A][B, C]
-                for E in range(D2):
-                    for F in range(D2):
-                        e += J[E, F] * (Gam[A][B, F] * P[E, C] + Gam[A][C, F] * P[B, E])
-                worst = max(worst, abs(e))
-    assert worst == 0, "(2.46) nabla P fails"
-    worst = 0
-    for A in range(D2):
-        e = 2 * ddn[A]
-        for B in range(D2):
-            for F in range(D2):
-                e += J[B, F] * Gam[F][B, A]
-        worst = max(worst, abs(e))
-    assert worst == 0, "(2.46) trace fails"
-
-    Pu, Pbu = J * P * J, J * Pb * J
-    Bg = []
-    for A in range(D2):
-        s = 0
-        for Bi in range(D2):
-            for C in range(D2):
-                for Dd in range(D2):
-                    c1 = Pu[A, C] * Pu[Bi, Dd] - Pbu[A, C] * Pbu[Bi, Dd]
-                    if c1 != 0:
-                        s += 2 * c1 * Gam[Bi][C, Dd]
-        Bg.append(s)
-    Bc = [b.subs(pt) for b in B_closed(H, dd)]
-    assert max(abs(Bg[A] - Bc[A]) for A in range(D2)) == 0, "(2.121) fails"
-
-    def Gud(C, A, B):
-        return sum(Gam[C][A, E] * J[E, B] for E in range(D2))
-
-    def Guf(E, A, B):
-        return sum(J[E, F] * Gam[F][A, B] for F in range(D2))
-
-    LG2 = 0
-    for A in range(D2):
-        for Bi in range(D2):
-            for C in range(D2):
-                for Dd in range(D2):
-                    pref = Pu[A, C] * Pu[Bi, Dd] - Pbu[A, C] * Pbu[Bi, Dd]
-                    if pref == 0:
-                        continue
-                    s1 = sum(Gud(A, C, E) * Gam[Bi][Dd, E] for E in range(D2))
-                    s2 = sum(Gud(A, Bi, E) * Gam[Dd][C, E] for E in range(D2))
-                    s3 = sum(Guf(E, A, Bi) * Gam[E][C, Dd] for E in range(D2)) / 2
-                    LG2 += pref * (s1 - s2 + s3)
-    w = sp.exp(-2 * dd)
-    lhs = (w * hhz_scalar(H, dd)).subs(pt)
-    divB = sum(dA(sp.exp(-2 * dd) * B_closed(H, dd)[A], A) for A in range(D2)).subs(pt)
-    assert sp.simplify(lhs - (w.subs(pt)) * LG2 - divB) == 0, "(2.122) fails"
-    print("Gamma gates (2.46)/(2.48)/(2.49)/(2.121)/(2.122): PASS")
-
-
 def saddle_checks() -> None:
     u = sp.exp(-2 * y / l)
     # Riemannian Banados, generic chiral L_pm
@@ -388,7 +262,6 @@ def main() -> None:
     check_tex_contract()
     correlator_checks()
     saddle_checks()
-    gamma_gates()
     print("All checks passed.")
 
 

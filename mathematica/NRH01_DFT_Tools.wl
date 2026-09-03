@@ -380,8 +380,8 @@ SpinConnectionDFT[V_, eta_, gamma_List, xs_List] := Module[
 (* ::Text:: *)
 (*DFTCurvature[H, d, xs] returns an Association with the connection, Ricci, scalar (closed form),*)
 (*projected Ricci, and Einstein curvature.  For the 3-dimensional saddles of the paper this*)
-(*runs exactly; for the 10-dimensional uplift the section files use the same functions*)
-(*with numerical high-precision spot checks where full symbolics would be too slow.*)
+(*runs exactly; NRH07 applies the same functions to the 20 x 20 ten-dimensional uplifts,*)
+(*again fully symbolically (arbitrary chiral profiles, no numerical parameter values).*)
 
 
 DFTCurvature[HH_, dd_, xs_List] := Module[{gamma, r4, ric, s0, t},

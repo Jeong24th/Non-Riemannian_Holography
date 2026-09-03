@@ -3,6 +3,14 @@
 This record describes the latest complete reference execution applicable to the
 symbolic predicates in this directory.
 
+**Pending re-execution (2026-09-04).**  The two ten-dimensional curvature checks in
+`NRH07_SM_KillingSpinors.wl` were changed from exact rational-parameter probes to fully
+symbolic identities (arbitrary chiral `L_±(x^±)`; one-sided hairy family with arbitrary
+`W_0`, `W_1`), and the stale comment in `NRH01_DFT_Tools.wl` about "numerical spot
+checks" was removed.  The number of checks is unchanged (five in that section), but the
+execution below predates this change and must be repeated, and the `.nb` notebooks must
+be regenerated from the `.wl` sources, before the record is current.
+
 - Environment: Mathematica 13.2 (Windows), `wolframscript`
 - Entry point: `NRH00_RunAll.wl`
 - Command: `wolframscript -file NRH00_RunAll.wl`

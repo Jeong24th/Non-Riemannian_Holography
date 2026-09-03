@@ -261,7 +261,11 @@ def build_reduced_system() -> None:
         p: sp.Rational(5, 4),
         w1: sp.Rational(7, 5),
     }
-    matrix_generic = sp.N(system.subs(generic), 50)
+    # Exact evaluation: with h = log 2 every hyperbolic function is rational after
+    # rewriting in exponentials, so no floating-point arithmetic is needed.
+    matrix_generic = system.subs(generic).applyfunc(
+        lambda entry: sp.simplify(sp.expand(entry.rewrite(sp.exp)))
+    )
     print("pointwise equation rank at generic nonzero L+/L-/W1 =", matrix_generic.rank())
 
     # The algebraic compatibility conditions are the left-null vectors of the
@@ -273,8 +277,8 @@ def build_reduced_system() -> None:
     obstruction = sp.Matrix.vstack(*[(vector.T * algebraic_block) for vector in left_kernel])
     print("number of pointwise derivative-independent constraints =", obstruction.rows)
     print("rank on the two spinor components =", obstruction.rank())
-    print("constraint matrix (numeric) =")
-    print(obstruction.evalf(12))
+    print("constraint matrix (exact) =")
+    print(obstruction.applyfunc(sp.simplify))
 
     first_constraint = sp.factor(equations[0][0] / e1)
     second_after_first = sp.factor(
@@ -669,7 +673,7 @@ def full_ten_dimensional_nonextremal_point() -> None:
     print("independent equations (RREF) =")
     for row in reduced_rref.tolist():
         if any(value != 0 for value in row):
-            print(" ", [sp.N(value, 10) for value in row])
+            print(" ", [sp.simplify(value) for value in row])
 
 
 def asymptotic_general_profile() -> None:

@@ -133,7 +133,7 @@ lines); "→ N" means the label starts with that equation reference.
 | 90 | `SMBRSTcentral` | c_y = 1 + 6α′/l², total 3(k+2)/k | NRH06 "SM(90): c_y/2 = …", "SM(90): c_{beta gamma} + c_y = …" | V |
 | 91 | `SMWgaugeobstruction` | W₀ gauge, e^{−2y/l}W₁ not | NRH06 "SM(91): Lhat_xi H^infty = D H^infty + H^infty D^T…", "SM(91): the conditions force…", "SM(91): (db)_{+−y} = …", "SM(91): v^y = … so closure forces d_y varpi = 0" | V |
 | 92 | `SMBRSTfusion` | self-contraction, h_n, resonances | NRH06 "SM(92): …" (three checks) | V |
-| 93 | `SMupliftblocks` | H₁₀ = H₃ ⊕ H_{S³} ⊕ H_{R⁴}, d₁₀ = d₃ + d_{S³} | NRH07 `d10Assemble` and the two ten-dimensional probes "S_(0)^{(10)} = 0", "(P S Pbar)^{(10)} = 0" | V |
+| 93 | `SMupliftblocks` | H₁₀ = H₃ ⊕ H_{S³} ⊕ H_{R⁴}, d₁₀ = d₃ + d_{S³} | NRH07 `d10Assemble` and the symbolic ten-dimensional identities "S_(0)^{(10)} = 0", "(P S Pbar)^{(10)} = 0" for both uplifts (arbitrary chiral L±; one-sided hairy family with arbitrary W₀, W₁) | V |
 | 94 | `SMDFTKilling` | generalized Killing equations | — (definition; `GenLieH`/`GenLieD` implement it: NRH07 "SM(109)…", "SM(110)…") | D |
 | 95 | `SMtypeIIKS` | type-II Killing-spinor systems | — (definition of the systems solved in NRH07) | D |
 | 96 | `SMsusyclosure` | closure on ĥL_X, X = iε̄₂Γε₁ | NRH07 "C = i sigma_2 is the Majorana conjugation…", "SM(96)->SM(109): X^M = …", "SM(96): Lhat_X H^infty = 0 and Lhat_X d = 0…", "SM(96): the bilinear is symmetric…" (three-dimensional calibration) | V° |
@@ -183,13 +183,13 @@ lines); "→ N" means the label starts with that equation reference.
 * SM 5.1: E_{+−} = 0, E_{−+} = −2F, E_{±±} = 2L± (NRH02, NRH06); −det g_∥ = F² − 4L₊L₋ = e^{−4d_R} (NRH06).
 * SM 5.1, before (76): the unnumbered Noether-charge display P_μ = (2πα′)⁻¹(−√−γ γ^{τa}g_{μν}∂_aX^ν + B_{μν}X′^ν), E = −∫dσ P_t = (2πα′)⁻¹∫dσ(√−γ − wB_{tφ}), the identity γ^{τa}γ_{aτ} = 1, the Killing property of ∂_t, B_{tφ} = l(e^{2y/l} + L₊L₋e^{−2y/l}), −det g_(t,φ) = l²(e^{2y/l} − L₊L₋e^{−2y/l})², and the reproduction of (76) from the displayed momentum (NRH06, four checks).
 * SM 5.2: the Gomis–Ooguri contraction table behind the exact marginality of V_W[W₀] (NRH06).
-* SM 6: the two ten-dimensional exact probes of S₍₀₎⁽¹⁰⁾ = 0 = (PSP̄)⁽¹⁰⁾ for both uplifts (NRH07); the displayed vacuum spin-connection components; the Hill-monodromy counts; the complementary-halves bookkeeping.
+* SM 6: the symbolic ten-dimensional identities S₍₀₎⁽¹⁰⁾ = 0 = (PSP̄)⁽¹⁰⁾ for both uplifts (NRH07); the displayed vacuum spin-connection components; the Hill-monodromy counts; the complementary-halves bookkeeping.
 * SM 6, text below (106): e^{±σ}sinh(χ/2) = uL±[1 + u²Π/3 + …] (NRH03).
 
 ## What the suite does not decide
 
 * The SM (11) identity is checked on the exact BTZ background (constant L±) in its own Riemannian double-vielbein frame, for the general tangential fluctuation h_{ab̄}(x⁺,x⁻,y) of the Fefferman–Graham gauge and an arbitrary δd(x⁺,x⁻,y); the radial fluctuation components h_{aȳ}, h_{yb̄}, h_{yȳ} are not switched on.  It is a general identity of the semi-covariant formalism (Ref. Park:2025core), and its consequences (13), (26)–(28), and the nonlinear Eq. (9a) evaluations are verified independently.
 * SM (99) and SM (102) are decompositions of DFT statements into ordinary Riemannian ones; the ordinary Killing vectors are not displayed and were not enumerated here.
-* SM (119): the full ten-dimensional Killing-spinor evaluation with hair is quoted in the SM from the Python/SymPy guards (`checks/verify_10d_killing_spinor.py`, `verify_hairy_killing_spinor.py`) and the co-author notebooks; the Mathematica suite verifies the displayed reduced jet system and the vacuum problem in three dimensions, and the ten-dimensional *bosonic* equations at exact rational probes.
+* SM (119): the full ten-dimensional Killing-spinor evaluation with hair is quoted in the SM from the Python/SymPy guards (`checks/verify_10d_killing_spinor.py`, `verify_hairy_killing_spinor.py`) and the co-author notebooks; the Mathematica suite verifies the displayed reduced jet system and the vacuum problem in three dimensions, and the ten-dimensional *bosonic* equations symbolically (arbitrary chiral L₊ and arbitrary W₀, W₁ on the one-sided family).
 * SM (96): the closure is verified in the three-dimensional calibration (real two-component spinors, C = iσ₂); the ten-dimensional bilinear with the full SDFT charge-conjugation convention is not evaluated.
 * The fermionic (supercharge) phase-space algebra is not computed anywhere in the archive, exactly as the SM states; the charge algebra verified in NRH05 is the bosonic surface-charge algebra.
