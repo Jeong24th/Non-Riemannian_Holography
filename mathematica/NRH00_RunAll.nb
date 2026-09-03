@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      2432,         76]
-NotebookOptionsPosition[      1815,         60]
-NotebookOutlinePosition[      2117,         74]
-CellTagsIndexPosition[      2074,         71]
+NotebookDataLength[      2442,         76]
+NotebookOptionsPosition[      1825,         60]
+NotebookOutlinePosition[      2127,         74]
+CellTagsIndexPosition[      2084,         71]
 WindowTitle->NRH00_RunAll.nb
 WindowFrame->Normal*)
 
@@ -22,16 +22,16 @@ Notebook[{
 Cell["NRH00 \[LongDash] Run every verification file", "Title"],
 
 Cell["\<\
-Runs the complete Mathematica verification suite for \"Long Strings and \
-Non-Riemannian
-Hair\" in paper order and prints a grand PASS/FAIL summary.  Each section \
-file clears
+Runs the complete Mathematica verification suite for \"Long-String Holography \
+and
+Non-Riemannian Hair\" in paper order and prints a grand PASS/FAIL summary.  \
+Each section file clears
 the Global` context and reloads the shared toolbox, so they can equally be \
 run alone.
 
 Usage (command line):    wolframscript -file NRH00_RunAll.wl
 Usage (notebook):        open this file in Mathematica and evaluate it.
-The whole suite completes in a few minutes on a laptop (243 checks; see \
+The whole suite completes in a few minutes on a laptop (247 checks; see \
 REFERENCE_RUN.md).\
 \>", "Text"],
 
@@ -73,11 +73,11 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[587, 21, 62, 0, 70, "Title",ExpressionUUID->"ab343851-be5d-4ccc-9ec6-a3bf5db0f0ca"],
-Cell[652, 23, 515, 12, 70, "Text",ExpressionUUID->"83422b2f-df4b-4d8d-961b-21581d8447d2"],
-Cell[1170, 37, 497, 14, 70, "Input",ExpressionUUID->"391a2235-3041-4e8d-8515-4391a09f194f"],
-Cell[1670, 53, 70, 0, 70, "Input",ExpressionUUID->"941ee705-d68b-4823-ade6-a404035bdea7"],
-Cell[1743, 55, 68, 3, 70, "Input",ExpressionUUID->"cb13bb70-eb5d-4616-851c-60409ad4a670"]
+Cell[587, 21, 62, 0, 70, "Title",ExpressionUUID->"00b67b7d-e307-4a9e-8544-1abccdd93540"],
+Cell[652, 23, 525, 12, 70, "Text",ExpressionUUID->"6ac2dd23-1f61-43b8-a3c9-ddb7af281d0d"],
+Cell[1180, 37, 497, 14, 70, "Input",ExpressionUUID->"fb4d7ae4-2ec2-4a6c-8182-615c5b612e86"],
+Cell[1680, 53, 70, 0, 70, "Input",ExpressionUUID->"78f7c6cb-e899-4334-838c-98c08e6e289e"],
+Cell[1753, 55, 68, 3, 70, "Input",ExpressionUUID->"828ac04d-702a-4db3-8536-e5a7a4e36000"]
 }
 ]
 *)

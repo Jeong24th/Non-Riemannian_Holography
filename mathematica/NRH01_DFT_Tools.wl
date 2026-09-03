@@ -6,7 +6,7 @@
 
 (* ::Text:: *)
 (*This file is the shared toolbox for the Mathematica verification of*)
-(*"Long Strings and Non-Riemannian Hair" (NR_Holography.tex, Letter + Supplemental Material).*)
+(*"Long-String Holography and Non-Riemannian Hair" (NR_Holography.tex, Letter + Supplemental Material).*)
 (**)
 (*It implements, in plain matrix language, the semi-covariant Double Field Theory (DFT)*)
 (*machinery in the conventions of the paper and of the DFT core lecture notes*)

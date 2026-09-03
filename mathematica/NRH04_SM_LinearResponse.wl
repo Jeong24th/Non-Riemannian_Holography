@@ -276,8 +276,8 @@ eqs = {
 
 (* We verify the equivalence by substituting the GENERAL solution SM (21) (with free
    chiral/harmonic data) into both the displayed system and the freshly linearized
-   tensor: since SM (17) is the general solution of SM (15), this checks in one stroke
-   that SM (17) solves SM (15) and that SM (15) implies the linearized EDFE. *)
+   tensor: since SM (21) is the general solution of SM (19), this checks in one stroke
+   that SM (21) solves SM (19) and that SM (19) implies the linearized EDFE. *)
 
 yv = l/2 Log[u];
 solNR = {

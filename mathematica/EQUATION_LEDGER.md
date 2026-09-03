@@ -1,9 +1,9 @@
 # Equation ledger — every numbered display of the paper, in order
 
 Keyed to the manuscript source with SHA-256
-`03F2A80FE0F2D7EC7D31D8E5F250B50C1A95B22F4D08F142B7DA75A3D1ED2291` (2026-09-03), whose
-isolated build has Letter (1)–(16) with (4a/4b) and (9a/9b) and SM (1)–(130).  Later
-same-day edits confined to the Conclusion prose do not change this numbering.  For each display the ledger names the file and the check
+`2E9C2B1DED2D582D44E3A01B55CEDF1045E5E5BCD0EBA55B2464E3E46F41FD41` (2026-09-03, title
+"Long-String Holography and Non-Riemannian Hair"), whose isolated build has Letter (1)–(16)
+with (4a/4b) and (9a/9b) and SM (1)–(130).  For each display the ledger names the file and the check
 label(s) that verify it, or states why no computation applies.
 
 Status codes: **V** = verified by an exact symbolic check; **V°** = verified through its
@@ -116,12 +116,12 @@ lines); "→ N" means the label starts with that equation reference.
 | 73 | `SMphysicalsectionA` | Â_αμ, D_αx^M on the section | — | D |
 | 74 | `SMRfirstorder` | Riemannian first-order form | NRH06 "SM(74): the auxiliary equations give…", "SM(74): eliminating the auxiliaries reproduces E_{mu nu}…" | V |
 | 75 | `SMceff` | c_eff² = 2F | NRH06 "SM(75): −det g_par = …", "SM(75): c_eff^2 = 2F -> 4 Sqrt[L+L−]…"; NRH02 "c_eff^2 := 2F…" | V |
-| 76 | `SNCtau` | SNC clock forms | NRH03 "SM(76) [SNCtau]: tau+ = dx+ − L_− e^{−2y/l} dx− + O(e^{−4y/l})", "unit clock determinant", "W-part of the lower-right block = W(tau+ tau− + tau− tau+)"; NRH07 "SM(106): x rows = Sqrt[2] tau^pm…" | V |
-| 77 | `SMdygconstraints` | τ⁺·∂̄x = 0 = τ⁻·∂x | NRH06 "SM: H^{mu nu} tau^pm_nu = 0", "SM: the dual vectors Y, Ybar exist at every radius" (the kernel and multiplier structure) | V° |
-| 78 | `SMdygGO` | exact reduced Lagrangian | NRH06 "SM(83): symmetric-block route − antisymmetric-clock route = W (tau− . dx)(tau+ . dbar x)", "SM(79)-(80): at chi -> 0 the W coupling reduces to…" | V° |
-| 79 | `SMGO` | Gomis–Ooguri limit | NRH06 "SM(79)-(80)…"; contraction bookkeeping | V |
-| 80 | `SMvertex` | V_W = (1/4πα′)W∂x⁺∂̄x⁻ | NRH06 "SM(80): with the 1/(2 pi alpha') prefactor this is V_W = …" | V |
-| 81 | `SMlongstringE` | winding-string energy | NRH06 "SM(81): −det g_(t,phi) = l^2 (e^{2y/l} − L+L− e^{−2y/l})^2 per winding…", "SM(81): E(y) = …", "SM(81) remark: with phi_0 = 0 the area density equals l e^{-2d}…" | V |
+| 76 | `SMlongstringE` | winding-string energy of the static probe (SM 5.1) | NRH06 "before SM(76): … d_t is Killing…", "before SM(76): gamma^{tau a} g_{t nu} d_a X^nu = … = 1", "before SM(76): B_{t phi} = …", "before SM(76) -> SM(76): E = −Int d sigma P_t … reproduces E(y) = …", "SM(76): −det g_(t,phi) = l^2 (e^{2y/l} − L+L− e^{−2y/l})^2 per winding…", "SM(76): E(y) = …", "SM(76) remark: with phi_0 = 0 the area density equals l e^{-2d}…" | V |
+| 77 | `SNCtau` | SNC clock forms | NRH03 "SM(77) [SNCtau]: tau+ = dx+ − L_− e^{−2y/l} dx− + O(e^{−4y/l})", "unit clock determinant", "W-part of the lower-right block = W(tau+ tau− + tau− tau+)"; NRH07 "SM(106): x rows = Sqrt[2] tau^pm…" | V |
+| 78 | `SMdygconstraints` | τ⁺·∂̄x = 0 = τ⁻·∂x | NRH06 "SM: H^{mu nu} tau^pm_nu = 0", "SM: the dual vectors Y, Ybar exist at every radius" (the kernel and multiplier structure) | V° |
+| 79 | `SMdygGO` | exact reduced Lagrangian | NRH06 "SM(83): symmetric-block route − antisymmetric-clock route = W (tau− . dx)(tau+ . dbar x)", "SM(80)-(81): at chi -> 0 the W coupling reduces to…" | V° |
+| 80 | `SMGO` | Gomis–Ooguri limit | NRH06 "SM(80)-(81)…"; contraction bookkeeping | V |
+| 81 | `SMvertex` | V_W = (1/4πα′)W∂x⁺∂̄x⁻ | NRH06 "SM(81): with the 1/(2 pi alpha') prefactor this is V_W = …" | V |
 | 82 | `SMWisB` | H(W) = Ω_bH(0)Ω_bᵀ, b_{+−} = −W/2 | NRH03 "SM(82) [SMWisB]…" | V |
 | 83 | `SMdeltaL` | antisymmetric clock coupling | NRH06 "SM(83): …" | V |
 | 84 | `SMFTsector` | S_y, S_FT | — (definitions; used in SM 86) | D |
@@ -181,7 +181,7 @@ lines); "→ N" means the label starts with that equation reference.
 * SM 1: the vacuum has no first-order boundary momentum (no vacuum one-point function) (NRH04, SM (26) block).
 * SM 3: the endpoints e^{−2d} = 0 for both branches (NRH05).
 * SM 5.1: E_{+−} = 0, E_{−+} = −2F, E_{±±} = 2L± (NRH02, NRH06); −det g_∥ = F² − 4L₊L₋ = e^{−4d_R} (NRH06).
-* SM 5.2, before (81): −det g_(t,φ) = l²(e^{2y/l} − L₊L₋e^{−2y/l})² for the static winding embedding, the Nambu–Goto area density per winding, and B_{tφ} = l(e^{2y/l} + L₊L₋e^{−2y/l}) (NRH06).
+* SM 5.1, before (76): the unnumbered Noether-charge display P_μ = (2πα′)⁻¹(−√−γ γ^{τa}g_{μν}∂_aX^ν + B_{μν}X′^ν), E = −∫dσ P_t = (2πα′)⁻¹∫dσ(√−γ − wB_{tφ}), the identity γ^{τa}γ_{aτ} = 1, the Killing property of ∂_t, B_{tφ} = l(e^{2y/l} + L₊L₋e^{−2y/l}), −det g_(t,φ) = l²(e^{2y/l} − L₊L₋e^{−2y/l})², and the reproduction of (76) from the displayed momentum (NRH06, four checks).
 * SM 5.2: the Gomis–Ooguri contraction table behind the exact marginality of V_W[W₀] (NRH06).
 * SM 6: the two ten-dimensional exact probes of S₍₀₎⁽¹⁰⁾ = 0 = (PSP̄)⁽¹⁰⁾ for both uplifts (NRH07); the displayed vacuum spin-connection components; the Hill-monodromy counts; the complementary-halves bookkeeping.
 * SM 6, text below (106): e^{±σ}sinh(χ/2) = uL±[1 + u²Π/3 + …] (NRH03).

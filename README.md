@@ -1,6 +1,6 @@
 # Non-Riemannian Holography Verification
 
-Reproducibility scripts supporting the manuscript **“Long Strings and Non-Riemannian Hair”** by Shaun D. Hampton, Hyun-Cheol Kim, Jae-Hyuk Oh, and Jeong-Hyuck Park.
+Reproducibility scripts supporting the manuscript **“Long-String Holography and Non-Riemannian Hair”** by Shaun D. Hampton, Hyun-Cheol Kim, Jae-Hyuk Oh, and Jeong-Hyuck Park.
 
 The scripts check the Riemannian and non-Riemannian response formulas, the doubled-yet-gauged worldsheet reduction, the Gomis–Ooguri limit, covariant charges, radial branches, the linear Virasoro condition, and supersymmetry.
 
@@ -55,7 +55,7 @@ implemented in Mathematica (tested with 13.2; the free Wolfram Engine also works
 wolframscript -file mathematica/NRH00_RunAll.wl
 ```
 
-runs all 243 checks (a few minutes) and exits nonzero on any failure.  Every file
+runs all 247 checks (a few minutes) and exits nonzero on any failure.  Every file
 is also provided as a double-clickable `.nb` notebook with identical content — download
 the `mathematica/` folder, open `NRH00_RunAll.nb`, and use *Evaluation → Evaluate
 Notebook*.  See `mathematica/README.md` for the file-by-file coverage table and method

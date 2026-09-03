@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     18383,        417]
-NotebookOptionsPosition[     15583,        378]
-NotebookOutlinePosition[     15892,        392]
-CellTagsIndexPosition[     15849,        389]
+NotebookDataLength[     20920,        470]
+NotebookOptionsPosition[     18019,        430]
+NotebookOutlinePosition[     18328,        444]
+CellTagsIndexPosition[     18285,        441]
 WindowTitle->NRH06_SM_Worldsheet.nb
 WindowFrame->Normal*)
 
@@ -31,21 +31,23 @@ x^nu  with
         E = g - B, i.e. E_{+-} = 0, E_{-+} = -2F, E_{pm pm} = 2 L_pm;
   SM (75) [SMceff]  c_eff^2 = 2F, its horizon value, and  -det g_par = F^2 - \
 4 L+ L- = e^{-4d};
-  SM (77)-(78) [SMdygconstraints, SMdygGO]  the non-Riemannian reduction: the \
+  SM (76) [SMlongstringE]  the winding-string energy of the static embedding \
+t = tau,
+        phi = w sigma, y = const, including the Noether-charge derivation \
+displayed before it
+        (canonical momentum P_mu, the identity gamma^{tau a} gamma_{a tau} = \
+1, B_{t phi}),
+        the longitudinal determinant, and the cancellation of the tension term;
+  SM (78)-(79) [SMdygconstraints, SMdygGO]  the non-Riemannian reduction: the \
 clock
         kernel of H^{mu nu}, the dual vectors Y, Ybar, and the exact reduced \
 Lagrangian;
         the equality of the antisymmetric-clock route SM (83) [SMdeltaL] with \
 the
         symmetric block descent, modulo the product of the two constraints;
-  SM (79) [SMGO], SM (80) [SMvertex]  the Gomis-Ooguri limit and the hair \
+  SM (80) [SMGO], SM (81) [SMvertex]  the Gomis-Ooguri limit and the hair \
 vertex
         coefficient  (1/4 pi alpha') W d x^+ dbar x^-;
-  SM (81) [SMlongstringE]  the winding-string energy of the static embedding \
-t = tau,
-        phi = w sigma, y = const: the longitudinal determinant, the B_{t phi} \
-coupling, and
-        the cancellation of the tension term;
   SM (85) [SMWZWlevel]  the flux level  k = l^2/alpha';
   SM (86)-(88) [SMFTweight, SMBRSTradial, SMBRSTmomentum]  the \
 Fradkin-Tseytlin-improved
@@ -99,7 +101,7 @@ Sqrt[L+L-]\",
 \>", "Input"],
 
 Cell["\<\
-SM (77)-(78): the non-Riemannian clock kernel and the reduced Lagrangian\
+SM (78)-(79): the non-Riemannian clock kernel and the reduced Lagrangian\
 \>", "Section"],
 
 Cell["\<\
@@ -129,7 +131,7 @@ Cell["\<\
 (* two descent routes for the W coupling:
    symmetric block:  (W/2)(tau+ . dx)(tau- . dbar x) + (W/2)(tau- . dx)(tau+ \
 . dbar x)
-   antisymmetric clock (SM (78)):  (W/2)(dx+ dbar x- - dbar x+ dx-)
+   antisymmetric clock (SM (83)):  (W/2)(dx+ dbar x- - dbar x+ dx-)
    difference = W (tau- . dx)(tau+ . dbar x): the product of the two \
 constraints. *)
 tdotd = tauP[[1]] dxp + tauP[[2]] dxm;   tdotb = tauP[[1]] bxp + tauP[[2]] bxm;
@@ -141,36 +143,86 @@ NRH`CheckZero[\"SM(83): symmetric-block route - antisymmetric-clock route = W \
    Together[symRoute - antisymRoute - Wc mdotd tdotb]];
 (* at the boundary chi -> 0 the clocks become dx^pm and the coupling is the \
 GO vertex *)
-NRH`CheckZero[\"SM(79)-(80): at chi -> 0 the W coupling reduces to (W/2) dx^+ \
+NRH`CheckZero[\"SM(80)-(81): at chi -> 0 the W coupling reduces to (W/2) dx^+ \
 dbar x^-  (+ constraint terms)\",
    Together[(symRoute /. ch -> 0 /. es -> 1) - Wc/2 (dxp + 0) (bxm + 0) - \
 Wc/2 dxm bxp]];
-NRH`Check[\"SM(80): with the 1/(2 pi alpha') prefactor this is V_W = (1/(4 pi \
+NRH`Check[\"SM(81): with the 1/(2 pi alpha') prefactor this is V_W = (1/(4 pi \
 alpha')) W dx+ dbar x-\",
    Together[1/(2 Pi ap) Wc/2 - Wc/(4 Pi ap)] === 0];\
 \>", "Input"],
 
-Cell["SM (81): the static winding probe", "Section"],
+Cell["\<\
+SM (76) and the Noether-charge derivation preceding it: the static winding \
+probe\
+\>", "Section"],
+
+Cell["\<\
+The SM derives the energy of the static winding string  t = tau, phi = w \
+sigma, y = const
+from the target-space time-translation Noether charge of the Nambu-Goto plus \
+Kalb-Ramond
+action (unnumbered display before SM (76)):
+   P_mu = (2 pi alpha')^{-1} ( -Sqrt[-gamma] gamma^{tau a} g_{mu nu} d_a X^nu \
++ B_{mu nu} X'^nu ),
+   E = -Q_{d_t} = -Int d sigma P_t = (2 pi alpha')^{-1} Int d sigma ( \
+Sqrt[-gamma] - w B_{t phi} ),
+using  gamma^{tau a} g_{t nu} d_a X^nu = gamma^{tau a} gamma_{a tau} = 1.  We \
+verify, for
+constant L_pm: the Killing property of d_t in the (t, phi) coordinates; the \
+induced metric
+gamma_ab and the identity above; B_{t phi} = l (e^{2y/l} + L+L- e^{-2y/l}) \
+from B_{-+} = F;
+-det gamma = w^2 l^2 (e^{2y/l} - L+L- e^{-2y/l})^2; and that the displayed \
+momentum
+reproduces SM (76) exactly.\
+\>", "Text"],
 
 Cell["\<\
 (* embedding: t = tau, phi = w sigma; x^pm = (t pm l phi)/Sqrt[2]; fixed \
 radius y *)
 gBan = {{2 Lp, -(u + Lp Lm/u), 0}, {-(u + Lp Lm/u), 2 Lm, 0}, {0, 0, 1}};
+BBan = (u + Lp Lm/u) {{0, -1, 0}, {1, 0, 0}, {0, 0, 0}};   (* B_{+-} = -F, \
+B_{-+} = +F *)
 et = {1/Sqrt[2], 1/Sqrt[2], 0};          (* d x^mu / dt *)
 ephi = {l wN/Sqrt[2], -l wN/Sqrt[2], 0}; (* d x^mu / d sigma, phi = w sigma \
 *)
 g2 = {{et . gBan . et, et . gBan . ephi}, {ephi . gBan . et, ephi . gBan . \
 ephi}};
-NRH`CheckZero[\"SM(81): -det g_(t,phi) = l^2 (e^{2y/l} - L+L- e^{-2y/l})^2 \
+(* (t, phi) components of g and B for the Killing-vector statement and B_{t \
+phi} *)
+ephi1 = {l/Sqrt[2], -l/Sqrt[2], 0};      (* d x^mu / d phi *)
+gtphi = {{et . gBan . et, et . gBan . ephi1}, {ephi1 . gBan . et, ephi1 . \
+gBan . ephi1}};
+Btphi = et . BBan . ephi1;
+NRH`Check[\"before SM(76): with constant L_pm the (t, phi) components of g \
+and B are t-independent, so d_t is Killing and B is invariant\",
+   FreeQ[{gtphi, Btphi}, t] && FreeQ[{gBan, BBan}, xp] && FreeQ[{gBan, BBan}, \
+xm]];
+NRH`CheckZero[\"before SM(76): gamma^{tau a} g_{t nu} d_a X^nu = gamma^{tau \
+a} gamma_{a tau} = 1 on the static embedding\",
+   Together[Sum[Inverse[g2][[1, a]] (et . gBan . {et, ephi}[[a]]), {a, 2}] - \
+1]];
+NRH`CheckZero[\"before SM(76): B_{t phi} = l (e^{2y/l} + L+L- e^{-2y/l}) and \
+B_{t nu} X'^nu = w B_{t phi}\",
+   {Together[Btphi - l (u + Lp Lm/u)], Together[et . BBan . ephi - wN Btphi]}];
+sqrtMinusGamma = l wN (u - Lp Lm/u);   (* positive root in the exterior \
+region, per winding w *)
+Pt = 1/(2 Pi ap) (-sqrtMinusGamma Sum[Inverse[g2][[1, a]] (et . gBan . {et, \
+ephi}[[a]]), {a, 2}] + et . BBan . ephi);
+NRH`CheckZero[\"before SM(76) -> SM(76): E = -Int_0^{2 pi} d sigma P_t with \
+the displayed P_mu reproduces E(y) = -(2 w l/alpha') L+L- e^{-2y/l}\",
+   Together[-2 Pi Pt + 2 wN l/ap Lp Lm/u]];
+NRH`CheckZero[\"SM(76): -det g_(t,phi) = l^2 (e^{2y/l} - L+L- e^{-2y/l})^2 \
 per winding, i.e. the Nambu-Goto area density l(e^{2y/l} - L+L- e^{-2y/l})  \
 (exact, arbitrary chiral L_pm)\",
    Together[-Det[g2] - (l wN (u - Lp Lm/u))^2]];
 (* B_{t phi} = l (e^{2y/l} + L+ L- e^{-2y/l}) per winding unit *)
 BtphiPerW = l (u + Lp Lm/u);
-NRH`CheckZero[\"SM(81): E(y) = (w l/alpha')[(e^{2y/l} - L+L- e^{-2y/l}) - \
+NRH`CheckZero[\"SM(76): E(y) = (w l/alpha')[(e^{2y/l} - L+L- e^{-2y/l}) - \
 (e^{2y/l} + L+L- e^{-2y/l})] = -(2 w l/alpha') L+L- e^{-2y/l}\",
    Together[wN l/ap ((u - Lp Lm/u) - (u + Lp Lm/u)) + 2 wN l/ap Lp Lm/u]];
-NRH`CheckZero[\"SM(81) remark: with phi_0 = 0 the area density equals l \
+NRH`CheckZero[\"SM(76) remark: with phi_0 = 0 the area density equals l \
 e^{-2d} (a coincidence of the gauge choice, not a property of the Nambu-Goto \
 action)\",
    Together[l (u - Lp Lm/u) - l u (1 - Lp Lm/u^2)]];\
@@ -229,7 +281,7 @@ Gomis-Ooguri contraction bookkeeping and exact marginality of V_W[W_0]\
 \>", "Section"],
 
 Cell["\<\
-In the Gomis-Ooguri system SM (79) the only singular contractions are
+In the Gomis-Ooguri system SM (80) the only singular contractions are
 beta(z) x^+(w) ~ 1/(z-w) and betabar(zbar) x^-(wbar) ~ 1/(zbar-wbar); in \
 particular
 <x^+ x^-> = 0.  The vertex V_W = (1/(4 pi alpha')) W(x^+, x^-) dx^+ dbar x^- \
@@ -391,34 +443,35 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[594, 21, 68, 0, 70, "Title",ExpressionUUID->"b6e9759c-df6c-4cac-aab5-eca9d79b4732"],
-Cell[665, 23, 1854, 40, 70, "Text",ExpressionUUID->"bc29f52f-99ac-4bcc-a2de-35216f14f68f"],
-Cell[2522, 65, 219, 5, 70, "Input",ExpressionUUID->"c7c2eb1b-d881-4101-8fec-89216efb2baf"],
-Cell[2744, 72, 74, 0, 70, "Section",ExpressionUUID->"b292a8c2-479f-4ed6-bd99-064a57adb444"],
-Cell[2821, 74, 1131, 24, 70, "Input",ExpressionUUID->"4e8ec309-0576-4406-9527-0bd539a96c98"],
-Cell[3955, 100, 99, 2, 70, "Section",ExpressionUUID->"637c1a06-525c-4520-9935-bbea01715f87"],
-Cell[4057, 104, 1073, 21, 70, "Input",ExpressionUUID->"5fd49b84-2b90-412c-84b4-23b599e0810c"],
-Cell[5133, 127, 1178, 23, 70, "Input",ExpressionUUID->"cbd5396f-6a56-47d4-a5a8-79dfef96c772"],
-Cell[6314, 152, 52, 0, 70, "Section",ExpressionUUID->"048f63e6-9865-4b9a-b18f-d23d8d37218a"],
-Cell[6369, 154, 1176, 22, 70, "Input",ExpressionUUID->"be0e2f41-8761-49d5-a0bc-e5c9888d7bf3"],
-Cell[7548, 178, 42, 0, 70, "Section",ExpressionUUID->"c3a3f822-6b77-472d-8da2-b5318f5ae939"],
-Cell[7593, 180, 330, 7, 70, "Input",ExpressionUUID->"277645ea-4ffe-4ec7-be59-6736ae3d4aea"],
-Cell[7926, 189, 67, 0, 70, "Section",ExpressionUUID->"fd0c7e32-5100-4617-8c85-56ea01b4a5fb"],
-Cell[7996, 191, 544, 12, 70, "Text",ExpressionUUID->"2ab06ab8-5b56-4a43-ab8c-14c0bc2adf90"],
-Cell[8543, 205, 871, 19, 70, "Input",ExpressionUUID->"873faacb-11e3-4b30-aa93-c26eb0abe05b"],
-Cell[9417, 226, 97, 2, 70, "Section",ExpressionUUID->"81806759-2ac0-41c7-ba38-8010b40ee718"],
-Cell[9517, 230, 469, 11, 70, "Text",ExpressionUUID->"cd76b769-33e4-47b8-b2e1-d6c503eb6647"],
-Cell[9989, 243, 577, 13, 70, "Input",ExpressionUUID->"ccc7960f-8cca-4fad-b3d4-ebc92afd548c"],
-Cell[10569, 258, 109, 3, 70, "Section",ExpressionUUID->"78370fc9-1fe5-4682-aa5e-40736409d0f9"],
-Cell[10681, 263, 472, 10, 70, "Text",ExpressionUUID->"0a5e6bae-1c58-4fcb-aafd-fb1da1a993d9"],
-Cell[11156, 275, 501, 9, 70, "Input",ExpressionUUID->"3ecbd48a-cedb-48e4-b59b-624a6abe61b8"],
-Cell[11660, 286, 106, 3, 70, "Section",ExpressionUUID->"ce961914-6328-47c6-a74d-e02ff2b1f654"],
-Cell[11769, 291, 566, 12, 70, "Text",ExpressionUUID->"792c00e9-f6ad-402d-a759-c99f55b48bec"],
-Cell[12338, 305, 831, 17, 70, "Input",ExpressionUUID->"733140a7-2351-45f1-ac7a-d6542be48ffb"],
-Cell[13172, 324, 1653, 30, 70, "Input",ExpressionUUID->"9df44f1b-233d-42db-9fe4-ab4eecf7ce5b"],
-Cell[14828, 356, 116, 3, 70, "Section",ExpressionUUID->"d303e67f-d80c-4a06-8316-f85c7b3926df"],
-Cell[14947, 361, 594, 13, 70, "Input",ExpressionUUID->"897de696-4247-4887-aed8-d45da6a85589"],
-Cell[15544, 376, 35, 0, 70, "Input",ExpressionUUID->"a75e5433-4520-4642-bdb7-dbe8085120cf"]
+Cell[594, 21, 68, 0, 70, "Title",ExpressionUUID->"bb389bf2-1818-4744-9461-c8a72e8c203c"],
+Cell[665, 23, 1984, 42, 70, "Text",ExpressionUUID->"1c14782e-b861-473d-a000-1f149f99bdb6"],
+Cell[2652, 67, 219, 5, 70, "Input",ExpressionUUID->"665b9068-87d4-49c2-9981-0fab1bf42885"],
+Cell[2874, 74, 74, 0, 70, "Section",ExpressionUUID->"31003c14-a266-4aee-bdc0-5d56888c62fc"],
+Cell[2951, 76, 1131, 24, 70, "Input",ExpressionUUID->"94746225-da98-42ef-aa4b-73eb2666a9a9"],
+Cell[4085, 102, 99, 2, 70, "Section",ExpressionUUID->"a93769e7-5de9-4ffe-91bc-65e09952a910"],
+Cell[4187, 106, 1073, 21, 70, "Input",ExpressionUUID->"202051a5-a386-445d-984b-4f38d8c75757"],
+Cell[5263, 129, 1178, 23, 70, "Input",ExpressionUUID->"45278cac-8e31-4ff7-8b5f-b6aef49ae8b8"],
+Cell[6444, 154, 109, 3, 70, "Section",ExpressionUUID->"46a0c22c-b802-4334-88b1-bedee89ec322"],
+Cell[6556, 159, 846, 19, 70, "Text",ExpressionUUID->"617777e1-e05b-438b-b897-4de9473703ba"],
+Cell[7405, 180, 2576, 48, 70, "Input",ExpressionUUID->"cf27e95d-7c33-4abe-942c-1284a3be8049"],
+Cell[9984, 230, 42, 0, 70, "Section",ExpressionUUID->"29a3895f-711f-4f98-aefa-96d412e205d7"],
+Cell[10029, 232, 330, 7, 70, "Input",ExpressionUUID->"739f1e70-b330-47fb-bc1a-9fab1d8e6b06"],
+Cell[10362, 241, 67, 0, 70, "Section",ExpressionUUID->"9695505f-8bb8-49cd-bf3c-383285f20a18"],
+Cell[10432, 243, 544, 12, 70, "Text",ExpressionUUID->"793c568b-838b-4437-9c15-cdb2d6a689df"],
+Cell[10979, 257, 871, 19, 70, "Input",ExpressionUUID->"e7b89bef-e9f8-4f9d-87f9-4fc2888163dc"],
+Cell[11853, 278, 97, 2, 70, "Section",ExpressionUUID->"b026bc3c-68df-480e-bac3-e9edd766a24a"],
+Cell[11953, 282, 469, 11, 70, "Text",ExpressionUUID->"79e62845-6c1f-43f8-b392-dbc22a96176e"],
+Cell[12425, 295, 577, 13, 70, "Input",ExpressionUUID->"1e36a2d7-6626-4e22-a9a9-aadd8335b067"],
+Cell[13005, 310, 109, 3, 70, "Section",ExpressionUUID->"8f10de15-d680-4a31-8499-358adb4baad1"],
+Cell[13117, 315, 472, 10, 70, "Text",ExpressionUUID->"1663defb-3e69-477f-8e94-e21f4e4b0857"],
+Cell[13592, 327, 501, 9, 70, "Input",ExpressionUUID->"630851ee-eb7b-4df9-b55b-293f787c76c3"],
+Cell[14096, 338, 106, 3, 70, "Section",ExpressionUUID->"4deacee1-e19a-426f-b421-1fff2daf1f02"],
+Cell[14205, 343, 566, 12, 70, "Text",ExpressionUUID->"1d1424de-ac17-4342-ac5b-9f2e73c7189b"],
+Cell[14774, 357, 831, 17, 70, "Input",ExpressionUUID->"e2c6fd02-8d1e-4551-82ff-cbe54c26a206"],
+Cell[15608, 376, 1653, 30, 70, "Input",ExpressionUUID->"3e0c263f-f7e5-4ed1-8051-0f0f504de8db"],
+Cell[17264, 408, 116, 3, 70, "Section",ExpressionUUID->"60d6c65e-651a-47c7-b213-a85cb87bc107"],
+Cell[17383, 413, 594, 13, 70, "Input",ExpressionUUID->"4408b329-94bc-4996-91f8-0fb29fcf2547"],
+Cell[17980, 428, 35, 0, 70, "Input",ExpressionUUID->"f2b2f784-2608-4e38-95c6-35c3445bb1b2"]
 }
 ]
 *)

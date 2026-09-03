@@ -11,15 +11,16 @@
 (*        integrating out (beta, betabar) reproduces  E_{mu nu} d x^mu dbar x^nu  with*)
 (*        E = g - B, i.e. E_{+-} = 0, E_{-+} = -2F, E_{pm pm} = 2 L_pm;*)
 (*  SM (75) [SMceff]  c_eff^2 = 2F, its horizon value, and  -det g_par = F^2 - 4 L+ L- = e^{-4d};*)
-(*  SM (77)-(78) [SMdygconstraints, SMdygGO]  the non-Riemannian reduction: the clock*)
+(*  SM (76) [SMlongstringE]  the winding-string energy of the static embedding t = tau,*)
+(*        phi = w sigma, y = const, including the Noether-charge derivation displayed before it*)
+(*        (canonical momentum P_mu, the identity gamma^{tau a} gamma_{a tau} = 1, B_{t phi}),*)
+(*        the longitudinal determinant, and the cancellation of the tension term;*)
+(*  SM (78)-(79) [SMdygconstraints, SMdygGO]  the non-Riemannian reduction: the clock*)
 (*        kernel of H^{mu nu}, the dual vectors Y, Ybar, and the exact reduced Lagrangian;*)
 (*        the equality of the antisymmetric-clock route SM (83) [SMdeltaL] with the*)
 (*        symmetric block descent, modulo the product of the two constraints;*)
-(*  SM (79) [SMGO], SM (80) [SMvertex]  the Gomis-Ooguri limit and the hair vertex*)
+(*  SM (80) [SMGO], SM (81) [SMvertex]  the Gomis-Ooguri limit and the hair vertex*)
 (*        coefficient  (1/4 pi alpha') W d x^+ dbar x^-;*)
-(*  SM (81) [SMlongstringE]  the winding-string energy of the static embedding t = tau,*)
-(*        phi = w sigma, y = const: the longitudinal determinant, the B_{t phi} coupling, and*)
-(*        the cancellation of the tension term;*)
 (*  SM (85) [SMWZWlevel]  the flux level  k = l^2/alpha';*)
 (*  SM (86)-(88) [SMFTweight, SMBRSTradial, SMBRSTmomentum]  the Fradkin-Tseytlin-improved*)
 (*        radial weight  h_y(a) = -(alpha'/4) a (a + 2/l)  and its two marginal roots*)
@@ -58,7 +59,7 @@ NRH`CheckZero["SM(75): c_eff^2 = 2F -> 4 Sqrt[L+L-] at the horizon u = Sqrt[L+L-
 
 
 (* ::Section:: *)
-(*SM (77)-(78): the non-Riemannian clock kernel and the reduced Lagrangian*)
+(*SM (78)-(79): the non-Riemannian clock kernel and the reduced Lagrangian*)
 
 
 (* clock forms and dual vectors at radius chi *)
@@ -79,7 +80,7 @@ NRH`CheckZero["SM: the dual vectors Y, Ybar exist at every radius (unit clock de
 
 (* two descent routes for the W coupling:
    symmetric block:  (W/2)(tau+ . dx)(tau- . dbar x) + (W/2)(tau- . dx)(tau+ . dbar x)
-   antisymmetric clock (SM (78)):  (W/2)(dx+ dbar x- - dbar x+ dx-)
+   antisymmetric clock (SM (83)):  (W/2)(dx+ dbar x- - dbar x+ dx-)
    difference = W (tau- . dx)(tau+ . dbar x): the product of the two constraints. *)
 tdotd = tauP[[1]] dxp + tauP[[2]] dxm;   tdotb = tauP[[1]] bxp + tauP[[2]] bxm;
 mdotd = tauM[[1]] dxp + tauM[[2]] dxm;   mdotb = tauM[[1]] bxp + tauM[[2]] bxm;
@@ -88,28 +89,56 @@ antisymRoute = Wc/2 (dxp bxm - bxp dxm);
 NRH`CheckZero["SM(83): symmetric-block route - antisymmetric-clock route = W (tau- . dx)(tau+ . dbar x)",
    Together[symRoute - antisymRoute - Wc mdotd tdotb]];
 (* at the boundary chi -> 0 the clocks become dx^pm and the coupling is the GO vertex *)
-NRH`CheckZero["SM(79)-(80): at chi -> 0 the W coupling reduces to (W/2) dx^+ dbar x^-  (+ constraint terms)",
+NRH`CheckZero["SM(80)-(81): at chi -> 0 the W coupling reduces to (W/2) dx^+ dbar x^-  (+ constraint terms)",
    Together[(symRoute /. ch -> 0 /. es -> 1) - Wc/2 (dxp + 0) (bxm + 0) - Wc/2 dxm bxp]];
-NRH`Check["SM(80): with the 1/(2 pi alpha') prefactor this is V_W = (1/(4 pi alpha')) W dx+ dbar x-",
+NRH`Check["SM(81): with the 1/(2 pi alpha') prefactor this is V_W = (1/(4 pi alpha')) W dx+ dbar x-",
    Together[1/(2 Pi ap) Wc/2 - Wc/(4 Pi ap)] === 0];
 
 
 (* ::Section:: *)
-(*SM (81): the static winding probe*)
+(*SM (76) and the Noether-charge derivation preceding it: the static winding probe*)
+
+
+(* ::Text:: *)
+(*The SM derives the energy of the static winding string  t = tau, phi = w sigma, y = const*)
+(*from the target-space time-translation Noether charge of the Nambu-Goto plus Kalb-Ramond*)
+(*action (unnumbered display before SM (76)):*)
+(*   P_mu = (2 pi alpha')^{-1} ( -Sqrt[-gamma] gamma^{tau a} g_{mu nu} d_a X^nu + B_{mu nu} X'^nu ),*)
+(*   E = -Q_{d_t} = -Int d sigma P_t = (2 pi alpha')^{-1} Int d sigma ( Sqrt[-gamma] - w B_{t phi} ),*)
+(*using  gamma^{tau a} g_{t nu} d_a X^nu = gamma^{tau a} gamma_{a tau} = 1.  We verify, for*)
+(*constant L_pm: the Killing property of d_t in the (t, phi) coordinates; the induced metric*)
+(*gamma_ab and the identity above; B_{t phi} = l (e^{2y/l} + L+L- e^{-2y/l}) from B_{-+} = F;*)
+(*-det gamma = w^2 l^2 (e^{2y/l} - L+L- e^{-2y/l})^2; and that the displayed momentum*)
+(*reproduces SM (76) exactly.*)
 
 
 (* embedding: t = tau, phi = w sigma; x^pm = (t pm l phi)/Sqrt[2]; fixed radius y *)
 gBan = {{2 Lp, -(u + Lp Lm/u), 0}, {-(u + Lp Lm/u), 2 Lm, 0}, {0, 0, 1}};
+BBan = (u + Lp Lm/u) {{0, -1, 0}, {1, 0, 0}, {0, 0, 0}};   (* B_{+-} = -F, B_{-+} = +F *)
 et = {1/Sqrt[2], 1/Sqrt[2], 0};          (* d x^mu / dt *)
 ephi = {l wN/Sqrt[2], -l wN/Sqrt[2], 0}; (* d x^mu / d sigma, phi = w sigma *)
 g2 = {{et . gBan . et, et . gBan . ephi}, {ephi . gBan . et, ephi . gBan . ephi}};
-NRH`CheckZero["SM(81): -det g_(t,phi) = l^2 (e^{2y/l} - L+L- e^{-2y/l})^2 per winding, i.e. the Nambu-Goto area density l(e^{2y/l} - L+L- e^{-2y/l})  (exact, arbitrary chiral L_pm)",
+(* (t, phi) components of g and B for the Killing-vector statement and B_{t phi} *)
+ephi1 = {l/Sqrt[2], -l/Sqrt[2], 0};      (* d x^mu / d phi *)
+gtphi = {{et . gBan . et, et . gBan . ephi1}, {ephi1 . gBan . et, ephi1 . gBan . ephi1}};
+Btphi = et . BBan . ephi1;
+NRH`Check["before SM(76): with constant L_pm the (t, phi) components of g and B are t-independent, so d_t is Killing and B is invariant",
+   FreeQ[{gtphi, Btphi}, t] && FreeQ[{gBan, BBan}, xp] && FreeQ[{gBan, BBan}, xm]];
+NRH`CheckZero["before SM(76): gamma^{tau a} g_{t nu} d_a X^nu = gamma^{tau a} gamma_{a tau} = 1 on the static embedding",
+   Together[Sum[Inverse[g2][[1, a]] (et . gBan . {et, ephi}[[a]]), {a, 2}] - 1]];
+NRH`CheckZero["before SM(76): B_{t phi} = l (e^{2y/l} + L+L- e^{-2y/l}) and B_{t nu} X'^nu = w B_{t phi}",
+   {Together[Btphi - l (u + Lp Lm/u)], Together[et . BBan . ephi - wN Btphi]}];
+sqrtMinusGamma = l wN (u - Lp Lm/u);   (* positive root in the exterior region, per winding w *)
+Pt = 1/(2 Pi ap) (-sqrtMinusGamma Sum[Inverse[g2][[1, a]] (et . gBan . {et, ephi}[[a]]), {a, 2}] + et . BBan . ephi);
+NRH`CheckZero["before SM(76) -> SM(76): E = -Int_0^{2 pi} d sigma P_t with the displayed P_mu reproduces E(y) = -(2 w l/alpha') L+L- e^{-2y/l}",
+   Together[-2 Pi Pt + 2 wN l/ap Lp Lm/u]];
+NRH`CheckZero["SM(76): -det g_(t,phi) = l^2 (e^{2y/l} - L+L- e^{-2y/l})^2 per winding, i.e. the Nambu-Goto area density l(e^{2y/l} - L+L- e^{-2y/l})  (exact, arbitrary chiral L_pm)",
    Together[-Det[g2] - (l wN (u - Lp Lm/u))^2]];
 (* B_{t phi} = l (e^{2y/l} + L+ L- e^{-2y/l}) per winding unit *)
 BtphiPerW = l (u + Lp Lm/u);
-NRH`CheckZero["SM(81): E(y) = (w l/alpha')[(e^{2y/l} - L+L- e^{-2y/l}) - (e^{2y/l} + L+L- e^{-2y/l})] = -(2 w l/alpha') L+L- e^{-2y/l}",
+NRH`CheckZero["SM(76): E(y) = (w l/alpha')[(e^{2y/l} - L+L- e^{-2y/l}) - (e^{2y/l} + L+L- e^{-2y/l})] = -(2 w l/alpha') L+L- e^{-2y/l}",
    Together[wN l/ap ((u - Lp Lm/u) - (u + Lp Lm/u)) + 2 wN l/ap Lp Lm/u]];
-NRH`CheckZero["SM(81) remark: with phi_0 = 0 the area density equals l e^{-2d} (a coincidence of the gauge choice, not a property of the Nambu-Goto action)",
+NRH`CheckZero["SM(76) remark: with phi_0 = 0 the area density equals l e^{-2d} (a coincidence of the gauge choice, not a property of the Nambu-Goto action)",
    Together[l (u - Lp Lm/u) - l u (1 - Lp Lm/u^2)]];
 
 
@@ -156,7 +185,7 @@ NRH`CheckZero["SM(88): h_y(i k) = (alpha'/4) k (k - 2 i/l) and P = k - i/l gives
 
 
 (* ::Text:: *)
-(*In the Gomis-Ooguri system SM (79) the only singular contractions are*)
+(*In the Gomis-Ooguri system SM (80) the only singular contractions are*)
 (*beta(z) x^+(w) ~ 1/(z-w) and betabar(zbar) x^-(wbar) ~ 1/(zbar-wbar); in particular*)
 (*<x^+ x^-> = 0.  The vertex V_W = (1/(4 pi alpha')) W(x^+, x^-) dx^+ dbar x^- contains*)
 (*neither beta nor betabar, so V_W x V_W has no singular contraction: the y-independent*)

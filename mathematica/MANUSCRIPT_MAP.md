@@ -1,7 +1,7 @@
 # Current Manuscript Equation Map
 
 This map is keyed to the manuscript source with SHA-256
-`03F2A80FE0F2D7EC7D31D8E5F250B50C1A95B22F4D08F142B7DA75A3D1ED2291`.
+`2E9C2B1DED2D582D44E3A01B55CEDF1045E5E5BCD0EBA55B2464E3E46F41FD41`.
 LaTeX labels are the stable identifiers; the numbers below are the numbers in that
 source build (Letter (1)-(16) with (4a/4b) and (9a/9b); SM (1)-(130)).  Unnumbered displays
 and prose statements verified by the suite are listed in `EQUATION_LEDGER.md`, which walks
@@ -44,7 +44,7 @@ through every numbered equation of the paper in order.
 | `NRGprofile` | SM 67 |
 | `SMBtransform` | SM 70 |
 | `SMWshift` | SM 71 |
-| `SNCtau` | SM 76 |
+| `SNCtau` | SM 77 |
 | `SMWisB` | SM 82 |
 | `SMNRlocalstabilizer` | SM 108 |
 
@@ -115,12 +115,12 @@ through every numbered equation of the paper in order.
 | `SMphysicalsectionA` | SM 73 |
 | `SMRfirstorder` | SM 74 |
 | `SMceff` | SM 75 |
-| `SNCtau` | SM 76 |
-| `SMdygconstraints` | SM 77 |
-| `SMdygGO` | SM 78 |
-| `SMGO` | SM 79 |
-| `SMvertex` | SM 80 |
-| `SMlongstringE` | SM 81 |
+| `SNCtau` | SM 77 |
+| `SMdygconstraints` | SM 78 |
+| `SMdygGO` | SM 79 |
+| `SMGO` | SM 80 |
+| `SMvertex` | SM 81 |
+| `SMlongstringE` | SM 76 |
 | `SMWisB` | SM 82 |
 | `SMdeltaL` | SM 83 |
 | `SMFTsector` | SM 84 |

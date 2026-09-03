@@ -16,7 +16,7 @@
 (*                           chiral L_pm(x^pm) and arbitrary W_0(x), W_1(x);*)
 (*  SM (61)-(67) [NRhill-NRGprofile] the exact radial reduction d^2 W/d chi^2 = F;*)
 (*  SM (70)-(71) [SMBtransform, SMWshift] the finite B-shift that removes W_0;*)
-(*  SM (76) [SNCtau]         the SNC clock forms and their Banados-frame asymptotics;*)
+(*  SM (77) [SNCtau]         the SNC clock forms and their Banados-frame asymptotics;*)
 (*  SM (82) [SMWisB]         the pointwise W-as-B identity used on the worldsheet;*)
 (*  Eq. (16) [NRasympt]      the asymptotic transformation laws: delta_eps L_pm without*)
 (*                           anomaly and the inhomogeneous third derivative in delta_eps W_1*)
@@ -173,7 +173,7 @@ NRH`Check["Omega_b is O(3,3):  Omega J Omega^T = J",
 
 
 (* ::Section:: *)
-(*SM (76) [SNCtau]: SNC clock forms*)
+(*SM (77) [SNCtau]: SNC clock forms*)
 
 
 tauP = {Cosh[ch/2], -esig^-1 Sinh[ch/2], 0};   (* components (dx^+, dx^-, dy) *)
@@ -186,7 +186,7 @@ NRHZeroNR["unit clock determinant: tau+ ^ tau- = dx+ ^ dx-",
 (* Banados-frame asymptotics, expanded in q:  tau+ = dx+ - L_- e^{-2y/l} dx- + O(e^{-4y/l}),
    using e^{-2y/l} = Sqrt[2] q psi_+ psi_-  and  L_- = 1/psi_-^2. *)
 tauPq = tauP /. ch -> chiq;
-NRH`CheckZero["SM(76) [SNCtau]: tau+ = dx+ - L_- e^{-2y/l} dx- + O(e^{-4y/l})",
+NRH`CheckZero["SM(77) [SNCtau]: tau+ = dx+ - L_- e^{-2y/l} dx- + O(e^{-4y/l})",
    {SeriesCoefficient[tauPq[[1]], {q, 0, 0}] - 1,
     SeriesCoefficient[tauPq[[1]], {q, 0, 1}],
     Together[SeriesCoefficient[tauPq[[2]], {q, 0, 1}] + Sqrt[2] psip[xp]/psim[xm]],

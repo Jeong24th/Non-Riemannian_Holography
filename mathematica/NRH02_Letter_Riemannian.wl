@@ -158,7 +158,7 @@ ward1 = D[Kpp[xp, xm], xm] + 1/4 D[T0f, xp];
 ward2 = D[Kmm[xp, xm], xp] + 1/4 D[T0f, xm];
 (* The four components of partial^A T_AB come out as
    { partial_- K_{om bop},  -partial_+ K_{om bop},  -2*ward1,  -2*ward2 } :
-   setting them to zero is exactly Eq. (7) plus the constancy of K_{om bop}. *)
+   setting them to zero is exactly Eq. (10) plus the constancy of K_{om bop}. *)
 NRH`CheckZero["Eq.(10): div T = {d_- K_mp, -d_+ K_mp, -2 Ward_+, -2 Ward_-} exactly",
    Together[divT - {D[Kmp[xp, xm], xm], -D[Kmp[xp, xm], xp], -2 ward1, -2 ward2}]];
 NRH`Check["Eq.(10): no local condition on K_{op bom}", FreeQ[divT, Kpm]];

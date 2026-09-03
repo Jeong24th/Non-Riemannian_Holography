@@ -205,7 +205,7 @@ NRH`CheckZero["SM(108): exact one-sided identity  Lhat_xi H = delta H,  with wei
 (*The displayed V_M^p and Vbar_M^pbar carry raised local indices.  We verify the defining relations*)
 (*SM (107) exactly (hh = chi/2 is rationalized by e^{hh} -> T), the reconstruction H = P - Pbar of*)
 (*Eq. (13), the reduction to SM (14) at the boundary after lowering the local indices with eta,*)
-(*etabar, and the statement that the x rows carry the SNC clocks tau^pm of SM (76), the x~ rows*)
+(*etabar, and the statement that the x rows carry the SNC clocks tau^pm of SM (77), the x~ rows*)
 (*their dual vectors Y, Ybar, and the W entries the Milne mass gauge field m^pm = W tau^pm.*)
 
 
@@ -234,7 +234,7 @@ NRH`CheckZero["SM(106) -> SM(14): at hh = 0 and W_0 = 0, lowering the local indi
    {(VexU . eta3flat /. {hh -> 0, Wc -> 0}) - Vinf, (VbexU . (-eta3flat) /. {hh -> 0, Wc -> 0}) - Vbinf}];
 tauPex = {chh, -shh/es}; tauMex = {-es shh, chh};
 Yex = {chh, es shh}; Ybex = {shh/es, chh};
-NRH`CheckZero["SM(106): x rows = Sqrt[2] tau^pm (SM (76)), x~ rows = the dual vectors -Y/Sqrt[2], Ybar/Sqrt[2], and the W entries = -(W/(2 Sqrt[2])) tau^mp",
+NRH`CheckZero["SM(106): x rows = Sqrt[2] tau^pm (SM (77)), x~ rows = the dual vectors -Y/Sqrt[2], Ybar/Sqrt[2], and the W entries = -(W/(2 Sqrt[2])) tau^mp",
    Map[ratH, Flatten[{VexU[[4 ;; 5, 1]] - Sqrt[2] tauPex, VbexU[[4 ;; 5, 2]] - Sqrt[2] tauMex,
       VexU[[1 ;; 2, 2]] + Yex/Sqrt[2], VbexU[[1 ;; 2, 1]] - Ybex/Sqrt[2],
       Yex . tauPex - 1, Yex . tauMex, Ybex . tauMex - 1, Ybex . tauPex,
@@ -312,7 +312,7 @@ NRH`Check["SM(118): adding the Weyl condition leaves 16 real components",
    the R^4 chirality is then tied by the Weyl condition.  We verify the resulting
    dimension in the complex form - Weyl AND S^3-line AND zeta_+ leave a 4-dimensional
    complex space - whose Majorana-real section is the real basis Xi_{+r}, r = 1..4, of
-   SM (112) [SMinternalprojectors]: the 4_R endpoint of the chain. *)
+   SM (117) [SMinternalprojectors]: the 4_R endpoint of the chain. *)
 projS3perp = KroneckerProduct[id2, {{0, 0}, {0, 1}}, id2, id4];  (* kill the component off the eta0 = (1,0) line *)
 projAuxPerp = KroneckerProduct[id2, id2, {{0, 0}, {0, 1}}, id4]; (* kill the zeta_- component *)
 NRH`Check["SM(118): Weyl + S^3-line + zeta_+ leave complex dimension 4 (the Xi_{+r} span)",

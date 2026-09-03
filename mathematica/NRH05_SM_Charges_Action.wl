@@ -284,7 +284,7 @@ NRH`CheckZero["(ii) opposite chiralities Poisson-commute: delta_{eps-} L+ = 0 ki
    {kPlus /. dLpF -> (0 &), kMinus /. dLmF -> (0 &)}];
 
 (* (iii) Riemannian side: same assembly with the anomalous transformation of Eq. (6).
-   The state-independent -2 l eps'' piece of the SM(44) potential drops out of the
+   The state-independent -2 l eps'' piece of the SM(49) potential drops out of the
    variation, so the bracket density is (4/l) eps1 delta_eps2 L+ with the anomaly. *)
 brR = Together[4/l e1f[xp] (e2f[xp] D[Lp[xp], xp] + 2 Lp[xp] D[e2f[xp], xp]
       - l^2/4 D[e2f[xp], {xp, 3}])];
