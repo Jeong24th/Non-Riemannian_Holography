@@ -13,13 +13,17 @@
 (*  Eq. (3)  [label Rboundary]      the asymptotic falloffs;*)
 (*  Eq. (4a) [label boundaryH]      the constant boundary data H^infty, d^infty = -y/l;*)
 (*  Eq. (4b) [label Rboundaryframe] the aligned D=2 boundary double-vielbein representative;*)
-(*  Eq. (6b) [label RDFTconservation] the conserved tensor T_AB built from K_{a bbar}, T_(0);*)
-(*  Eq. (7)  [label Rcontinuity]    the boundary Ward identities;*)
-(*  Eq. (8)  [label Rkilling]       the asymptotic-symmetry generator;*)
-(*  Eq. (9)  [label RVirasoro]      delta_epsilon L_pm with the anomalous -l^2/4 term;*)
-(*  the Brown-Henneaux central charge c = 3l/2G implied by Eqs. (6)-(9);*)
-(*  Eq. (10) [label Rcorrelators]   the normalization arithmetic of the two-point function;*)
-(*  the BTZ Killing horizon location and the long-string effective speed c_eff.*)
+(*  Eq. (9b) [label RDFTconservation] the conserved tensor T_AB built from K_{a bbar}, T_(0);*)
+(*  Eq. (10)  [label Rcontinuity]    the boundary Ward identities;*)
+(*  Eq. (5)  [label Rkilling]       the asymptotic-symmetry generator;*)
+(*  Eq. (6)  [label RVirasoro]      delta_epsilon L_pm with the anomalous -l^2/4 term;*)
+(*  the Brown-Henneaux central charge c = 3l/2G implied by Eqs. (5), (6), and (9a);*)
+(*  Eq. (11) [label Rcorrelators]   the normalization arithmetic of the two-point function;*)
+(*  the BTZ Killing horizon location and the long-string effective speed c_eff;*)
+(*  Eq. (8) -> Eq. (9a) [Rrenvariation, RKdef]  the coefficient matching behind the dictionary,*)
+(*                                   and SM (37) [SMinvariantstress];*)
+(*  Eq. (9a) applied nonlinearly to the exact family: the full one-point matrix of Eq. (11) and*)
+(*                                   SM (36) from the DFT connection of the saddle, and <T_(0)> = 0.*)
 (**)
 (*Everything is exact and symbolic for ARBITRARY chiral functions L_+(x^+), L_-(x^-).*)
 (*We use the rational radial variable u := Exp[2y/l]  (so e^{-2y/l} = 1/u), with the*)
@@ -61,7 +65,7 @@ NRH`CheckZero["Eq.(2): e^{-2d} = e^{2y/l}(1 - L+ L- e^{-4y/l})",
 
 
 (* ::Section:: *)
-(*The Einstein double field equation  G_MN = 2 l^-2 J_MN   (quoted after Eq. (14))*)
+(*The Einstein double field equation  G_MN = 2 l^-2 J_MN   (quoted after Eq. (15))*)
 
 
 (* ::Text:: *)
@@ -118,7 +122,7 @@ NRH`Check["Eq.(4a) [boundaryH]: induced boundary H^(0) has vanishing upper-left 
 
 
 (* ::Section:: *)
-(*Eq. (6b) - Eq. (7):  the conserved tensor and the boundary Ward identities*)
+(*Eq. (9b) - Eq. (10):  the conserved tensor and the boundary Ward identities*)
 
 
 (* ::Text:: *)
@@ -155,21 +159,21 @@ ward2 = D[Kmm[xp, xm], xp] + 1/4 D[T0f, xm];
 (* The four components of partial^A T_AB come out as
    { partial_- K_{om bop},  -partial_+ K_{om bop},  -2*ward1,  -2*ward2 } :
    setting them to zero is exactly Eq. (7) plus the constancy of K_{om bop}. *)
-NRH`CheckZero["Eq.(7): div T = {d_- K_mp, -d_+ K_mp, -2 Ward_+, -2 Ward_-} exactly",
+NRH`CheckZero["Eq.(10): div T = {d_- K_mp, -d_+ K_mp, -2 Ward_+, -2 Ward_-} exactly",
    Together[divT - {D[Kmp[xp, xm], xm], -D[Kmp[xp, xm], xp], -2 ward1, -2 ward2}]];
-NRH`Check["Eq.(7): no local condition on K_{op bom}", FreeQ[divT, Kpm]];
+NRH`Check["Eq.(10): no local condition on K_{op bom}", FreeQ[divT, Kpm]];
 
 
 (* ::Section:: *)
-(*Eq. (8) - Eq. (9):  asymptotic symmetry and the Virasoro transformation law*)
+(*Eq. (5) - Eq. (6):  asymptotic symmetry and the Virasoro transformation law*)
 
 
 (* ::Text:: *)
-(*The doubled vector xi of Eq. (8) has upper components  xi^M = (xitilde_mu ; xi^mu).*)
+(*The doubled vector xi of Eq. (5) has upper components  xi^M = (xitilde_mu ; xi^mu).*)
 (*We verify, exactly in series around the boundary:*)
 (*  (i)   Lhat_xi d = O(e^{-4y/l});*)
 (*  (ii)  Lhat_xi H - delta_eps H = O(e^{-4y/l}), where delta_eps H is the variation of the*)
-(*        exact family under  L_pm -> L_pm + t delta_eps L_pm  with the displayed law (9),*)
+(*        exact family under  L_pm -> L_pm + t delta_eps L_pm  with the displayed law (6),*)
 (*        delta_eps L_pm = eps partial L + 2 L partial eps - (l^2/4) partial^3 eps;*)
 (*  (iii) delta_eps H itself is O(e^{-2y/l}).*)
 
@@ -194,34 +198,34 @@ depsH = Map[Together,
    (D[HRgen, LPv] dLp + D[HRgen, LMv] dLm) /. {LPv -> Lp[xp], LMv -> Lm[xm]}, {2}];
 
 orderCheck[m_, pow_] := Map[Function[e, Normal[Series[e, {u, Infinity, pow}]]], m, {2}];
-NRH`CheckZero["Eq.(8): Lhat_xi d = O(e^{-4y/l})",
+NRH`CheckZero["Eq.(5): Lhat_xi d = O(e^{-4y/l})",
    Normal[Series[lieD, {u, Infinity, 1}]]];
-NRH`CheckZero["Eq.(8)-(9): Lhat_xi H - delta_eps H = O(e^{-4y/l})",
+NRH`CheckZero["Eq.(5)-(6): Lhat_xi H - delta_eps H = O(e^{-4y/l})",
    orderCheck[lieH - depsH, 1]];
 NRH`CheckZero["delta_eps H = O(e^{-2y/l})   (leading falloff of the Banados variation)",
    orderCheck[depsH, 0]];
 
 
 (* ::Section:: *)
-(*Central charge  c = 3l/2G  and the two-point normalization of Eq. (10)*)
+(*Central charge  c = 3l/2G  and the two-point normalization of Eq. (11)*)
 
 
 (* ::Text:: *)
 (*The Letter identifies 8 pi K_{op bop} as the holomorphic stress component with*)
-(*<K_{op bop}> = L_+/(16 pi G l)  [SM (31)], so  T_hol := 8 pi <K> = L_+/(2 G l).*)
-(*The anomalous term of Eq. (9) then fixes the central charge through the CFT law*)
+(*<K_{op bop}> = L_+/(16 pi G l)  [SM (36)], so  T_hol := 8 pi <K> = L_+/(2 G l).*)
+(*The anomalous term of Eq. (6) then fixes the central charge through the CFT law*)
 (*   delta_eps T = eps T' + 2 T eps' - (c/12) eps''' :*)
 (*   (c/12) = (l^2/4) * (1/(2 G l))  =>  c = 3l/2G.*)
-(*The connected two-point normalization quoted in Eq. (10) is the arithmetic identity*)
-(*   (1/(64 pi G l)) * (3 l^2/(4 pi)) = (8 pi)^{-2} (c/2),  cf. SM (34)-(35).*)
+(*The connected two-point normalization quoted in Eq. (11) is the arithmetic identity*)
+(*   (1/(64 pi G l)) * (3 l^2/(4 pi)) = (8 pi)^{-2} (c/2),  cf. SM (39)-(40).*)
 
 
 THol = 8 Pi (Lp[xp]/(16 Pi G l));
-dT = (dLp/(2 G l)) /. {};   (* transformation of T_hol induced by Eq. (9) *)
+dT = (dLp/(2 G l)) /. {};   (* transformation of T_hol induced by Eq. (6) *)
 cval = 3 l/(2 G);
 NRH`CheckZero["c = 3l/2G reproduces delta_eps T = eps T' + 2 T eps' - (c/12) eps'''",
    Together[dT - (ep[xp] D[THol, xp] + 2 THol D[ep[xp], xp] - cval/12 D[ep[xp], {xp, 3}])]];
-NRH`CheckZero["Eq.(10): (64 pi G l)^{-1} (3 l^2/(4 pi)) = (8 pi)^{-2} (c/2)",
+NRH`CheckZero["Eq.(11): (64 pi G l)^{-1} (3 l^2/(4 pi)) = (8 pi)^{-2} (c/2)",
    Together[1/(64 Pi G l) 3 l^2/(4 Pi) - 1/(8 Pi)^2 cval/2]];
 
 
@@ -239,5 +243,54 @@ NRH`Check["E_{+-} = 0, E_{-+} = -2F, E_{pm pm} = 2 L_pm  (Gomis-Ooguri channel s
        Together[EE2[[2, 2]] - 2 Lm[xm]] === 0]];
 NRH`CheckZero["c_eff^2 := 2F = 2(e^{2y/l} + L+ L- e^{-2y/l}) and = 4 Sqrt[L+ L-] at the horizon",
    Together[(2 fB /. u -> Sqrt[Lp[xp] Lm[xm]]) - 4 Sqrt[Lp[xp] Lm[xm]]]];
+
+
+(* ::Section:: *)
+(*Eq. (8) -> Eq. (9a) [Rrenvariation, RKdef], and SM (37) [SMinvariantstress]*)
+
+
+(* ::Text:: *)
+(*Eq. (8) pairs the cutoff data as  (16 pi G)^{-1} e^{-2d} [h^{p qbar} A^y_{p qbar} + 2 delta d (B^y + 4/l)],*)
+(*while the DFT response definition SM (7)-(8) pairs them as  2 e^{-2d} (-h_{p qbar} K^{p qbar} + delta d T_(0)).*)
+(*With e^{-2d(Y)} ~ e^{2Y/l} e^{-2d^(0)}, matching the two pairings gives exactly the coefficients*)
+(*displayed in Eq. (9a):  K = -(32 pi G)^{-1} e^{2Y/l} A^y  and  T_(0) = (16 pi G)^{-1} e^{2Y/l} (B^y + 4/l).*)
+(*Eq. (9b) then represents the invariant coordinate components in the aligned frame of Eq. (4b);*)
+(*SM (37) reads off  T_{x^+ x~_-} = 2 K_{op bop}  and  T_{x^- x~_+} = 2 K_{om bom}  from the same*)
+(*tensor T_AB assembled above (rows/columns ordered x~_+, x~_-, x^+, x^-).*)
+
+
+NRH`CheckZero["Eq.(9a) [RKdef]: coefficient matching  -2K = (16 pi G)^{-1} A^y  and  2T_(0) = (16 pi G)^{-1} 2(B^y + 4/l)",
+   {Together[-2 (-(1/(32 Pi G))) - 1/(16 Pi G)], Together[2 (1/(16 Pi G)) - 2/(16 Pi G)]}];
+NRH`CheckZero["SM(37) [SMinvariantstress]: T_{x+ x~-} = 2 K_{op bop} and T_{x- x~+} = 2 K_{om bom} in the frame of Eq. (4b)",
+   {Together[TAB[[3, 2]] - 2 Kpp[xp, xm]], Together[TAB[[4, 1]] - 2 Kmm[xp, xm]]}];
+NRH`Check["SM(37): J_{x+ x~-} = 0 = J_{x- x~+}, so no T_(0) term enters these two components",
+   J4[[3, 2]] === 0 && J4[[4, 1]] === 0];
+
+
+(* ::Section:: *)
+(*Eq. (9a) applied nonlinearly to the exact family (1)-(2): the one-point functions of Eq. (11)*)
+
+
+(* ::Text:: *)
+(*Eq. (9a) is a nonlinear statement:  <K_{a bbar}> = -(32 pi G)^{-1} lim e^{2Y/l} A^y_{a bbar}(Y),  with A^K the*)
+(*generalized-metric momentum of Eq. (8)/SM (12) built from the full DFT connection of the saddle, and*)
+(*the frame indices referring to the aligned boundary frame of Eq. (4b)/SM (14).  Here A^y_{MN} is*)
+(*evaluated on the exact Banados family with arbitrary chiral L_pm, projected on that fixed frame, and*)
+(*the limit is taken: the result is the complete one-point matrix  {{L_+, L_+ L_-}, {1, L_-}}/(16 pi G l)*)
+(*- Eq. (11), SM (36), and the two mixed entries quoted after SM (37) - obtained without any*)
+(*linearization.  In the same way  e^{2Y/l}(B^y + 4/l) -> 0  gives  <T_(0)> = 0,  as stated below Eq. (10).*)
+
+
+VinfL = {{1/Sqrt[2], 0, 0}, {0, 0, 0}, {0, 0, 1/Sqrt[2]},
+   {0, -Sqrt[2], 0}, {0, 0, 0}, {0, 0, 1/Sqrt[2]}};       (* SM (14), lower local indices *)
+VbinfL = {{0, 0, 0}, {0, 1/Sqrt[2], 0}, {0, 0, 1/Sqrt[2]},
+   {0, 0, 0}, {Sqrt[2], 0, 0}, {0, 0, -1/Sqrt[2]}};
+AyR = MomentumAK[HR, curvR["Gamma"], xs][[6]];
+AfixR = Map[Together, Transpose[JJ . VinfL] . AyR . (JJ . VbinfL), {2}];
+KR = Map[Limit[-(1/(32 Pi G)) u #, u -> Infinity] &, AfixR[[1 ;; 2, 1 ;; 2]], {2}];
+NRH`CheckZero["Eq.(9a) on the exact family: -(32 pi G)^{-1} lim e^{2Y/l} A^y_{a bbar} = {{L+, L+L-},{1, L-}}/(16 pi G l)  [Eq.(11), SM(36), mixed entries after SM(37)]",
+   Map[Together, KR - {{Lp[xp], Lp[xp] Lm[xm]}, {1, Lm[xm]}}/(16 Pi G l), {2}]];
+NRH`CheckZero["Eq.(9a) on the exact family: e^{2Y/l}(B^y + 4/l) -> 0, hence <T_(0)> = 0",
+   Limit[u (GammaBVector[HR, dR, xs][[6]] + 4/l), u -> Infinity]];
 
 NRH`FileSummary[];

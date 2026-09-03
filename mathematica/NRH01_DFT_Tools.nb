@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     20490,        511]
-NotebookOptionsPosition[     17695,        472]
-NotebookOutlinePosition[     18000,        486]
-CellTagsIndexPosition[     17957,        483]
+NotebookDataLength[     24476,        603]
+NotebookOptionsPosition[     19621,        542]
+NotebookOutlinePosition[     19926,        556]
+CellTagsIndexPosition[     19883,        553]
 WindowTitle->NRH01_DFT_Tools.nb
 WindowFrame->Normal*)
 
@@ -82,8 +82,10 @@ Bookkeeping framework (context NRH`, survives ClearAll[\"Global`*\"])\
 
 Cell["\<\
 NRH`$FileResults;
-If[!ListQ[NRH`$AllResults], NRH`$AllResults = {}];
+If[!ListQ[NRH`$AllResults], NRH`$AllResults = {}];\
+\>", "Input"],
 
+Cell["\<\
 NRH`BeginFile[name_String] := (
    NRH`$CurrentFile = name;
    NRH`$FileResults = {};
@@ -91,22 +93,30 @@ NRH`BeginFile[name_String] := (
 \"];
    Print[\"  \", name];
    Print[\"================================================================\"]\
-);
+);\
+\>", "Input"],
 
+Cell["\<\
 NRH`Record[label_String, ok : (True | False)] := (
    AppendTo[NRH`$FileResults, {NRH`$CurrentFile, label, ok}];
    AppendTo[NRH`$AllResults, {NRH`$CurrentFile, label, ok}];
    Print[If[ok, \"  [PASS] \", \"  [FAIL] \"], label];
-   ok);
+   ok);\
+\>", "Input"],
 
+Cell["\<\
 (* A check that an expression (scalar, list, or matrix) is identically zero. *)
 NRH`CheckZero[label_String, expr_] := Module[{z},
    z = NRH`ZeroQ[expr];
-   NRH`Record[label, TrueQ[z]]];
+   NRH`Record[label, TrueQ[z]]];\
+\>", "Input"],
 
+Cell["\<\
 (* A check of a boolean statement. *)
-NRH`Check[label_String, statement_] := NRH`Record[label, TrueQ[statement]];
+NRH`Check[label_String, statement_] := NRH`Record[label, TrueQ[statement]];\
+\>", "Input"],
 
+Cell["\<\
 NRH`FileSummary[] := Module[{n, bad},
    n = Length[NRH`$FileResults];
    bad = Select[NRH`$FileResults, #[[3]] === False &];
@@ -116,8 +126,10 @@ checks passed.\"];
    If[Length[bad] > 0,
       Print[\"  FAILED: \", bad[[All, 2]]];
       If[$FrontEnd === Null && ! TrueQ[NRH`$DeferExit], Exit[1]]];
-   Length[bad] === 0];
+   Length[bad] === 0];\
+\>", "Input"],
 
+Cell["\<\
 NRH`GrandSummary[] := Module[{n, bad},
    n = Length[NRH`$AllResults];
    bad = Select[NRH`$AllResults, #[[3]] === False &];
@@ -128,8 +140,10 @@ passed.\"];
    Scan[Print[\"  FAILED: \", #[[1]], \" -- \", #[[2]]] &, bad];
    Print[\"################################################################\"];
    If[Length[bad] > 0 && $FrontEnd === Null, Exit[1]];
-   Length[bad] === 0];
+   Length[bad] === 0];\
+\>", "Input"],
 
+Cell["\<\
 (* Robust zero test: cheap normal forms first, Simplify only as a fallback. \
 *)
 NRH`ZeroQ[expr_] := Module[{flat, t},
@@ -158,8 +172,10 @@ the first block and as \\[PartialD]/\\[PartialD]x^mu on the second.\
 
 Cell["\<\
 ODDJ[nphys_Integer] := ArrayFlatten[{{0, IdentityMatrix[nphys]}, \
-{IdentityMatrix[nphys], 0}}];
+{IdentityMatrix[nphys], 0}}];\
+\>", "Input"],
 
+Cell["\<\
 (* Doubled derivative of a scalar/matrix expression with respect to doubled \
 index m.
    An entry of xs may be either a plain coordinate symbol (ordinary D), or a \
@@ -171,8 +187,10 @@ to work
 DblD[expr_, m_Integer, xs_List] := Module[{n = Length[xs], op},
    If[m <= n, 0*expr,
       op = xs[[m - n]];
-      If[Head[op] === Function, op[expr], D[expr, op]]]];
+      If[Head[op] === Function, op[expr], D[expr, op]]]];\
+\>", "Input"],
 
+Cell["\<\
 (* Gradient as a doubled (lower-index) vector. *)
 DblGrad[expr_, xs_List] := Table[DblD[expr, m, xs], {m, 1, 2 Length[xs]}];\
 \>", "Input"],
@@ -281,10 +299,12 @@ derivative pair; fill below *)
             + gamma[[a]] . JJ . gamma[[b]] - gamma[[b]] . JJ . gamma[[a]], \
 {2}]],
       {a, 1, dim}, {b, 1, dim}]
-   // (# - Transpose[#, {2, 1, 3, 4}] &)];
+   // (# - Transpose[#, {2, 1, 3, 4}] &)];\
+\>", "Input"],
 
-Partner[m_Integer, n_Integer] := If[m <= n, m + n, m - n];
+Cell["Partner[m_Integer, n_Integer] := If[m <= n, m + n, m - n];", "Input"],
 
+Cell["\<\
 (* Ricci S_{AB}; r4 = RiemannR4 output. *)
 RicciS[gamma_List, r4_List, xs_List] := Module[{n = Length[xs], dim, gg},
    dim = 2 n;
@@ -296,8 +316,10 @@ Gamma[[partner[F]]]_{EA} Gamma[[F]]_{CB} *)
             - Sum[gamma[[Partner[f, n], e, a]]*gamma[[f, c, b]], {f, 1, \
 dim}])/2],
          {c, 1, dim}]],
-      {a, 1, dim}, {b, 1, dim}]];
+      {a, 1, dim}, {b, 1, dim}]];\
+\>", "Input"],
 
+Cell["\<\
 (* Scalar curvature from the closed form (2.103): uses only H_{MN} and d. *)
 ScalarS0[HH_, dd_, xs_List] := Module[
    {n = Length[xs], dim, JJ, Hup, Hmix, gradd, term},
@@ -315,8 +337,10 @@ dim}, {e, 1, dim}]
          {a, 1, dim}, {b, 1, dim}]
       - Sum[DblD[DblD[Hup[[a, b]], a, xs], b, xs], {a, 1, dim}, {b, 1, dim}]
       + 4*Sum[DblD[Hup[[a, b]], a, xs]*gradd[[b]], {a, 1, dim}, {b, 1, dim}];
-   term];
+   term];\
+\>", "Input"],
 
+Cell["\<\
 (* Scalar curvature from the S_{ABCD} contraction (2.102): independent \
 cross-check.  *)
 ScalarS0FromS4[gamma_List, r4_List, HH_, xs_List] := Module[
@@ -329,13 +353,17 @@ ScalarS0FromS4[gamma_List, r4_List, HH_, xs_List] := Module[
          - Sum[gamma[[Partner[f, n], a, b]]*gamma[[f, c, d]], {f, 1, \
 dim}])/2;
    Sum[(Pup[[a, c]]*Pup[[b, d]] - Pbup[[a, c]]*Pbup[[b, d]])*s4[a, b, c, d],
-      {a, 1, dim}, {b, 1, dim}, {c, 1, dim}, {d, 1, dim}]];
+      {a, 1, dim}, {b, 1, dim}, {c, 1, dim}, {d, 1, dim}]];\
+\>", "Input"],
 
+Cell["\<\
 (* Projected Ricci (P S Pbar)_{AB} and Einstein curvature G_{AB}. *)
 ProjectedRicci[HH_, ricci_, xs_List] := Module[{n = Length[xs], JJ, P, Pb},
    JJ = ODDJ[n]; P = (JJ + HH)/2; Pb = (JJ - HH)/2;
-   P . JJ . ricci . JJ . Pb];
+   P . JJ . ricci . JJ . Pb];\
+\>", "Input"],
 
+Cell["\<\
 EinsteinG[HH_, ricci_, s0_, xs_List] := Module[{n = Length[xs], JJ, psp},
    JJ = ODDJ[n];
    psp = ProjectedRicci[HH, ricci, xs];
@@ -364,8 +392,10 @@ dxiUp[[M,C]] = d_M xi^C *)
    amat = Table[dxiUp[[m, c]] - Sum[JJ[[c, dd2]]*dxiLow[[dd2, m]], {dd2, 1, \
 dim}], {m, 1, dim}, {c, 1, dim}];
    Sum[xiUp[[c]]*DblD[HH, c, xs], {c, 1, dim}] + amat . HH + HH . \
-Transpose[amat]];
+Transpose[amat]];\
+\>", "Input"],
 
+Cell["\<\
 GenLieD[xiUp_List, dd_, xs_List] := Module[{n = Length[xs], dim},
    dim = 2 n;
    Sum[xiUp[[a]]*DblD[dd, a, xs], {a, 1, dim}] - 1/2*Sum[DblD[xiUp[[a]], a, \
@@ -382,8 +412,10 @@ Sqrt[-det g] e^{-2 phi}.\
 
 Cell["\<\
 RiemannianH[g_, B_] := Module[{gi = Inverse[g]},
-   ArrayFlatten[{{gi, -gi . B}, {B . gi, g - B . gi . B}}]];
+   ArrayFlatten[{{gi, -gi . B}, {B . gi, g - B . gi . B}}]];\
+\>", "Input"],
 
+Cell["\<\
 RiemannianDilaton[g_, phi_] := phi - 1/4 Log[-Det[g]];  (* d with e^{-2d} = \
 Sqrt[-g] e^{-2 phi} *)\
 \>", "Input"],
@@ -404,12 +436,50 @@ Gamma2Density[HH_, dd_, gamma_List, xs_List] := Module[
             - gamma[[a, b, Partner[e, n]]]*gamma[[d, c, e]]
             + 1/2*gamma[[Partner[e, n], a, b]]*gamma[[e, c, d]], {e, 1, \
 dim}],
-      {a, 1, dim}, {b, 1, dim}, {c, 1, dim}, {d, 1, dim}]];
+      {a, 1, dim}, {b, 1, dim}, {c, 1, dim}, {d, 1, dim}]];\
+\>", "Input"],
 
+Cell["\<\
 GammaBVector[HH_, dd_, xs_List] := Module[{n = Length[xs], dim, JJ, Hup},
    dim = 2 n; JJ = ODDJ[n]; Hup = JJ . HH . JJ;
    Table[4*Sum[Hup[[a, b]]*DblD[dd, b, xs], {b, 1, dim}]
          - Sum[DblD[Hup[[a, b]], b, xs], {b, 1, dim}], {a, 1, dim}]];\
+\>", "Input"],
+
+Cell["\<\
+Generalized-metric momentum A^K_{MN} of the Gamma^2 boundary term (Letter Eq. \
+(8), SM (12))\
+\>", "Section"],
+
+Cell["\<\
+A^K_{p qbar} := V^K_p Gamma^L_{L qbar} + Vbar^K_qbar Gamma^L_{Lp} - \
+Gamma_p^K_qbar - Gamma_qbar^K_p  is the frame
+projection of the doubled tensor
+   A^K_{MN} = P_M^{M'} Pbar_N^{N'} [ delta^K_{M'} Gamma^L_{L N'} + \
+delta^K_{N'} Gamma^L_{L M'} - Gamma_{M'}^K_{N'} - Gamma_{N'}^K_{M'} ],
+returned as a list over K of (2D x 2D) matrices in (M, N).  Contracting with \
+any double vielbein of
+the background gives the frame components of the paper; contracting with the \
+fixed limiting frame
+gives the holographic response of Eq. (9a).\
+\>", "Text"],
+
+Cell["\<\
+MomentumAK[HH_, gamma_List, xs_List] := Module[
+   {n = Length[xs], dim, JJ, P, Pb, PmixU, PbmixU, trvec, gUp, core},
+   dim = 2 n; JJ = ODDJ[n]; P = (JJ + HH)/2; Pb = (JJ - HH)/2;
+   PmixU = P . JJ; PbmixU = Pb . JJ;                           (* P_M{}^{M'}, \
+ Pbar_N{}^{N'} *)
+   trvec = Table[Sum[JJ[[L, A]] gamma[[A, L, N]], {L, dim}, {A, dim}], {N, \
+dim}];   (* Gamma^L_{LN} *)
+   gUp[K_, M_, N_] := Sum[JJ[[K, A]] gamma[[M, A, N]], {A, dim}];             \
+     (* Gamma_M{}^K{}_N *)
+   Table[
+      core = Table[KroneckerDelta[K, Mp] trvec[[Np]] + KroneckerDelta[K, Np] \
+trvec[[Mp]]
+         - gUp[K, Mp, Np] - gUp[K, Np, Mp], {Mp, dim}, {Np, dim}];
+      Map[Together, PmixU . core . Transpose[PbmixU], {2}],
+      {K, dim}]];\
 \>", "Input"],
 
 Cell["\<\
@@ -465,10 +535,10 @@ DFTCurvature[HH_, dd_, xs_List] := Module[{gamma, r4, ric, s0, t},
    Print[\"    [timing] S0:    \", Round[t, 0.1], \" s\"];
    <|\"Gamma\" -> gamma, \"R4\" -> r4, \"Ricci\" -> ric, \"S0\" -> s0,
      \"PSPbar\" -> ProjectedRicci[HH, ric, xs],
-     \"G\" -> EinsteinG[HH, ric, s0, xs]|>];
+     \"G\" -> EinsteinG[HH, ric, s0, xs]|>];\
+\>", "Input"],
 
-Print[\"[NRH01] DFT toolbox loaded.\"];\
-\>", "Input"]
+Cell["Print[\"[NRH01] DFT toolbox loaded.\"];", "Input"]
 },
 WindowTitle->"NRH01_DFT_Tools.nb",
 FrontEndVersion->"13.2 for Microsoft Windows (64-bit) (January 30, 2023)",
@@ -485,34 +555,56 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[590, 21, 53, 0, 70, "Title",ExpressionUUID->"e8984737-a917-4672-8a0a-6822493ecf48"],
-Cell[646, 23, 2370, 53, 70, "Text",ExpressionUUID->"366dbdf2-de8c-46cc-8e50-87df75e84137"],
-Cell[3019, 78, 96, 2, 70, "Section",ExpressionUUID->"8098e855-f86f-4ee8-98e3-23993053bb32"],
-Cell[3118, 82, 2243, 60, 70, "Input",ExpressionUUID->"2e24ca19-8df3-4062-a664-50fb4105d5b3"],
-Cell[5364, 144, 66, 0, 70, "Section",ExpressionUUID->"dfcd32c2-3ee2-4365-9dd0-20623e11fa07"],
-Cell[5433, 146, 474, 10, 70, "Text",ExpressionUUID->"4370d4c4-3be2-459e-b132-9782b191bd2c"],
-Cell[5910, 158, 821, 19, 70, "Input",ExpressionUUID->"0515e082-9194-49c9-8e8b-4136f54f15a4"],
-Cell[6734, 179, 92, 2, 70, "Section",ExpressionUUID->"0b56be6f-63df-4b01-946a-a4b936b6a108"],
-Cell[6829, 183, 413, 10, 70, "Text",ExpressionUUID->"90ceb13d-535c-490f-aaf5-cf6600d37f97"],
-Cell[7245, 195, 1010, 22, 70, "Text",ExpressionUUID->"4b909927-5966-4f83-b02b-ac9dc7ad95b3"],
-Cell[8258, 219, 1358, 35, 70, "Input",ExpressionUUID->"97c2027d-4f10-4e1b-b484-ab0d604eac93"],
-Cell[9619, 256, 96, 2, 70, "Section",ExpressionUUID->"1b41f4b7-2ed3-4bc7-a248-4a06ee65a4d6"],
-Cell[9718, 260, 473, 10, 70, "Text",ExpressionUUID->"39d336d9-2ae6-482b-8dea-2d5ad5d10fd5"],
-Cell[10194, 272, 2841, 70, 70, "Input",ExpressionUUID->"09e210fe-b962-43b1-b79c-222e1fadba58"],
-Cell[13038, 344, 45, 0, 70, "Section",ExpressionUUID->"b77ee0f5-9d38-4a97-8315-448fc76ed21b"],
-Cell[13086, 346, 264, 6, 70, "Text",ExpressionUUID->"2da23eb5-9afd-4664-a8fd-74ebd2c6dec0"],
-Cell[13353, 354, 788, 18, 70, "Input",ExpressionUUID->"40554d56-b6ac-4c21-a486-a3120a104da3"],
-Cell[14144, 374, 77, 0, 70, "Section",ExpressionUUID->"0f3d542d-409f-4a14-a53b-7b9e4ad1293a"],
-Cell[14224, 376, 196, 4, 70, "Text",ExpressionUUID->"08231b4e-039d-44af-92d6-c72a6599ad52"],
-Cell[14423, 382, 236, 6, 70, "Input",ExpressionUUID->"e374cdec-21be-4622-90d8-acb0cd270dfa"],
-Cell[14662, 390, 97, 2, 70, "Section",ExpressionUUID->"b7c77f72-5e07-4981-af59-d6c503d0fae9"],
-Cell[14762, 394, 899, 18, 70, "Input",ExpressionUUID->"2a9d119e-daf7-4acc-b663-091bce37ce24"],
-Cell[15664, 414, 114, 3, 70, "Section",ExpressionUUID->"79e737ec-cdcc-4f6c-b747-eda84cae161f"],
-Cell[15781, 419, 286, 7, 70, "Text",ExpressionUUID->"2d040bae-fe92-477f-880a-973d4f0043d3"],
-Cell[16070, 428, 422, 12, 70, "Input",ExpressionUUID->"147d23d6-aa18-4b70-9ced-47f13e5e6e6f"],
-Cell[16495, 442, 55, 0, 70, "Section",ExpressionUUID->"d666e7d1-6d10-47ce-b8d3-2bad62994630"],
-Cell[16553, 444, 384, 9, 70, "Text",ExpressionUUID->"d1c2eaa6-ec4e-4a8d-beff-3b6f3e329bea"],
-Cell[16940, 455, 751, 15, 70, "Input",ExpressionUUID->"e8d61985-9a35-4daf-8f21-e4b02dde7be1"]
+Cell[590, 21, 53, 0, 70, "Title",ExpressionUUID->"f45a5b34-ed5a-4ca6-8052-ad22ddb69c6d"],
+Cell[646, 23, 2370, 53, 70, "Text",ExpressionUUID->"5827d8ac-7c59-4a0c-8ef2-898f75dc25b0"],
+Cell[3019, 78, 96, 2, 70, "Section",ExpressionUUID->"93fa9e2c-76cb-49e8-b1e4-0740b3cb9281"],
+Cell[3118, 82, 93, 3, 70, "Input",ExpressionUUID->"e350cf90-5338-4365-be9f-5b957137753d"],
+Cell[3214, 87, 302, 9, 70, "Input",ExpressionUUID->"c69ccf0f-4a1d-4e95-9d73-f5130f52d6ad"],
+Cell[3519, 98, 261, 6, 70, "Input",ExpressionUUID->"cbf7178f-6578-4f09-8cb9-a38c3e9fb671"],
+Cell[3783, 106, 211, 5, 70, "Input",ExpressionUUID->"97284009-85a4-42e9-a551-0562e3fc1728"],
+Cell[3997, 113, 138, 3, 70, "Input",ExpressionUUID->"67091468-8a8d-4fa1-9a9b-c8ee6ec69e65"],
+Cell[4138, 118, 481, 11, 70, "Input",ExpressionUUID->"69aee9e2-a79d-4381-8313-33d660ac7c54"],
+Cell[4622, 131, 538, 12, 70, "Input",ExpressionUUID->"40ebab95-eadc-4755-8201-99813872c81b"],
+Cell[5163, 145, 380, 11, 70, "Input",ExpressionUUID->"fd2627ff-ffd1-4c79-a02c-15cfb7b2a06c"],
+Cell[5546, 158, 66, 0, 70, "Section",ExpressionUUID->"6cef468f-5f6f-41b6-a5ab-fefc6ea65d01"],
+Cell[5615, 160, 474, 10, 70, "Text",ExpressionUUID->"7a7957ca-c938-48fb-857a-508f7a953f88"],
+Cell[6092, 172, 121, 3, 70, "Input",ExpressionUUID->"b037f704-ace4-4c3d-b86a-23a73a46a32f"],
+Cell[6216, 177, 597, 13, 70, "Input",ExpressionUUID->"a4c41f74-d3a6-46ee-bc38-4e9d45f4ddf7"],
+Cell[6816, 192, 149, 3, 70, "Input",ExpressionUUID->"979c3e36-ec55-4aec-a712-1db3cb0c923b"],
+Cell[6968, 197, 92, 2, 70, "Section",ExpressionUUID->"15f40b27-9ae4-46ac-be42-e39bdc016b18"],
+Cell[7063, 201, 413, 10, 70, "Text",ExpressionUUID->"167f6b62-4167-4cc9-80d3-83d7b3bfae02"],
+Cell[7479, 213, 1010, 22, 70, "Text",ExpressionUUID->"efb585c8-3d91-4e26-9ac2-4ca390a9745a"],
+Cell[8492, 237, 1358, 35, 70, "Input",ExpressionUUID->"d50d0cc6-7013-412f-8ad7-d497819774c1"],
+Cell[9853, 274, 96, 2, 70, "Section",ExpressionUUID->"8fe8d1a0-122b-446e-ba12-25e06aa3263d"],
+Cell[9952, 278, 473, 10, 70, "Text",ExpressionUUID->"5c6a025a-d3fd-4e9a-8072-71a025f1aa92"],
+Cell[10428, 290, 480, 12, 70, "Input",ExpressionUUID->"892f249d-f226-43ee-ad64-93c174435cdc"],
+Cell[10911, 304, 75, 0, 70, "Input",ExpressionUUID->"162d2e1f-645e-40cb-b6cf-9a25c57c578e"],
+Cell[10989, 306, 512, 13, 70, "Input",ExpressionUUID->"7801039a-892a-46be-be20-da31fd1928f6"],
+Cell[11504, 321, 832, 19, 70, "Input",ExpressionUUID->"9e34d768-e926-4067-9787-28e013113a07"],
+Cell[12339, 342, 622, 14, 70, "Input",ExpressionUUID->"e7eb0a2a-d99a-4fea-abc4-2a77b1b112e7"],
+Cell[12964, 358, 251, 5, 70, "Input",ExpressionUUID->"e4b37185-25a3-4fee-9ae3-78b9927b54c2"],
+Cell[13218, 365, 199, 5, 70, "Input",ExpressionUUID->"a4387bb6-45dd-4576-9b92-3b3fef9bd6f5"],
+Cell[13420, 372, 45, 0, 70, "Section",ExpressionUUID->"a4e11c2e-6c65-4e23-9690-92161a07b8e8"],
+Cell[13468, 374, 264, 6, 70, "Text",ExpressionUUID->"1bd5eaeb-4227-41ea-978b-1b4314e592a3"],
+Cell[13735, 382, 609, 13, 70, "Input",ExpressionUUID->"5db6ec06-f302-45e4-9f5b-7e663341d748"],
+Cell[14347, 397, 202, 5, 70, "Input",ExpressionUUID->"92fd6005-f7ae-459a-a99d-3ab79b49d674"],
+Cell[14552, 404, 77, 0, 70, "Section",ExpressionUUID->"2da600e6-e45a-4f88-aa30-07da4e811d35"],
+Cell[14632, 406, 196, 4, 70, "Text",ExpressionUUID->"29643dc8-17d0-4827-a164-1bcfa9e388a9"],
+Cell[14831, 412, 134, 3, 70, "Input",ExpressionUUID->"f9bec2c1-c522-487e-8b22-6706bf5bb58f"],
+Cell[14968, 417, 125, 3, 70, "Input",ExpressionUUID->"d39b8a21-bae4-441d-aa97-71aaad781a96"],
+Cell[15096, 422, 97, 2, 70, "Section",ExpressionUUID->"f5149919-1e9f-4c29-803b-c84f4ccf4929"],
+Cell[15196, 426, 649, 13, 70, "Input",ExpressionUUID->"3f9a17e0-ec75-469f-9a27-ad8fa2fc13fc"],
+Cell[15848, 441, 273, 5, 70, "Input",ExpressionUUID->"e1dadc81-c041-4b1c-9a5b-e897f4d8bb3b"],
+Cell[16124, 448, 120, 3, 70, "Section",ExpressionUUID->"28cb0386-cfdd-48c0-821e-0602d625cd4c"],
+Cell[16247, 453, 558, 11, 70, "Text",ExpressionUUID->"80b8b840-227a-4275-83ca-39ee7b1f0034"],
+Cell[16808, 466, 761, 16, 70, "Input",ExpressionUUID->"1c631aab-d901-4b9e-b641-eb8c47fd9f42"],
+Cell[17572, 484, 114, 3, 70, "Section",ExpressionUUID->"70a49e0d-5803-4efd-b302-1ac0f9669071"],
+Cell[17689, 489, 286, 7, 70, "Text",ExpressionUUID->"c67d0d53-7553-4345-bd8b-a19a3a238279"],
+Cell[17978, 498, 422, 12, 70, "Input",ExpressionUUID->"10e42f3d-405e-4e0b-989c-1e5193c13114"],
+Cell[18403, 512, 55, 0, 70, "Section",ExpressionUUID->"a3e9b3ec-c1f3-4fa1-ac67-c257a7e8fbff"],
+Cell[18461, 514, 384, 9, 70, "Text",ExpressionUUID->"40959634-decc-4b84-91d0-18d93819dba9"],
+Cell[18848, 525, 710, 13, 70, "Input",ExpressionUUID->"236d9629-43e0-4c84-ba42-6d4b5079613d"],
+Cell[19561, 540, 56, 0, 70, "Input",ExpressionUUID->"2289e0f9-14d4-4788-a8da-75da4dea68d1"]
 }
 ]
 *)

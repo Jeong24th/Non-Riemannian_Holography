@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      2175,         71]
-NotebookOptionsPosition[      1740,         57]
-NotebookOutlinePosition[      2042,         71]
-CellTagsIndexPosition[      1999,         68]
+NotebookDataLength[      2432,         76]
+NotebookOptionsPosition[      1815,         60]
+NotebookOutlinePosition[      2117,         74]
+CellTagsIndexPosition[      2074,         71]
 WindowTitle->NRH00_RunAll.nb
 WindowFrame->Normal*)
 
@@ -31,7 +31,8 @@ run alone.
 
 Usage (command line):    wolframscript -file NRH00_RunAll.wl
 Usage (notebook):        open this file in Mathematica and evaluate it.
-The whole suite completes in roughly ten minutes on a laptop.\
+The whole suite completes in a few minutes on a laptop (242 checks; see \
+REFERENCE_RUN.md).\
 \>", "Text"],
 
 Cell["\<\
@@ -47,10 +48,12 @@ NRH`$Files = {
    \"NRH08_SM_BoundaryCandidate.wl\"};
 NRH`$AllResults = {};
 NRH`$DeferExit = True;   (* report everything; exit code is decided by the \
-grand summary *)
+grand summary *)\
+\>", "Input"],
 
-Scan[Get[FileNameJoin[{NRH`$Dir, #}]] &, NRH`$Files];
+Cell["Scan[Get[FileNameJoin[{NRH`$Dir, #}]] &, NRH`$Files];", "Input"],
 
+Cell["\<\
 NRH`$DeferExit = False;
 NRH`GrandSummary[];\
 \>", "Input"]
@@ -70,9 +73,11 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[587, 21, 62, 0, 70, "Title",ExpressionUUID->"af6d6fd9-680c-4c6b-a53c-24478fba0dbe"],
-Cell[652, 23, 484, 11, 70, "Text",ExpressionUUID->"21eb3dea-4109-426e-b19d-f5e95939fa68"],
-Cell[1139, 36, 597, 19, 70, "Input",ExpressionUUID->"932228f0-4bd5-4047-b59e-76fd22b5bbee"]
+Cell[587, 21, 62, 0, 70, "Title",ExpressionUUID->"1a6691bd-b03d-4425-a4c4-a4ef789bc12b"],
+Cell[652, 23, 515, 12, 70, "Text",ExpressionUUID->"1afea1fa-7efc-4f43-a513-29cab4256735"],
+Cell[1170, 37, 497, 14, 70, "Input",ExpressionUUID->"be54b362-5991-43de-b9cc-5e4c180a3d69"],
+Cell[1670, 53, 70, 0, 70, "Input",ExpressionUUID->"5af6c23f-6e5d-4392-8448-432dee8962ab"],
+Cell[1743, 55, 68, 3, 70, "Input",ExpressionUUID->"f04a1969-0570-4d22-b65a-856cacea1667"]
 }
 ]
 *)

@@ -55,11 +55,13 @@ implemented in Mathematica (tested with 13.2; the free Wolfram Engine also works
 wolframscript -file mathematica/NRH00_RunAll.wl
 ```
 
-runs all 183 checks (about ten minutes) and exits nonzero on any failure.  Every file
+runs all 242 checks (a few minutes) and exits nonzero on any failure.  Every file
 is also provided as a double-clickable `.nb` notebook with identical content — download
 the `mathematica/` folder, open `NRH00_RunAll.nb`, and use *Evaluation → Evaluate
 Notebook*.  See `mathematica/README.md` for the file-by-file coverage table and method
-notes.  The neutral reference-execution record is in
+notes.  `mathematica/EQUATION_LEDGER.md` walks through every numbered equation of the
+Letter and the Supplemental Material in order and names the check that verifies each one
+(or states that it is a definition).  The neutral reference-execution record is in
 `mathematica/REFERENCE_RUN.md`, and `mathematica/MANUSCRIPT_MAP.md` records the
 current manuscript SHA-256 and LaTeX-label-to-equation-number mapping.
 

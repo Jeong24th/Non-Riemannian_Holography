@@ -7,24 +7,31 @@
 (* ::Text:: *)
 (*This file verifies the content of SM 1 in order:*)
 (**)
-(*  SM (10)-(11) [SMinfinityvielbein, SMflatmetrics]  the aligned limiting double-vielbeins*)
+(*  SM (14)-(15) [SMinfinityvielbein, SMflatmetrics]  the aligned limiting double-vielbeins*)
 (*        and flat metrics, and the projectors they reproduce;*)
-(*  SM (12)-(13) [SMFG, SMFGcount]  the Fefferman-Graham count 9 - (3+2) = 4;*)
-(*  SM (14) [SMfixedprojection] with SM (28)-(29) [SMexactprojectionR(falloff)]:  the exact*)
+(*  SM (4)-(6) [SMcosetreconstruction]  the gauge-fixed vielbein variations reproduce delta P = delta H/2;*)
+(*  SM (10)-(13) [GammaDFT, variation, defB, SMrenvariation]  the exact variation identity of the*)
+(*        Gamma^2 density with the displayed momenta A^K, B^K (verified on BTZ with generic*)
+(*        fluctuations), its on-shell reduction and the counterterm shift;*)
+(*  SM (16)-(17) [SMFG, SMFGcount]  the Fefferman-Graham count 9 - (3+2) = 4;*)
+(*  SM (18) [SMfixedprojection] with SM (33)-(34) [SMexactprojectionR(falloff)]:  the exact*)
 (*        fixed-frame projection of the Riemannian family and its falloffs;*)
-(*  SM (36)-(37) [SMexactprojectionNR(falloff)]:  the same for the non-Riemannian family,*)
+(*  SM (41)-(42) [SMexactprojectionNR(falloff)]:  the same for the non-Riemannian family,*)
 (*        including the identification  h_{op bom}^{(2)} = W_1/2  at W_0 = 0;*)
-(*  SM (15) [SMNRlin]  the linearized Einstein double field equations about the common*)
+(*  SM (19) [SMNRlin]  the linearized Einstein double field equations about the common*)
 (*        background (derived here directly from the nonlinear G_MN of NRH01);*)
-(*  SM (16) [SMNRradialintegration]  the elementary radial identities;*)
-(*  SM (17) [SMNRsol]  the complete solution of the linearized system;*)
-(*  SM (19) [SMlogfreeconditions]  the fixed-dilaton, log-free conditions;*)
-(*  SM (20)-(21) [SMrwquadratic, SMrwvariation]  the crossed quadratic action in the*)
+(*  SM (20) [SMNRradialintegration]  the elementary radial identities;*)
+(*  SM (21) [SMNRsol]  the complete solution of the linearized system;*)
+(*  SM (23) [SMlogfreeconditions]  the fixed-dilaton, log-free conditions;*)
+(*  SM (24)-(25) [SMrwquadratic, SMrwvariation]  the crossed quadratic action in the*)
 (*        (r, w) = (h_{om bop}, h_{op bom}) sector and its renormalized UV variation;*)
-(*  SM (24), (31), and (40) [SMresponsematrix, SMonept, SMNRonept] give*)
-(*        response normalization and one-point functions;*)
-(*  SM (33) [SMPBHdata]  the PBH source and response data;*)
-(*  SM (34)-(35) [SMPBHkernel, SMRtwopt]  the kernel arithmetic and the two-point*)
+(*  SM (26)-(27) [SMSren2, SMscalarcutoffresponse]  the complete four-channel boundary variation*)
+(*        and the scalar cutoff coefficient;*)
+(*  SM (28)-(32), (36), and (44)-(45) [SMresponsematrix ... SMNRhairhessian]  response*)
+(*        normalization, canonical-source factor, chirality of the responses, one-point functions*)
+(*        (also obtained from Eq. (9a) applied nonlinearly to the exact NR family);*)
+(*  SM (38) [SMPBHdata]  the PBH source and response data;*)
+(*  SM (39)-(40) [SMPBHkernel, SMRtwopt]  the kernel arithmetic and the two-point*)
 (*        normalization  (8 pi)^{-2} (c/2)  with  c = 3l/2G.*)
 (**)
 (*Conventions as in NRH02: radial variable u = e^{2y/l}, so e^{-2y/l} = 1/u and*)
@@ -40,30 +47,118 @@ xs = {xp, xm, Function[e, (2 u/l) D[e, u]]};
 
 
 (* ::Section:: *)
-(*SM (10)-(11): the aligned frame*)
+(*SM (14)-(15): the aligned frame*)
 
 
-Vinf = {{1/Sqrt[2], 0, 0}, {0, 0, 0}, {0, 0, -1/Sqrt[2]},
-        {0, -Sqrt[2], 0}, {0, 0, 0}, {0, 0, -1/Sqrt[2]}};
-Vbinf = {{0, 0, 0}, {0, 1/Sqrt[2], 0}, {0, 0, -1/Sqrt[2]},
-         {0, 0, 0}, {Sqrt[2], 0, 0}, {0, 0, 1/Sqrt[2]}};
+Vinf = {{1/Sqrt[2], 0, 0}, {0, 0, 0}, {0, 0, 1/Sqrt[2]},
+   {0, -Sqrt[2], 0}, {0, 0, 0}, {0, 0, 1/Sqrt[2]}};
+Vbinf = {{0, 0, 0}, {0, 1/Sqrt[2], 0}, {0, 0, 1/Sqrt[2]},
+   {0, 0, 0}, {Sqrt[2], 0, 0}, {0, 0, -1/Sqrt[2]}};
 eta3 = {{0, -1, 0}, {-1, 0, 0}, {0, 0, 1}};
 etab3 = -eta3;
 Hinf = {{0, 0, 0, 1, 0, 0}, {0, 0, 0, 0, -1, 0}, {0, 0, 1, 0, 0, 0},
         {1, 0, 0, 0, 0, 0}, {0, -1, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 1}};
 dinf = -1/2 Log[u];
 
-NRH`CheckZero["SM(10)-(11): V eta V^T = P^infty and Vbar etabar Vbar^T = Pbar^infty",
+NRH`CheckZero["SM(14)-(15): V eta V^T = P^infty and Vbar etabar Vbar^T = Pbar^infty",
    {Vinf . eta3 . Transpose[Vinf] - (JJ + Hinf)/2,
     Vbinf . etab3 . Transpose[Vbinf] - (JJ - Hinf)/2}];
 NRH`CheckZero["SM: V and Vbar are mutually orthogonal:  V^M{}_p Vbar_{M qbar} = 0",
    Transpose[JJ . Vinf] . Vbinf];
-NRH`Check["SM(13): coset count 9 mixed components - (3 diffeos + 2 B-gauge) = 4 tangential",
+NRH`Check["SM(17): coset count 9 mixed components - (3 diffeos + 2 B-gauge) = 4 tangential",
    3*3 - (3 + 2) == 4];
 
 
 (* ::Section:: *)
-(*SM (14) + SM (28)-(29): exact fixed-frame projection, Riemannian family*)
+(*SM (4)-(6) [SMcosetreconstruction]: the vielbein variation reproduces delta P = delta H/2*)
+
+
+(* ::Text:: *)
+(*SM (6) fixes the local Lorentz freedom by  delta V_{Mp} = (1/2) Vbar_M^qbar h_{p qbar},*)
+(*delta Vbar_{M qbar} = -(1/2) V_M^p h_{p qbar}.  Since P = V_{Mp} V_N^p, these variations must*)
+(*reproduce  delta P_MN = (1/2) delta H_MN = V_{(M}^p Vbar_{N)}^qbar h_{p qbar}  of SM (4), and*)
+(*delta Pbar = -delta P.  Verified on the aligned frame with a generic 3x3 matrix h_{p qbar}.*)
+
+
+hgen = Table[hh[p, q], {p, 3}, {q, 3}];
+dVlow = 1/2 (Vbinf . etab3) . Transpose[hgen];      (* delta V_{Mp} = (1/2) Vbar_M^qbar h_{p qbar} *)
+dVblow = -1/2 (Vinf . eta3) . hgen;                  (* delta Vbar_{M qbar} = -(1/2) V_M^p h_{p qbar} *)
+dHgen = (Vinf . eta3) . hgen . Transpose[Vbinf . etab3] // (# + Transpose[#]) &;
+NRH`CheckZero["SM(5)-(6): delta(V eta V^T) = delta H/2 and delta(Vbar etabar Vbar^T) = -delta H/2 for generic h_{p qbar}",
+   {dVlow . eta3 . Transpose[Vinf] + Vinf . eta3 . Transpose[dVlow] - dHgen/2,
+    dVblow . etab3 . Transpose[Vbinf] + Vbinf . etab3 . Transpose[dVblow] + dHgen/2}];
+
+
+(* ::Section:: *)
+(*SM (10)-(12) [GammaDFT, variation, defB]: the exact variation of the Gamma^2 density*)
+
+
+(* ::Text:: *)
+(*SM (11) states  delta L_Gamma2 = 2 e^{-2d}(h^{p qbar} S_{p qbar} - delta d S_(0)) + d_K( h^{p qbar} e^{-2d} A^K_{p qbar}*)
+(*+ 2 delta d e^{-2d} B^K ),  with the momenta A^K_{p qbar} and B^K of SM (12).  We verify this*)
+(*identity directly: the background is the exact BTZ solution with constant L_pm (symbols Lp0, Lm0)*)
+(*in its own Riemannian double-vielbein frame V = (e^{-1}; (g+B) e^{-1})/Sqrt[2], the fluctuation*)
+(*is the general tangential h_{a bbar}(x^+, x^-, y) of the Fefferman-Graham gauge together with an*)
+(*arbitrary delta d(x^+, x^-, y), and the left-hand side is the t-derivative of the toolbox Gamma^2*)
+(*density along H + t delta H, d + t delta d.  Everything on the right-hand side - the Ricci curvature*)
+(*S_{p qbar}, the scalar S_(0), the connection traces Gamma^L_{L qbar}, the components Gamma_p^K_qbar,*)
+(*and B^K - is assembled literally from the displayed definitions.  The dilaton trace*)
+(*Gamma^L_{LN} = -2 d_N d used in A^K is checked on the same background.*)
+
+
+w2u = Sqrt[u];
+E3btz = {{w2u, -Lm0/w2u, 0}, {-Lp0/w2u, w2u, 0}, {0, 0, 1}};      (* dreibein e^p_mu of ds^2 = dy^2 - 2 theta^+ theta^- *)
+g3btz = Map[Together, Transpose[E3btz] . eta3 . E3btz, {2}];
+B3btz = (u + Lp0 Lm0/u) {{0, -1, 0}, {1, 0, 0}, {0, 0, 0}};
+Eibtz = Map[Together, Inverse[E3btz], {2}];
+Vbtz = Map[Together, 1/Sqrt[2] ArrayFlatten[{{Eibtz}, {(g3btz + B3btz) . Eibtz}}], {2}];
+Vbbtz = Map[Together, 1/Sqrt[2] ArrayFlatten[{{Eibtz}, {(B3btz - g3btz) . Eibtz}}], {2}];
+Hbtz = Map[Together, RiemannianH[g3btz, B3btz], {2}];
+dbtz = -1/2 Log[u (1 - Lp0 Lm0/u^2)];
+NRH`CheckZero["SM(11) setup: the BTZ Riemannian double vielbein obeys V eta V^T = P, Vbar etabar Vbar^T = Pbar, V^T J Vbar = 0",
+   {Map[Together, Vbtz . eta3 . Transpose[Vbtz] - (JJ + Hbtz)/2, {2}],
+    Map[Together, Vbbtz . etab3 . Transpose[Vbbtz] - (JJ - Hbtz)/2, {2}],
+    Map[Together, Transpose[JJ . Vbtz] . Vbbtz, {2}]}];
+hmatV = {{hpp[xp, xm, u], hpm[xp, xm, u], 0}, {hmp[xp, xm, u], hmm[xp, xm, u], 0}, {0, 0, 0}};
+deltaHV = Map[Together, (Vbtz . eta3) . hmatV . Transpose[Vbbtz . etab3] // (# + Transpose[#]) &, {2}];
+ddV = dd[xp, xm, u];
+gammaTV = GammaDFT[Hbtz + t deltaHV, dbtz + t ddV, xs];
+gamma0V = Map[Together, gammaTV /. t -> 0, {3}];
+gamma1V = Map[Together, D[gammaTV, t] /. t -> 0, {3}];
+LHS11 = Together[D[Gamma2Density[Hbtz + t deltaHV, dbtz + t ddV, gamma0V + t gamma1V, xs], t] /. t -> 0];
+r4V = RiemannR4[gamma0V, xs]; ricV = RicciS[gamma0V, r4V, xs]; s0V = Together[ScalarS0[Hbtz, dbtz, xs]];
+VupV = JJ . Vbtz; VbupV = JJ . Vbbtz;                       (* V^M{}_p, Vbar^M{}_qbar *)
+SpqV = Map[Together, Transpose[VupV] . ricV . VbupV, {2}];   (* S_{p qbar} *)
+hupV = eta3 . hmatV . etab3;                                 (* h^{p qbar} *)
+bulk11 = 2 Exp[-2 dbtz] (Sum[hupV[[p, q]] SpqV[[p, q]], {p, 3}, {q, 3}] - ddV s0V);
+trvecV = Table[Sum[JJ[[L, A]] gamma0V[[A, L, N]], {L, 6}, {A, 6}], {N, 6}];   (* Gamma^L_{LN} *)
+NRH`CheckZero["SM(12) setup: Gamma^L_{LN} = -2 d_N d on the BTZ background (the trace entering A^K)",
+   Together[trvecV + 2 DblGrad[dbtz, xs]]];
+trpV = Table[Sum[trvecV[[M]] VupV[[M, p]], {M, 6}], {p, 3}];
+trqV = Table[Sum[trvecV[[N]] VbupV[[N, q]], {N, 6}], {q, 3}];
+GpqV = Table[Sum[VupV[[M, p]] JJ[[K, A]] gamma0V[[M, A, N]] VbupV[[N, q]], {M, 6}, {A, 6}, {N, 6}], {K, 6}, {p, 3}, {q, 3}];
+GqpV = Table[Sum[VbupV[[N, q]] JJ[[K, A]] gamma0V[[N, A, M]] VupV[[M, p]], {M, 6}, {A, 6}, {N, 6}], {K, 6}, {p, 3}, {q, 3}];
+AKV = Table[VupV[[K, p]] trqV[[q]] + VbupV[[K, q]] trpV[[p]] - GpqV[[K, p, q]] - GqpV[[K, p, q]], {K, 6}, {p, 3}, {q, 3}];
+BKV = GammaBVector[Hbtz, dbtz, xs];
+flux11 = Sum[DblD[Exp[-2 dbtz] Sum[hupV[[p, q]] AKV[[K, p, q]], {p, 3}, {q, 3}] + 2 ddV Exp[-2 dbtz] BKV[[K]], K, xs], {K, 6}];
+NRH`CheckZero["SM(11)-(12): delta L_Gamma2 = 2e^{-2d}(h^{p qbar} S_{p qbar} - delta d S_(0)) + d_K(h e^{-2d} A^K + 2 delta d e^{-2d} B^K) exactly, generic tangential h and delta d on BTZ",
+   Together[LHS11 - bulk11 - flux11]];
+NRH`Check["SM(11): the identity is not vacuous - the flux term carries the fluctuations and S_(0) = -4/l^2 on this on-shell background",
+   ! FreeQ[flux11, hpp] && ! FreeQ[flux11, dd] && Together[s0V + 4/l^2] === 0 && NRH`ZeroQ[SpqV]];
+
+
+(* ::Section:: *)
+(*SM (11) -> SM (13) [variation, SMrenvariation]: the on-shell reduction and the counterterm*)
+
+
+NRH`CheckZero["SM(11)->(13): on shell (S_{p qbar} = 0, S_(0) = 2 Lambda = -4/l^2) the bulk term 2e^{-2d}(-delta d S_(0)) cancels delta(-2 Lambda e^{-2d})",
+   Together[2 (-dd0) (-4/l^2) + 4 (-2/l^2) dd0]];
+NRH`CheckZero["SM(13): delta S_ct = -(16 pi G)^{-1}(4/l) delta e^{-2d} = (16 pi G)^{-1} e^{-2d} 2 delta d (4/l):  the +4/l shift of B^y",
+   Together[-(4/l) (-2 dd0) - 2 dd0 (4/l)]];
+
+
+(* ::Section:: *)
+(*SM (18) + SM (33)-(34): exact fixed-frame projection, Riemannian family*)
 
 
 fB = u + Lp[xp] Lm[xm]/u;
@@ -75,9 +170,9 @@ dR = -1/2 Log[u (1 - Lp[xp] Lm[xm]/u^2)];
 hR = Map[Together, Transpose[JJ . Vinf] . (HR - Hinf) . (JJ . Vbinf), {2}];
 hRdisplayed = (1/u) (1 + Lp[xp] Lm[xm]/u^2)/(1 - Lp[xp] Lm[xm]/u^2)^2 *
    {{2 Lp[xp], 2 Lp[xp] Lm[xm], 0}, {2, 2 Lm[xm], 0}, {0, 0, 0}};
-NRH`CheckZero["SM(28): exact h^R_{p qbar} matches the displayed closed form",
+NRH`CheckZero["SM(33): exact h^R_{p qbar} matches the displayed closed form",
    Map[Together, hR - hRdisplayed, {2}]];
-NRH`CheckZero["SM(29): falloffs  h^{(2)} = {2L+, 2L+L-; 2, 2L-} + O(e^{-6y/l})",
+NRH`CheckZero["SM(34): falloffs  h^{(2)} = {2L+, 2L+L-; 2, 2L-} + O(e^{-6y/l})",
    {SeriesCoefficient[hR[[1, 1]], {u, Infinity, 1}] - 2 Lp[xp],
     SeriesCoefficient[hR[[1, 2]], {u, Infinity, 1}] - 2 Lp[xp] Lm[xm],
     SeriesCoefficient[hR[[2, 1]], {u, Infinity, 1}] - 2,
@@ -91,7 +186,7 @@ NRH`CheckZero["delta d_R = (1/2) L+ L- e^{-4y/l} + O(e^{-8y/l})",
 
 
 (* ::Section:: *)
-(*SM (36)-(37): exact fixed-frame projection, non-Riemannian family*)
+(*SM (41)-(42): exact fixed-frame projection, non-Riemannian family*)
 
 
 (* psi parametrization L_pm = psi_pm^{-2} keeps all series coefficients rational *)
@@ -109,14 +204,14 @@ HNR = {{0, 0, 0, Cosh[chu], -Sinh[chu]/esig, 0},
 dNR = -1/2 Log[u] + Log[Cosh[chu/(2 Sqrt[2])]];
 
 hNR = Transpose[JJ . Vinf] . (HNR - Hinf) . (JJ . Vbinf);
-NRH`Check["SM(36): exact h^NR = {{e^s sinh chi, (W/2) cosh chi, 0},{0, e^{-s} sinh chi, 0},{0,...}}",
+NRH`Check["SM(41): exact h^NR = {{e^s sinh chi, (W/2) cosh chi, 0},{0, e^{-s} sinh chi, 0},{0,...}}",
    And[Simplify[hNR[[1, 1]] - esig Sinh[chu]] === 0,
        Simplify[hNR[[1, 2]] - Wu Cosh[chu]/2] === 0,
        Simplify[hNR[[2, 1]]] === 0,
        Simplify[hNR[[2, 2]] - Sinh[chu]/esig] === 0,
        Simplify[hNR[[3, 3]]] === 0,
        Simplify[hNR[[1, 3]]] === 0 && Simplify[hNR[[3, 1]]] === 0]];
-NRH`CheckZero["SM(37): falloffs  {2L+ /u, (W0 + W1/u)/2; 0, 2L- /u} with O(u^-3) diagonals",
+NRH`CheckZero["SM(42): falloffs  {2L+ /u, (W0 + W1/u)/2; 0, 2L- /u} with O(u^-3) diagonals",
    Together[{SeriesCoefficient[hNR[[1, 1]], {u, Infinity, 1}] - 2 LpP,
     SeriesCoefficient[hNR[[1, 1]], {u, Infinity, 2}],
     SeriesCoefficient[hNR[[1, 2]], {u, Infinity, 0}] - W0[xp, xm]/2,
@@ -133,7 +228,7 @@ NRH`CheckZero["delta d_NR = (1/4) L+ L- e^{-4y/l} + O(e^{-8y/l})",
 
 
 (* ::Section:: *)
-(*SM (15): the linearized Einstein double field equations, derived from scratch*)
+(*SM (19): the linearized Einstein double field equations, derived from scratch*)
 
 
 (* ::Text:: *)
@@ -141,8 +236,8 @@ NRH`CheckZero["delta d_NR = (1/4) L+ L- e^{-4y/l} + O(e^{-8y/l})",
 (*constrained direction  delta H = 2 V_{(M}{}^p Vbar_{N)}{}^{qbar} h_{p qbar}, in the FG*)
 (*gauge h_{a ybar} = h_{y bbar} = 0, with the four tangential fields h_{a bbar}(x, u) and*)
 (*delta d(x, u).  The first-order piece of  G_MN - 2 l^{-2} J_MN  must reproduce exactly*)
-(*the nine displayed equations SM (15).  We verify equivalence in both directions:*)
-(*the linearized tensor vanishes when SM (15) holds (imposed as substitution rules for*)
+(*the nine displayed equations SM (19).  We verify equivalence in both directions:*)
+(*the linearized tensor vanishes when SM (19) holds (imposed as substitution rules for*)
 (*the highest radial derivatives), and each displayed equation arises as an explicit*)
 (*linear combination of components (checked by matching a complete list).*)
 
@@ -164,7 +259,7 @@ curvLin = Module[{gamma, r4, ric, s0},
    EinsteinG[Hlin, ric, s0, xs]];
 GLin = Map[Together[D[#, t] /. t -> 0] &, curvLin - 2/l^2 JJ, {2}];
 
-(* the displayed system SM (15), written with d/dy = (2u/l) d/du *)
+(* the displayed system SM (19), written with d/dy = (2u/l) d/du *)
 Dy[e_] := (2 u/l) D[e, u];
 eqs = {
    Dy[Dy[hmp[xp, xm, u]]] + 2/l Dy[hmp[xp, xm, u]],
@@ -179,7 +274,7 @@ eqs = {
    Dy[Dy[hpm[xp, xm, u]]] + 2/l Dy[hpm[xp, xm, u]] + D[hmm[xp, xm, u], {xp, 2}]
       + D[hpp[xp, xm, u], {xm, 2}] - 4 D[dd[xp, xm, u], xp, xm]};
 
-(* We verify the equivalence by substituting the GENERAL solution SM (17) (with free
+(* We verify the equivalence by substituting the GENERAL solution SM (21) (with free
    chiral/harmonic data) into both the displayed system and the freshly linearized
    tensor: since SM (17) is the general solution of SM (15), this checks in one stroke
    that SM (17) solves SM (15) and that SM (15) implies the linearized EDFE. *)
@@ -195,32 +290,45 @@ solNR = {
          - l^2/4 D[r0[a, b], {a, 2}, {b, 2}])
       + l^2/8 (l/2 Log[c])^2 D[r0[a, b], {a, 2}, {b, 2}] + w2[a, b]/c]};
 
-NRH`CheckZero["SM(17) solves the displayed system SM(15)",
+NRH`CheckZero["SM(21) solves the displayed system SM(19)",
    Together[eqs /. solNR]];
-NRH`CheckZero["SM(15) reproduces the linearized EDFE: G^{(1)}_MN = 0 on the general solution SM(17)",
+NRH`CheckZero["SM(19) reproduces the linearized EDFE: G^{(1)}_MN = 0 on the general solution SM(21)",
    Map[Together, GLin /. solNR, {2}]];
 NRH`Check["the linearized tensor is not empty (it involves the radial derivatives of h)",
    ! FreeQ[GLin, hmp] && ! FreeQ[GLin, dd]];
 
-(* SM (16): elementary radial identities *)
-NRH`CheckZero["SM(16): D_y{1, e^{-2y/l}} = 0,  D_y y = 2/l,  D_y y^2 = 2 + 4y/l",
+(* SM (20): elementary radial identities *)
+NRH`CheckZero["SM(20): D_y{1, e^{-2y/l}} = 0,  D_y y = 2/l,  D_y y^2 = 2 + 4y/l",
    {Dy[Dy[1]] + 2/l Dy[1],
     Together[Dy[Dy[1/u]] + 2/l Dy[1/u]],
     Together[Dy[Dy[yv]] + 2/l Dy[yv] - 2/l],
     Together[Dy[Dy[yv^2]] + 2/l Dy[yv^2] - 2 - 4 yv/l]}];
 
-(* SM (19): the log (linear-in-y) branches of delta d, h_pp, h_mm in SM (17) are exact
+(* SM (23): the log (linear-in-y) branches of delta d, h_pp, h_mm in SM (21) are exact
    nonzero multiples of d+d- r^(0), d+^2 r^(0), d-^2 r^(0).  Hence the fixed-dilaton,
    log-free sector forces precisely those three conditions, leaving
    h^{(0)}_{om bop} = c0 + c+ x^+ + c- x^-. *)
-NRH`CheckZero["SM(19): the log coefficients are exact multiples of the three r^(0) conditions",
+NRH`CheckZero["SM(23): the log coefficients are exact multiples of the three r^(0) conditions",
    {Coefficient[dd[xp, xm, u] /. solNR /. Log[u] -> LG, LG] + l^2/16 D[r0[xp, xm], xp, xm],
     Coefficient[hpp[xp, xm, u] /. solNR /. Log[u] -> LG, LG] + l^2/4 D[r0[xp, xm], {xp, 2}],
     Coefficient[hmm[xp, xm, u] /. solNR /. Log[u] -> LG, LG] + l^2/4 D[r0[xp, xm], {xm, 2}]}];
 
+(* SM (31)-(32): the normalizable coefficients of SM (21) are chiral or constant *)
+NRH`CheckZero["SM(31)-(32) [SMcontinuitycheck]: in SM(21), d_- h^(2)_{op bop} = 0, d_+ h^(2)_{om bom} = 0, d_pm h^(2)_{om bop} = 0",
+   {D[Coefficient[(hpp[xp, xm, u] /. solNR) /. Log[u] -> LG, u, -1], xm],
+    D[Coefficient[(hmm[xp, xm, u] /. solNR) /. Log[u] -> LG, u, -1], xp],
+    D[Coefficient[(hmp[xp, xm, u] /. solNR) /. Log[u] -> LG, u, -1], xp],
+    D[Coefficient[(hmp[xp, xm, u] /. solNR) /. Log[u] -> LG, u, -1], xm]}];
+(* SM (27): the scalar cutoff coefficient follows from SM (13) and SM (20) *)
+NRH`CheckZero["SM(27) [SMscalarcutoffresponse]: 2(16 pi G)^{-1} e^{-2d}(B^y + 4/l) with B^y = 4 d_y d = -4/l + 4 d_y delta d  equals  (1/(2 pi G)) e^{-2d} d_y delta d",
+   Together[2/(16 Pi G) (4 (-1/l + dyd) + 4/l) - 1/(2 Pi G) dyd]];
+NRH`CheckZero["SM(27): d_y delta d = -(l/8) d_+ d_- h^(0)_{om bop} in SM(21), so the coefficient is -(l/(16 pi G)) e^{2y/l} d_+ d_- h^(0)_{om bop}",
+   {Together[Dy[dd[xp, xm, u] /. solNR] + l/8 D[r0[xp, xm], xp, xm]],
+    Together[1/(2 Pi G) (-(l/8) r0pm) + l/(16 Pi G) r0pm]}];
+
 
 (* ::Section:: *)
-(*SM (20)-(21): the crossed quadratic action in the (r, w) sector*)
+(*SM (24)-(25): the crossed quadratic action in the (r, w) sector*)
 
 
 (* ::Text:: *)
@@ -229,7 +337,7 @@ NRH`CheckZero["SM(19): the log coefficients are exact multiples of the three r^(
 (*Gamma^2 Lagrangian density (with its cosmological term) to second order, and compare*)
 (*with the displayed  -(1/2) e^{2y/l} dy r dy w  up to total derivatives (checked by*)
 (*taking Euler-Lagrange derivatives of the difference).  The UV variation of the on-shell*)
-(*quadratic action then reproduces SM (21) including its sign and 1/(16 pi G l) factor.*)
+(*quadratic action then reproduces SM (25) including its sign and 1/(16 pi G l) factor.*)
 
 
 (* constrained family through second order: with the coset direction
@@ -266,38 +374,137 @@ EL[f_, e_] := Together[D[e, f[xp, xm, u]]
    + D[D[e, Derivative[1, 0, 1][f][xp, xm, u]], xp, u]
    + D[D[e, Derivative[0, 1, 1][f][xp, xm, u]], xm, u]
    + D[D[e, Derivative[0, 2, 0][f][xp, xm, u]], {xm, 2}]];
-NRH`CheckZero["SM(20): Gamma^2 quadratic density = -(1/2) e^{2y/l} dy r dy w  (mod total derivatives)",
+NRH`CheckZero["SM(24): Gamma^2 quadratic density = -(1/2) e^{2y/l} dy r dy w  (mod total derivatives)",
    {EL[r1, diffL], EL[w1, diffL]}];
 
-(* SM (21): UV variation of the on-shell quadratic action.
+(* SM (25): UV variation of the on-shell quadratic action.
    On shell r = r0 + r2/u, w = w0 + w2/u; the momentum conjugate to r at the cutoff is
    dL/d(dy r) evaluated at u -> Infinity. *)
 ronsh = rw0 + rw2/u; wonsh = ws0 + ws2/u;
 momR = Limit[-1/2 u (2 u/l) D[wonsh, u], u -> Infinity];
 momW = Limit[-1/2 u (2 u/l) D[ronsh, u], u -> Infinity];
-NRH`CheckZero["SM(21): UV momenta give  delta S|_UV = (1/(16 pi G l)) Int (w2 dr0 + r2 dw0)",
+NRH`CheckZero["SM(25): UV momenta give  delta S|_UV = (1/(16 pi G l)) Int (w2 dr0 + r2 dw0)",
    {Together[momR - ws2/l], Together[momW - rw2/l]}];
 
 
 (* ::Section:: *)
-(*SM (24), SM (31), SM (40): response normalization and one-point functions*)
+(*SM (26) [SMSren2]: the complete four-channel quadratic boundary variation*)
 
 
-NRH`CheckZero["SM(24): <K_{a bbar}> = h^{(2)}_{a bbar}/(32 pi G l)  =>  stress one-points",
+(* ::Text:: *)
+(*SM (24)-(25) treated the crossed (r, w) pair.  Here the Gamma^2 density with its cosmological*)
+(*term is expanded to second order about (H^infty, d^infty) with ALL FOUR tangential fluctuations*)
+(*h_{a bbar}(x, u) in the exactly constrained coset family (delta d = 0: the Dirichlet dilaton*)
+(*sector of the Letter), and the on-shell cutoff variation is assembled from the canonical radial*)
+(*momenta,  Theta^y = sum_i [dL^(2)/d(d_y h_i)] delta h_i  at u = e^{2Y/l}.  Since the Gamma^2*)
+(*density contains only first derivatives, this is the complete boundary term of delta S^(2)*)
+(*(up to total x-derivatives).  We insert the general solution SM (21) in the restricted sector*)
+(*(h^(0)_{om bop} and h^(2)_{om bop} constant, the other sources and responses arbitrary) and*)
+(*vary the four sources.  SM (26) then requires: (i) the divergent (~u) and linear-in-y pieces*)
+(*are total x-derivatives; (ii) the finite remainder equals*)
+(*   -(1/(16 pi G l)) h^(2)a bbar delta h^(0)_{a bbar}*)
+(*   = +(1/(16 pi G l)) [ h^(2)_{om bom} dh^(0)_{op bop} + h^(2)_{op bop} dh^(0)_{om bom}*)
+(*                        + h^(2)_{op bom} dh^(0)_{om bop} + h^(2)_{om bop} dh^(0)_{op bom} ],*)
+(*all four pairings positive after raising with eta, etabar, modulo total x-derivatives.*)
+(*Total-derivative statements in (x^+, x^-) are decided with the variational derivative*)
+(*(VariationalD): a density is a total derivative iff its Euler-Lagrange derivatives with*)
+(*respect to the independent functions all vanish.  The vacuum's first-order momentum is*)
+(*also checked to vanish (no vacuum one-point function, cf. SM (28)).*)
+
+
+Needs["VariationalMethods`"];
+dHs4 = t (chanS[1, 1] hpp[xp, xm, u] + chanS[1, 2] hpm[xp, xm, u] + chanS[2, 1] hmp[xp, xm, u] + chanS[2, 2] hmm[xp, xm, u]);
+H4 = Hinf + dHs4 - 1/2 Hinf . JJ . dHs4 . JJ . dHs4;
+NRH`CheckZero["SM(26): the four-channel coset family obeys H J H = J through O(t^2)",
+   Map[Together, Normal[Series[H4 . JJ . H4 - JJ, {t, 0, 2}]], {2}]];
+L4 = Module[{gamma = GammaDFT[H4, dinf, xs]},
+   Gamma2Density[H4, dinf, gamma, xs] - 2 (-2/l^2) Exp[-2 dinf]];
+L1of4 = Together[D[L4, t] /. t -> 0];
+Lq4 = Together[1/2 D[L4, {t, 2}] /. t -> 0];
+fields4 = {hpp, hpm, hmp, hmm};
+mom[Lden_, f_] := (l/(2 u)) D[Lden, Derivative[0, 0, 1][f][xp, xm, u]];   (* dL/d(d_y h) with d_y = (2u/l) d_u *)
+NRH`CheckZero["SM(26): the vacuum carries no first-order radial momentum (no vacuum one-point function)",
+   Table[Together[mom[L1of4, f]], {f, fields4}]];
+(* on-shell restricted sector of SM (21): r^(0), r^(2) constant, delta d = 0 *)
+onsh4 = {hmp -> Function[{a, b, c}, r0c + r2c/c],
+   hpp -> Function[{a, b, c}, s0p[a, b] + s2p[a]/c],
+   hmm -> Function[{a, b, c}, s0m[a, b] + s2m[b]/c],
+   hpm -> Function[{a, b, c}, w0[a, b] - l/2 (l/2 Log[c]) (D[s0m[a, b], {a, 2}] + D[s0p[a, b], {b, 2}]) + w2[a, b]/c]};
+NRH`CheckZero["SM(26): the restricted on-shell sector solves the displayed system SM(19) (delta d = 0)",
+   Together[(eqs /. dd -> Function[{a, b, c}, 0]) /. onsh4]];
+(* source variations only (the response coefficients are held fixed) *)
+srcVar = {r0c -> r0c + ee dr0c, s0p -> Function[{a, b}, s0p[a, b] + ee ds0p[a, b]],
+   s0m -> Function[{a, b}, s0m[a, b] + ee ds0m[a, b]], w0 -> Function[{a, b}, w0[a, b] + ee dw0[a, b]]};
+hOn[f_] := f[xp, xm, u] /. onsh4;
+dhOn[f_] := D[hOn[f] /. srcVar, ee] /. ee -> 0;
+ThetaY = Together[Sum[(mom[Lq4, f] /. onsh4) dhOn[f], {f, fields4}]] /. Log[u] -> LG;
+ThetaSer = Normal[Series[ThetaY, {u, Infinity, 0}]];
+NRH`Check["SM(26): Theta^y at the cutoff is a Laurent polynomial in u with at most linear-in-y (log) pieces",
+   PolynomialQ[Together[ThetaSer u^2], {u, LG}] && Exponent[ThetaSer, LG] <= 1 && Exponent[ThetaSer, u] <= 1];
+varFns = {ds0p[xp, xm], ds0m[xp, xm], dw0[xp, xm]};
+totalDerivQ[dens_] := NRH`ZeroQ[Together[VariationalD[dens, varFns, {xp, xm}]]] &&
+   NRH`ZeroQ[Together[VariationalD[Coefficient[dens, dr0c, 1], {s0p[xp, xm], s0m[xp, xm], w0[xp, xm], w2[xp, xm]}, {xp, xm}]]];
+divPieces = {Coefficient[Coefficient[ThetaSer, u, 1], LG, 0], Coefficient[Coefficient[ThetaSer, u, 1], LG, 1],
+   Coefficient[Coefficient[ThetaSer, u, 0], LG, 1]};
+NRH`Check["SM(26): the divergent and linear-in-y pieces of Theta^y are total x-derivatives in the restricted sector",
+   AllTrue[divPieces, totalDerivQ]];
+finitePiece = Coefficient[Coefficient[ThetaSer, u, 0], LG, 0];
+target26 = (1/l) (s2m[xm] ds0p[xp, xm] + s2p[xp] ds0m[xp, xm] + w2[xp, xm] dr0c + r2c dw0[xp, xm]);
+NRH`Check["SM(26): the finite piece equals (1/l)[h^(2)_{om bom} dh^(0)_{op bop} + h^(2)_{op bop} dh^(0)_{om bom} + h^(2)_{op bom} dh^(0)_{om bop} + h^(2)_{om bop} dh^(0)_{op bom}] (times (16 pi G)^{-1}), mod total x-derivatives",
+   totalDerivQ[Together[finitePiece - target26]]];
+NRH`Check["SM(26): the finite piece is NOT a total derivative by itself (the pairing is genuine)",
+   ! totalDerivQ[finitePiece]];
+
+
+(* ::Section:: *)
+(*SM (28), SM (36), SM (44): response normalization and one-point functions*)
+
+
+NRH`CheckZero["SM(28): <K_{a bbar}> = h^{(2)}_{a bbar}/(32 pi G l)  =>  stress one-points",
    {Together[2 Lp[xp]/(32 Pi G l) - Lp[xp]/(16 Pi G l)],
     Together[2 Lm[xm]/(32 Pi G l) - Lm[xm]/(16 Pi G l)],
     Together[2/(32 Pi G l) - 1/(16 Pi G l)],
     Together[2 Lp[xp] Lm[xm]/(32 Pi G l) - Lp[xp] Lm[xm]/(16 Pi G l)]}];
-NRH`CheckZero["SM(40): NR hair channel:  h^{(2)}_{op bom} = W_1/2  =>  Int<K_{op bom}> = Int W_1/(64 pi G l)",
+NRH`CheckZero["SM(44): NR hair channel:  h^{(2)}_{op bom} = W_1/2  =>  <K_{op bom}> = W_1/(64 pi G l)",
    Together[(W1[xp, xm]/2)/(32 Pi G l) - W1[xp, xm]/(64 Pi G l)]];
+NRH`CheckZero["SM(44): h^(2)_{om bop} = 0 on the NR family gives <K_{om bop}> = 0;  SM(45): (1/(64 pi G l)) delta(W_1/2) = (1/(128 pi G l)) delta W_1",
+   {Together[SeriesCoefficient[hNR[[2, 1]], {u, Infinity, 1}]/(32 Pi G l)], Together[1/(64 Pi G l)/2 - 1/(128 Pi G l)]}];
+(* Eq. (9a) applied nonlinearly to the exact non-Riemannian family (cf. the Riemannian evaluation in
+   NRH02): the saddle is expanded through z^2 (z = e^{-2y/l}, W_0 = 0), which is exact to the order
+   needed for the limit, A^y_{MN} is built from the full DFT connection of that background and
+   projected on the fixed frame SM (14). *)
+xsZ = {xp, xm, Function[e, -(2 z/l) D[e, z]]};
+HNRz = Module[{h = ConstantArray[0, {6, 6}]},
+   h[[1, 4]] = h[[4, 1]] = 1 + 2 Lp[xp] Lm[xm] z^2; h[[2, 5]] = h[[5, 2]] = -1 - 2 Lp[xp] Lm[xm] z^2;
+   h[[3, 3]] = h[[6, 6]] = 1; h[[1, 5]] = h[[5, 1]] = -2 Lm[xm] z; h[[2, 4]] = h[[4, 2]] = 2 Lp[xp] z;
+   h[[4, 4]] = -2 Lp[xp] W1[xp, xm] z^2; h[[4, 5]] = h[[5, 4]] = W1[xp, xm] z;
+   h[[5, 5]] = -2 Lm[xm] W1[xp, xm] z^2; h];
+dNRz = Log[z]/2 + Lp[xp] Lm[xm] z^2/4;
+NRH`Check["Eq.(9a) NR setup: the z^2 truncation of Eq. (13)-(14) obeys H J H = J through O(z^2)",
+   Module[{c = Expand[HNRz . JJ . HNRz - JJ]},
+      AllTrue[Flatten[c], PossibleZeroQ[Coefficient[#, z, 0]] && PossibleZeroQ[Coefficient[#, z, 1]] && PossibleZeroQ[Coefficient[#, z, 2]] &]]];
+AyNR = MomentumAK[HNRz, GammaDFT[HNRz, dNRz, xsZ], xsZ][[6]];
+AfixNR = Map[Together, Transpose[JJ . Vinf] . AyNR . (JJ . Vbinf), {2}];
+KNR = Map[Limit[-(1/(32 Pi G)) #/z, z -> 0] &, AfixNR[[1 ;; 2, 1 ;; 2]], {2}];
+NRH`CheckZero["Eq.(9a) on the exact NR family: -(32 pi G)^{-1} lim e^{2Y/l} A^y_{a bbar} = {{L+, W1/4},{0, L-}}/(16 pi G l)  [SM(44) without linearization]",
+   Map[Together, KNR - {{Lp[xp], W1[xp, xm]/4}, {0, Lm[xm]}}/(16 Pi G l), {2}]];
+NRH`CheckZero["Eq.(9a) on the exact NR family: e^{2Y/l}(B^y + 4/l) -> 0, hence <T_(0)> = 0",
+   Limit[(GammaBVector[HNRz, dNRz, xsZ][[6]] + 4/l)/z, z -> 0]];
+
+(* SM (28)-(30): canonical source and the Hessian factor 1/2 *)
+eta2 = eta3[[1 ;; 2, 1 ;; 2]]; etab2 = etab3[[1 ;; 2, 1 ;; 2]];
+hlow2 = {{h0pp, h0pm}, {h0mp, h0mm}};          (* h^(0)_{a bbar}: rows (op, om), columns (bop, bom) *)
+hup2 = eta2 . hlow2 . etab2;                    (* both indices raised *)
+NRH`CheckZero["SM(28)-(30): J^{op bop} = -2 h^(0)op bop = 2 h^(0)_{om bom} and J^{om bom} = 2 h^(0)_{op bop}; hence the Hessian factor (32 pi G l)^{-1}/2 = (64 pi G l)^{-1}",
+   {Together[-2 hup2[[1, 1]] - 2 h0mm], Together[-2 hup2[[2, 2]] - 2 h0pp], Together[1/(32 Pi G l)/2 - 1/(64 Pi G l)]}];
 
 
 (* ::Section:: *)
-(*SM (33)-(35): PBH data, response kernel, and the two-point normalization*)
+(*SM (38)-(40): PBH data, response kernel, and the two-point normalization*)
 
 
 (* ::Text:: *)
-(*The PBH perturbation is  Delta_alpha H := Lhat_{xi[alpha]} H^infty with the Eq. (8)*)
+(*The PBH perturbation is  Delta_alpha H := Lhat_{xi[alpha]} H^infty with the Eq. (5)*)
 (*vector continued off shell:  eps^+ -> alpha^+(x^+, x^-), eps^- -> 0.  Its leading*)
 (*fixed-frame datum in the (om, bom) channel and normalizable datum in the (op, bop)*)
 (*channel are  s_+ = -2 d_- alpha^+  and  r_+ = -(l^2/2) d_+^3 alpha^+.*)
@@ -313,20 +520,20 @@ xiPBH = {
 (* on the vacuum H^infty (L = 0), the dual tail proportional to L_- drops out *)
 DeltaH = Map[Together, GenLieH[xiPBH, Hinf, xs], {2}];
 hPBH = Transpose[JJ . Vinf] . DeltaH . (JJ . Vbinf);
-NRH`CheckZero["SM(33): s_+ = [Delta H]^{(0)}_{om bom} = -2 d_- alpha^+",
+NRH`CheckZero["SM(38): s_+ = [Delta H]^{(0)}_{om bom} = -2 d_- alpha^+",
    Together[SeriesCoefficient[hPBH[[2, 2]], {u, Infinity, 0}] + 2 D[al[xp, xm], xm]]];
-NRH`CheckZero["SM(33): r_+ = [Delta H]^{(2)}_{op bop} = -(l^2/2) d_+^3 alpha^+",
+NRH`CheckZero["SM(38): r_+ = [Delta H]^{(2)}_{op bop} = -(l^2/2) d_+^3 alpha^+",
    Together[SeriesCoefficient[hPBH[[1, 1]], {u, Infinity, 1}] + l^2/2 D[al[xp, xm], {xp, 3}]]];
-NRH`CheckZero["SM(33): the PBH variation carries no (om bop) source deformation",
+NRH`CheckZero["SM(38): the PBH variation carries no (om bop) source deformation",
    Together[SeriesCoefficient[hPBH[[2, 1]], {u, Infinity, 0}]]];
 
-(* SM (34)-(35): kernel and two-point normalization arithmetic *)
-NRH`CheckZero["SM(34): (l^2/4) d_+^3 [-1/(2 pi x)] = 3 l^2/(4 pi x^4)",
+(* SM (39)-(40): kernel and two-point normalization arithmetic *)
+NRH`CheckZero["SM(39): (l^2/4) d_+^3 [-1/(2 pi x)] = 3 l^2/(4 pi x^4)",
    Together[l^2/4 D[-1/(2 Pi x), {x, 3}] - 3 l^2/(4 Pi x^4)]];
 NRH`CheckZero["away from coincidence: d_+ d_- ln(-x^+ x^-) = 0",
    D[Log[-xps xms], xps, xms]];
 cBH = 3 l/(2 G);
-NRH`CheckZero["SM(35): (64 pi G l)^{-1} 3 l^2/(4 pi) = (8 pi)^{-2} (c/2),  c = 3l/2G",
+NRH`CheckZero["SM(40): (64 pi G l)^{-1} 3 l^2/(4 pi) = (8 pi)^{-2} (c/2),  c = 3l/2G",
    Together[1/(64 Pi G l) 3 l^2/(4 Pi) - 1/(8 Pi)^2 cBH/2]];
 
 NRH`FileSummary[];

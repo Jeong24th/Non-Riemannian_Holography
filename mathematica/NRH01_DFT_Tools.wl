@@ -325,6 +325,32 @@ GammaBVector[HH_, dd_, xs_List] := Module[{n = Length[xs], dim, JJ, Hup},
 
 
 (* ::Section:: *)
+(*Generalized-metric momentum A^K_{MN} of the Gamma^2 boundary term (Letter Eq. (8), SM (12))*)
+
+
+(* ::Text:: *)
+(*A^K_{p qbar} := V^K_p Gamma^L_{L qbar} + Vbar^K_qbar Gamma^L_{Lp} - Gamma_p^K_qbar - Gamma_qbar^K_p  is the frame*)
+(*projection of the doubled tensor*)
+(*   A^K_{MN} = P_M^{M'} Pbar_N^{N'} [ delta^K_{M'} Gamma^L_{L N'} + delta^K_{N'} Gamma^L_{L M'} - Gamma_{M'}^K_{N'} - Gamma_{N'}^K_{M'} ],*)
+(*returned as a list over K of (2D x 2D) matrices in (M, N).  Contracting with any double vielbein of*)
+(*the background gives the frame components of the paper; contracting with the fixed limiting frame*)
+(*gives the holographic response of Eq. (9a).*)
+
+
+MomentumAK[HH_, gamma_List, xs_List] := Module[
+   {n = Length[xs], dim, JJ, P, Pb, PmixU, PbmixU, trvec, gUp, core},
+   dim = 2 n; JJ = ODDJ[n]; P = (JJ + HH)/2; Pb = (JJ - HH)/2;
+   PmixU = P . JJ; PbmixU = Pb . JJ;                           (* P_M{}^{M'},  Pbar_N{}^{N'} *)
+   trvec = Table[Sum[JJ[[L, A]] gamma[[A, L, N]], {L, dim}, {A, dim}], {N, dim}];   (* Gamma^L_{LN} *)
+   gUp[K_, M_, N_] := Sum[JJ[[K, A]] gamma[[M, A, N]], {A, dim}];                  (* Gamma_M{}^K{}_N *)
+   Table[
+      core = Table[KroneckerDelta[K, Mp] trvec[[Np]] + KroneckerDelta[K, Np] trvec[[Mp]]
+         - gUp[K, Mp, Np] - gUp[K, Np, Mp], {Mp, dim}, {Np, dim}];
+      Map[Together, PmixU . core . Transpose[PbmixU], {2}],
+      {K, dim}]];
+
+
+(* ::Section:: *)
 (*Double-vielbein spin connection Phi_{Apq}  (port of spin_connection() from the guard)*)
 
 

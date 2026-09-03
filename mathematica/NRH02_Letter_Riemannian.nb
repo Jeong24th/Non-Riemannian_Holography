@@ -5,6 +5,17 @@
 
 (* CreatedBy='Mathematica 13.2' *)
 
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     20504,        492]
+NotebookOptionsPosition[     16674,        442]
+NotebookOutlinePosition[     16987,        456]
+CellTagsIndexPosition[     16944,        453]
+WindowTitle->NRH02_Letter_Riemannian.nb
+WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
@@ -14,35 +25,58 @@ NRH02 \[LongDash] Letter, \"Riemannian Reference: Banados Holography in DFT\"\
 \>", "Title"],
 
 Cell["\<\
-This file verifies, in the order of the Letter, the displayed equations of the section
+This file verifies, in the order of the Letter, the displayed equations of \
+the section
 \"Riemannian Reference: Banados Holography in DFT\":
 
-  Eq. (1)  [label Rfields]        NS-NS Banados family (metric, B-field, dilaton);
-  Eq. (2)  [label RDFTfields]     its packaging into the DFT pair (H_MN, e^{-2d});
+  Eq. (1)  [label Rfields]        NS-NS Banados family (metric, B-field, \
+dilaton);
+  Eq. (2)  [label RDFTfields]     its packaging into the DFT pair (H_MN, \
+e^{-2d});
   Eq. (3)  [label Rboundary]      the asymptotic falloffs;
-  Eq. (4a) [label boundaryH]      the constant boundary data H^infty, d^infty = -y/l;
-  Eq. (4b) [label Rboundaryframe] the aligned D=2 boundary double-vielbein representative;
-  Eq. (6b) [label RDFTconservation] the conserved tensor T_AB built from K_{a bbar}, T_(0);
-  Eq. (7)  [label Rcontinuity]    the boundary Ward identities;
-  Eq. (8)  [label Rkilling]       the asymptotic-symmetry generator;
-  Eq. (9)  [label RVirasoro]      delta_epsilon L_pm with the anomalous -l^2/4 term;
-  the Brown-Henneaux central charge c = 3l/2G implied by Eqs. (6)-(9);
-  Eq. (10) [label Rcorrelators]   the normalization arithmetic of the two-point function;
-  the BTZ Killing horizon location and the long-string effective speed c_eff.
+  Eq. (4a) [label boundaryH]      the constant boundary data H^infty, d^infty \
+= -y/l;
+  Eq. (4b) [label Rboundaryframe] the aligned D=2 boundary double-vielbein \
+representative;
+  Eq. (9b) [label RDFTconservation] the conserved tensor T_AB built from K_{a \
+bbar}, T_(0);
+  Eq. (10)  [label Rcontinuity]    the boundary Ward identities;
+  Eq. (5)  [label Rkilling]       the asymptotic-symmetry generator;
+  Eq. (6)  [label RVirasoro]      delta_epsilon L_pm with the anomalous \
+-l^2/4 term;
+  the Brown-Henneaux central charge c = 3l/2G implied by Eqs. (5), (6), and \
+(9a);
+  Eq. (11) [label Rcorrelators]   the normalization arithmetic of the \
+two-point function;
+  the BTZ Killing horizon location and the long-string effective speed c_eff;
+  Eq. (8) -> Eq. (9a) [Rrenvariation, RKdef]  the coefficient matching behind \
+the dictionary,
+                                   and SM (37) [SMinvariantstress];
+  Eq. (9a) applied nonlinearly to the exact family: the full one-point matrix \
+of Eq. (11) and
+                                   SM (36) from the DFT connection of the \
+saddle, and <T_(0)> = 0.
 
-Everything is exact and symbolic for ARBITRARY chiral functions L_+(x^+), L_-(x^-).
-We use the rational radial variable u := Exp[2y/l]  (so e^{-2y/l} = 1/u), with the
-radial derivative  d/dy = (2u/l) d/du.  This keeps all expressions rational and lets
-Mathematica decide every identity exactly.  LaTeX labels are the stable identifiers;
-the current number mapping and manuscript SHA-256 are recorded in MANUSCRIPT_MAP.md.\
+Everything is exact and symbolic for ARBITRARY chiral functions L_+(x^+), \
+L_-(x^-).
+We use the rational radial variable u := Exp[2y/l]  (so e^{-2y/l} = 1/u), \
+with the
+radial derivative  d/dy = (2u/l) d/du.  This keeps all expressions rational \
+and lets
+Mathematica decide every identity exactly.  LaTeX labels are the stable \
+identifiers;
+the current number mapping and manuscript SHA-256 are recorded in \
+MANUSCRIPT_MAP.md.\
 \>", "Text"],
 
 Cell["\<\
 ClearAll[\"Global`*\"];
 Get[FileNameJoin[{If[$InputFileName =!= \"\", DirectoryName[$InputFileName], \
 NotebookDirectory[]], \"NRH01_DFT_Tools.wl\"}]];
-NRH`BeginFile[\"NRH02_Letter_Riemannian.wl\"];
+NRH`BeginFile[\"NRH02_Letter_Riemannian.wl\"];\
+\>", "Input"],
 
+Cell["\<\
 xs = {xp, xm, Function[e, (2 u/l) D[e, u]]};
 JJ = ODDJ[3];\
 \>", "Input"],
@@ -67,8 +101,10 @@ BB = fB {{0, -1, 0}, {1, 0, 0}, {0, 0, 0}};      (* B_{+-} = -fB,  B_{-+} = \
 +fB *)
 HR = Map[Together, RiemannianH[gB, BB], {2}];
 dR = -1/2 Log[u (1 - Lp[xp] Lm[xm]/u^2)];        (* e^{-2d} = e^{2y/l}(1 - L+ \
-L- e^{-4y/l}) *)
+L- e^{-4y/l}) *)\
+\>", "Input"],
 
+Cell["\<\
 NRH`CheckZero[\"Eq.(2): H J H = J  (O(3,3) constraint)\",
    Map[Together, HR . JJ . HR - JJ, {2}]];
 NRH`CheckZero[\"Eq.(2): (e^{-2d})^2 = -det g  (phi_0 = 0)\",
@@ -77,7 +113,10 @@ NRH`CheckZero[\"Eq.(2): e^{-2d} = e^{2y/l}(1 - L+ L- e^{-4y/l})\",
    Together[Exp[-2 dR] - u (1 - Lp[xp] Lm[xm]/u^2)]];\
 \>", "Input"],
 
-Cell["The Einstein double field equation  G_MN = 2 l^-2 J_MN   (quoted after Eq. (14))", "Section"],
+Cell["\<\
+The Einstein double field equation  G_MN = 2 l^-2 J_MN   (quoted after Eq. \
+(15))\
+\>", "Section"],
 
 Cell["\<\
 The Letter states that the Riemannian fields of Eq. (2) solve the \
@@ -104,8 +143,10 @@ NRH`CheckZero[\"S_(0) closed form = S_(0) from S_ABCD contraction\",
    Together[curvR[\"S0\"] - ScalarS0FromS4[curvR[\"Gamma\"], curvR[\"R4\"], \
 HR, xs]]];
 NRH`CheckZero[\"G_MN = 2 l^-2 J_MN\", Map[Together, curvR[\"G\"] - 2/l^2 JJ, \
-{2}]];
+{2}]];\
+\>", "Input"],
 
+Cell["\<\
 (* Connection sanity on this background: defining properties of Gamma. *)
 Module[{P = (JJ + HR)/2, gamma = curvR[\"Gamma\"], compat, tr},
    compat = Table[
@@ -124,36 +165,53 @@ a]], {c, 6}, {a, 6}, {b, 6}], {3}]];
 ];\
 \>", "Input"],
 
-Cell["Eq. (3) - Eq. (4b):  asymptotics, type-(1,1) boundary data, and aligned frame", "Section"],
+Cell["\<\
+Eq. (3) - Eq. (4b):  asymptotics, type-(1,1) boundary data, and aligned frame\
+\
+\>", "Section"],
 
 Cell["\<\
 Hinf = {{0, 0, 0, 1, 0, 0}, {0, 0, 0, 0, -1, 0}, {0, 0, 1, 0, 0, 0},
-        {1, 0, 0, 0, 0, 0}, {0, -1, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 1}};
+        {1, 0, 0, 0, 0, 0}, {0, -1, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 1}};\
+\>", "Input"],
 
-NRH`CheckZero[\"Eq.(4a) [boundaryH]: H^infty matches the displayed 6x6 matrix\",
+Cell["\<\
+NRH`CheckZero[\"Eq.(4a) [boundaryH]: H^infty matches the displayed 6x6 matrix\
+\",
    Map[Limit[#, u -> Infinity] &, HR, {2}] - Hinf];
-NRH`CheckZero[\"Eq.(3): H - H^infty = O(e^{-2y/l})  (every entry vanishes at the boundary)\",
+NRH`CheckZero[\"Eq.(3): H - H^infty = O(e^{-2y/l})  (every entry vanishes at \
+the boundary)\",
    Map[Limit[#, u -> Infinity] &, HR - Hinf, {2}]];
-NRH`CheckZero[\"Eq.(3): d + y/l = O(e^{-4y/l}):  u * (d + y/l) still vanishes at the boundary\",
-   Limit[u (dR + 1/2 Log[u]), u -> Infinity]];
+NRH`CheckZero[\"Eq.(3): d + y/l = O(e^{-4y/l}):  u * (d + y/l) still vanishes \
+at the boundary\",
+   Limit[u (dR + 1/2 Log[u]), u -> Infinity]];\
+\>", "Input"],
 
-(* The boundary block (rows/cols x~+, x~-, x+, x-) is the type-(1,1) generalized metric:
-   its upper-left 2x2 block (the would-be inverse metric) vanishes identically. *)
+Cell["\<\
+(* The boundary block (rows/cols x~+, x~-, x+, x-) is the type-(1,1) \
+generalized metric:
+   its upper-left 2x2 block (the would-be inverse metric) vanishes \
+identically. *)
 H0 = Hinf[[{1, 2, 4, 5}, {1, 2, 4, 5}]];
-NRH`Check[\"Eq.(4a) [boundaryH]: induced boundary H^(0) has vanishing upper-left block (type (1,1))\",
+NRH`Check[\"Eq.(4a) [boundaryH]: induced boundary H^(0) has vanishing \
+upper-left block (type (1,1))\",
    H0[[1 ;; 2, 1 ;; 2]] === {{0, 0}, {0, 0}}];\
 \>", "Input"],
 
 Cell["\<\
-Eq. (6b) - Eq. (7):  the conserved tensor and the boundary Ward identities\
+Eq. (9b) - Eq. (10):  the conserved tensor and the boundary Ward identities\
 \>", "Section"],
 
 Cell["\<\
 On the constant boundary representative Eq. (4a), the conservation of
-T_AB = 4 V^(0)_[A^a Vbar^(0)_B]^bbar K_{a bbar} - (1/2) J_AB T_(0)  reduces to ordinary
-divergences.  With the lower-index boundary vielbeins of Eq. (4b) [Rboundaryframe] we
-evaluate  partial^A T_AB = J^{AC} partial_C T_AB  componentwise for arbitrary response
-functions K_{a bbar}(x^+, x^-), T_(0)(x^+, x^-), and read off the displayed identities:
+T_AB = 4 V^(0)_[A^a Vbar^(0)_B]^bbar K_{a bbar} - (1/2) J_AB T_(0)  reduces \
+to ordinary
+divergences.  With the lower-index boundary vielbeins of Eq. (4b) \
+[Rboundaryframe] we
+evaluate  partial^A T_AB = J^{AC} partial_C T_AB  componentwise for arbitrary \
+response
+functions K_{a bbar}(x^+, x^-), T_(0)(x^+, x^-), and read off the displayed \
+identities:
    partial_- K_{op bop} + (1/4) partial_+ T_(0) = 0,
    partial_+ K_{om bom} + (1/4) partial_- T_(0) = 0,
    K_{om bop} = const,   and no condition on K_{op bom}.\
@@ -161,46 +219,60 @@ functions K_{a bbar}(x^+, x^-), T_(0)(x^+, x^-), and read off the displayed iden
 
 Cell["\<\
 J4 = ODDJ[2];
-V0 = {{1/Sqrt[2], 0}, {0, 0}, {0, -Sqrt[2]}, {0, 0}};        (* Eq. (4b), rows (x~+,x~-,x+,x-) *)
+V0 = {{1/Sqrt[2], 0}, {0, 0}, {0, -Sqrt[2]}, {0, 0}};        (* Eq. (4b), \
+rows (x~+,x~-,x+,x-) *)
 Vb0 = {{0, 0}, {0, 1/Sqrt[2]}, {0, 0}, {Sqrt[2], 0}};
-eta2 = {{0, -1}, {-1, 0}};   etab2 = {{0, 1}, {1, 0}};       (* flat metrics stated below Eq. (4b) *)
+eta2 = {{0, -1}, {-1, 0}};   etab2 = {{0, 1}, {1, 0}};       (* flat metrics \
+stated below Eq. (4b) *)\
+\>", "Input"],
 
-NRH`CheckZero[\"Eq.(4b) [Rboundaryframe]: boundary vielbeins reproduce P^(0) and Pbar^(0)\",
-   {V0 . eta2 . Transpose[V0] - (J4 + H0)/2, Vb0 . etab2 . Transpose[Vb0] - (J4 - H0)/2}];
+Cell["\<\
+NRH`CheckZero[\"Eq.(4b) [Rboundaryframe]: boundary vielbeins reproduce P^(0) \
+and Pbar^(0)\",
+   {V0 . eta2 . Transpose[V0] - (J4 + H0)/2, Vb0 . etab2 . Transpose[Vb0] - \
+(J4 - H0)/2}];\
+\>", "Input"],
 
-kmat = {{Kpp[xp, xm], Kpm[xp, xm]}, {Kmp[xp, xm], Kmm[xp, xm]}};  (* K_{a bbar}, rows (op,om), cols (bop,bom) *)
+Cell["\<\
+kmat = {{Kpp[xp, xm], Kpm[xp, xm]}, {Kmp[xp, xm], Kmm[xp, xm]}};  (* K_{a \
+bbar}, rows (op,om), cols (bop,bom) *)
 T0f = T0[xp, xm];
-(* K_{a bbar} carries lower frame indices, so it pairs with the raised vielbeins
+(* K_{a bbar} carries lower frame indices, so it pairs with the raised \
+vielbeins
    V_A{}^a = V_{Ab} eta^{ba}: *)
 V0u = V0 . eta2;  Vb0u = Vb0 . etab2;
 TAB = Table[
-   2 Sum[(V0u[[a, i]] Vb0u[[b, j]] - V0u[[b, i]] Vb0u[[a, j]]) kmat[[i, j]], {i, 2}, {j, 2}]
+   2 Sum[(V0u[[a, i]] Vb0u[[b, j]] - V0u[[b, i]] Vb0u[[a, j]]) kmat[[i, j]], \
+{i, 2}, {j, 2}]
    - 1/2 J4[[a, b]] T0f, {a, 4}, {b, 4}];
 bD[e_, a_] := If[a <= 2, 0, D[e, {xp, xm}[[a - 2]]]];
-divT = Table[Together[Sum[J4[[a, c]] bD[TAB[[a, b]], c], {a, 4}, {c, 4}]], {b, 4}];
+divT = Table[Together[Sum[J4[[a, c]] bD[TAB[[a, b]], c], {a, 4}, {c, 4}]], \
+{b, 4}];
 ward1 = D[Kpp[xp, xm], xm] + 1/4 D[T0f, xp];
 ward2 = D[Kmm[xp, xm], xp] + 1/4 D[T0f, xm];
 (* The four components of partial^A T_AB come out as
    { partial_- K_{om bop},  -partial_+ K_{om bop},  -2*ward1,  -2*ward2 } :
    setting them to zero is exactly Eq. (7) plus the constancy of K_{om bop}. *)
-NRH`CheckZero[\"Eq.(7): div T = {d_- K_mp, -d_+ K_mp, -2 Ward_+, -2 Ward_-} exactly\",
-   Together[divT - {D[Kmp[xp, xm], xm], -D[Kmp[xp, xm], xp], -2 ward1, -2 ward2}]];
-NRH`Check[\"Eq.(7): no local condition on K_{op bom}\", FreeQ[divT, Kpm]];\
+NRH`CheckZero[\"Eq.(10): div T = {d_- K_mp, -d_+ K_mp, -2 Ward_+, -2 Ward_-} \
+exactly\",
+   Together[divT - {D[Kmp[xp, xm], xm], -D[Kmp[xp, xm], xp], -2 ward1, -2 \
+ward2}]];
+NRH`Check[\"Eq.(10): no local condition on K_{op bom}\", FreeQ[divT, Kpm]];\
 \>", "Input"],
 
 Cell["\<\
-Eq. (8) - Eq. (9):  asymptotic symmetry and the Virasoro transformation law\
+Eq. (5) - Eq. (6):  asymptotic symmetry and the Virasoro transformation law\
 \>", "Section"],
 
 Cell["\<\
-The doubled vector xi of Eq. (8) has upper components  xi^M = (xitilde_mu ; \
+The doubled vector xi of Eq. (5) has upper components  xi^M = (xitilde_mu ; \
 xi^mu).
 We verify, exactly in series around the boundary:
   (i)   Lhat_xi d = O(e^{-4y/l});
   (ii)  Lhat_xi H - delta_eps H = O(e^{-4y/l}), where delta_eps H is the \
 variation of the
         exact family under  L_pm -> L_pm + t delta_eps L_pm  with the \
-displayed law (9),
+displayed law (6),
         delta_eps L_pm = eps partial L + 2 L partial eps - (l^2/4) partial^3 \
 eps;
   (iii) delta_eps H itself is O(e^{-2y/l}).\
@@ -213,11 +285,15 @@ xiUp = {  (* (xitilde_+, xitilde_-, xitilde_y ; xi^+, xi^-, xi^y) *)
    -l/2 (D[ep[xp], xp] - D[em[xm], xm]),
    ep[xp] + l^2/(4 u) D[em[xm], {xm, 2}],
    em[xm] + l^2/(4 u) D[ep[xp], {xp, 2}],
-   -l/2 (D[ep[xp], xp] + D[em[xm], xm])};
+   -l/2 (D[ep[xp], xp] + D[em[xm], xm])};\
+\>", "Input"],
 
+Cell["\<\
 lieH = Map[Together, GenLieH[xiUp, HR, xs], {2}];
-lieD = Together[GenLieD[xiUp, dR, xs]];
+lieD = Together[GenLieD[xiUp, dR, xs]];\
+\>", "Input"],
 
+Cell["\<\
 dLp = ep[xp] D[Lp[xp], xp] + 2 Lp[xp] D[ep[xp], xp] - l^2/4 D[ep[xp], {xp, 3}];
 dLm = em[xm] D[Lm[xm], xm] + 2 Lm[xm] D[em[xm], xm] - l^2/4 D[em[xm], {xm, 3}];
 (* HR contains L_pm only algebraically (no derivatives), so the family \
@@ -226,13 +302,15 @@ variation is a
 HRgen = HR /. {Lp[xp] -> LPv, Lm[xm] -> LMv};
 depsH = Map[Together,
    (D[HRgen, LPv] dLp + D[HRgen, LMv] dLm) /. {LPv -> Lp[xp], LMv -> Lm[xm]}, \
-{2}];
+{2}];\
+\>", "Input"],
 
+Cell["\<\
 orderCheck[m_, pow_] := Map[Function[e, Normal[Series[e, {u, Infinity, \
 pow}]]], m, {2}];
-NRH`CheckZero[\"Eq.(8): Lhat_xi d = O(e^{-4y/l})\",
+NRH`CheckZero[\"Eq.(5): Lhat_xi d = O(e^{-4y/l})\",
    Normal[Series[lieD, {u, Infinity, 1}]]];
-NRH`CheckZero[\"Eq.(8)-(9): Lhat_xi H - delta_eps H = O(e^{-4y/l})\",
+NRH`CheckZero[\"Eq.(5)-(6): Lhat_xi H - delta_eps H = O(e^{-4y/l})\",
    orderCheck[lieH - depsH, 1]];
 NRH`CheckZero[\"delta_eps H = O(e^{-2y/l})   (leading falloff of the Banados \
 variation)\",
@@ -240,28 +318,30 @@ variation)\",
 \>", "Input"],
 
 Cell["\<\
-Central charge  c = 3l/2G  and the two-point normalization of Eq. (10)\
+Central charge  c = 3l/2G  and the two-point normalization of Eq. (11)\
 \>", "Section"],
 
 Cell["\<\
-The Letter identifies 8 pi K_{op bop} as the holomorphic stress component with
-<K_{op bop}> = L_+/(16 pi G l)  [SM (31)], so  T_hol := 8 pi <K> = L_+/(2 G l).
-The anomalous term of Eq. (9) then fixes the central charge through the CFT law
+The Letter identifies 8 pi K_{op bop} as the holomorphic stress component \
+with
+<K_{op bop}> = L_+/(16 pi G l)  [SM (36)], so  T_hol := 8 pi <K> = L_+/(2 G l).
+The anomalous term of Eq. (6) then fixes the central charge through the CFT law
    delta_eps T = eps T' + 2 T eps' - (c/12) eps''' :
    (c/12) = (l^2/4) * (1/(2 G l))  =>  c = 3l/2G.
-The connected two-point normalization quoted in Eq. (10) is the arithmetic identity
-   (1/(64 pi G l)) * (3 l^2/(4 pi)) = (8 pi)^{-2} (c/2),  cf. SM (34)-(35).\
+The connected two-point normalization quoted in Eq. (11) is the arithmetic \
+identity
+   (1/(64 pi G l)) * (3 l^2/(4 pi)) = (8 pi)^{-2} (c/2),  cf. SM (39)-(40).\
 \>", "Text"],
 
 Cell["\<\
 THol = 8 Pi (Lp[xp]/(16 Pi G l));
-dT = (dLp/(2 G l)) /. {};   (* transformation of T_hol induced by Eq. (9) *)
+dT = (dLp/(2 G l)) /. {};   (* transformation of T_hol induced by Eq. (6) *)
 cval = 3 l/(2 G);
 NRH`CheckZero[\"c = 3l/2G reproduces delta_eps T = eps T' + 2 T eps' - (c/12) \
 eps'''\",
    Together[dT - (ep[xp] D[THol, xp] + 2 THol D[ep[xp], xp] - cval/12 \
 D[ep[xp], {xp, 3}])]];
-NRH`CheckZero[\"Eq.(10): (64 pi G l)^{-1} (3 l^2/(4 pi)) = (8 pi)^{-2} (c/2)\",
+NRH`CheckZero[\"Eq.(11): (64 pi G l)^{-1} (3 l^2/(4 pi)) = (8 pi)^{-2} (c/2)\",
    Together[1/(64 Pi G l) 3 l^2/(4 Pi) - 1/(8 Pi)^2 cval/2]];\
 \>", "Input"],
 
@@ -279,13 +359,143 @@ channel structure)\",
        Together[EE2[[2, 2]] - 2 Lm[xm]] === 0]];
 NRH`CheckZero[\"c_eff^2 := 2F = 2(e^{2y/l} + L+ L- e^{-2y/l}) and = 4 Sqrt[L+ \
 L-] at the horizon\",
-   Together[(2 fB /. u -> Sqrt[Lp[xp] Lm[xm]]) - 4 Sqrt[Lp[xp] Lm[xm]]]];
+   Together[(2 fB /. u -> Sqrt[Lp[xp] Lm[xm]]) - 4 Sqrt[Lp[xp] Lm[xm]]]];\
+\>", "Input"],
 
-NRH`FileSummary[];\
-\>", "Input"]
+Cell["\<\
+Eq. (8) -> Eq. (9a) [Rrenvariation, RKdef], and SM (37) [SMinvariantstress]\
+\>", "Section"],
+
+Cell["\<\
+Eq. (8) pairs the cutoff data as  (16 pi G)^{-1} e^{-2d} [h^{p qbar} A^y_{p \
+qbar} + 2 delta d (B^y + 4/l)],
+while the DFT response definition SM (7)-(8) pairs them as  2 e^{-2d} (-h_{p \
+qbar} K^{p qbar} + delta d T_(0)).
+With e^{-2d(Y)} ~ e^{2Y/l} e^{-2d^(0)}, matching the two pairings gives \
+exactly the coefficients
+displayed in Eq. (9a):  K = -(32 pi G)^{-1} e^{2Y/l} A^y  and  T_(0) = (16 pi \
+G)^{-1} e^{2Y/l} (B^y + 4/l).
+Eq. (9b) then represents the invariant coordinate components in the aligned \
+frame of Eq. (4b);
+SM (37) reads off  T_{x^+ x~_-} = 2 K_{op bop}  and  T_{x^- x~_+} = 2 K_{om \
+bom}  from the same
+tensor T_AB assembled above (rows/columns ordered x~_+, x~_-, x^+, x^-).\
+\>", "Text"],
+
+Cell["\<\
+NRH`CheckZero[\"Eq.(9a) [RKdef]: coefficient matching  -2K = (16 pi G)^{-1} \
+A^y  and  2T_(0) = (16 pi G)^{-1} 2(B^y + 4/l)\",
+   {Together[-2 (-(1/(32 Pi G))) - 1/(16 Pi G)], Together[2 (1/(16 Pi G)) - \
+2/(16 Pi G)]}];
+NRH`CheckZero[\"SM(37) [SMinvariantstress]: T_{x+ x~-} = 2 K_{op bop} and \
+T_{x- x~+} = 2 K_{om bom} in the frame of Eq. (4b)\",
+   {Together[TAB[[3, 2]] - 2 Kpp[xp, xm]], Together[TAB[[4, 1]] - 2 Kmm[xp, \
+xm]]}];
+NRH`Check[\"SM(37): J_{x+ x~-} = 0 = J_{x- x~+}, so no T_(0) term enters \
+these two components\",
+   J4[[3, 2]] === 0 && J4[[4, 1]] === 0];\
+\>", "Input"],
+
+Cell["\<\
+Eq. (9a) applied nonlinearly to the exact family (1)-(2): the one-point \
+functions of Eq. (11)\
+\>", "Section"],
+
+Cell["\<\
+Eq. (9a) is a nonlinear statement:  <K_{a bbar}> = -(32 pi G)^{-1} lim \
+e^{2Y/l} A^y_{a bbar}(Y),  with A^K the
+generalized-metric momentum of Eq. (8)/SM (12) built from the full DFT \
+connection of the saddle, and
+the frame indices referring to the aligned boundary frame of Eq. (4b)/SM \
+(14).  Here A^y_{MN} is
+evaluated on the exact Banados family with arbitrary chiral L_pm, projected \
+on that fixed frame, and
+the limit is taken: the result is the complete one-point matrix  {{L_+, L_+ \
+L_-}, {1, L_-}}/(16 pi G l)
+- Eq. (11), SM (36), and the two mixed entries quoted after SM (37) - \
+obtained without any
+linearization.  In the same way  e^{2Y/l}(B^y + 4/l) -> 0  gives  <T_(0)> = \
+0,  as stated below Eq. (10).\
+\>", "Text"],
+
+Cell["\<\
+VinfL = {{1/Sqrt[2], 0, 0}, {0, 0, 0}, {0, 0, 1/Sqrt[2]},
+   {0, -Sqrt[2], 0}, {0, 0, 0}, {0, 0, 1/Sqrt[2]}};       (* SM (14), lower \
+local indices *)
+VbinfL = {{0, 0, 0}, {0, 1/Sqrt[2], 0}, {0, 0, 1/Sqrt[2]},
+   {0, 0, 0}, {Sqrt[2], 0, 0}, {0, 0, -1/Sqrt[2]}};
+AyR = MomentumAK[HR, curvR[\"Gamma\"], xs][[6]];
+AfixR = Map[Together, Transpose[JJ . VinfL] . AyR . (JJ . VbinfL), {2}];
+KR = Map[Limit[-(1/(32 Pi G)) u #, u -> Infinity] &, AfixR[[1 ;; 2, 1 ;; 2]], \
+{2}];
+NRH`CheckZero[\"Eq.(9a) on the exact family: -(32 pi G)^{-1} lim e^{2Y/l} \
+A^y_{a bbar} = {{L+, L+L-},{1, L-}}/(16 pi G l)  [Eq.(11), SM(36), mixed \
+entries after SM(37)]\",
+   Map[Together, KR - {{Lp[xp], Lp[xp] Lm[xm]}, {1, Lm[xm]}}/(16 Pi G l), \
+{2}]];
+NRH`CheckZero[\"Eq.(9a) on the exact family: e^{2Y/l}(B^y + 4/l) -> 0, hence \
+<T_(0)> = 0\",
+   Limit[u (GammaBVector[HR, dR, xs][[6]] + 4/l), u -> Infinity]];\
+\>", "Input"],
+
+Cell["NRH`FileSummary[];", "Input"]
 },
 WindowTitle->"NRH02_Letter_Riemannian.nb",
 FrontEndVersion->"13.2 for Microsoft Windows (64-bit) (January 30, 2023)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[598, 21, 104, 3, 70, "Title",ExpressionUUID->"9434c268-df36-499c-81d0-fd29ee2f8c4e"],
+Cell[705, 26, 1939, 43, 70, "Text",ExpressionUUID->"c3963910-1917-450b-983c-1cb89fb35837"],
+Cell[2647, 71, 223, 5, 70, "Input",ExpressionUUID->"24162829-6307-4966-a347-83e13c063a2c"],
+Cell[2873, 78, 83, 3, 70, "Input",ExpressionUUID->"0d84234e-f616-4693-aaec-375f1bca9056"],
+Cell[2959, 83, 88, 2, 70, "Section",ExpressionUUID->"5dcccb01-5502-4902-8c43-72f2dda35064"],
+Cell[3050, 87, 301, 7, 70, "Text",ExpressionUUID->"fdb3d0ae-3644-4b98-acaa-9b1995dbbbcd"],
+Cell[3354, 96, 336, 8, 70, "Input",ExpressionUUID->"54e771fe-ef5c-41ec-b759-8bca858f5181"],
+Cell[3693, 106, 345, 7, 70, "Input",ExpressionUUID->"96a83dac-47ac-4b40-b57b-f3e834a46be0"],
+Cell[4041, 115, 109, 3, 70, "Section",ExpressionUUID->"1300e283-2cd3-44d8-86fd-06b3d738a735"],
+Cell[4153, 120, 546, 13, 70, "Text",ExpressionUUID->"ea02f25e-d01f-48bc-bcf6-0954ac4d5853"],
+Cell[4702, 135, 490, 11, 70, "Input",ExpressionUUID->"07eb8652-2a1f-4ee7-9e6b-41ad76a978df"],
+Cell[5195, 148, 829, 17, 70, "Input",ExpressionUUID->"7412554e-a2f8-46fd-bfec-6fab17555caf"],
+Cell[6027, 167, 106, 3, 70, "Section",ExpressionUUID->"ee37e224-54b1-4453-acc8-3c793c16e8cb"],
+Cell[6136, 172, 163, 3, 70, "Input",ExpressionUUID->"4a308461-8158-4e4f-8539-9fce9c5b5c28"],
+Cell[6302, 177, 453, 10, 70, "Input",ExpressionUUID->"05c94d82-5600-468e-af22-94416a1d6dad"],
+Cell[6758, 189, 393, 9, 70, "Input",ExpressionUUID->"68abf94f-38c1-432e-984e-5b4002704d13"],
+Cell[7154, 200, 102, 2, 70, "Section",ExpressionUUID->"7efe098e-ffac-46f6-939d-31c7635431c1"],
+Cell[7259, 204, 613, 13, 70, "Text",ExpressionUUID->"215a7726-ebcd-4348-9269-d5385f2f9e38"],
+Cell[7875, 219, 296, 7, 70, "Input",ExpressionUUID->"5b52825c-8b85-4d5b-80fb-6179d3f4b58c"],
+Cell[8174, 228, 212, 5, 70, "Input",ExpressionUUID->"7eba020f-67cf-4a07-8f14-6250c78fc407"],
+Cell[8389, 235, 1152, 25, 70, "Input",ExpressionUUID->"ed8e955a-f0ad-4a79-ba64-b41ffeab48e0"],
+Cell[9544, 262, 102, 2, 70, "Section",ExpressionUUID->"cdaa4d07-dde5-4f1a-9be9-f3d9a44c5e7b"],
+Cell[9649, 266, 504, 12, 70, "Text",ExpressionUUID->"53a42fcf-be43-4b8d-8edc-e424578f8c68"],
+Cell[10156, 280, 342, 8, 70, "Input",ExpressionUUID->"12d626da-93f4-41ec-80c5-890343392b8f"],
+Cell[10501, 290, 114, 3, 70, "Input",ExpressionUUID->"a8e7debf-0879-4878-95f1-ccac5ad5f992"],
+Cell[10618, 295, 483, 10, 70, "Input",ExpressionUUID->"83ea7888-a3c2-4eb5-84ae-5a70c8650c40"],
+Cell[11104, 307, 433, 10, 70, "Input",ExpressionUUID->"dc52eb57-24c8-493f-8684-3dc6791bd382"],
+Cell[11540, 319, 97, 2, 70, "Section",ExpressionUUID->"639805c6-485a-4e58-8935-8d79dbcb76c9"],
+Cell[11640, 323, 529, 10, 70, "Text",ExpressionUUID->"2f487cb7-4057-4961-af77-29a7dbf7da79"],
+Cell[12172, 335, 480, 10, 70, "Input",ExpressionUUID->"46246b99-0ffc-46e1-aa34-eec3a68e363e"],
+Cell[12655, 347, 66, 0, 70, "Section",ExpressionUUID->"1b553004-20bc-44ec-b2c6-25f8e0fae2a2"],
+Cell[12724, 349, 675, 13, 70, "Input",ExpressionUUID->"5743f29a-3f57-48bc-82f0-b2579145f57d"],
+Cell[13402, 364, 102, 2, 70, "Section",ExpressionUUID->"db99aec5-069f-41e2-aece-751e8e71f36b"],
+Cell[13507, 368, 724, 14, 70, "Text",ExpressionUUID->"a41e58b7-11a4-4d82-9b62-7dae0e5c7793"],
+Cell[14234, 384, 603, 12, 70, "Input",ExpressionUUID->"37203ec2-d18c-42f8-aea8-91a70cce2db3"],
+Cell[14840, 398, 122, 3, 70, "Section",ExpressionUUID->"80e07a6b-b354-4669-8d39-bedabb2f7a09"],
+Cell[14965, 403, 748, 15, 70, "Text",ExpressionUUID->"3c774629-3978-4b1b-9db3-42b1396cb341"],
+Cell[15716, 420, 916, 18, 70, "Input",ExpressionUUID->"bbaf55c5-f85d-49fe-825d-f06a8e15bf99"],
+Cell[16635, 440, 35, 0, 70, "Input",ExpressionUUID->"21b2e9a9-172e-49da-91c3-cec04d891366"]
+}
+]
+*)
+
+(* End of internal cache information *)
