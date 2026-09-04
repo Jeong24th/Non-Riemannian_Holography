@@ -118,10 +118,10 @@ NRH`CheckZero["orientation before SM(103): H_{y-+} = +(2/l) Sqrt[|g_3|] = (2/l)(
 d10Assemble[H3_, d3_] := {ArrayFlatten[{
       {H3[[1 ;; 3, 1 ;; 3]], 0, 0, H3[[1 ;; 3, 4 ;; 6]], 0, 0},
       {0, HS[[1 ;; 3, 1 ;; 3]], 0, 0, HS[[1 ;; 3, 4 ;; 6]], 0},
-      {0, 0, 0, 0, 0, IdentityMatrix[4]},
+      {0, 0, IdentityMatrix[4], 0, 0, 0},
       {H3[[4 ;; 6, 1 ;; 3]], 0, 0, H3[[4 ;; 6, 4 ;; 6]], 0, 0},
       {0, HS[[4 ;; 6, 1 ;; 3]], 0, 0, HS[[4 ;; 6, 4 ;; 6]], 0},
-      {0, 0, IdentityMatrix[4], 0, 0, 0}}], d3 + dS};
+      {0, 0, 0, 0, 0, IdentityMatrix[4]}}], d3 + dS};
 
 uplift10[H3v_, d3v_, label_] := Module[
    {xs10, gamma, r4, ric, s0, psp, Pn, Pbn, JJ10 = ODDJ[10], H10, d10, tt},
