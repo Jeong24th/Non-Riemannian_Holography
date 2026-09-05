@@ -26,7 +26,7 @@ alpha') suppressed; doubled ordering (tilde_+, tilde_-, tilde_y; +, -, y)):
 with the exact NR blocks of (NRHcompact): upper-left H^{mu nu} =
 diag(0,0,1), mixed block M = Y (x) tau+ - Yb (x) tau-, and the displayed
 representative's lower-right block W (tau+ tau- + tau- tau+) + e_y e_y,
-where (Morand-Park (1,1) data)
+where (Morand-Park type-(1,1) data)
 
   tau+ = (cosh(chi/2), -e^{-sigma} sinh(chi/2)),
   tau- = (-e^{sigma} sinh(chi/2), cosh(chi/2)),
@@ -222,7 +222,7 @@ def main(selftest_fail: bool = False, strict_pin: bool = False) -> None:
     ch2, sh2 = sp.cosh(chi / 2), sp.sinh(chi / 2)
     es = sp.exp(sg)
 
-    # Morand-Park (1,1) longitudinal data
+    # Morand-Park type-(1,1) longitudinal data
     X = sp.Matrix([ch2, -sh2 / es])       # tau^+
     Xb = sp.Matrix([-es * sh2, ch2])      # tau^-
     Y = sp.Matrix([ch2, es * sh2])

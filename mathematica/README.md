@@ -134,7 +134,7 @@ same checks.
 | S_ABCD, S_AB, S₍₀₎ | the semi-covariant Riemann, Ricci, and scalar curvatures of DFT |
 | ĥL (generalized Lie derivative) | the DFT gauge transformation combining diffeomorphisms and B-field gauge shifts |
 | R / NR | the two exact saddles: the Riemannian (Banados/BTZ) branch and the everywhere non-Riemannian branch |
-| type (n, n̄) | the Morand–Park classification of non-Riemannian generalized metrics; type (1,1) is the Gomis–Ooguri geometry |
+| (n, n̄) | the pair classifying Morand–Park non-Riemannian generalized metrics; the Gomis–Ooguri geometry is of type (1,1) |
 | GO | Gomis–Ooguri: the non-relativistic string theory describing the long-string sector |
 | SNC | string Newton–Cartan geometry; τ± are its clock one-forms, m_μ^± its mass gauge fields |
 | BTZ | the Banados–Teitelboim–Zanelli black hole (constant L± > 0) |

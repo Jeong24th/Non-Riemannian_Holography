@@ -129,7 +129,7 @@ lines); "→ N" means the label starts with that equation reference.
 | 86 | `SMFTweight` | T_y, h_y(a) | NRH06 "SM(86): the two OPE contributions assemble to h_y(a)/(z−w)^2" | V |
 | 87 | `SMBRSTradial` | (∂²_y + (2/l)∂_y)f = 0 | NRH06 "SM(87): the marginal roots…", "SM(87): (d_y^2 + (2/l) d_y) f = 0…" | V |
 | 88 | `SMBRSTmomentum` | h_y(p_y), roots p_y = 0, 2i/l | NRH06 "SM(88): h_y(i p_y) = … P_y = p_y − i/l…" | V |
-| 89 | `SMBRSTvertex` | U_{W₁} is a (1,1) primary | SM 86–88 plus NRH06 "<x^+ x^−> = 0…" (W₁ has weight (0,0)) | V° |
+| 89 | `SMBRSTvertex` | U_{W₁} is a weight-(1,1) primary | SM 86–88 plus NRH06 "<x^+ x^−> = 0…" (W₁ has weight (0,0)) | V° |
 | 90 | `SMBRSTcentral` | c_y = 1 + 6α′/l², total 3(k+2)/k | NRH06 "SM(90): c_y/2 = …", "SM(90): c_{beta gamma} + c_y = …" | V |
 | 91 | `SMWgaugeobstruction` | W₀ gauge, e^{−2y/l}W₁ not | NRH06 "SM(91): Lhat_xi H^infty = D H^infty + H^infty D^T…", "SM(91): the conditions force…", "SM(91): (db)_{+−y} = …", "SM(91): v^y = … so closure forces d_y varpi = 0" | V |
 | 92 | `SMBRSTfusion` | self-contraction, h_n, resonances | NRH06 "SM(92): …" (three checks) | V |

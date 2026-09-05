@@ -4,7 +4,7 @@ The calculation uses the torsionless semi-covariant DFT connection and
 symplectic potential of arXiv:1507.07545.  Indices are ordered as
 (tilde +, tilde -, tilde y; +, -, y), with J = [[0,I],[I,0]].
 
-We perturb the (1,1) non-Riemannian vacuum by the two zero-mode tangent
+We perturb the type-(1,1) non-Riemannian vacuum by the two zero-mode tangent
 directions used in NR_Holography.tex:
 
     r = delta H^{+-},        w = delta H_{+-}.
