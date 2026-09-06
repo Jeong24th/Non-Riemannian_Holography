@@ -99,7 +99,7 @@ KfullP = Together[Exp[-2 dR] KhatComp[HR, dR, xiPlus, 5, 6, xsU]];
 NRH`CheckZero["SM(49): lim e^{-2d} Khat^{-y}[eps+] = (4/l) eps+ L+ - 2 l eps+''",
    Together[Limit[KfullP, u -> Infinity]
       - (4/l ep[xp] Lp[xp] - 2 l D[ep[xp], {xp, 2}])]];
-(* the display quotes Khat^{y+}; we compute the component pair (y, x+) accordingly *)
+(* the display quotes Khat^{+y}; we compute the opposite index order (y, x+) accordingly *)
 KfullM = Together[Exp[-2 dR] KhatComp[HR, dR, xiMinus, 6, 4, xsU]];
 NRH`CheckZero["SM(49): lim e^{-2d} Khat^{y+}[eps-] = -(4/l) eps- L- + 2 l eps-''  (mirror)",
    Together[Limit[KfullM, u -> Infinity]
@@ -261,7 +261,7 @@ NRH`CheckZero["SM(54): NR cocycle  e1 (e2 L' + 2 L e2') - alpha L  =  d/dx (e1 e
 (* (i) integrability: k = delta[(4/l) eps L] *)
 NRH`CheckZero["(i) k^{-y}[eps+] = delta[(4/l) eps+ L+]  (the charge exists and is integrable)",
    Together[kPlus - D[4/l ep[xp] LQ, LQ] dLpF[xp]]];
-NRH`CheckZero["(i) mirror:  k^{y+}[eps-] = delta[(4/l) eps- L-]",
+NRH`CheckZero["(i) mirror:  k^{+y}[eps-] = delta[(4/l) eps- L-]",
    Together[kMinus - D[4/l em[xm] LQ, LQ] dLmF[xm]]];
 
 (* (ii) the assembled bracket, both chiralities, and the mixed bracket *)

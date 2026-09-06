@@ -10,7 +10,6 @@ The strict verification environment is:
 
 - Python 3.12
 - SymPy 1.14.0
-- Node.js for the standalone `.mjs` check
 
 Install the pinned Python dependency with:
 
@@ -43,7 +42,12 @@ python checks/dft_translation_charge.py
 python checks/dft_zero_mode_symplectic.py
 ```
 
-Additional domain checks and negative controls are under `evidence/`.
+Additional symbolic domain checks and negative controls are under `evidence/`.
+The numerical `nr_corr_core.mjs`, sampled `go_ceff_contract_check.py`, and
+`framing_contract.py` were retired in the 2026-09-06 audit.
+The first used obsolete fluctuation and stress normalizations; the last checked
+a fixed proposal without reading the manuscript. Their relevant mathematical coverage is supplied by
+the current symbolic checks and the Mathematica suite.
 
 ## Mathematica suite
 
@@ -69,8 +73,7 @@ The manuscript source is not included in this software archive.  When
 `NR_Holography.tex` is absent, the core scripts run their algebraic checks and
 print that the LaTeX string comparison was skipped.  To check the displayed
 formulas as well, place the manuscript source at the repository root.  The
-contract-only script `evidence/go_ceff_contract_check.py` also requires that
-file.
+source checks run inside the core Python scripts listed above.
 
 ## Scope
 
@@ -78,4 +81,4 @@ This public archive contains reproducibility software only. Internal companion-p
 
 ## Versioning
 
-The manuscript Data Availability Statement should cite a tagged release or immutable commit of this repository. File hashes for the initial archive are recorded in `MANIFEST.sha256`.
+The manuscript Data Availability Statement should cite a tagged release or immutable commit of this repository. `MANIFEST.sha256` records the current payload's Git-blob hashes.

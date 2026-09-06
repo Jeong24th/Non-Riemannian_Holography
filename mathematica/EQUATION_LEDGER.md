@@ -1,7 +1,7 @@
 # Equation ledger — every numbered display of the paper, in order
 
 Keyed to the manuscript source with SHA-256
-`2A35115ECDFABF94454CC321592CC397027B3FD8C0000894961E7517DA85E3C3` (2026-09-04, title
+`2C527F8F8021C0906E97E691E5A43E48CD1372BC9D64E69033CC54AB38DDFF1F` (2026-09-06, title
 "Non-Riemannian Hair in Long-String Holography"), whose isolated build has Letter (1)–(16)
 with (4a/4b) and (9a/9b) and SM (1)–(130).  For each display the ledger names the file and the check
 label(s) that verify it, or states why no computation applies.
@@ -89,7 +89,7 @@ lines); "→ N" means the label starts with that equation reference.
 | 46 | `SMNRstresskernel` | admissible diagonal kernels vanish in the restricted sector | consequence of SM 21 + 23 (NRH04): the normalizable diagonal coefficients are chiral functions independent of the constant zero-mode source | V° |
 | 47 | `SMCPSform` | surface-charge one-form | NRH05 `chargeOneForm` (all three terms), "SM(50)…", "(i) integrability…" | V |
 | 48 | — | Q_R | NRH05 "SM(49)…" with "(iii) normalization chain…" | V |
-| 49 | `SMRpotentialcomponents` | lim e^{−2d}K̂ components | NRH05 "SM(49): lim e^{-2d} Khat^{-y}[eps+] = …", "…Khat^{y+}[eps-] = … (mirror)" | V |
+| 49 | `SMRpotentialcomponents` | lim e^{−2d}K̂ components (the minus-sector check uses K̂^{y+} = −K̂^{+y}) | NRH05 "SM(49): lim e^{-2d} Khat^{-y}[eps+] = …", "…Khat^{y+}[eps-] = … (mirror)" | V |
 | 50 | `SMCPSresult` | Θ̂ → 0, k = (4/l)εδL | NRH05 "SM(50): lim e^{-2d} Thetahat^{+,-,y} = 0", "SM(50): k^{-y}[eps+] = (4/l) eps+ dL+", "…k^{+y}[eps-]…" | V |
 | 51 | `SMNRchargefalloffs` | state-dependent falloffs | NRH05 "SM(51): state-dependent falloffs…" | V |
 | 52 | `SMNRchargecancellation` | componentwise W₁ cancellation | NRH05 "SM(52): W_1, delta W_1, and the opposite-chirality delta L all drop out componentwise" | V |

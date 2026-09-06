@@ -5,7 +5,7 @@ Guards the 2026-07-23 additions (now under SM section "Renormalized
 on-shell action", labels SMgamma2 / SMgamma2flux / SMgamma2value):
 
 * the Gamma^2 rewriting of the lecture notes [Park:2025core, (2.121)-(2.122)]:
-  e^{-2d} S_0 = e^{-2d} L_{Gamma^2} + d_A(e^{-2d} B^A),
+  e^{-2d} S_0 = L_{Gamma^2} + d_A(e^{-2d} B^A),
   B^A = 4 H^{AB} d_B d - d_B H^{AB}, used through B_closed/hhz_scalar below
   (the connection identities themselves are verified symbolically in the
   Mathematica suite, NRH04/NRH05);

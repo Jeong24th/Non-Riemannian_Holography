@@ -99,10 +99,10 @@ same checks.
 
 * **Coordinates.**  Boundary lightcone x^± = (t ± lφ)/√2 with φ ~ φ + 2π; y is the
   holographic radial coordinate and the boundary sits at y → ∞; l is the AdS₃ radius.
-  Three interchangeable radial variables appear in the code, chosen to keep every
-  computation rational: `u` = e^{2y/l} (Riemannian side), `z` = e^{−2y/l} = 1/u
+  Radial variables appear in the code to simplify exact symbolic computation:
+  `u` = e^{2y/l} (Riemannian side), `z` = e^{−2y/l} = 1/u
   (charge falloffs), and the non-Riemannian variable `ch` = χ with
-  `T` = e^{χ/(2√2)} rationalizing all hyperbolic functions.
+  `T` = e^{χ/(2√2)} rewriting the hyperbolic functions in terms of powers of T.
 * **Doubled indices.**  The fixed coordinate order is
   x^M = (x̃₊, x̃₋, ỹ; x⁺, x⁻, y): the three dual ("winding") coordinates first, then
   the three physical ones.  All 6×6 matrices use this order (4×4 on the boundary,
@@ -117,8 +117,9 @@ same checks.
   W = W₀ + e^{−2y/l}W₁ + (inhomogeneous terms): W₀ is the non-normalizable marginal
   source (locally pure gauge), W₁ the normalizable "soft hair".
 * **Derived variables.**  ψ± := L±^{−1/2} (Hill variables), Π = L₊L₋,
-  q = e^{−2y/l}√(Π/2), χ = 2√2 arctanh q.  The Hill equation (l²/2)s″ = L s governs
-  the Riemannian Killing spinors; A± = ψ±″/ψ± is its potential data.
+  q = e^{−2y/l}√(Π/2), χ = 2√2 arctanh q.  The derived data A± = ψ±″/ψ±
+  enter the non-Riemannian radial source in SM (61)–(65).  The distinct Hill
+  equation (l²/2)s″ = L s governs the Riemannian Killing spinors in SM (104).
 
 ## Glossary of abbreviations
 
@@ -195,8 +196,9 @@ same checks.
   every identity is a rational-function statement that Mathematica decides exactly.  The
   non-Riemannian saddle is handled in the radial variable chi itself, with the exact
   chain rules dchi/dy = −(2√2/l) sinh(chi/√2) and dchi/dx^± = −√2 sinh(chi/√2) ψ±'/ψ±
-  (ψ± := L±^{−1/2}); hyperbolic functions are rationalized by chi → 2√2 log T, under
-  which all identities become Laurent-polynomial statements in T and T^{2√2}.
+  (ψ± := L±^{−1/2}); chi → 2√2 log T rewrites hyperbolic functions as powers of
+  T and T^{2√2}.  The code combines the resulting rational expressions with
+  `Together`, keeping log T separately as `LT`, before testing exact zeros.
 * **The connection.**  The torsionless semi-covariant connection is implemented with its
   trace vector fixed by the defining dilaton compatibility Γ^B_{BA} = −2∂_A d (see the
   implementation note in `NRH01_DFT_Tools.wl`).  All defining properties — ∇P = 0, the
