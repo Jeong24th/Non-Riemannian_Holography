@@ -78,7 +78,7 @@ def check_tex_contract() -> None:
         "continuity check": r"\label{SMcontinuitycheck}",
         "R two-point function": r"\label{SMRtwopt}",
         "NR two-point function": r"\label{SMNRhairhessian}",
-        "R response kernel": r"\frac{3l^{2}}{4\pi(\Deltax^{+})^{4}}",
+        "R response kernel": r"\frac{3l^{2}}{4\pi\Delta_{+}^{4}}",
         "NR scope": (
             r"Intherestrictedsourcesectordefinedabove,theadmissible"
             r"same-channelnormalizablekernelsvanishatthisorder"

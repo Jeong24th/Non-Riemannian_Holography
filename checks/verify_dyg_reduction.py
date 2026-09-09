@@ -188,7 +188,7 @@ def tex_contracts() -> None:
             r"+\brbeta\,\partialx^{-}+\partialy\,\bar\partialy\big)",
         ],
         "SMvertex": [
-            r"V_{\cW}=\frac{1}{4\pi\alpha'}\,\cW(x^{+},x^{-})\,"
+            r"V_{\cW}=\frac{1}{4\pi\alpha'}\,\cW(x^{+},x^{-},y)\,"
             r"\partialx^{+}\bar\partialx^{-}",
         ],
     }

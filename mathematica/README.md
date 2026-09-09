@@ -5,7 +5,7 @@ Symbolic Mathematica verification of the displayed equations of
 > S. D. Hampton, H.-C. Kim, J.-H. Oh and J.-H. Park,
 > *Non-Riemannian Hair in Long-String Holography* (Letter + Supplemental Material),
 
-organized **in the order of the paper**: the two Letter sections first, then the seven
+organized **in the order of the paper**: the Letter's Riemannian and non-Riemannian material first, then the seven
 Supplemental Material sections.  It complements the Python/SymPy scripts in `checks/`
 with an independent implementation in a second computer-algebra system, in the spirit
 of the co-author Mathematica notebooks used within the collaboration (not part of this
@@ -27,18 +27,18 @@ and **Code symbol dictionary** below the file table.
 |---|---|---|
 | `NRH00_RunAll.wl` | — | runs the whole suite, grand PASS/FAIL summary |
 | `NRH01_DFT_Tools.wl` | shared toolbox | O(D,D) metric, projectors, torsionless semi-covariant connection, curvatures S_ABCD / Ricci / S_(0) (closed form **and** contraction form), Einstein curvature G_AB, generalized Lie derivative, Gamma^2 density, boundary vector B^A, the generalized-metric momentum A^K_MN of the Gamma^2 boundary term, double-vielbein spin connection, PASS/FAIL framework |
-| `NRH02_Letter_Riemannian.wl` | Letter labels `Rfields`–`Rcorrelators` (Eqs. (1)–(11)); SM `SMinvariantstress` | Banados family in DFT variables; **G_MN = 2 l^-2 J_MN exactly for arbitrary chiral L±(x±)**; `boundaryH` and `Rboundaryframe`; `RDFTconservation` and `Rcontinuity`; `Rkilling`–`RVirasoro`; the coefficient matching behind `RKdef`; c = 3l/2G; **Eq. (9a) applied nonlinearly to the exact family reproduces the full one-point matrix of Eq. (11)/SM (36) and the vanishing scalar response**; horizon and Gomis–Ooguri channel structure |
-| `NRH03_Letter_NonRiemannian.wl` | Letter labels `NRvariables`–`NRasympt` (Eqs. (12)–(16)); SM labels `NRhill`–`NRGprofile`, `SMBtransform`, `SMWshift`, `SNCtau`, `SMWisB`, `SMNRlocalstabilizer` | exact non-Riemannian matrix and dilaton; **the full EDFE with generic W(x+,x-,chi) collapses to `NRchiODE`, and `NRWgeneral` solves it** for arbitrary chiral L± and arbitrary W₀, W₁; SNC clocks; B-shift removal of W₀; anomaly-free δL± and the third derivative in δW₁; the weight-one law of W₀; the sinh(χ/2) expansion and the Hill identity |
-| `NRH04_SM_LinearResponse.wl` | SM 1 labels `SMcosetreconstruction`–`SMNRhairhessian` (SM (4)–(45)) | vielbein variations; **the exact Γ²-variation identity SM (11)–(12) verified on BTZ with generic fluctuations**, and its on-shell reduction to SM (13); limiting frame and flat metrics; fixed-frame projections `SMexactprojectionR`/`SMexactprojectionNR`; **`SMNRlin` re-derived from the nonlinear G_MN**; `SMNRsol`, `SMlogfreeconditions`, `SMrwquadratic`/`SMrwvariation`; **the complete four-channel boundary variation `SMSren2`** and `SMscalarcutoffresponse`; `SMresponsematrix`, canonical-source factor and Hessians, one-point functions (also from Eq. (9a) nonlinearly on the NR family), PBH kernel and two-point normalization |
-| `NRH05_SM_Charges_Action.wl` | SM 2–3 labels `SMCPSform`–`SMgamma2value` (SM (47)–(59)) | Noether surface potential; Brown–Henneaux cocycle; **`SMCPSresult` with every Θ̂-component vanishing and W₁ dropping out through `SMNRchargecancellation`**; `SMCPSalgebra` and its footnote; the charge Poisson algebra; `SMgamma2`, `SMgamma2flux`, cutoff and renormalized value |
-| `NRH06_SM_Worldsheet.wl` | SM 5 labels `SMRfirstorder`–`SMBRSTfusion` (SM (74)–(92)) | Riemannian first-order form and `SMceff`; SNC kernel and `SMdygconstraints`/`SMdygGO`; `SMGO`, `SMvertex`, `SMlongstringE`, `SMdeltaL`; `SMWZWlevel`; Fradkin–Tseytlin radial weight, marginal roots and the central charge `SMBRSTcentral`; the gauge-obstruction derivation `SMWgaugeobstruction`; the fusion exponent and resonances `SMBRSTfusion` |
-| `NRH07_SM_KillingSpinors.wl` | SM 6 labels `SMupliftblocks`–`SMhairyKS` (SM (93)–(119)) | uplift checks for both factors and **the ten-dimensional equations S_(0)^{(10)} = 0 = (P S Pbar)^{(10)} verified symbolically for both uplifts** (arbitrary chiral L±; one-sided hairy family with arbitrary W₀, W₁); `SMRlocaliso`; `SMexactiso` and `SMweighteddilaton`; `SMNRlocalstabilizer`; **the exact non-Riemannian double vielbein `SMvielbein`/`SMvielbeincheck`**; Clifford/Majorana/barred-algebra package; `SMkillingspinor`, `SMreducedDirac`, `SMinternalprojectors` (including the S³ spinor integrability), `SMspinorcountchain`, and `SMhairyKS`; **the Killing-spinor bilinear of `SMsusyclosure` is an exact vacuum isometry `SMexactiso`**; Hill-system and monodromy checks |
-| `NRH08_SM_BoundaryCandidate.wl` | SM 7 labels `SMcandidateD`–`SMcandidatetrivialL` (SM (120)–(130)) | projector selection and candidate action; non-abelian gauge invariance; commuting Witt symmetries; boundary isometry ⇔ chirality; chiral fermionic transformations with exact Grassmann arithmetic; the extra chiral transformation; the equation-of-motion redundancies |
+| `NRH02_Letter_Riemannian.wl` | Letter labels `Rfields`–`Rboundaryframe` (Eqs. (1)–(4b)), `RGKPW`–`RVirasoro`, `Maincharge`, `Mainonepoints` and the vacuum limit of `Rcorrelators` (Eqs. (10)–(16), (18), (19), (22)); SM `SMinvariantstress` | Banados family in DFT variables; **G_MN = 2 l^-2 J_MN exactly for arbitrary chiral L±(x±)**; `boundaryH` and `Rboundaryframe`; `RDFTconservation` and `Rcontinuity`; `Rkilling`–`RVirasoro`; the coefficient matching behind `RKdef`; c = 3l/2G; **Eq. (13a) applied nonlinearly to the exact family reproduces the full one-point matrix of Eq. (19)/SM (44) and the vanishing scalar response**; horizon and Gomis–Ooguri channel structure |
+| `NRH03_Letter_NonRiemannian.wl` | Letter labels `NRvariables`–`MainGprofile` and `NRasympt` (Eqs. (5)–(9), (17)); SM labels `NRhill`–`NRGprofile`, `SMBtransform`, `SMWshift`, `SNCtau`, `SMWisB`, `SMNRlocalstabilizer` | exact non-Riemannian matrix and dilaton; **the full EDFE with generic W(x+,x-,chi) collapses to `NRchiODE`, and `NRWgeneral` solves it** for arbitrary chiral L± and arbitrary W₀, W₁; SNC clocks; B-shift removal of W₀; anomaly-free δL± and the third derivative in δW₁; the weight-one law of W₀; the sinh(χ/2) expansion and the Hill identity |
+| `NRH04_SM_LinearResponse.wl` | SM 1 labels `SMcosetreconstruction`–`SMNRhairhessian` (SM (4)–(53)) | vielbein variations; **the exact Γ²-variation identity SM (13)–(14) verified on BTZ with generic fluctuations**, and its on-shell reduction to SM (15); limiting frame and flat metrics; fixed-frame projections `SMexactprojectionR`/`SMexactprojectionNR`; **`SMNRlin` re-derived from the nonlinear G_MN**; `SMNRsol`, `SMlogfreeconditions`, `SMrwquadratic`/`SMrwvariation`; **the complete four-channel boundary variation `SMSren2`** and `SMscalarcutoffresponse`; `SMresponsematrix`, canonical-source factor and Hessians, one-point functions (also from Eq. (13a) nonlinearly on the NR family), PBH kernel and two-point normalization |
+| `NRH05_SM_Charges_Action.wl` | SM 2–3 labels `SMCPSform`–`SMgamma2value` (SM (58)–(70)) | Noether surface potential; Brown–Henneaux cocycle; **`SMCPSresult` with every Θ̂-component vanishing and W₁ dropping out through `SMNRchargecancellation`**; `SMCPSalgebra` and its footnote; the charge Poisson algebra; `SMgamma2`, `SMgamma2flux`, cutoff and renormalized value |
+| `NRH06_SM_Worldsheet.wl` | SM 5 labels `SMRfirstorder`–`SMBRSTfusion` (SM (85)–(103)) and Letter `Mainworldsheet` (Eq. (23)) | Riemannian first-order form and `SMceff`; SNC kernel and `SMdygconstraints`/`SMdygGO`; `SMGO`, `SMvertex`, `SMlongstringE`, `SMdeltaL`; `SMWZWlevel`; Fradkin–Tseytlin radial weight, marginal roots and the central charge `SMBRSTcentral`; the gauge-obstruction derivation `SMWgaugeobstruction`; the fusion exponent and resonances `SMBRSTfusion` |
+| `NRH07_SM_KillingSpinors.wl` | SM 6 labels `SMupliftblocks`–`SMhairyKS` (SM (104)–(130)) | uplift checks for both factors and **the ten-dimensional equations S_(0)^{(10)} = 0 = (P S Pbar)^{(10)} verified symbolically for both uplifts** (arbitrary chiral L±; one-sided hairy family with arbitrary W₀, W₁); `SMRlocaliso`; `SMexactiso` and `SMweighteddilaton`; `SMNRlocalstabilizer`; **the exact non-Riemannian double vielbein `SMvielbein`/`SMvielbeincheck`**; Clifford/Majorana/barred-algebra package; `SMkillingspinor`, `SMreducedDirac`, `SMinternalprojectors` (including the S³ spinor integrability), `SMspinorcountchain`, and `SMhairyKS`; **the Killing-spinor bilinear of `SMsusyclosure` is an exact vacuum isometry `SMexactiso`**; Hill-system and monodromy checks |
+| `NRH08_SM_BoundaryCandidate.wl` | SM 7 labels `SMcandidateD`–`SMcandidatetrivialL` (SM (131)–(141)) | projector selection and candidate action; non-abelian gauge invariance; commuting Witt symmetries; boundary isometry ⇔ chirality; chiral fermionic transformations with exact Grassmann arithmetic; the extra chiral transformation; the equation-of-motion redundancies |
 
 Coverage is keyed to LaTeX labels rather than snapshot-dependent equation numbers.
 `MANUSCRIPT_MAP.md` gives the current number of every label used by the suite and pins
 the exact manuscript source by SHA-256.  `EQUATION_LEDGER.md` walks through **every
-numbered display of the paper in order** — Letter (1)–(16) and SM (1)–(130) — and names,
+numbered display of the paper in order** — Letter (1)–(23) and SM (1)–(141) — and names,
 for each one, the check(s) that verify it, or states that it is a definition or a cited
 statement with nothing to compute.
 
@@ -90,7 +90,7 @@ same checks.
   of its variational (Euler–Lagrange) derivatives vanish.  This is how statements like
   "the cocycle is a total derivative" are decided exactly; in two boundary variables the
   built-in `VariationalD` of the VariationalMethods package is used.
-* "Nonlinear" versus "linearized": the response dictionary Eq. (9a) is evaluated in two
+* "Nonlinear" versus "linearized": the response dictionary Eq. (13a) is evaluated in two
   independent ways — through the quadratic action and the linearized solution (SM 1),
   and directly from the full DFT connection of each exact saddle (the momentum A^y_MN
   projected on the fixed boundary frame).  Both give the same one-point functions.
@@ -118,8 +118,8 @@ same checks.
   source (locally pure gauge), W₁ the normalizable "soft hair".
 * **Derived variables.**  ψ± := L±^{−1/2} (Hill variables), Π = L₊L₋,
   q = e^{−2y/l}√(Π/2), χ = 2√2 arctanh q.  The derived data A± = ψ±″/ψ±
-  enter the non-Riemannian radial source in SM (61)–(65).  The distinct Hill
-  equation (l²/2)s″ = L s governs the Riemannian Killing spinors in SM (104).
+  enter the non-Riemannian radial source in SM (72)–(76).  The distinct Hill
+  equation (l²/2)s″ = L s governs the Riemannian Killing spinors in SM (115).
 
 ## Glossary of abbreviations
 
@@ -143,7 +143,7 @@ same checks.
 | PBH | Penrose–Brown–Henneaux: the radial completion of a boundary diffeomorphism into the bulk |
 | FG | Fefferman–Graham gauge for the radial expansion |
 | GKPW | the Gubser–Klebanov–Polyakov–Witten source/partition-function dictionary |
-| Ward identities | the boundary conservation laws of the response tensor, Eq. (10) of the Letter |
+| Ward identities | the boundary conservation laws of the response tensor, Eq. (14) of the Letter |
 | KS | Killing spinor; SDFT = supersymmetric DFT; MW = Majorana–Weyl spinor conditions |
 | Hill equation | (l²/2)s″ = L(x)s: the periodic-coefficient ODE controlling the Riemannian Killing spinors and their monodromy |
 | DYG | the doubled-yet-gauged worldsheet action, which couples the string directly to H_MN |
@@ -159,7 +159,7 @@ same checks.
 | JW | Jordan–Wigner: the matrix realization of anticommuting (Grassmann) generators used for the fermionic checks |
 | μ (mu-dichotomy) | the endpoint parameter of the on-shell action: μ = L₊L₋ on the R branch, μ = L₊L₋/2 on the NR branch |
 | k = l²/α′ | the flux (WZW) level fixed by the S³ NS–NS flux; α′ is the string tension parameter, w the winding number |
-| SM (n) / Eq. (n) | equation numbers in the source build pinned by `MANUSCRIPT_MAP.md`; use the quoted LaTeX labels as stable identifiers |
+| SM (n) / Eq. (n) | equation numbers in the source build pinned by `MANUSCRIPT_MAP.md`; use the quoted LaTeX labels as stable identifiers.  The check labels printed by the notebooks quote the numbering of the 2026-09-06 build (e.g. printed `Eq.(9a)` is now Eq. (13a), printed `SM(28)` is now SM (34)); `MANUSCRIPT_MAP.md` translates them |
 
 ## Code symbol dictionary
 
@@ -176,8 +176,8 @@ same checks.
 | `Vinf`, `Vbinf`, `V0`, `Vb0`, `eta3`/`etab3` | the aligned double-vielbeins V^∞, V̄^∞, their boundary restrictions, and the flat metrics η, η̄ |
 | `GammaDFT`, `RiemannR4`, `RicciS`, `ScalarS0`, `EinsteinG` | Γ_CAB, R_CDAB, S_AB, S₍₀₎, G_AB |
 | `GenLieH`, `GenLieD` | ĥL_ξ H_MN and ĥL_ξ d |
-| `Gamma2Density`, `GammaBVector`, `MomentumAK` | the Γ²-Lagrangian density, its boundary vector B^M, and the generalized-metric momentum A^K_MN (frame components A^K_{pq̄} of SM (12)) |
-| `VexU`, `VbexU` (NRH07) | the exact non-Riemannian double vielbein of SM (106) with raised local indices |
+| `Gamma2Density`, `GammaBVector`, `MomentumAK` | the Γ²-Lagrangian density, its boundary vector B^M, and the generalized-metric momentum A^K_MN (frame components A^K_{pq̄} of SM (14)) |
+| `VexU`, `VbexU` (NRH07) | the exact non-Riemannian double vielbein of SM (117) with raised local indices |
 | `E1`, `E2`, `Cmat`, `XM` (NRH07) | two vacuum Killing spinors, the Majorana conjugation C = iσ₂, and their bilinear X^M |
 | `H4`, `Lq4`, `ThetaY` (NRH04) | the four-channel coset family, its quadratic Γ² density, and the radial boundary momentum at the cutoff |
 | `NoetherK`, `KhatComp`, `ThetaHat`, `kPlus`/`kMinus` | K^{AB}, K̂^{AB}, e^{−2d}Θ̂^A, and the finite charge one-forms k^{∓y}[ε^±] |
@@ -210,9 +210,9 @@ same checks.
   realized as Jordan–Wigner matrices, so anticommutation is ordinary matrix algebra and
   no sign bookkeeping is done by hand.
 * **Radial frame convention.**  The suite uses the radial-frame sign convention of the
-  manuscript's SM (14) (radial columns (+,+) for V and (+,−) for V̄); with it the toolbox
+  manuscript's SM (20) (radial columns (+,+) for V and (+,−) for V̄); with it the toolbox
   reproduces the displayed vacuum spin-connection components, the Killing spinor
-  E = (√2 f, l∂₊f)ᵀ with eigenvalue +1/(√2 l), and the reduced matrix diag(1,−1) of SM (116).
+  E = (√2 f, l∂₊f)ᵀ with eigenvalue +1/(√2 l), and the reduced matrix diag(1,−1) of SM (127).
 
 ## Reference execution
 

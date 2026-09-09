@@ -87,9 +87,11 @@ def check_tex_contract() -> bool:
         "E3 sector-based exclusion": (
             r"ThephasespaceoftheLetteristhesmallerfixed-dilaton,log-freesector"
         ),
+        # 2026-09-09: the Letter now quotes the one-points as a matrix; the
+        # explicit hair one-point is the SM display (SMNRonept).
         "E4 aligned mixed one-point": (
-            r"\langle\KCFT_{\oplus\bar\ominus}\rangle"
-            r"=W_{1}/(64\piGl)"
+            r"\langle\KCFT_{\oplus\bar{\ominus}}\rangle"
+            r"=\frac{W_{1}}{64\piGl}"
         ),
     }
     missing = [name for name, fragment in required.items() if fragment not in compact]
