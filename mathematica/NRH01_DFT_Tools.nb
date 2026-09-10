@@ -10,75 +10,16 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     24490,        603]
-NotebookOptionsPosition[     19635,        542]
-NotebookOutlinePosition[     19940,        556]
-CellTagsIndexPosition[     19897,        553]
+NotebookDataLength[     15739,        404]
+NotebookOptionsPosition[     12230,        357]
+NotebookOutlinePosition[     12535,        371]
+CellTagsIndexPosition[     12492,        368]
 WindowTitle->NRH01_DFT_Tools.nb
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
-Cell["NRH01 \[LongDash] Shared DFT Toolbox", "Title"],
-
-Cell["\<\
-This file is the shared toolbox for the Mathematica verification of
-\"Non-Riemannian Hair in Long-String Holography\" (NR_Holography.tex, Letter \
-+ Supplemental Material).
-
-It implements, in plain matrix language, the semi-covariant Double Field \
-Theory (DFT)
-machinery in the conventions of the paper and of the DFT core lecture notes
-[arXiv reference: Park, \"Introduction to Double Field Theory / core \
-conventions\"]:
-
-  -  the O(D,D) invariant metric J_{MN} in the ordered doubled basis x^M = \
-(dual x~_mu ; physical x^mu),
-  -  the projectors P = (J+H)/2 and Pbar = (J-H)/2,
-  -  the DFT Christoffel connection Gamma_{CAB}   [lecture notes Eq. (2.41); \
-SM display of the paper],
-  -  its field strength R_{CDAB}                  [Eq. (2.90)],
-  -  the semi-covariant Riemann curvature S_{ABCD} [Eq. (2.89)],
-  -  the Ricci curvature S_{AB} = S^{C}{}_{ACB}    [Eq. (2.101)],
-  -  the scalar curvature S_(0), computed BOTH from the closed form [Eq. \
-(2.103)]
-     and from the S_{ABCD} contraction [Eq. (2.102)] as an internal \
-cross-check,
-  -  the Einstein curvature G_{AB} = 4(P S Pbar)_{[AB]} - (1/2) J_{AB} S_(0)  \
-[Eq. (2.115)],
-  -  the generalized Lie derivative of H_{MN} and d,
-  -  the Gamma^2 Lagrangian density               [Eq. (2.122)],
-  -  the double-vielbein spin connection Phi_{Apq} (as in the published \
-Python guards).
-
-The section files NRH02-NRH08 Get[] this file and verify the displayed \
-equations of the
-paper in the order in which they appear.  Every check is registered through \
-the small
-NRH` framework below, so that each file ends with an explicit PASS/FAIL \
-summary and
-NRH00_RunAll.wl can print a grand total.
-
-The connection routine follows the structure of the SymPy implementation in
-calculations/verify_10d_killing_spinor.py of the public verification archive, \
-with the
-trace vector of the third structure fixed by the dilaton compatibility of the \
-connection
-(see the implementation note above GammaDFT).  Antisymmetrization brackets \
-have unit
-weight, e.g. X_[AB] = (X_AB - X_BA)/2.  Every property that defines the \
-connection -
-nabla P = 0, the dilaton trace, vanishing totally antisymmetric part - and \
-the curvature
-identities (algebraic Bianchi, pair symmetry, projective property, the \
-commutator
-identity that defines R_{CDAB}) are themselves verified in NRH02 on exact \
-backgrounds.\
-\>", "Text"],
-
-Cell["\<\
-Bookkeeping framework (context NRH`, survives ClearAll[\"Global`*\"])\
-\>", "Section"],
+Cell["NRH01 DFT Tools", "Title"],
 
 Cell["\<\
 NRH`$FileResults;
@@ -105,14 +46,12 @@ NRH`Record[label_String, ok : (True | False)] := (
 \>", "Input"],
 
 Cell["\<\
-(* A check that an expression (scalar, list, or matrix) is identically zero. *)
 NRH`CheckZero[label_String, expr_] := Module[{z},
    z = NRH`ZeroQ[expr];
    NRH`Record[label, TrueQ[z]]];\
 \>", "Input"],
 
 Cell["\<\
-(* A check of a boolean statement. *)
 NRH`Check[label_String, statement_] := NRH`Record[label, TrueQ[statement]];\
 \>", "Input"],
 
@@ -144,8 +83,6 @@ passed.\"];
 \>", "Input"],
 
 Cell["\<\
-(* Robust zero test: cheap normal forms first, Simplify only as a fallback. \
-*)
 NRH`ZeroQ[expr_] := Module[{flat, t},
    flat = Flatten[{expr}];
    AllTrue[flat,
@@ -156,34 +93,12 @@ NRH`ZeroQ[expr_] := Module[{flat, t},
             If[t === 0, True, PossibleZeroQ[Simplify[t]]]]]]];\
 \>", "Input"],
 
-Cell["O(D,D) metric, projectors, and the section rule", "Section"],
-
-Cell["\<\
-The ordered doubled basis is x^M = (x~_mu ; x^mu):  the first Dphys slots are \
-the dual
-(winding) coordinates, the last Dphys slots the physical coordinates.  In \
-this basis the
-O(D,D) metric is off-block-diagonal, and the section condition  \
-\\[PartialD]~^mu = 0  says that all
-fields depend only on the physical coordinates: the doubled derivative \
-\\[PartialD]_M acts as 0 on
-the first block and as \\[PartialD]/\\[PartialD]x^mu on the second.\
-\>", "Text"],
-
 Cell["\<\
 ODDJ[nphys_Integer] := ArrayFlatten[{{0, IdentityMatrix[nphys]}, \
 {IdentityMatrix[nphys], 0}}];\
 \>", "Input"],
 
 Cell["\<\
-(* Doubled derivative of a scalar/matrix expression with respect to doubled \
-index m.
-   An entry of xs may be either a plain coordinate symbol (ordinary D), or a \
-pure
-   function implementing a weighted/compound derivative.  The latter is used \
-to work
-   with rational radial variables, e.g. u = Exp[2y/l] with  d/dy = (2u/l) d/du,
-   which keeps every intermediate expression rational and fast. *)
 DblD[expr_, m_Integer, xs_List] := Module[{n = Length[xs], op},
    If[m <= n, 0*expr,
       op = xs[[m - n]];
@@ -191,51 +106,12 @@ DblD[expr_, m_Integer, xs_List] := Module[{n = Length[xs], op},
 \>", "Input"],
 
 Cell["\<\
-(* Gradient as a doubled (lower-index) vector. *)
 DblGrad[expr_, xs_List] := Table[DblD[expr, m, xs], {m, 1, 2 Length[xs]}];\
 \>", "Input"],
 
 Cell["\<\
-DFT Christoffel connection Gamma_{CAB}  (torsionless, Eq. (2.41))\
-\>", "Section"],
-
-Cell["\<\
-GammaDFT returns the list {Gamma[[C]]}_{C=1..2D} of matrices in the last two \
-(antisymmetric)
-indices, Gamma_{CAB}.  The three structures are
-   2 (P dP_C P Pbar)_[AB]
- + 2 (Pbar_[A^D Pbar_B]^E - P_[A^D P_B]^E) dP_{D,EC}
- - 4/(Dphys-1) (Pbar_C[A Pbar_B]^D + P_C[A P_B]^D) (dd_D + (P d^E P \
-Pbar)_[ED]).
-This is a direct port of semi_covariant_connection() from the tested Python \
-guard.\
-\>", "Text"],
-
-Cell["\<\
-Implementation note.  The first two structures are assembled literally.  The \
-trace vector
-X_D multiplying the third structure is fixed, unambiguously, by the defining \
-dilaton
-compatibility of the torsionless semi-covariant connection,
-    Gamma^B{}_{BA} = -2 dd_A     (equivalently  nabla_A e^{-2d} = 0),
-because the J-trace of the third structure equals  -2 X_A  identically.  \
-Hence
-    X_A = dd_A + (1/2) J^{BC} (Gamma_structures12)_{CBA} ,
-which is the meaning of the symbolic combination  dd_D + (P dP^E P Pbar)_[ED] \
- in the
-printed formula.  With this X the connection satisfies ALL of its defining \
-properties
-(nabla P = 0, nabla J = 0, dilaton compatibility, vanishing totally \
-antisymmetric part),
-and the curvature checks of the section files then hold exactly - including \
-for chiral,
-x-dependent backgrounds.  A naive row-projected reading of (P dP^E P \
-Pbar)_[ED] satisfies
-nabla P = 0 but violates the dilaton trace on x-dependent backgrounds and is \
-NOT used.\
-\>", "Text"],
-
-Cell["\<\
+(* Lowered Gamma_CAB, unit-weight antisymmetrization; trace fixed by nabla d \
+= 0. *)
 GammaDFT[HH_, dd_, xs_List] := Module[
    {n = Length[xs], dim, JJ, P, Pb, Pm, Pbm, PbUD, dP, gradd,
     gamma12, T12, X, PbmX, PmX, coeff},
@@ -247,9 +123,10 @@ GammaDFT[HH_, dd_, xs_List] := Module[
    gamma12 = Table[
       Module[{term1, m2},
          term1 = Pm . dP[[c]] . PbUD;
-         term1 = term1 - Transpose[term1];
-         (* second structure, summed over the derivative index in the \
-physical block *)
+         term1 = term1 - Transpose[term1];\
+\>", "Input"],
+
+Cell["\<\
          m2 = Sum[
             Module[{colQb = (Pbm . dP[[dd2]])[[All, c]], colQ = (Pm . \
 dP[[dd2]])[[All, c]]},
@@ -273,27 +150,10 @@ Pm[[All, dd2]]]],
 \>", "Input"],
 
 Cell["\<\
-Curvatures:  R_{CDAB},  Ricci S_{AB},  scalar S_(0),  Einstein G_{AB}\
-\>", "Section"],
-
-Cell["\<\
-R_{CDAB} = dGamma_{BCD,A} - dGamma_{ACD,B} + Gamma_{AC}{}^E Gamma_{BED} - \
-Gamma_{BC}{}^E Gamma_{AED}.
-We store it as R4[[a,b]] = matrix in (C,D).  The Ricci curvature is the \
-contraction
-S_{AB} = S^{C}{}_{ACB} of the semi-covariant Riemann tensor
-S_{ABCD} = (R_{ABCD} + R_{CDAB} - Gamma^E{}_{AB} Gamma_{ECD})/2.
-Raising one doubled index with J in the ordered basis simply swaps the two \
-blocks:
-partner[m] = m + D  (m <= D)  or  m - D  (m > D).\
-\>", "Text"],
-
-Cell["\<\
 RiemannR4[gamma_List, xs_List] := Module[{n = Length[xs], dim, JJ},
    dim = 2 n; JJ = ODDJ[n];
    Table[
-      If[b <= a, ConstantArray[0, {dim, dim}],   (* antisymmetric in the \
-derivative pair; fill below *)
+      If[b <= a, ConstantArray[0, {dim, dim}],
          Map[Together,
             DblD[gamma[[b]], a, xs] - DblD[gamma[[a]], b, xs]
             + gamma[[a]] . JJ . gamma[[b]] - gamma[[b]] . JJ . gamma[[a]], \
@@ -305,11 +165,11 @@ derivative pair; fill below *)
 Cell["Partner[m_Integer, n_Integer] := If[m <= n, m + n, m - n];", "Input"],
 
 Cell["\<\
-(* Ricci S_{AB}; r4 = RiemannR4 output. *)
 RicciS[gamma_List, r4_List, xs_List] := Module[{n = Length[xs], dim, gg},
-   dim = 2 n;
-   (* GammaGamma_{EACB} = sum_F Gamma^F_{EA} Gamma_{FCB} = sum_F \
-Gamma[[partner[F]]]_{EA} Gamma[[F]]_{CB} *)
+   dim = 2 n;\
+\>", "Input"],
+
+Cell["\<\
    Table[
       Together[Sum[Module[{e = Partner[c, n]},
          (r4[[c, b, e, a]] + r4[[e, a, c, b]]
@@ -320,12 +180,11 @@ dim}])/2],
 \>", "Input"],
 
 Cell["\<\
-(* Scalar curvature from the closed form (2.103): uses only H_{MN} and d. *)
 ScalarS0[HH_, dd_, xs_List] := Module[
    {n = Length[xs], dim, JJ, Hup, Hmix, gradd, term},
    dim = 2 n; JJ = ODDJ[n];
-   Hup = JJ . HH . JJ;    (* H^{AB} *)
-   Hmix = HH . JJ;        (* H_A{}^B *)
+   Hup = JJ . HH . JJ;
+   Hmix = HH . JJ;
    gradd = DblGrad[dd, xs];
    term =
       Sum[Hup[[a, b]]*(
@@ -341,8 +200,6 @@ dim}, {e, 1, dim}]
 \>", "Input"],
 
 Cell["\<\
-(* Scalar curvature from the S_{ABCD} contraction (2.102): independent \
-cross-check.  *)
 ScalarS0FromS4[gamma_List, r4_List, HH_, xs_List] := Module[
    {n = Length[xs], dim, JJ, P, Pb, Pup, Pbup, s4},
    dim = 2 n; JJ = ODDJ[n];
@@ -357,7 +214,6 @@ dim}])/2;
 \>", "Input"],
 
 Cell["\<\
-(* Projected Ricci (P S Pbar)_{AB} and Einstein curvature G_{AB}. *)
 ProjectedRicci[HH_, ricci_, xs_List] := Module[{n = Length[xs], JJ, P, Pb},
    JJ = ODDJ[n]; P = (JJ + HH)/2; Pb = (JJ - HH)/2;
    P . JJ . ricci . JJ . Pb];\
@@ -370,25 +226,16 @@ EinsteinG[HH_, ricci_, s0_, xs_List] := Module[{n = Length[xs], JJ, psp},
    4*(psp - Transpose[psp])/2 - 1/2*JJ*s0];\
 \>", "Input"],
 
-Cell["Generalized Lie derivative", "Section"],
-
-Cell["\<\
-For a doubled vector with upper components xi^M = (lambda_mu ; xi^mu) in the \
-ordered basis:
-  (Lhat_xi H)_{MN} = xi^C dH_{MN,C} + (dxi^C_{,M} - d^C xi_{M,}) H_{CN} + (M \
-<-> N on the second slot),
-  Lhat_xi d = xi^A dd_A - (1/2) dxi^A_A.\
-\>", "Text"],
-
 Cell["\<\
 GenLieH[xiUp_List, HH_, xs_List] := Module[
    {n = Length[xs], dim, JJ, xiLow, dxiUp, dxiLow, amat},
    dim = 2 n; JJ = ODDJ[n];
    xiLow = JJ . xiUp;
-   dxiUp = Table[DblD[xiUp[[c]], m, xs], {m, 1, dim}, {c, 1, dim}];   (* \
-dxiUp[[M,C]] = d_M xi^C *)
-   dxiLow = Table[DblD[xiLow[[c]], m, xs], {m, 1, dim}, {c, 1, dim}];
-   (* amat[[M,C]] = d_M xi^C - d^C xi_M ;  d^C = J^{CD} d_D *)
+   dxiUp = Table[DblD[xiUp[[c]], m, xs], {m, 1, dim}, {c, 1, dim}];
+   dxiLow = Table[DblD[xiLow[[c]], m, xs], {m, 1, dim}, {c, 1, dim}];\
+\>", "Input"],
+
+Cell["\<\
    amat = Table[dxiUp[[m, c]] - Sum[JJ[[c, dd2]]*dxiLow[[dd2, m]], {dd2, 1, \
 dim}], {m, 1, dim}, {c, 1, dim}];
    Sum[xiUp[[c]]*DblD[HH, c, xs], {c, 1, dim}] + amat . HH + HH . \
@@ -402,35 +249,22 @@ GenLieD[xiUp_List, dd_, xs_List] := Module[{n = Length[xs], dim},
 xs], {a, 1, dim}]];\
 \>", "Input"],
 
-Cell["Riemannian packaging:  H_{MN} and e^{-2d} from (g, B, phi)", "Section"],
-
-Cell["\<\
-In the Riemannian parametrization the generalized metric and dilaton are
-   H = ( g^{-1} , -g^{-1} B ;  B g^{-1} , g - B g^{-1} B ),    e^{-2d} = \
-Sqrt[-det g] e^{-2 phi}.\
-\>", "Text"],
-
 Cell["\<\
 RiemannianH[g_, B_] := Module[{gi = Inverse[g]},
    ArrayFlatten[{{gi, -gi . B}, {B . gi, g - B . gi . B}}]];\
 \>", "Input"],
 
-Cell["\<\
-RiemannianDilaton[g_, phi_] := phi - 1/4 Log[-Det[g]];  (* d with e^{-2d} = \
-Sqrt[-g] e^{-2 phi} *)\
-\>", "Input"],
-
-Cell["\<\
-Gamma^2 Lagrangian density (2.122) and its boundary vector B^A (2.121)\
-\>", "Section"],
+Cell["RiemannianDilaton[g_, phi_] := phi - 1/4 Log[-Det[g]];", "Input"],
 
 Cell["\<\
 Gamma2Density[HH_, dd_, gamma_List, xs_List] := Module[
    {n = Length[xs], dim, JJ, P, Pb, Pup, Pbup, gup},
    dim = 2 n; JJ = ODDJ[n];
    P = (JJ + HH)/2; Pb = (JJ - HH)/2;
-   Pup = JJ . P . JJ; Pbup = JJ . Pb . JJ;
-   (* Gamma_{AC}{}^{E} = gamma[[a,c,f]] J^{fE} : contract with partner. *)
+   Pup = JJ . P . JJ; Pbup = JJ . Pb . JJ;\
+\>", "Input"],
+
+Cell["\<\
    Exp[-2 dd]*Sum[(Pup[[a, c]]*Pup[[b, d]] - Pbup[[a, c]]*Pbup[[b, d]])*
         Sum[gamma[[a, c, Partner[e, n]]]*gamma[[b, d, e]]
             - gamma[[a, b, Partner[e, n]]]*gamma[[d, c, e]]
@@ -447,54 +281,19 @@ GammaBVector[HH_, dd_, xs_List] := Module[{n = Length[xs], dim, JJ, Hup},
 \>", "Input"],
 
 Cell["\<\
-Generalized-metric momentum A^K_{MN} of the Gamma^2 boundary term (Letter Eq. \
-(8), SM (12))\
-\>", "Section"],
-
-Cell["\<\
-A^K_{p qbar} := V^K_p Gamma^L_{L qbar} + Vbar^K_qbar Gamma^L_{Lp} - \
-Gamma_p^K_qbar - Gamma_qbar^K_p  is the frame
-projection of the doubled tensor
-   A^K_{MN} = P_M^{M'} Pbar_N^{N'} [ delta^K_{M'} Gamma^L_{L N'} + \
-delta^K_{N'} Gamma^L_{L M'} - Gamma_{M'}^K_{N'} - Gamma_{N'}^K_{M'} ],
-returned as a list over K of (2D x 2D) matrices in (M, N).  Contracting with \
-any double vielbein of
-the background gives the frame components of the paper; contracting with the \
-fixed limiting frame
-gives the holographic response of Eq. (9a).\
-\>", "Text"],
-
-Cell["\<\
-MomentumAK[HH_, gamma_List, xs_List] := Module[
-   {n = Length[xs], dim, JJ, P, Pb, PmixU, PbmixU, trvec, gUp, core},
-   dim = 2 n; JJ = ODDJ[n]; P = (JJ + HH)/2; Pb = (JJ - HH)/2;
-   PmixU = P . JJ; PbmixU = Pb . JJ;                           (* P_M{}^{M'}, \
- Pbar_N{}^{N'} *)
-   trvec = Table[Sum[JJ[[L, A]] gamma[[A, L, N]], {L, dim}, {A, dim}], {N, \
-dim}];   (* Gamma^L_{LN} *)
-   gUp[K_, M_, N_] := Sum[JJ[[K, A]] gamma[[M, A, N]], {A, dim}];             \
-     (* Gamma_M{}^K{}_N *)
-   Table[
-      core = Table[KroneckerDelta[K, Mp] trvec[[Np]] + KroneckerDelta[K, Np] \
-trvec[[Mp]]
-         - gUp[K, Mp, Np] - gUp[K, Np, Mp], {Mp, dim}, {Np, dim}];
-      Map[Together, PmixU . core . Transpose[PbmixU], {2}],
-      {K, dim}]];\
+(* Unprojected mathcal A and its mixed projected tensor; doubled indices are \
+lowered. *)
+MomentumCore[gamma_List, xs_List] := Module[{dim = 2 Length[xs], j = \
+ODDJ[Length[xs]], tr},
+   tr = Table[Sum[j[[a, b]] gamma[[b, a, n]], {a, dim}, {b, dim}], {n, dim}];
+   Table[KroneckerDelta[k, m] tr[[n]] + KroneckerDelta[k, n] tr[[m]]
+      - Sum[j[[k, a]] (gamma[[m, a, n]] + gamma[[n, a, m]]), {a, dim}],
+      {k, dim}, {m, dim}, {n, dim}]];
+MomentumAK[HH_, gamma_List, xs_List] := With[{j = ODDJ[Length[xs]]},
+   Map[Map[Together, ((j + HH)/2) . j . # . Transpose[((j - HH)/2) . j], {2}] \
+&,
+      MomentumCore[gamma, xs]]];\
 \>", "Input"],
-
-Cell["\<\
-Double-vielbein spin connection Phi_{Apq}  (port of spin_connection() from \
-the guard)\
-\>", "Section"],
-
-Cell["\<\
-V is a (2D x k) double vielbein with flat metric eta (k x k);  gamma is the \
-GammaDFT list.
-Phi_{Apq} = V^B{}_p ( dV_{Bq,A} + Gamma_{AB}{}^{C} V_{Cq} ),  antisymmetrized \
-in (p,q),
-returned as a list over A of (k x k) matrices with both flat indices lowered.\
-\
-\>", "Text"],
 
 Cell["\<\
 SpinConnectionDFT[V_, eta_, gamma_List, xs_List] := Module[
@@ -509,19 +308,6 @@ SpinConnectionDFT[V_, eta_, gamma_List, xs_List] := Module[
       (phi - Transpose[phi])/2,
       {a, 1, dim}]];\
 \>", "Input"],
-
-Cell["Convenience: full curvature pipeline", "Section"],
-
-Cell["\<\
-DFTCurvature[H, d, xs] returns an Association with the connection, Ricci, \
-scalar (closed form),
-projected Ricci, and Einstein curvature.  For the 3-dimensional saddles of \
-the paper this
-runs exactly; NRH07 applies the same functions to the 20 x 20 ten-dimensional \
-uplifts,
-again fully symbolically (arbitrary chiral profiles, no numerical parameter \
-values).\
-\>", "Text"],
 
 Cell["\<\
 DFTCurvature[HH_, dd_, xs_List] := Module[{gamma, r4, ric, s0, t},
@@ -538,7 +324,36 @@ DFTCurvature[HH_, dd_, xs_List] := Module[{gamma, r4, ric, s0, t},
      \"G\" -> EinsteinG[HH, ric, s0, xs]|>];\
 \>", "Input"],
 
-Cell["Print[\"[NRH01] DFT toolbox loaded.\"];", "Input"]
+Cell["Print[\"[NRH01] DFT toolbox loaded.\"];", "Input"],
+
+Cell["\<\
+(* Shared three-dimensional backgrounds; u = exp(2 y/l), z = 1/u. *)
+Hinf = {{0, 0, 0, 1, 0, 0}, {0, 0, 0, 0, -1, 0}, {0, 0, 1, 0, 0, 0},
+        {1, 0, 0, 0, 0, 0}, {0, -1, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 1}};
+Vinf = {{1/Sqrt[2], 0, 0}, {0, 0, 0}, {0, 0, 1/Sqrt[2]},
+   {0, -Sqrt[2], 0}, {0, 0, 0}, {0, 0, 1/Sqrt[2]}};
+Vbinf = {{0, 0, 0}, {0, 1/Sqrt[2], 0}, {0, 0, 1/Sqrt[2]},
+   {0, 0, 0}, {Sqrt[2], 0, 0}, {0, 0, -1/Sqrt[2]}};
+eta3 = {{0, -1, 0}, {-1, 0, 0}, {0, 0, 1}};
+etab3 = -eta3;\
+\>", "Input"],
+
+Cell["\<\
+RiemannianMetric[lp_, lm_, u_] := With[{f = u + lp lm/u},
+   {{2 lp, -f, 0}, {-f, 2 lm, 0}, {0, 0, 1}}];
+RiemannianB[lp_, lm_, u_] := (u + lp lm/u) {{0, -1, 0}, {1, 0, 0}, {0, 0, \
+0}};
+RiemannianD[lp_, lm_, u_] := -Log[u (1 - lp lm/u^2)]/2;
+NonRiemannianH[chi_, esigma_, w_] := With[{c = Cosh[chi], s = Sinh[chi]},
+   {{0, 0, 0, c, -s/esigma, 0}, {0, 0, 0, esigma s, -c, 0},
+    {0, 0, 1, 0, 0, 0}, {c, esigma s, 0, -w esigma s, w c, 0},
+    {-s/esigma, -c, 0, w c, -w s/esigma, 0}, {0, 0, 0, 0, 0, 1}}];
+NRBoundaryH[lp_, lm_, w1_, z_] := With[{c = 1 + 2 lp lm z^2},
+   {{0, 0, 0, c, -2 lm z, 0}, {0, 0, 0, 2 lp z, -c, 0},
+    {0, 0, 1, 0, 0, 0}, {c, 2 lp z, 0, -2 lp w1 z^2, w1 z, 0},
+    {-2 lm z, -c, 0, w1 z, -2 lm w1 z^2, 0}, {0, 0, 0, 0, 0, 1}}];
+NRBoundaryD[lp_, lm_, z_] := Log[z]/2 + lp lm z^2/4;\
+\>", "Input"]
 },
 WindowTitle->"NRH01_DFT_Tools.nb",
 FrontEndVersion->"13.2 for Microsoft Windows (64-bit) (January 30, 2023)",
@@ -555,56 +370,42 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[590, 21, 53, 0, 70, "Title",ExpressionUUID->"e57b91fe-2ab8-422a-a65a-b7304421c409"],
-Cell[646, 23, 2379, 53, 70, "Text",ExpressionUUID->"d79cbf12-c8c8-4a73-922f-27f6507eb404"],
-Cell[3028, 78, 96, 2, 70, "Section",ExpressionUUID->"f9903748-d273-4750-80a9-3b52af20f475"],
-Cell[3127, 82, 93, 3, 70, "Input",ExpressionUUID->"2ddc9500-fd09-47cc-8513-361b148d71b8"],
-Cell[3223, 87, 302, 9, 70, "Input",ExpressionUUID->"caf245e3-979f-41f5-923e-2324f8f28198"],
-Cell[3528, 98, 261, 6, 70, "Input",ExpressionUUID->"d2bfb8d9-2516-4278-952b-40ce3324f1c4"],
-Cell[3792, 106, 211, 5, 70, "Input",ExpressionUUID->"f254f6f1-11e2-4f3c-ba51-0d1ee771e507"],
-Cell[4006, 113, 138, 3, 70, "Input",ExpressionUUID->"ae9bfed1-f9d5-4e2f-8349-d547ca23b9e0"],
-Cell[4147, 118, 481, 11, 70, "Input",ExpressionUUID->"3ea11b79-bb06-4f9e-8692-8e688ec890d2"],
-Cell[4631, 131, 538, 12, 70, "Input",ExpressionUUID->"70993154-345b-42e2-a236-38fc0987f9a5"],
-Cell[5172, 145, 380, 11, 70, "Input",ExpressionUUID->"cf133741-ef45-4fdf-bb2c-2b51b5daa8e8"],
-Cell[5555, 158, 66, 0, 70, "Section",ExpressionUUID->"6d145daf-6f2b-486a-bc39-74e96adca6de"],
-Cell[5624, 160, 474, 10, 70, "Text",ExpressionUUID->"179613d3-c903-42c8-b5cc-c801c7bf5340"],
-Cell[6101, 172, 121, 3, 70, "Input",ExpressionUUID->"e34e3ffb-168b-43b9-9583-cf411c818599"],
-Cell[6225, 177, 597, 13, 70, "Input",ExpressionUUID->"a573f010-0c5a-4da1-a7e3-19cddff4b6a2"],
-Cell[6825, 192, 149, 3, 70, "Input",ExpressionUUID->"92b9e997-86c5-468c-8fd2-e5b85c8b1ede"],
-Cell[6977, 197, 92, 2, 70, "Section",ExpressionUUID->"3bb97ee5-f376-45d8-81aa-3e83907b4ec3"],
-Cell[7072, 201, 413, 10, 70, "Text",ExpressionUUID->"3c5023b4-22f5-472a-b5f4-d88a977129f5"],
-Cell[7488, 213, 1010, 22, 70, "Text",ExpressionUUID->"e003552a-1c0c-4b6d-9b3c-05d9e0f14553"],
-Cell[8501, 237, 1358, 35, 70, "Input",ExpressionUUID->"f21ea642-168a-4b11-a968-5a28baac340c"],
-Cell[9862, 274, 96, 2, 70, "Section",ExpressionUUID->"d467db41-bb66-454b-b37f-101fe8e59e98"],
-Cell[9961, 278, 473, 10, 70, "Text",ExpressionUUID->"90ce6aee-9c5d-4821-a6a2-ba485bf9bee6"],
-Cell[10437, 290, 480, 12, 70, "Input",ExpressionUUID->"e9fec07a-a602-4cd2-b5ab-34ef0a2a4063"],
-Cell[10920, 304, 75, 0, 70, "Input",ExpressionUUID->"16f71707-aef0-4368-b8ce-4d672077533d"],
-Cell[10998, 306, 512, 13, 70, "Input",ExpressionUUID->"5d7f0046-5e0d-4edd-a5f1-03e5aa1f380a"],
-Cell[11513, 321, 832, 19, 70, "Input",ExpressionUUID->"fdbcd2d0-767e-409e-896c-5ee95e99084c"],
-Cell[12348, 342, 622, 14, 70, "Input",ExpressionUUID->"cf7f74fb-a334-4371-855e-aa0aa8201ff2"],
-Cell[12973, 358, 251, 5, 70, "Input",ExpressionUUID->"40dce80b-6742-41cf-8a31-9907af67bc52"],
-Cell[13227, 365, 199, 5, 70, "Input",ExpressionUUID->"1688b5af-e038-460b-a292-deab532e24ae"],
-Cell[13429, 372, 45, 0, 70, "Section",ExpressionUUID->"308275cf-fdfb-4ccd-bc52-14c48bc02884"],
-Cell[13477, 374, 264, 6, 70, "Text",ExpressionUUID->"6f21895e-84d0-450f-8416-df058368560a"],
-Cell[13744, 382, 609, 13, 70, "Input",ExpressionUUID->"6c6e1cd9-2fc6-422a-b3bf-f9d4de510b22"],
-Cell[14356, 397, 202, 5, 70, "Input",ExpressionUUID->"0f9d12a4-1647-419c-a252-67f8fd19133a"],
-Cell[14561, 404, 77, 0, 70, "Section",ExpressionUUID->"94b7bfd3-dccf-4ba7-9687-7266300dc009"],
-Cell[14641, 406, 196, 4, 70, "Text",ExpressionUUID->"1ba5ded4-1b34-44ba-814d-4ac1dbaa186b"],
-Cell[14840, 412, 134, 3, 70, "Input",ExpressionUUID->"75497a7b-b670-49a5-80d7-2853456ad768"],
-Cell[14977, 417, 125, 3, 70, "Input",ExpressionUUID->"7180d719-3cfb-433c-bc7a-a1b070df791e"],
-Cell[15105, 422, 97, 2, 70, "Section",ExpressionUUID->"754e975f-a1f0-424a-b7fe-9a91c41bf788"],
-Cell[15205, 426, 649, 13, 70, "Input",ExpressionUUID->"37483da7-5f8f-4cef-b6e5-8164a876ffb2"],
-Cell[15857, 441, 273, 5, 70, "Input",ExpressionUUID->"efa50ac2-18d3-4704-8bc8-8d46de9bc536"],
-Cell[16133, 448, 120, 3, 70, "Section",ExpressionUUID->"61a85452-4480-460a-8430-9736ac31c2a3"],
-Cell[16256, 453, 558, 11, 70, "Text",ExpressionUUID->"80ebaf0e-fd7f-4881-97ab-c51dd23a6f5d"],
-Cell[16817, 466, 761, 16, 70, "Input",ExpressionUUID->"f76c9e7e-c7de-44a4-ac1a-dba666a7c356"],
-Cell[17581, 484, 114, 3, 70, "Section",ExpressionUUID->"de2087f9-73e7-45f5-bf9e-15d81044db8c"],
-Cell[17698, 489, 286, 7, 70, "Text",ExpressionUUID->"847bd574-fb5d-4b52-9c79-7b33009722cb"],
-Cell[17987, 498, 422, 12, 70, "Input",ExpressionUUID->"5bbb16ab-cbe5-4573-92b4-228f3985761d"],
-Cell[18412, 512, 55, 0, 70, "Section",ExpressionUUID->"1a0f1f66-02d1-4eea-8d36-34e3d718f534"],
-Cell[18470, 514, 389, 9, 70, "Text",ExpressionUUID->"d034e174-f7f2-48fe-8f3d-257ecb59e69f"],
-Cell[18862, 525, 710, 13, 70, "Input",ExpressionUUID->"18b2ea29-06d5-477a-bfe5-43827badf06b"],
-Cell[19575, 540, 56, 0, 70, "Input",ExpressionUUID->"90ce22f3-37ab-4ba5-becd-46dc83bce2cf"]
+Cell[590, 21, 32, 0, 70, "Title",ExpressionUUID->"001c230c-7cc8-4f9d-8056-72ab42a56ee3"],
+Cell[625, 23, 93, 3, 70, "Input",ExpressionUUID->"0082b648-974d-4a93-a64c-ff412f4ee4c9"],
+Cell[721, 28, 302, 9, 70, "Input",ExpressionUUID->"877677ac-9710-495f-b8d9-41d5bb33c17b"],
+Cell[1026, 39, 261, 6, 70, "Input",ExpressionUUID->"cea42f41-6385-4aea-b719-948a2bd47f83"],
+Cell[1290, 47, 131, 4, 70, "Input",ExpressionUUID->"5e880b1b-655c-4377-8f57-cf89fa063f4f"],
+Cell[1424, 53, 100, 2, 70, "Input",ExpressionUUID->"9a8e9a59-a50e-4278-ae47-eeb95756b138"],
+Cell[1527, 57, 481, 11, 70, "Input",ExpressionUUID->"e488fa9e-37af-43fe-90c9-b34ae1152192"],
+Cell[2011, 70, 538, 12, 70, "Input",ExpressionUUID->"90ab6333-a2ed-4512-8a3e-2f25959e0df5"],
+Cell[2552, 84, 299, 9, 70, "Input",ExpressionUUID->"a99f2c84-cf7a-4a98-969a-218efa037ad2"],
+Cell[2854, 95, 121, 3, 70, "Input",ExpressionUUID->"41853fa7-f6f2-4f26-9a13-f9448e844e9e"],
+Cell[2978, 100, 192, 5, 70, "Input",ExpressionUUID->"67e54a8c-75aa-4f2b-a661-ce46513ad58f"],
+Cell[3173, 107, 99, 2, 70, "Input",ExpressionUUID->"5914d65b-48ba-47d8-97fb-9c285e253b05"],
+Cell[3275, 111, 564, 15, 70, "Input",ExpressionUUID->"0c20d13d-3158-458e-8b1f-53ed2316c10e"],
+Cell[3842, 128, 815, 21, 70, "Input",ExpressionUUID->"a10d4790-06e3-457f-a505-7ed6f638d677"],
+Cell[4660, 151, 421, 11, 70, "Input",ExpressionUUID->"019f6764-9cd5-4433-b02c-3e17263e20a8"],
+Cell[5084, 164, 75, 0, 70, "Input",ExpressionUUID->"6fc990b5-d69b-4d9e-aeba-4c0bcfd27d1a"],
+Cell[5162, 166, 112, 3, 70, "Input",ExpressionUUID->"f2f83de3-6101-41fb-8376-ddb377c44870"],
+Cell[5277, 171, 270, 8, 70, "Input",ExpressionUUID->"da6dd722-6157-41f3-a6f2-c65f2f1fac70"],
+Cell[5550, 181, 718, 18, 70, "Input",ExpressionUUID->"f465c708-7a60-49d7-911c-cf88ebd1b54d"],
+Cell[6271, 201, 532, 12, 70, "Input",ExpressionUUID->"81f5213c-9c1c-4430-807a-822dc587be8b"],
+Cell[6806, 215, 182, 4, 70, "Input",ExpressionUUID->"ac52b808-c7c1-416d-b724-ebf24a11ed11"],
+Cell[6991, 221, 199, 5, 70, "Input",ExpressionUUID->"e8d24f22-784c-4551-b97c-433d3eb349ac"],
+Cell[7193, 228, 314, 7, 70, "Input",ExpressionUUID->"b0c6bdef-b747-4093-975c-a871a8871007"],
+Cell[7510, 237, 222, 5, 70, "Input",ExpressionUUID->"b47e67dd-e031-4a06-adfb-17b1b15436d7"],
+Cell[7735, 244, 202, 5, 70, "Input",ExpressionUUID->"9dfc6601-2266-4ad6-b2c5-91cd4c95902c"],
+Cell[7940, 251, 134, 3, 70, "Input",ExpressionUUID->"87a6d48c-cf43-4d0c-b25c-74995fe7db3f"],
+Cell[8077, 256, 71, 0, 70, "Input",ExpressionUUID->"4cbfaec3-2f2d-4c41-9740-3452090feda8"],
+Cell[8151, 258, 242, 6, 70, "Input",ExpressionUUID->"03c19f73-4ecb-4d0a-98c6-7342dbe7d5d8"],
+Cell[8396, 266, 356, 7, 70, "Input",ExpressionUUID->"ab5cf7f9-7328-4095-b39c-bff253834058"],
+Cell[8755, 275, 273, 5, 70, "Input",ExpressionUUID->"c346fff0-d64a-450a-a546-7ff00aed9bf4"],
+Cell[9031, 282, 651, 13, 70, "Input",ExpressionUUID->"5a2ce862-b956-4a52-9f8a-b7f3d7d9f8e2"],
+Cell[9685, 297, 422, 12, 70, "Input",ExpressionUUID->"28ec7108-a861-4fb4-9944-b40775aa3eec"],
+Cell[10110, 311, 710, 13, 70, "Input",ExpressionUUID->"6604d6db-0e5b-48ed-852e-6c46b866f9b5"],
+Cell[10823, 326, 56, 0, 70, "Input",ExpressionUUID->"b892c1b7-1f90-4657-8903-6b6410e05a3d"],
+Cell[10882, 328, 510, 10, 70, "Input",ExpressionUUID->"4a6ffb94-d375-4d1b-9eb7-7157cb991f77"],
+Cell[11395, 340, 831, 15, 70, "Input",ExpressionUUID->"1a7b5d2f-89fb-4aab-b055-b10e15c93707"]
 }
 ]
 *)

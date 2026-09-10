@@ -1,20 +1,7 @@
-(* ::Package:: *)
-
 (* ::Title:: *)
-(*NRH00 — Run every verification file*)
+(*NRH00 RunAll*)
 
-
-(* ::Text:: *)
-(*Runs the complete Mathematica verification suite for "Non-Riemannian Hair in*)
-(*Long-String Holography" in paper order and prints a grand PASS/FAIL summary.  Each section file clears*)
-(*the Global` context and reloads the shared toolbox, so they can equally be run alone.*)
-(**)
-(*Usage (command line):    wolframscript -file NRH00_RunAll.wl*)
-(*Usage (notebook):        open this file in Mathematica and evaluate it.*)
-(*The whole suite completes in a few minutes on a laptop (247 checks; see REFERENCE_RUN.md).*)
-
-
-NRH`$Dir = If[$InputFileName =!= "", DirectoryName[$InputFileName], NotebookDirectory[]];
+NRH`$Dir = If[FileExistsQ[FileNameJoin[{DirectoryName[$InputFileName], "NRH01_DFT_Tools.wl"}]], DirectoryName[$InputFileName], NotebookDirectory[]];
 NRH`$Files = {
    "NRH02_Letter_Riemannian.wl",
    "NRH03_Letter_NonRiemannian.wl",
@@ -24,7 +11,7 @@ NRH`$Files = {
    "NRH07_SM_KillingSpinors.wl",
    "NRH08_SM_BoundaryCandidate.wl"};
 NRH`$AllResults = {};
-NRH`$DeferExit = True;   (* report everything; exit code is decided by the grand summary *)
+NRH`$DeferExit = True;
 
 Scan[Get[FileNameJoin[{NRH`$Dir, #}]] &, NRH`$Files];
 

@@ -1,13 +1,9 @@
-# Current Manuscript Equation Map
+# Manuscript equation map
 
-This map is keyed to the manuscript source with SHA-256
-`F2F08E39D2D18D5468D8364A23A2984355D56D251D2ED05D1348D7DDE500842F` (2026-09-09 proofread build).
-LaTeX labels are the stable identifiers; the numbers below are the numbers in that
-source build (Letter (1)-(23) with (4a/4b) and (13a/13b); SM (1)-(141)).  Unnumbered displays
-and prose statements verified by the suite are listed in `EQUATION_LEDGER.md`, which walks
-through every numbered equation of the paper in order.  The check labels printed by the
-notebooks quote the numbering of the 2026-09-06 build (Letter (1)-(16), SM (1)-(130)); this
-table gives the current number of every label they cite.
+Source SHA-256: `FCBE00570616A89820C3F969E8E97BA74454B8555DDA5EBC25ED56C268C5BE6F` (2026-09-10).
+Numbers are taken from the source-matched build; Letter (1)-(23), SM (1)-(141).
+Executable checks use descriptive names or LaTeX labels, not historical numbers.
+See EQUATION_LEDGER.md for coverage and its limits.
 
 ## NRH02 — Riemannian Letter
 
@@ -186,3 +182,12 @@ table gives the current number of every label they cite.
 | `SMcandidateextraL` | SM 139 |
 | `SMcandidatetrivial` | SM 140 |
 | `SMcandidatetrivialL` | SM 141 |
+
+## Current response additions (NRH04)
+
+| Label | Number |
+|---|---:|
+| `SMsecondvariation` | SM 16 |
+| `SMmomentumvariation` | SM 17 |
+| `SMlinearizedmomenta` | SM 35 |
+| `SMgeneralresponsevariation` | SM 36 |
