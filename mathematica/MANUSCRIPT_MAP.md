@@ -1,193 +1,245 @@
 # Manuscript equation map
 
-Source SHA-256: `FCBE00570616A89820C3F969E8E97BA74454B8555DDA5EBC25ED56C268C5BE6F` (2026-09-10).
-Numbers are taken from the source-matched build; Letter (1)-(23), SM (1)-(141).
-Executable checks use descriptive names or LaTeX labels, not historical numbers.
-See EQUATION_LEDGER.md for coverage and its limits.
+Source SHA-256: `F4B468CA5AAD0BDFCD1EDD26659E1D0CAA48B6538345520A38621EEA4654BC0E` (2026-09-10).
 
-## NRH02 — Riemannian Letter
+Numbers were checked against the source-matched LaTeX build: Letter (1)-(22),
+SM (1)-(202), with 226 numbered displays including subequations. A dash denotes
+a display without a LaTeX label. This map records numbering, not verification.
+See [EQUATION_LEDGER.md](EQUATION_LEDGER.md) for coverage.
 
-| Label | Number |
-|---|---:|
-| `Rfields` | 1 |
-| `RDFTfields` | 2 |
-| `Rboundary` | 3 |
-| `boundaryH` | 4a |
-| `Rboundaryframe` | 4b |
-| `RGKPW` | 10 |
-| `Rrenvariation` | 11 |
-| `Mainmomenta` | 12 |
-| `RKdef` | 13a |
-| `RDFTconservation` | 13b |
-| `Rcontinuity` | 14 |
-| `Rkilling` | 15 |
-| `RVirasoro` | 16 |
-| `Maincharge` | 18 |
-| `Mainonepoints` | 19 |
-| `Rcorrelators` | 22 |
-| `SMinvariantstress` | SM 45 |
 
-## NRH03 — Non-Riemannian Letter and radial/SNC data
+## Letter
 
-| Label | Number |
-|---|---:|
-| `NRvariables` | 5 |
-| `NRHcompact` | 6 |
-| `NRdilaton` | 7 |
-| `NRWgeneral` | 8 |
-| `MainGprofile` | 9 |
-| `NRasympt` | 17 |
-| `NRhill` | SM 72 |
-| `NRradialchange` | SM 73 |
-| `NRradialoperator` | SM 74 |
-| `NRchiODE` | SM 75 |
-| `NRsource` | SM 76 |
-| `NRg` | SM 77 |
-| `NRGprofile` | SM 78 |
-| `SMBtransform` | SM 81 |
-| `SMWshift` | SM 82 |
-| `SNCtau` | SM 88 |
-| `SMWisB` | SM 93 |
-| `SMNRlocalstabilizer` | SM 119 |
+| No. | LaTeX label |
+|---:|---|
+| 1 | `Rfields` |
+| 2 | `RDFTfields` |
+| 3 | `Rboundary` |
+| 4a | `boundaryH` |
+| 4b | `Rboundaryframe` |
+| 5 | `NRvariables` |
+| 6 | `NRHcompact` |
+| 7 | `NRdilaton` |
+| 8 | `NRWgeneral` |
+| 9 | `MainGprofile` |
+| 10 | `RGKPW` |
+| 11 | `Rrenvariation` |
+| 12 | `Mainmomenta` |
+| 13a | `RKdef` |
+| 13b | `RDFTconservation` |
+| 14 | `Rcontinuity` |
+| 15 | `Rkilling` |
+| 16 | `RVirasoro` |
+| 17 | `NRasympt` |
+| 18 | `Mainonepoints` |
+| 19 | `Mainframevariation` |
+| 20 | `Mainfivebyfive` |
+| 21 | `Rcorrelators` |
+| 22 | `Mainworldsheet` |
 
-## NRH04 — Linear response
+## Supplemental Material
 
-| Label | Number |
-|---|---:|
-| `Mainframevariation` | 20 |
-| `SMcosetreconstruction` | SM 4 |
-| `SMframevariation` | SM 6 |
-| `SMresponsedef` | SM 8 |
-| `SMKvariation` | SM 9 |
-| `GammaDFT` | SM 12 |
-| `variation` | SM 13 |
-| `defB` | SM 14 |
-| `SMrenvariation` | SM 15 |
-| `SMinfinityvielbein` | SM 20 |
-| `SMflatmetrics` | SM 21 |
-| `SMFG` | SM 22 |
-| `SMFGcount` | SM 23 |
-| `SMfixedprojection` | SM 24 |
-| `SMNRlin` | SM 25 |
-| `SMNRradialintegration` | SM 26 |
-| `SMNRsol` | SM 27 |
-| `SMcrosspairs` | SM 28 |
-| `SMlogfreeconditions` | SM 29 |
-| `SMrwquadratic` | SM 30 |
-| `SMrwvariation` | SM 31 |
-| `SMSren2` | SM 32 |
-| `SMscalarcutoffresponse` | SM 33 |
-| `SMresponsematrix` | SM 34 |
-| `SMnpointresponse` | SM 37 |
-| `SMstresshessian` | SM 38 |
-| `SMcontinuitycheck` | SM 39 |
-| `SMtwopointWard` | SM 40 |
-| `SMexactprojectionR` | SM 41 |
-| `SMexactprojectionRfalloff` | SM 42 |
-| `SMonept` | SM 44 |
-| `SMPBHdata` | SM 46 |
-| `SMPBHkernel` | SM 47 |
-| `SMRtwopt` | SM 48 |
-| `SMexactprojectionNR` | SM 49 |
-| `SMexactprojectionNRfalloff` | SM 50 |
-| `SMNRonept` | SM 52 |
-| `SMNRhairhessian` | SM 53 |
-| `SMNRstresskernel` | SM 54 |
-
-## NRH05 — Charges and action
-
-| Label | Number |
-|---|---:|
-| `SMCPSform` | SM 58 |
-| `SMRpotentialcomponents` | SM 60 |
-| `SMCPSresult` | SM 61 |
-| `SMNRchargefalloffs` | SM 62 |
-| `SMNRchargecancellation` | SM 63 |
-| `SMNRcharge` | SM 64 |
-| `SMCPSalgebra` | SM 65 |
-| `SMgamma2` | SM 66 |
-| `SMgamma2flux` | SM 67 |
-| `SMmudefinition` | SM 68 |
-| `SMgamma2cutoff` | SM 69 |
-| `SMgamma2value` | SM 70 |
-
-## NRH06 — Worldsheet
-
-| Label | Number |
-|---|---:|
-| `Mainworldsheet` | 23 |
-| `SMdyg` | SM 83 |
-| `SMphysicalsectionA` | SM 84 |
-| `SMRfirstorder` | SM 85 |
-| `SMceff` | SM 86 |
-| `SMlongstringE` | SM 87 |
-| `SNCtau` | SM 88 |
-| `SMdygconstraints` | SM 89 |
-| `SMdygGO` | SM 90 |
-| `SMGO` | SM 91 |
-| `SMvertex` | SM 92 |
-| `SMWisB` | SM 93 |
-| `SMdeltaL` | SM 94 |
-| `SMFTsector` | SM 95 |
-| `SMWZWlevel` | SM 96 |
-| `SMFTweight` | SM 97 |
-| `SMBRSTradial` | SM 98 |
-| `SMBRSTmomentum` | SM 99 |
-| `SMBRSTvertex` | SM 100 |
-| `SMBRSTcentral` | SM 101 |
-| `SMWgaugeobstruction` | SM 102 |
-| `SMBRSTfusion` | SM 103 |
-
-## NRH07 — Uplift and supersymmetry
-
-| Label | Number |
-|---|---:|
-| `SMupliftblocks` | SM 104 |
-| `SMDFTKilling` | SM 105 |
-| `SMtypeIIKS` | SM 106 |
-| `SMsusyclosure` | SM 107 |
-| `SMsemicov` | SM 108 |
-| `SMuplift` | SM 109 |
-| `SMRDFTKilling` | SM 110 |
-| `SMRlocaliso` | SM 111 |
-| `SMRcomponentHill` | SM 114 |
-| `SMRlocalKS` | SM 115 |
-| `SMvielbein` | SM 117 |
-| `SMvielbeincheck` | SM 118 |
-| `SMNRlocalstabilizer` | SM 119 |
-| `SMexactiso` | SM 120 |
-| `SMweighteddilaton` | SM 121 |
-| `SMkillingspinor` | SM 122 |
-| `SMcomplexblocks` | SM 123 |
-| `SMgammaten` | SM 124 |
-| `SMgammaMajorana` | SM 125 |
-| `SMgammabarred` | SM 126 |
-| `SMreducedDirac` | SM 127 |
-| `SMinternalprojectors` | SM 128 |
-| `SMspinorcountchain` | SM 129 |
-| `SMhairyKS` | SM 130 |
-
-## NRH08 — Boundary candidate
-
-| Label | Number |
-|---|---:|
-| `SMcandidateD` | SM 131 |
-| `SMcandidateaction` | SM 132 |
-| `SMcandidategauge` | SM 133 |
-| `SMcandidateWitt` | SM 134 |
-| `SMcandidateWittL` | SM 135 |
-| `SMcandidatefermionic` | SM 136 |
-| `SMcandidatefermionicL` | SM 137 |
-| `SMcandidateextra` | SM 138 |
-| `SMcandidateextraL` | SM 139 |
-| `SMcandidatetrivial` | SM 140 |
-| `SMcandidatetrivialL` | SM 141 |
-
-## Current response additions (NRH04)
-
-| Label | Number |
-|---|---:|
-| `SMsecondvariation` | SM 16 |
-| `SMmomentumvariation` | SM 17 |
-| `SMlinearizedmomenta` | SM 35 |
-| `SMgeneralresponsevariation` | SM 36 |
+| No. | LaTeX label |
+|---:|---|
+| 1 | `SMprojectors` |
+| 2 | `SMmixedfluctuation` |
+| 3 | `SMcosetreconstruction` |
+| 4 | `SMframevariation` |
+| 5 | `SMresponsedef` |
+| 6 | `SMbackgroundconnection` |
+| 7 | `SMconnectionvariation` |
+| 8 | `SMsixprojectors` |
+| 9 | `SMflatmetrics` |
+| 10 | `SMinfinityvielbein` |
+| 11 | `SMFG` |
+| 12 | `SMsources` |
+| 13 | `SMW0completion` |
+| 14 | `SMW0variation` |
+| 15 | `SMbackgroundexpansion` |
+| 16 | `SMexactboxEDFE` |
+| 17 | `SMboxdefinition` |
+| 18 | `SMmixedboxdefinition` |
+| 19 | `SMboxcurvature` |
+| 20 | `SMexactRdata` |
+| 21 | `SMexactNRdata` |
+| 22 | `SMexactcomponentrecipe` |
+| 23 | `SMexactfieldorder` |
+| 24 | `SMexactnormalform` |
+| 25 | `SMexactcoefficientpolynomial` |
+| 26 | `SMexactTaylor` |
+| 27 | `SMexactTaylorSolution` |
+| 28 | `SMexactCauchyconstraints` |
+| 29 | `SMexactconstraintpropagation` |
+| 30 | `GammaDFT` |
+| 31 | `variation` |
+| 32 | `defB` |
+| 33 | `SMrenvariation` |
+| 34 | `SMradialdictionary` |
+| 35 | `SMsecondvariation` |
+| 36 | `SMmomentumvariation` |
+| 37 | `SMbackgroundmomenta` |
+| 38 | `SMsamechiralitymomenta` |
+| 39 | `SMonept` |
+| 40 | `SMNRonept` |
+| 41 | `SMstatefluctuations` |
+| 42 | `SMoperatorseries` |
+| 43 | `SMradialansatz` |
+| 44 | `SMNRradialintegration` |
+| 45 | `SMtotalorderhierarchy` |
+| 46 | `SMcoupledorders` |
+| 47 | `SMmixingexample` |
+| 48 | — |
+| 49 | — |
+| 50 | — |
+| 51 | — |
+| 52 | — |
+| 53 | — |
+| 54 | — |
+| 55 | — |
+| 56 | — |
+| 57 | — |
+| 58 | — |
+| 59 | — |
+| 60 | — |
+| 61 | — |
+| 62 | — |
+| 63 | — |
+| 64 | — |
+| 65 | — |
+| 66 | — |
+| 67 | — |
+| 68 | `SMRoperatorrule` |
+| 69 | — |
+| 70 | — |
+| 71 | — |
+| 72 | — |
+| 73 | — |
+| 74 | — |
+| 75 | — |
+| 76 | — |
+| 77 | — |
+| 78 | — |
+| 79 | `SMleadingdilaton` |
+| 80 | `SMleadingstress` |
+| 81 | `SMNRsol` |
+| 82 | `SMlogexample` |
+| 83 | `SMRh2L_omopb` |
+| 84 | `SMRdd2L` |
+| 85 | `SMRh2L_opopb` |
+| 86 | `SMRh2L_omomb` |
+| 87 | `SMRdd2` |
+| 88 | `SMRh2L_opomb` |
+| 89 | `SMNRh2L_omopb` |
+| 90 | `SMNRdd2L` |
+| 91 | `SMNRdd2` |
+| 92 | `SMNRh2L_opopb` |
+| 93 | `SMNRh2L_omomb` |
+| 94 | `SMNRh2L_opomb` |
+| 95 | `SMtypeconstraint` |
+| 96 | `SMRconstraint0` |
+| 97 | `SMRconstraint1` |
+| 98 | `SMNRconstraint0` |
+| 99 | `SMNRconstraint1` |
+| 100 | `SMgeneralradialsolution` |
+| 101 | `SMlogfreeconditions` |
+| 102 | `SMframemomentumcheck` |
+| 103 | `SMconnectionmomentumcheck` |
+| 104 | `SMlinearizedmomenta` |
+| 105 | `SMfinitepartexplicit` |
+| 106 | `SMgeneralresponsevariation` |
+| 107 | `SMstresshessian` |
+| 108 | `SMradialhessian` |
+| 109 | `SMstresssourceexample` |
+| 110 | `SMgeneralWardoperators` |
+| 111 | `SMstressparticular` |
+| 112 | `SMindependentsourcegenerator` |
+| 113 | `SMhairparticularsolution` |
+| 114 | `SMgeneralparticularkernels` |
+| 115 | `SMPBHkernel` |
+| 116 | `SMgeneralpositionkernels` |
+| 117 | `SMRtwopt` |
+| 118 | `SMNRhairhessian` |
+| 119 | `SMCPSform` |
+| 120 | — |
+| 121 | `SMRpotentialcomponents` |
+| 122 | `SMCPSresult` |
+| 123 | `SMNRchargefalloffs` |
+| 124 | `SMNRchargecancellation` |
+| 125 | `SMNRcharge` |
+| 126 | `SMCPSalgebra` |
+| 127 | `SMgamma2` |
+| 128 | `SMgamma2flux` |
+| 129 | `SMmudefinition` |
+| 130 | `SMgamma2cutoff` |
+| 131 | `SMgamma2value` |
+| 132 | — |
+| 133 | `NRhill` |
+| 134 | `NRradialchange` |
+| 135 | `NRradialoperator` |
+| 136 | `NRchiODE` |
+| 137 | `NRsource` |
+| 138 | `NRg` |
+| 139 | `NRGprofile` |
+| 140 | — |
+| 141 | — |
+| 142 | `SMBtransform` |
+| 143 | `SMWshift` |
+| 144 | `SMdyg` |
+| 145 | `SMphysicalsectionA` |
+| 146 | `SMRfirstorder` |
+| 147 | `SMceff` |
+| 148 | `SMlongstringE` |
+| 149 | `SNCtau` |
+| 150 | `SMdygconstraints` |
+| 151 | `SMdygGO` |
+| 152 | `SMGO` |
+| 153 | `SMvertex` |
+| 154 | `SMWisB` |
+| 155 | `SMdeltaL` |
+| 156 | `SMFTsector` |
+| 157 | `SMWZWlevel` |
+| 158 | `SMFTweight` |
+| 159 | `SMBRSTradial` |
+| 160 | `SMBRSTmomentum` |
+| 161 | `SMBRSTvertex` |
+| 162 | `SMBRSTcentral` |
+| 163 | `SMWgaugeobstruction` |
+| 164 | `SMBRSTfusion` |
+| 165 | `SMupliftblocks` |
+| 166 | `SMDFTKilling` |
+| 167 | `SMtypeIIKS` |
+| 168 | `SMsusyclosure` |
+| 169 | `SMsemicov` |
+| 170 | `SMuplift` |
+| 171 | `SMRDFTKilling` |
+| 172 | `SMRlocaliso` |
+| 173 | — |
+| 174 | — |
+| 175 | `SMRcomponentHill` |
+| 176 | `SMRlocalKS` |
+| 177 | — |
+| 178 | `SMvielbein` |
+| 179 | `SMvielbeincheck` |
+| 180 | `SMNRlocalstabilizer` |
+| 181 | `SMexactiso` |
+| 182 | `SMweighteddilaton` |
+| 183 | `SMkillingspinor` |
+| 184 | `SMcomplexblocks` |
+| 185 | `SMgammaten` |
+| 186 | `SMgammaMajorana` |
+| 187 | `SMgammabarred` |
+| 188 | `SMreducedDirac` |
+| 189 | `SMinternalprojectors` |
+| 190 | `SMspinorcountchain` |
+| 191 | `SMhairyKS` |
+| 192 | `SMcandidateD` |
+| 193 | `SMcandidateaction` |
+| 194 | `SMcandidategauge` |
+| 195 | `SMcandidateWitt` |
+| 196 | `SMcandidateWittL` |
+| 197 | `SMcandidatefermionic` |
+| 198 | `SMcandidatefermionicL` |
+| 199 | `SMcandidateextra` |
+| 200 | `SMcandidateextraL` |
+| 201 | `SMcandidatetrivial` |
+| 202 | `SMcandidatetrivialL` |

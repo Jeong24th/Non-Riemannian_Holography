@@ -2,6 +2,8 @@
 
 Exact symbolic checks for *Non-Riemannian Hair in Long-String Holography*.
 The `.wl` files are canonical; `.nb` files contain the same input expressions.
+The current equation map includes formulas added after the recorded 270-check run;
+read the coverage limits below and in the ledger.
 
 ```sh
 wolframscript -file NRH00_RunAll.wl
@@ -41,7 +43,7 @@ The doubled order is `(dual x+, dual x-, dual y; x+, x-, y)`; dual derivatives v
 | `Hinf`, `Vinf`, `Vbinf` | common limiting generalized metric and double frame |
 | `Lp[xp]`, `Lm[xm]`, `W0[xp,xm]`, `W1[xp,xm]` | chiral data and hair modes |
 | `psip`, `psim` | manuscript psi = L^(-1/2); no extra LpPsi/LpP aliases |
-| `u`, `z` | exp(2y/l), exp(-2y/l) = 1/u |
+| `u`, `z` | code u = exp(2y/l), z = exp(-2y/l); manuscript u = z |
 | `ch`, `chU`, `esig` | chi, chi expressed in u, exp(sigma) |
 | `hmat`, `hpp`, `hpm`, `hmp`, `hmm` | flat tangential fluctuation and its components |
 | `MomentumCore`, `MomentumAK` | unprojected mathcal A, its mixed doubled projection |
@@ -66,4 +68,14 @@ uses M directly, without additional B_R/C_NR aliases.
 The 5x5 matrix is an organizational definition. Its Ward-undetermined remainder,
 including hair self-response, interior/state/zero-mode prescriptions and local contacts,
 is not computed. These checks do not determine complete Green functions or finite local
-counterterms. The ledger also states the restricted scope of the SUSY checks.
+counterterms. The new general-source EDFE operators, their solved logarithmic coefficients and
+the finite-slice radial recursion are not all implemented here. In the current
+SM1, h is a tangent perturbation projected on the saddle frame. The legacy exact
+fixed-frame difference H_s - H_infinity is a separate check; in particular its
+constant R type-changing coefficient is not a state variation.
+
+NRH07 verifies Clifford/Majorana identities, the vacuum problem and the reduced
+one-sided jet system. Its older S3-line/zeta+ rank label does not verify the current
+complex product spinors, their auxiliary/R4 signs or the four real Majorana
+combinations. Finite polarization counts allow arbitrary periodic chiral functions;
+no fermionic charge density, integrability or nonzero charge spectrum is computed.
