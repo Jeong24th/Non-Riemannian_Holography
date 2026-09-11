@@ -1,6 +1,6 @@
 # Manuscript equation map
 
-Source SHA-256: `F4B468CA5AAD0BDFCD1EDD26659E1D0CAA48B6538345520A38621EEA4654BC0E` (2026-09-10).
+Source SHA-256: `C733463D16EA773C6DDA09143E44C1823F7C3CD46F7D771F14E53C8ED722C2DE` (2026-09-11).
 
 Numbers were checked against the source-matched LaTeX build: Letter (1)-(22),
 SM (1)-(202), with 226 numbered displays including subequations. A dash denotes
