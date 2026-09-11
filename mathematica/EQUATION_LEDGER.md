@@ -1,6 +1,6 @@
 # Equation ledger
 
-Current source SHA-256: `F4B468CA5AAD0BDFCD1EDD26659E1D0CAA48B6538345520A38621EEA4654BC0E` (2026-09-10).
+Current source SHA-256: `C733463D16EA773C6DDA09143E44C1823F7C3CD46F7D771F14E53C8ED722C2DE` (2026-09-11).
 
 Letter (1)-(22); Supplemental Material (1)-(202).
 
@@ -24,7 +24,7 @@ Ward kernels. They do not determine the remainder, hair self-response, local
 counterterms, interior conditions or source zero modes.
 
 The current one-sided Killing spinors have arbitrary chiral functions, including
-infinitely many periodic modes. Four counts real polarizations, not Fourier modes.
+infinitely many periodic modes. These counts refer to real polarizations, not Fourier modes.
 The public reduced jet checks do not construct the current full real basis or any
 fermionic phase-space charge. The older NRH07 label mentioning an S3 line and zeta+
 must not be read as a check of the current `SMinternalprojectors` formula.

@@ -29,6 +29,8 @@ Letter and the Supplemental Material in order and states the public coverage of 
 current manuscript SHA-256 and LaTeX-label-to-equation-number mapping.
 
 The equation map is synchronized with the current Letter (1)-(22) and SM (1)-(202).
+The September 11, 2026 source pin includes the latest prose and citation edits;
+all 226 displayed equations are unchanged from the September 10 snapshot.
 The expanded general-source SM1 derivation and current real Killing-spinor basis
 are not fully covered by the public suite. In particular, a passing reduced jet
 system is not a construction of nonzero supercharges. See the ledger for scope.
