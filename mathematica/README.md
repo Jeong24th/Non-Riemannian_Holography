@@ -1,9 +1,12 @@
 # Mathematica verification
 
-Exact symbolic checks for *Non-Riemannian Hair in Long-String Holography*.
-The `.wl` files are canonical; `.nb` files contain the same input expressions.
-The current equation map includes formulas added after the recorded 270-check run;
-read the coverage limits below and in the ledger.
+Exact symbolic checks for *Non-Riemannian Holography: Long Strings and Soft Hair*.
+The `.wl` files are canonical; each `.nb` notebook contains the same input expressions.
+The files follow the order of the manuscript: one file for the Letter, then one file per
+Supplemental Material section (SM 3 is split into its linearized-dynamics, renormalization
+and charge parts). Every check prints the manuscript label(s) it verifies, so a label from
+[EQUATION_LEDGER.md](EQUATION_LEDGER.md) can be located in the sources and in the run log by
+text search.
 
 ```sh
 wolframscript -file NRH00_RunAll.wl
@@ -11,71 +14,80 @@ wolframscript -file NRH00_RunAll.wl
 
 Or keep this directory together, open `NRH00_RunAll.nb`, and choose
 **Evaluation > Evaluate Notebook**. Section files also run independently.
-A failed check returns a nonzero command-line exit status.
+A failed check returns a nonzero command-line exit status. The full run takes about five
+minutes with Mathematica 13.2; see [REFERENCE_RUN.md](REFERENCE_RUN.md).
 
-| File | Checks |
-|---|---|
-| NRH00 | runner |
-| NRH01 | DFT connection, curvature, action, momenta, shared backgrounds |
-| NRH02 | Riemannian saddle, boundary geometry, Ward laws, one-points |
-| NRH03 | non-Riemannian saddle, radial equation, hair, asymptotic laws |
-| NRH04 | variations, linearized equations, response normalization, particular two-point kernels |
-| NRH05 | covariant surface charges, C-bracket, cocycle, on-shell action |
-| NRH06 | first-order worldsheet, GO limit, radial weights and marginality |
-| NRH07 | ten-dimensional bosonic uplifts, frames, Clifford algebra, Killing-spinor reductions |
-| NRH08 | boundary candidate action and its bosonic/Grassmann symmetries |
+| File | Manuscript part | Checks |
+|---|---|---:|
+| NRH00 | runner | — |
+| NRH01 | shared tools: O(3,3) metric, torsionless connection, curvatures, Γ² density and flux, radial momenta, generalized Lie derivative, both exact saddles as series in u = e^{−2y/l}, frame variation, projected linearized EDFE | — |
+| NRH02 | Letter (1)–(22): both saddles, boundary data and frames, EDFE, Ward identities, asymptotic symmetries and the Virasoro / NR transformation laws, one-point matrices, particular two-point kernels, worldsheet vertex | 49 |
+| NRH03 | SM 1: Γ² action density and flux on both saddles, cutoff value, on-shell value | 13 |
+| NRH04 | SM 2: exact radial branches (Hill data, χ equation, exact hair profile), W₀ as a B-field shift, constant-L radial flow | 20 |
+| NRH05 | SM 3.1–3.4: projectors and mixed fluctuation, boundary frames and sources, exact linearized EDFE (normal form, Cauchy constraints, constraint propagation, Taylor recursion), the component operators E^(0), E^(1),NR, ΔE^(1), the coupled hierarchy solved order by order, logarithmic coefficients, stress and type constraints | 57 |
+| NRH06 | SM 3.5–3.8: Γ² variation and momenta, dictionary, second variation, background and linearized momenta, one-points, state fluctuations, ordered cutoff bilinear, derivative counterterms, finite bilinear and rows, contact rows, Lorentzian convention, Ward operators, nonchiral completion, kernels, conditional R completion | 67 |
+| NRH07 | SM 3.9: covariant phase-space charges, Virasoro cocycle, NR charge cancellation and algebra | 29 |
+| NRH08 | SM 4: first-order worldsheet, SNC clocks, Gomis–Ooguri limit, long-string energy, radial vertex operator, BRST weights and fusion | 32 |
+| NRH09 | SM 5: ten-dimensional uplift and flux, Clifford algebra, vacuum and Riemannian Killing spinors, one-sided non-Riemannian jet system | 55 |
+| NRH10 | SM 6: boundary candidate action and its bosonic and Grassmann symmetries | 14 |
 
-[EQUATION_LEDGER.md](EQUATION_LEDGER.md) states the coverage of each current equation.
-[MANUSCRIPT_MAP.md](MANUSCRIPT_MAP.md) pins the source and equation numbers.
-[REFERENCE_RUN.md](REFERENCE_RUN.md) records actual execution results.
+[EQUATION_LEDGER.md](EQUATION_LEDGER.md) states the coverage of every numbered display;
+[MANUSCRIPT_MAP.md](MANUSCRIPT_MAP.md) pins the source hash and the label-to-number map;
+[REFERENCE_RUN.md](REFERENCE_RUN.md) records the execution.
+
+## Methods
+
+The checks implement the computations as the manuscript states them.
+
+- Backgrounds are the exact Bañados and everywhere non-Riemannian saddles with arbitrary
+  chiral L±(x±) and, on the NR branch, arbitrary W₁(x⁺,x⁻); W₂ = −(l²/4)L₊′L₋′ is taken from
+  the exact hair profile. Nothing is evaluated on sample data.
+- The linearized EDFE are obtained by direct linearization of the exact curvature on each
+  saddle, projected on the saddle frames (SM 3.3). The near-boundary solutions follow from the
+  coupled hierarchy (SM 3.4), solved sequentially in the log-branch coefficients; the responses
+  R±, H_s and the zero mode c_s are kept as free functions, and the stress and type constraints
+  are read off from the remaining equations.
+- Two-point functions are computed from the ordered second variation of the on-shell action
+  (SM 3.8) with two independent bulk solutions inserted in the two slots. They are never
+  obtained by differentiating one-point functions. The counterterm test integrates by parts to
+  the canonical form Σ j₁,I q_I[j₂] and imposes the stress constraints in both slots, so
+  "modulo total tangential derivatives" is explicit; a negative control confirms that the
+  divergences remain without the counterterm.
+- The nonlocal kernels follow from the Ward operators acting on the manuscript's Lorentzian
+  inverse derivative ∂∓⁻¹δ² → 1/(2πiΔ±), with the time-ordering factor 1/i.
+- The Killing-spinor jet system on the one-sided hairy background is derived from the printed
+  frame and the semi-covariant connection, not transcribed.
 
 ## Conventions and symbols
 
 The doubled order is `(dual x+, dual x-, dual y; x+, x-, y)`; dual derivatives vanish.
 `JJ` is the O(3,3) metric. Antisymmetrization has unit weight. The connection obeys
-`Gamma^B_BA = -2 partial_A d`; compatibility and curvature identities are checked.
-`eta3` is the null-frame metric and `etab3 = -eta3`.
+`Gamma^B_BA = -2 partial_A d`; compatibility, trace and torsion identities are checked on
+both saddles. `eta3` is the null-frame metric and `etab3 = -eta3`.
 
 | Code | Manuscript quantity |
 |---|---|
-| `gR`, `bR`, `HR`, `dR` | Riemannian metric, B field, generalized metric and dilaton |
-| `HNR`, `dNR` | non-Riemannian generalized metric and dilaton |
-| `Hinf`, `Vinf`, `Vbinf` | common limiting generalized metric and double frame |
-| `Lp[xp]`, `Lm[xm]`, `W0[xp,xm]`, `W1[xp,xm]` | chiral data and hair modes |
-| `psip`, `psim` | manuscript psi = L^(-1/2); no extra LpPsi/LpP aliases |
-| `u`, `z` | code u = exp(2y/l), z = exp(-2y/l); manuscript u = z |
-| `ch`, `chU`, `esig` | chi, chi expressed in u, exp(sigma) |
-| `hmat`, `hpp`, `hpm`, `hmp`, `hmm` | flat tangential fluctuation and its components |
-| `MomentumCore`, `MomentumAK` | unprojected mathcal A, its mixed doubled projection |
-| `aR`, `aNR`, `mR`, `mNR` | particular kernels A_R, A_NR, M_R, M_NR |
-| `centralCharge` | c = 3l/(2G) |
+| `u` | e^{2y/l} in the Letter, SM 1 and SM 2 files (`xs` carries d_y = (2u/l) d_u) |
+| `z`, `yy` | e^{−2y/l} (the manuscript's u) and the explicit radial coordinate y in the SM 3 files; `DyZY` is d_y = d_yy − (2z/l) d_z |
+| `Lp[xp]`, `Lm[xm]`, `W0`, `W1[xp,xm]` | chiral data and hair modes; `psip`, `psim` are ψ± = L±^{−1/2} (`NRLpsi` maps L± to ψ±) |
+| `RiemannianSaddleExact[]`, `NonRiemannianSaddleExact[W]` | exact saddles with frames V, V̄, dilaton and (R) metric and B field |
+| `SaddleSeries[sd, n]` | the saddle truncated to order z^n (exact: nothing lowers the z order) |
+| `hpp, hpm, hmp, hmm, dd` | h_{⊕⊕̄}, h_{⊕⊖̄}, h_{⊖⊕̄}, h_{⊖⊖̄} and δd as functions of (xp, xm, yy) |
+| `a, b, r, c, v` (slot k: `a1`, `a2`, …) | the sources (h^(0)_{⊖⊖̄}, h^(0)_{⊕⊕̄}, h^(0)_{⊖⊕̄}, h^(0)_{⊕⊖̄}, δd^(0)) of SM (105) |
+| `Rp, Rm, H, cs` | the responses h^(2)_{⊕⊕̄}, h^(2)_{⊖⊖̄}, h^(2)_{⊕⊖̄} and the zero mode c_s |
+| `LinearizedEDFEComponents` | E_{pq̄}, E₀ of SM (41) through the requested z order |
+| `MomentumProjected` | A^y_{pq̄} and the same-chirality projections of SM (87b) |
+| `GenLieH`, `GenLieD` | generalized Lie derivative of H and d |
+| `chiq`, `ch`, `esig` | χ = 2√2 arctanh q, χ as a symbol, e^σ = ψ₋/ψ₊ |
 
-`RiemannianMetric/B/D`, `NonRiemannianH`, and `NRBoundaryH/D` share background
-formulas across files. Independent frame reconstructions and curvature contractions
-remain separate checks. Constant L symbols denote explicit constant-profile sectors;
-10-dimensional uplift matrices and radial expansions differ from the exact
-three-dimensional fields. `T = exp(chi/(2 sqrt(2)))` simplifies hyperbolic identities.
-State data are never replaced by numerical sample values.
+`T = exp(chi/(2 sqrt(2)))` simplifies hyperbolic identities on the exact NR saddle.
+Constant-L symbols denote explicit constant-profile sectors.
 
-## Response scope
+## Scope
 
-NRH04 differentiates both bulk frames in the momentum while holding the independent
-variation argument h1 fixed. It checks the vacuum and both finite-data backgrounds
-through exp(-2y/l), logarithmic finite coefficients, and Ward-derived particular
-kernels A/M. Background coefficients are evaluated at the first point. The code
-uses M directly, without additional B_R/C_NR aliases.
-
-The 5x5 matrix is an organizational definition. Its Ward-undetermined remainder,
-including hair self-response, interior/state/zero-mode prescriptions and local contacts,
-is not computed. These checks do not determine complete Green functions or finite local
-counterterms. The new general-source EDFE operators, their solved logarithmic coefficients and
-the finite-slice radial recursion are not all implemented here. In the current
-SM1, h is a tangent perturbation projected on the saddle frame. The legacy exact
-fixed-frame difference H_s - H_infinity is a separate check; in particular its
-constant R type-changing coefficient is not a state variation.
-
-NRH07 verifies Clifford/Majorana identities, the vacuum problem and the reduced
-one-sided jet system. Its older S3-line/zeta+ rank label does not verify the current
-complex product spinors, their auxiliary/R4 signs or the four real Majorana
-combinations. Finite polarization counts allow arbitrary periodic chiral functions;
-no fermionic charge density, integrability or nonzero charge spectrum is computed.
+The general variation formulas of SM 3.5 are not separately checked (the linearized EDFE are
+computed directly), the symmetry of the action-response matrix is a stated property, and the
+ten-dimensional Killing-spinor statements marked **S** in the ledger are cited. The undetermined
+interior responses, the hair self-response and the finite local terms induced by the cutoff
+subtraction are carried as free data, as in the manuscript; the suite does not determine complete
+Green functions. A passing reduced jet system is not a construction of nonzero supercharges.

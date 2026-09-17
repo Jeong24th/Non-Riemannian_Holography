@@ -1,9 +1,9 @@
 (* ::Title:: *)
-(*NRH06 SM Worldsheet*)
+(*NRH08 SM4 Worldsheet Reduction and Radial Vertex Operators*)
 
 ClearAll["Global`*"];
 Get[FileNameJoin[{If[FileExistsQ[FileNameJoin[{DirectoryName[$InputFileName], "NRH01_DFT_Tools.wl"}]], DirectoryName[$InputFileName], NotebookDirectory[]], "NRH01_DFT_Tools.wl"}]];
-NRH`BeginFile["NRH06_SM_Worldsheet.wl"];
+NRH`BeginFile["NRH08_SM4_Worldsheet.wl"];
 
 fR = u + Lp Lm/u;
 L1 = dy by + 2 Lp dxp bxp + 2 Lm dxm bxm + beta bxp + betab dxm + beta betab/(2 fR);

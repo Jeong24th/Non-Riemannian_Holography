@@ -1,9 +1,9 @@
 (* ::Title:: *)
-(*NRH07 SM KillingSpinors*)
+(*NRH09 SM5 Ten-Dimensional Uplift and Killing Symmetries*)
 
 ClearAll["Global`*"];
 Get[FileNameJoin[{If[FileExistsQ[FileNameJoin[{DirectoryName[$InputFileName], "NRH01_DFT_Tools.wl"}]], DirectoryName[$InputFileName], NotebookDirectory[]], "NRH01_DFT_Tools.wl"}]];
-NRH`BeginFile["NRH07_SM_KillingSpinors.wl"];
+NRH`BeginFile["NRH09_SM5_UpliftKilling.wl"];
 
 JJ = ODDJ[3];
 
@@ -248,17 +248,55 @@ NRH`CheckZero["Lhat_X H^infty = 0 and Lhat_X d = 0 for the Killing-spinor biline
 NRH`Check["the bilinear is symmetric under f1 <-> f2 (commuting coefficient functions)",
    Together[XM - (XM /. {f1 -> f2, f2 -> f1})] === {0, 0, 0, 0, 0, 0}];
 
-jetVars = {e0, e1, ep0, ep1, em0, em1, ey0, ey1};
-jetSys = {LpS uu e0, em0, W1S uu e0 + 2 Sqrt[2] l em1, ey0, ey1,
-   2 e0 + l ey0, 2 LpS uu em0 + 2 ep0 + Sqrt[2] ey1};
-jm = Table[D[jetSys[[i]], jetVars[[j]]], {i, Length[jetSys]}, {j, 8}];
-NRH`Check["the displayed system has rank six (seven relations, one dependent)",
-   MatrixRank[jm] == 6];
-kernelJ = NullSpace[jm];
-NRH`Check["the solution space is exactly {e_1, d_+ e_1} - one arbitrary chiral profile",
-   Sort[RowReduce[kernelJ]] === Sort[{{0, 1, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 1, 0, 0, 0, 0}}]];
-NRH`Check["the mechanism: W_1 multiplies only e_0, and the survivor has e_0 = 0",
-   Union[Cases[jetSys, W1S x_ :> x, Infinity]] === {uu e0}];
+(* The reduced one-sided jet system after SMreducedDirac, derived in the printed frame: D_{pbar} E = 0 and the
+   opposite-channel Dirac equation gamma^p D_p E + E/(Sqrt[2] l) = 0 on the exact L_- = 0 background with
+   W = W_0 + u W_1, generic spinor E = (e0, e1)(x+, x-, y). *)
+Module[{Wn, HNRone1, VexU1, VbexU1, V1, Vb1, gamma1, Phi1, spin1, DA1, DP1, DPbar1, slashD1, Eg, jetRule, grav, dirOpp,
+        jetVars, sysDisplayed, mat, mC, computed, simp},
+   Wn = W0[xp, xm] + W1[xp, xm]/u;
+   HNRone1 = {{0, 0, 0, 1, 0, 0}, {0, 0, 0, 2 Lp[xp]/u, -1, 0}, {0, 0, 1, 0, 0, 0},
+      {1, 2 Lp[xp]/u, 0, -2 Lp[xp] Wn/u, Wn, 0}, {0, -1, 0, Wn, 0, 0}, {0, 0, 0, 0, 0, 1}};
+   (* SMvielbein in the one-sided limit cosh h -> 1, e^sigma sinh h -> L+/u, e^{-sigma} sinh h -> 0 (upper local indices) *)
+   VexU1 = {{0, -1/Sqrt[2], 0}, {0, -(Lp[xp]/u)/Sqrt[2], 0}, {0, 0, 1/Sqrt[2]},
+      {Sqrt[2], Wn (Lp[xp]/u)/(2 Sqrt[2]), 0}, {0, -Wn/(2 Sqrt[2]), 0}, {0, 0, 1/Sqrt[2]}};
+   VbexU1 = {{0, 0, 0}, {1/Sqrt[2], 0, 0}, {0, 0, -1/Sqrt[2]},
+      {-Wn/(2 Sqrt[2]), -Sqrt[2] Lp[xp]/u, 0}, {0, Sqrt[2], 0}, {0, 0, 1/Sqrt[2]}};
+   V1 = VexU1 . eta3; Vb1 = VbexU1 . (-eta3);
+   NRH`CheckZero["one-sided printed frame: V eta V^T - Vbar etabar Vbar^T = H(L+, W_0, W_1) and V -> Vinf at L+ = W = 0",
+      {Simplify[V1 . eta3 . Transpose[V1] - Vb1 . (-eta3) . Transpose[Vb1] - HNRone1],
+       (V1 /. {Lp[xp] -> 0, W0[xp, xm] -> 0, W1[xp, xm] -> 0}) - Vinf, (Vb1 /. {Lp[xp] -> 0, W0[xp, xm] -> 0, W1[xp, xm] -> 0}) - Vbinf}];
+   gamma1 = GammaDFT[HNRone1, dinf, xsU];
+   Phi1 = Map[Together, SpinConnectionDFT[V1, eta3, gamma1, xsU], {3}];
+   spin1[a_] := 1/4 Sum[Phi1[[a, p, q]] gampqLow[p, q], {p, 3}, {q, 3}];
+   DA1[Es_, a_] := DblD[Es, a, xsU] + spin1[a] . Es;
+   DP1[Es_, p_] := Sum[(JJ . V1)[[a, p]] DA1[Es, a], {a, 6}];
+   DPbar1[Es_, pb_] := Sum[(JJ . Vb1)[[a, pb]] DA1[Es, a], {a, 6}];
+   slashD1[Es_] := Sum[gam3[[p]] . DP1[Es, p], {p, 3}];
+   Eg = {e0[xp, xm, u], e1[xp, xm, u]};
+   jetRule = {Derivative[1, 0, 0][e0][xp, xm, u] -> ep0, Derivative[0, 1, 0][e0][xp, xm, u] -> em0,
+      Derivative[0, 0, 1][e0][xp, xm, u] -> l ey0/(2 u), e0[xp, xm, u] -> e0,
+      Derivative[1, 0, 0][e1][xp, xm, u] -> ep1, Derivative[0, 1, 0][e1][xp, xm, u] -> em1,
+      Derivative[0, 0, 1][e1][xp, xm, u] -> l ey1/(2 u), e1[xp, xm, u] -> e1};
+   grav = Flatten[Table[DPbar1[Eg, pb], {pb, 3}]] /. jetRule;
+   dirOpp = (slashD1[Eg] + Eg/(Sqrt[2] l)) /. jetRule;
+   simp[e_] := Together[e /. u -> 1/uu];                                 (* uu = e^{-2y/l}, the manuscript's u *)
+   NRH`CheckZero["SM text after SMreducedDirac: D_{pbar} E has the components 0, -L+ u e0/l, em0/Sqrt2, em1/Sqrt2 - W1 u e0/(4l), ey0/Sqrt2, ey1/Sqrt2",
+      Together[(grav /. u -> 1/uu) - {0, -Lp[xp] uu e0/l, em0/Sqrt[2], em1/Sqrt[2] - W1[xp, xm] uu e0/(4 l), ey0/Sqrt[2], ey1/Sqrt[2]}]];
+   NRH`CheckZero["SM text after SMreducedDirac: gamma^p D_p E + E/(Sqrt2 l) has the components ey0/Sqrt2 + Sqrt2 e0/l and ep0 - ey1/Sqrt2 + L+ u em0",
+      Together[(dirOpp /. u -> 1/uu) - {ey0/Sqrt[2] + Sqrt[2] e0/l, ep0 - ey1/Sqrt[2] + Lp[xp] uu em0}]];
+   jetVars = {e0, e1, ep0, ep1, em0, em1, ey0, ey1};
+   sysDisplayed = {LpS uu e0, em0, W1S uu e0 - 2 Sqrt[2] l em1, ey0, ey1, 2 e0 + l ey0, 2 LpS uu em0 + 2 ep0 - Sqrt[2] ey1};
+   mat[sys_] := Table[Coefficient[Together[sys[[i]]], jetVars[[j]]], {i, Length[sys]}, {j, 8}];
+   computed = Join[grav, dirOpp] /. {Lp[xp] -> LpS, W1[xp, xm] -> W1S, W0[xp, xm] -> W0S} /. u -> 1/uu;
+   mC = mat[Together[computed]];
+   NRH`Check["the displayed system has rank six (seven relations, one dependent) and spans the derived equations",
+      MatrixRank[mC] == 6 && MatrixRank[mat[sysDisplayed]] == 6 && MatrixRank[Join[mC, mat[sysDisplayed]]] == 6];
+   NRH`Check["the solution space is exactly {e_1, d_+ e_1}: e_0 = 0, e_1 = F_+(x^+) with d_+ e_1 unconstrained",
+      Sort[RowReduce[NullSpace[mC]]] === Sort[{{0, 1, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 1, 0, 0, 0, 0}}]];
+   NRH`Check["the mechanism: W_1 multiplies only e_0, and every d_+ L_+, d W_0, d W_1 term cancels in the full connection",
+      Union[Cases[sysDisplayed, W1S x_ :> x, Infinity]] === {uu e0} && FreeQ[computed, Derivative[__][LpS | W0S | W1S][__]] &&
+      FreeQ[Together[computed], W0S]];
+];
 
 AthS = I/2 s1;
 Aph1S = -I/2 (Sin[th] s3 - Cos[th] s2);

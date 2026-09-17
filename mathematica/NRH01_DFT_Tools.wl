@@ -246,3 +246,79 @@ NRBoundaryH[lp_, lm_, w1_, z_] := With[{c = 1 + 2 lp lm z^2},
     {0, 0, 1, 0, 0, 0}, {c, 2 lp z, 0, -2 lp w1 z^2, w1 z, 0},
     {-2 lm z, -c, 0, w1 z, -2 lm w1 z^2, 0}, {0, 0, 0, 0, 0, 1}}];
 NRBoundaryD[lp_, lm_, z_] := Log[z]/2 + lp lm z^2/4;
+
+(* ---------------------------------------------------------------------------------------------- *)
+(* Near-boundary tools used by the SM3 files.  z = e^{-2y/l} is the manuscript's u; the radial       *)
+(* derivative acts on an explicit y (symbol yy) and on z: d_y = d_yy - (2z/l) d_z.  Backgrounds and    *)
+(* frames are expanded through z^n; nothing lowers the z-order, so truncation is exact at each order. *)
+(* ---------------------------------------------------------------------------------------------- *)
+
+xsZY = {xp, xm, Function[e, D[e, yy] - (2 z/l) D[e, z]]};
+DyZY[e_] := D[e, yy] - (2 z/l) D[e, z];
+SeriesZ[e_, n_] := Together[Normal[Series[e, {z, 0, n}]]];
+SeriesZM[m_, n_] := Map[SeriesZ[#, n] &, m, {ArrayDepth[m]}];
+LinearT[e_] := Coefficient[Normal[Series[e, {t, 0, 1}]], t, 1];
+
+(* Exact Riemannian saddle data of SMexactRdata (lower flat indices), as rational functions of z. *)
+RiemannianSaddleExact[] := Module[{Pi2, g, B, e, eb, V, Vb, d},
+   Pi2 = Lp[xp] Lm[xm];
+   g = {{2 Lp[xp], -1/z - Pi2 z, 0}, {-1/z - Pi2 z, 2 Lm[xm], 0}, {0, 0, 1}};
+   B = {{0, -1/z - Pi2 z, 0}, {1/z + Pi2 z, 0, 0}, {0, 0, 0}};
+   e = {{1, -Lp[xp], 0}, {-z Lm[xm], 1/z, 0}, {0, 0, 1}};
+   eb = {{1/z, -z Lp[xp], 0}, {-Lm[xm], 1, 0}, {0, 0, 1}};
+   V = 1/Sqrt[2] ArrayFlatten[{{Transpose[Inverse[e]]}, {e . eta3 + B . Transpose[Inverse[e]]}}];
+   Vb = 1/Sqrt[2] ArrayFlatten[{{Transpose[Inverse[eb]]}, {eb . etab3 + B . Transpose[Inverse[eb]]}}];
+   d = -yy/l - 1/2 Log[1 - Pi2 z^2];
+   <|"H" -> Map[Together, RiemannianH[g, B], {2}], "V" -> Map[Together, V, {2}], "Vb" -> Map[Together, Vb, {2}],
+     "d" -> d, "g" -> g, "B" -> B, "e" -> e, "eb" -> eb|>];
+
+(* Exact non-Riemannian saddle data of SMexactNRdata / SMvielbein in the rational variables
+   psi_pm = L_pm^{-1/2}: L+ = 1/psip^2, L- = 1/psim^2, e^sigma = psim/psip, chi = 2 sqrt2 arctanh(z sqrt(Pi/2)).
+   Wz is the hair function of z (W0 = 0 unless supplied). *)
+NonRiemannianSaddleExact[Wz_] := Module[{Pi2, chi, esg, hh, chh, shh, Vup, Vbup, H, d},
+   Pi2 = 1/(psip[xp]^2 psim[xm]^2);
+   chi = 2 Sqrt[2] ArcTanh[z/(Sqrt[2] psip[xp] psim[xm])];     (* q = z sqrt(Pi/2) written rationally *)
+   esg = psim[xm]/psip[xp];
+   hh = chi/2; chh = Cosh[hh]; shh = Sinh[hh];
+   Vup = {{0, -chh/Sqrt[2], 0}, {0, -esg shh/Sqrt[2], 0}, {0, 0, 1/Sqrt[2]},
+      {Sqrt[2] chh, Wz esg shh/(2 Sqrt[2]), 0}, {-Sqrt[2] shh/esg, -Wz chh/(2 Sqrt[2]), 0}, {0, 0, 1/Sqrt[2]}};
+   Vbup = {{shh/(esg Sqrt[2]), 0, 0}, {chh/Sqrt[2], 0, 0}, {0, 0, -1/Sqrt[2]},
+      {-Wz chh/(2 Sqrt[2]), -Sqrt[2] esg shh, 0}, {Wz shh/(2 Sqrt[2] esg), Sqrt[2] chh, 0}, {0, 0, 1/Sqrt[2]}};
+   H = NonRiemannianH[chi, esg, Wz];
+   d = -yy/l + Log[Cosh[chi/(2 Sqrt[2])]];
+   <|"H" -> H, "V" -> Vup . eta3, "Vb" -> Vbup . etab3, "d" -> d, "chi" -> chi, "esigma" -> esg|>];
+NRW2 := -(l^2/4) D[1/psip[xp]^2, xp] D[1/psim[xm]^2, xm];    (* SMbackgroundexpansion: the derivative-dependent W_2 *)
+NRLpsi = {Lp -> Function[x, 1/psip[x]^2], Lm -> Function[x, 1/psim[x]^2]};
+
+SaddleSeries[sd_Association, n_] := <|"H" -> SeriesZM[sd["H"], n], "V" -> SeriesZM[sd["V"], n],
+   "Vb" -> SeriesZM[sd["Vb"], n], "d" -> SeriesZ[sd["d"], n]|>;
+
+(* SMcosetreconstruction: delta H_MN = 2 V_(M^p Vbar_N)^qbar h_{p qbar} for a lower-index mixed fluctuation matrix. *)
+MixedFluctuationH[V_, Vb_, hmat_] := Module[{m = (V . eta3) . hmat . Transpose[Vb . etab3]}, m + Transpose[m]];
+
+(* Frame variation of SMframevariation, lower flat indices. *)
+FrameVariation[V_, Vb_, hmat_] := {1/2 (Vb . etab3) . Transpose[hmat], -1/2 (V . eta3) . hmat};
+
+(* Linearized EDFE components E_{p qbar} = V^M_p delta(P S Pbar)_MN Vbar^N_qbar and E_0 = delta S_(0)
+   on a z-series saddle, for the mixed fluctuation hmat (functions of xp, xm, yy) and dilaton fluctuation ddf. *)
+LinearizedEDFEComponents[bg_Association, hmat_, ddf_, n_] := Module[
+   {JJ = ODDJ[3], dH, Hlin, dlin, gamma, r4, ric, psp, Vup, Vbup, E, E0, tr},
+   dH = SeriesZM[MixedFluctuationH[bg["V"], bg["Vb"], hmat], n];
+   Hlin = bg["H"] + t dH; dlin = bg["d"] + t ddf;
+   tr[e_] := SeriesZ[Normal[Series[e, {t, 0, 1}]], n];
+   gamma = Map[tr, GammaDFT[Hlin, dlin, xsZY], {3}];
+   r4 = Map[tr, RiemannR4[gamma, xsZY], {4}];
+   ric = Map[tr, RicciS[gamma, r4, xsZY], {2}];
+   psp = Map[Function[e, Together[LinearT[Expand[e]]]], ProjectedRicci[Hlin, ric, xsZY], {2}];
+   Vup = JJ . bg["V"]; Vbup = JJ . bg["Vb"];
+   E = Map[Function[e, SeriesZ[e, n]], Transpose[Vup] . psp . Vbup, {2}];
+   E0 = SeriesZ[Together[LinearT[Expand[ScalarS0[Hlin, dlin, xsZY]]]], n];
+   <|"E" -> E, "E0" -> E0, "dH" -> dH|>];
+
+(* Frame-projected radial momentum A^y_{p qbar} = V^M_p A^y_MN Vbar^N_qbar (SMAdefinition) and same-chirality
+   projections, from the unprojected tensor of MomentumCore. *)
+MomentumProjected[gamma_List, V_, Vb_, xs_List] := Module[{JJ = ODDJ[3], core, Vup, Vbup},
+   core = MomentumCore[gamma, xs][[6]];
+   Vup = JJ . V; Vbup = JJ . Vb;
+   <|"Amixed" -> Transpose[Vup] . core . Vbup, "Aunbarred" -> Transpose[Vup] . core . Vup,
+     "Abarred" -> Transpose[Vbup] . core . Vbup, "core" -> core|>];

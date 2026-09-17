@@ -1,9 +1,9 @@
 (* ::Title:: *)
-(*NRH08 SM BoundaryCandidate*)
+(*NRH10 SM6 A Classical Boundary-Theory Candidate*)
 
 ClearAll["Global`*"];
 Get[FileNameJoin[{If[FileExistsQ[FileNameJoin[{DirectoryName[$InputFileName], "NRH01_DFT_Tools.wl"}]], DirectoryName[$InputFileName], NotebookDirectory[]], "NRH01_DFT_Tools.wl"}]];
-NRH`BeginFile["NRH08_SM_BoundaryCandidate.wl"];
+NRH`BeginFile["NRH10_SM6_BoundaryCandidate.wl"];
 
 J4 = ODDJ[2];
 H0 = {{0, 0, 1, 0}, {0, 0, 0, -1}, {1, 0, 0, 0}, {0, -1, 0, 0}};

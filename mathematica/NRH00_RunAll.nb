@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      1777,         60]
-NotebookOptionsPosition[      1252,         45]
-NotebookOutlinePosition[      1554,         59]
-CellTagsIndexPosition[      1511,         56]
+NotebookDataLength[      1822,         62]
+NotebookOptionsPosition[      1297,         47]
+NotebookOutlinePosition[      1599,         61]
+CellTagsIndexPosition[      1556,         58]
 WindowTitle->NRH00_RunAll.nb
 WindowFrame->Normal*)
 
@@ -25,13 +25,15 @@ Cell["\<\
 NRH`$Dir = If[FileExistsQ[FileNameJoin[{DirectoryName[$InputFileName], \
 \"NRH01_DFT_Tools.wl\"}]], DirectoryName[$InputFileName], NotebookDirectory[]];
 NRH`$Files = {
-   \"NRH02_Letter_Riemannian.wl\",
-   \"NRH03_Letter_NonRiemannian.wl\",
-   \"NRH04_SM_LinearResponse.wl\",
-   \"NRH05_SM_Charges_Action.wl\",
-   \"NRH06_SM_Worldsheet.wl\",
-   \"NRH07_SM_KillingSpinors.wl\",
-   \"NRH08_SM_BoundaryCandidate.wl\"};
+   \"NRH02_Letter.wl\",
+   \"NRH03_SM1_Action.wl\",
+   \"NRH04_SM2_RadialBranches.wl\",
+   \"NRH05_SM3_Linearized.wl\",
+   \"NRH06_SM3_Renormalization.wl\",
+   \"NRH07_SM3_Charges.wl\",
+   \"NRH08_SM4_Worldsheet.wl\",
+   \"NRH09_SM5_UpliftKilling.wl\",
+   \"NRH10_SM6_BoundaryCandidate.wl\"};
 NRH`$AllResults = {};
 NRH`$DeferExit = True;\
 \>", "Input"],
@@ -58,10 +60,10 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[587, 21, 29, 0, 70, "Title",ExpressionUUID->"060be918-d380-4318-8a4b-4b16e9601574"],
-Cell[619, 23, 485, 13, 70, "Input",ExpressionUUID->"ae220a2c-bd4b-4157-be72-b9f1b6c4ad73"],
-Cell[1107, 38, 70, 0, 70, "Input",ExpressionUUID->"ec2eb0c8-e32e-44df-af29-682018674a3b"],
-Cell[1180, 40, 68, 3, 70, "Input",ExpressionUUID->"aff76d83-9534-4956-a49f-6370ba6017f2"]
+Cell[587, 21, 29, 0, 70, "Title",ExpressionUUID->"a0b89fa7-3228-4d27-bffe-7c0e6ec796c8"],
+Cell[619, 23, 530, 15, 70, "Input",ExpressionUUID->"1bd14b1c-a860-409d-a70f-a7cefbedca93"],
+Cell[1152, 40, 70, 0, 70, "Input",ExpressionUUID->"439466d3-5165-4b83-93c7-b7abafa2b2ff"],
+Cell[1225, 42, 68, 3, 70, "Input",ExpressionUUID->"cc91f451-1169-4288-8e32-b66d0a0dc37e"]
 }
 ]
 *)

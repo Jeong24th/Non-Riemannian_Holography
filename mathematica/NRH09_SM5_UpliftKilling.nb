@@ -10,23 +10,23 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     22054,        493]
-NotebookOptionsPosition[     18882,        450]
-NotebookOutlinePosition[     19195,        464]
-CellTagsIndexPosition[     19152,        461]
-WindowTitle->NRH07_SM_KillingSpinors.nb
+NotebookDataLength[     25696,        556]
+NotebookOptionsPosition[     22523,        513]
+NotebookOutlinePosition[     22836,        527]
+CellTagsIndexPosition[     22793,        524]
+WindowTitle->NRH09_SM5_UpliftKilling.nb
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
-Cell["NRH07 SM KillingSpinors", "Title"],
+Cell["NRH09 SM5 Ten-Dimensional Uplift and Killing Symmetries", "Title"],
 
 Cell["\<\
 ClearAll[\"Global`*\"];
 Get[FileNameJoin[{If[FileExistsQ[FileNameJoin[{DirectoryName[$InputFileName], \
 \"NRH01_DFT_Tools.wl\"}]], DirectoryName[$InputFileName], \
 NotebookDirectory[]], \"NRH01_DFT_Tools.wl\"}]];
-NRH`BeginFile[\"NRH07_SM_KillingSpinors.wl\"];\
+NRH`BeginFile[\"NRH09_SM5_UpliftKilling.wl\"];\
 \>", "Input"],
 
 Cell["JJ = ODDJ[3];", "Input"],
@@ -383,21 +383,84 @@ functions)\",
 \>", "Input"],
 
 Cell["\<\
-jetVars = {e0, e1, ep0, ep1, em0, em1, ey0, ey1};
-jetSys = {LpS uu e0, em0, W1S uu e0 + 2 Sqrt[2] l em1, ey0, ey1,
-   2 e0 + l ey0, 2 LpS uu em0 + 2 ep0 + Sqrt[2] ey1};
-jm = Table[D[jetSys[[i]], jetVars[[j]]], {i, Length[jetSys]}, {j, 8}];
-NRH`Check[\"the displayed system has rank six (seven relations, one \
-dependent)\",
-   MatrixRank[jm] == 6];
-kernelJ = NullSpace[jm];
-NRH`Check[\"the solution space is exactly {e_1, d_+ e_1} - one arbitrary \
-chiral profile\",
-   Sort[RowReduce[kernelJ]] === Sort[{{0, 1, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 1, \
-0, 0, 0, 0}}]];
-NRH`Check[\"the mechanism: W_1 multiplies only e_0, and the survivor has e_0 \
-= 0\",
-   Union[Cases[jetSys, W1S x_ :> x, Infinity]] === {uu e0}];\
+(* The reduced one-sided jet system after SMreducedDirac, derived in the \
+printed frame: D_{pbar} E = 0 and the
+   opposite-channel Dirac equation gamma^p D_p E + E/(Sqrt[2] l) = 0 on the \
+exact L_- = 0 background with
+   W = W_0 + u W_1, generic spinor E = (e0, e1)(x+, x-, y). *)
+Module[{Wn, HNRone1, VexU1, VbexU1, V1, Vb1, gamma1, Phi1, spin1, DA1, DP1, \
+DPbar1, slashD1, Eg, jetRule, grav, dirOpp,
+        jetVars, sysDisplayed, mat, mC, computed, simp},
+   Wn = W0[xp, xm] + W1[xp, xm]/u;
+   HNRone1 = {{0, 0, 0, 1, 0, 0}, {0, 0, 0, 2 Lp[xp]/u, -1, 0}, {0, 0, 1, 0, \
+0, 0},
+      {1, 2 Lp[xp]/u, 0, -2 Lp[xp] Wn/u, Wn, 0}, {0, -1, 0, Wn, 0, 0}, {0, 0, \
+0, 0, 0, 1}};
+   (* SMvielbein in the one-sided limit cosh h -> 1, e^sigma sinh h -> L+/u, \
+e^{-sigma} sinh h -> 0 (upper local indices) *)
+   VexU1 = {{0, -1/Sqrt[2], 0}, {0, -(Lp[xp]/u)/Sqrt[2], 0}, {0, 0, 1/Sqrt[2]},
+      {Sqrt[2], Wn (Lp[xp]/u)/(2 Sqrt[2]), 0}, {0, -Wn/(2 Sqrt[2]), 0}, {0, \
+0, 1/Sqrt[2]}};
+   VbexU1 = {{0, 0, 0}, {1/Sqrt[2], 0, 0}, {0, 0, -1/Sqrt[2]},
+      {-Wn/(2 Sqrt[2]), -Sqrt[2] Lp[xp]/u, 0}, {0, Sqrt[2], 0}, {0, 0, \
+1/Sqrt[2]}};
+   V1 = VexU1 . eta3; Vb1 = VbexU1 . (-eta3);
+   NRH`CheckZero[\"one-sided printed frame: V eta V^T - Vbar etabar Vbar^T = \
+H(L+, W_0, W_1) and V -> Vinf at L+ = W = 0\",
+      {Simplify[V1 . eta3 . Transpose[V1] - Vb1 . (-eta3) . Transpose[Vb1] - \
+HNRone1],
+       (V1 /. {Lp[xp] -> 0, W0[xp, xm] -> 0, W1[xp, xm] -> 0}) - Vinf, (Vb1 \
+/. {Lp[xp] -> 0, W0[xp, xm] -> 0, W1[xp, xm] -> 0}) - Vbinf}];
+   gamma1 = GammaDFT[HNRone1, dinf, xsU];
+   Phi1 = Map[Together, SpinConnectionDFT[V1, eta3, gamma1, xsU], {3}];
+   spin1[a_] := 1/4 Sum[Phi1[[a, p, q]] gampqLow[p, q], {p, 3}, {q, 3}];
+   DA1[Es_, a_] := DblD[Es, a, xsU] + spin1[a] . Es;
+   DP1[Es_, p_] := Sum[(JJ . V1)[[a, p]] DA1[Es, a], {a, 6}];
+   DPbar1[Es_, pb_] := Sum[(JJ . Vb1)[[a, pb]] DA1[Es, a], {a, 6}];
+   slashD1[Es_] := Sum[gam3[[p]] . DP1[Es, p], {p, 3}];
+   Eg = {e0[xp, xm, u], e1[xp, xm, u]};
+   jetRule = {Derivative[1, 0, 0][e0][xp, xm, u] -> ep0, Derivative[0, 1, \
+0][e0][xp, xm, u] -> em0,
+      Derivative[0, 0, 1][e0][xp, xm, u] -> l ey0/(2 u), e0[xp, xm, u] -> e0,
+      Derivative[1, 0, 0][e1][xp, xm, u] -> ep1, Derivative[0, 1, 0][e1][xp, \
+xm, u] -> em1,
+      Derivative[0, 0, 1][e1][xp, xm, u] -> l ey1/(2 u), e1[xp, xm, u] -> \
+e1};
+   grav = Flatten[Table[DPbar1[Eg, pb], {pb, 3}]] /. jetRule;
+   dirOpp = (slashD1[Eg] + Eg/(Sqrt[2] l)) /. jetRule;
+   simp[e_] := Together[e /. u -> 1/uu];                                 (* \
+uu = e^{-2y/l}, the manuscript's u *)
+   NRH`CheckZero[\"SM text after SMreducedDirac: D_{pbar} E has the \
+components 0, -L+ u e0/l, em0/Sqrt2, em1/Sqrt2 - W1 u e0/(4l), ey0/Sqrt2, \
+ey1/Sqrt2\",
+      Together[(grav /. u -> 1/uu) - {0, -Lp[xp] uu e0/l, em0/Sqrt[2], \
+em1/Sqrt[2] - W1[xp, xm] uu e0/(4 l), ey0/Sqrt[2], ey1/Sqrt[2]}]];
+   NRH`CheckZero[\"SM text after SMreducedDirac: gamma^p D_p E + E/(Sqrt2 l) \
+has the components ey0/Sqrt2 + Sqrt2 e0/l and ep0 - ey1/Sqrt2 + L+ u em0\",
+      Together[(dirOpp /. u -> 1/uu) - {ey0/Sqrt[2] + Sqrt[2] e0/l, ep0 - \
+ey1/Sqrt[2] + Lp[xp] uu em0}]];
+   jetVars = {e0, e1, ep0, ep1, em0, em1, ey0, ey1};
+   sysDisplayed = {LpS uu e0, em0, W1S uu e0 - 2 Sqrt[2] l em1, ey0, ey1, 2 \
+e0 + l ey0, 2 LpS uu em0 + 2 ep0 - Sqrt[2] ey1};
+   mat[sys_] := Table[Coefficient[Together[sys[[i]]], jetVars[[j]]], {i, \
+Length[sys]}, {j, 8}];
+   computed = Join[grav, dirOpp] /. {Lp[xp] -> LpS, W1[xp, xm] -> W1S, W0[xp, \
+xm] -> W0S} /. u -> 1/uu;
+   mC = mat[Together[computed]];
+   NRH`Check[\"the displayed system has rank six (seven relations, one \
+dependent) and spans the derived equations\",
+      MatrixRank[mC] == 6 && MatrixRank[mat[sysDisplayed]] == 6 && \
+MatrixRank[Join[mC, mat[sysDisplayed]]] == 6];
+   NRH`Check[\"the solution space is exactly {e_1, d_+ e_1}: e_0 = 0, e_1 = \
+F_+(x^+) with d_+ e_1 unconstrained\",
+      Sort[RowReduce[NullSpace[mC]]] === Sort[{{0, 1, 0, 0, 0, 0, 0, 0}, {0, \
+0, 0, 1, 0, 0, 0, 0}}]];
+   NRH`Check[\"the mechanism: W_1 multiplies only e_0, and every d_+ L_+, d \
+W_0, d W_1 term cancels in the full connection\",
+      Union[Cases[sysDisplayed, W1S x_ :> x, Infinity]] === {uu e0} && \
+FreeQ[computed, Derivative[__][LpS | W0S | W1S][__]] &&
+      FreeQ[Together[computed], W0S]];
+];\
 \>", "Input"],
 
 Cell["\<\
@@ -448,7 +511,7 @@ one-sided (4,0)/(0,4) = extremal count\",
 
 Cell["NRH`FileSummary[];", "Input"]
 },
-WindowTitle->"NRH07_SM_KillingSpinors.nb",
+WindowTitle->"NRH09_SM5_UpliftKilling.nb",
 FrontEndVersion->"13.2 for Microsoft Windows (64-bit) (January 30, 2023)",
 StyleDefinitions->"Default.nb"
 ]
@@ -463,38 +526,38 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[598, 21, 40, 0, 70, "Title",ExpressionUUID->"4e9770bb-470b-43ad-bd3a-915c8ae85da2"],
-Cell[641, 23, 284, 6, 70, "Input",ExpressionUUID->"b76a0f21-67db-4cb1-9c88-ceee0472a9ee"],
-Cell[928, 31, 30, 0, 70, "Input",ExpressionUUID->"69657702-5615-450c-9234-133334df0e1c"],
-Cell[961, 33, 1294, 24, 70, "Input",ExpressionUUID->"29a6ac25-46be-46e6-ac92-65389486cad7"],
-Cell[2258, 59, 393, 9, 70, "Input",ExpressionUUID->"73d3f197-db9e-480b-8533-a14e83dfe47a"],
-Cell[2654, 70, 1461, 26, 70, "Input",ExpressionUUID->"8ec4cec8-46df-4f98-bf6d-e669b1f78463"],
-Cell[4118, 98, 417, 8, 70, "Input",ExpressionUUID->"b9447683-8f16-496c-b3c7-5e19c486f1f9"],
-Cell[4538, 108, 885, 17, 70, "Input",ExpressionUUID->"0c879e6b-023e-4a15-90bc-bb441d34a947"],
-Cell[5426, 127, 176, 4, 70, "Input",ExpressionUUID->"c073f069-d35d-43b2-9ee0-45984eb9a298"],
-Cell[5605, 133, 533, 14, 70, "Input",ExpressionUUID->"a8d0b88f-4ebe-4275-898b-fa961a6541aa"],
-Cell[6141, 149, 588, 12, 70, "Input",ExpressionUUID->"e7c59f2d-ddca-4708-bc21-636f62c1e2d6"],
-Cell[6732, 163, 1202, 25, 70, "Input",ExpressionUUID->"39663ac1-5d75-457f-a54f-8878d061bfe7"],
-Cell[7937, 190, 2091, 37, 70, "Input",ExpressionUUID->"f1862967-2d46-44d7-ad3b-c67f47cc1846"],
-Cell[10031, 229, 403, 9, 70, "Input",ExpressionUUID->"f3c0dd24-065b-4636-80cf-f506826fe836"],
-Cell[10437, 240, 448, 11, 70, "Input",ExpressionUUID->"a450e9d8-b122-4956-955c-05cfca63df7d"],
-Cell[10888, 253, 208, 4, 70, "Input",ExpressionUUID->"dda78bfc-f9b8-4419-ab2c-bfae87d33fd7"],
-Cell[11099, 259, 1532, 31, 70, "Input",ExpressionUUID->"2734bb93-540e-4c64-a3e8-53aa50cbc3ed"],
-Cell[12634, 292, 88, 2, 70, "Input",ExpressionUUID->"cfd12749-5d85-47fb-a203-f6cea8e0c615"],
-Cell[12725, 296, 378, 8, 70, "Input",ExpressionUUID->"c3771f14-c626-4240-861d-f5681ff1f496"],
-Cell[13106, 306, 315, 6, 70, "Input",ExpressionUUID->"c674cd58-7c25-4da1-aea9-3c39cb7e7784"],
-Cell[13424, 314, 137, 3, 70, "Input",ExpressionUUID->"5a804424-d900-4cd4-b83c-6ef42f011627"],
-Cell[13564, 319, 332, 6, 70, "Input",ExpressionUUID->"36d7b068-8ec9-41d2-b8f1-2adad3e8a766"],
-Cell[13899, 327, 278, 6, 70, "Input",ExpressionUUID->"3fe87593-5076-445d-86ef-8bb7aff29276"],
-Cell[14180, 335, 199, 4, 70, "Input",ExpressionUUID->"4bc6899a-b6e4-45e4-a2ef-79cdffc8845e"],
-Cell[14382, 341, 825, 17, 70, "Input",ExpressionUUID->"6da3156a-f309-463c-ab18-6d8b01e0e558"],
-Cell[15210, 360, 1045, 22, 70, "Input",ExpressionUUID->"d2983dbb-8204-4b64-b9f0-f686367cc464"],
-Cell[16258, 384, 733, 16, 70, "Input",ExpressionUUID->"b24b9927-a113-4aa1-a8bc-2f99c708a961"],
-Cell[16994, 402, 430, 10, 70, "Input",ExpressionUUID->"2361b6a7-632a-43d4-a0b4-059aa7950332"],
-Cell[17427, 414, 310, 6, 70, "Input",ExpressionUUID->"d76d551c-440e-442d-afcc-2b6e39a83133"],
-Cell[17740, 422, 755, 15, 70, "Input",ExpressionUUID->"b20cbd01-3e4f-4270-94e7-6b7e2f90c6c4"],
-Cell[18498, 439, 342, 7, 70, "Input",ExpressionUUID->"e43e2892-f473-45f4-8609-31ab147472fb"],
-Cell[18843, 448, 35, 0, 70, "Input",ExpressionUUID->"2003b60a-6d30-4a5f-bbb6-7a12217cebfc"]
+Cell[598, 21, 72, 0, 70, "Title",ExpressionUUID->"6dd43706-9bdb-46e8-ba90-31023da7a937"],
+Cell[673, 23, 284, 6, 70, "Input",ExpressionUUID->"deb37ab3-a6d4-4bc2-aadd-aee948c376b1"],
+Cell[960, 31, 30, 0, 70, "Input",ExpressionUUID->"432b8d47-262c-4a2a-81ac-a27a6847e2cb"],
+Cell[993, 33, 1294, 24, 70, "Input",ExpressionUUID->"ef6acdbe-e0f9-4ff6-a0d0-7cd3c46fc0b5"],
+Cell[2290, 59, 393, 9, 70, "Input",ExpressionUUID->"9083b952-7696-4c18-acb2-3997e936ce17"],
+Cell[2686, 70, 1461, 26, 70, "Input",ExpressionUUID->"da324692-7893-4704-921e-989cebb5bad9"],
+Cell[4150, 98, 417, 8, 70, "Input",ExpressionUUID->"ce7d797e-f52c-46d9-8291-80d00fd83eaf"],
+Cell[4570, 108, 885, 17, 70, "Input",ExpressionUUID->"db1e285b-a476-41fd-9fc4-ee36047c3d69"],
+Cell[5458, 127, 176, 4, 70, "Input",ExpressionUUID->"e2e6922c-e0ff-44a5-b8a5-e9b9fc357f27"],
+Cell[5637, 133, 533, 14, 70, "Input",ExpressionUUID->"04c2ef3b-9ade-4f47-9b7f-a36b442957b6"],
+Cell[6173, 149, 588, 12, 70, "Input",ExpressionUUID->"279085c0-3b1a-4224-bcf3-5f1a0eaa2b6c"],
+Cell[6764, 163, 1202, 25, 70, "Input",ExpressionUUID->"d7c81db9-d8cc-4acb-9cc0-72bd9fc9f699"],
+Cell[7969, 190, 2091, 37, 70, "Input",ExpressionUUID->"d2f9ec31-68da-4094-af37-825ac00264d4"],
+Cell[10063, 229, 403, 9, 70, "Input",ExpressionUUID->"53c6a5de-2b93-4fb9-aad1-3b8f916be239"],
+Cell[10469, 240, 448, 11, 70, "Input",ExpressionUUID->"c428e980-d6de-46e0-a821-4ffda6251636"],
+Cell[10920, 253, 208, 4, 70, "Input",ExpressionUUID->"aa4e925e-b9ca-495e-8c6a-9e0b65912faa"],
+Cell[11131, 259, 1532, 31, 70, "Input",ExpressionUUID->"40b700e8-89a3-4b9a-9e98-e0183208890a"],
+Cell[12666, 292, 88, 2, 70, "Input",ExpressionUUID->"74e90940-bb45-47de-9783-95322a4a4249"],
+Cell[12757, 296, 378, 8, 70, "Input",ExpressionUUID->"8329c225-2a74-419d-b7c8-baf4fc3d9d62"],
+Cell[13138, 306, 315, 6, 70, "Input",ExpressionUUID->"442a3838-bc9c-46e5-a1f6-68af0a701241"],
+Cell[13456, 314, 137, 3, 70, "Input",ExpressionUUID->"f9500e02-ea93-4b87-b0e9-2253ff884ab5"],
+Cell[13596, 319, 332, 6, 70, "Input",ExpressionUUID->"3c55d00d-1abb-4a48-a11a-bf783e11ada4"],
+Cell[13931, 327, 278, 6, 70, "Input",ExpressionUUID->"96e3fe87-f3e3-4abc-8cd3-8bec687510c0"],
+Cell[14212, 335, 199, 4, 70, "Input",ExpressionUUID->"984972ec-88c7-42a8-a253-c23c3db0df5c"],
+Cell[14414, 341, 825, 17, 70, "Input",ExpressionUUID->"c93dcd9e-6c14-4472-a513-94702f4b16fa"],
+Cell[15242, 360, 1045, 22, 70, "Input",ExpressionUUID->"61f226a3-6af0-49f9-b093-30851dfcb79b"],
+Cell[16290, 384, 4342, 79, 70, "Input",ExpressionUUID->"bbb97c90-1e59-432b-a149-53345cb6e44a"],
+Cell[20635, 465, 430, 10, 70, "Input",ExpressionUUID->"bbc4dc12-a44d-4ee4-8fbd-0173f89a797e"],
+Cell[21068, 477, 310, 6, 70, "Input",ExpressionUUID->"4deefb31-7347-4515-bffa-4ac28e672f83"],
+Cell[21381, 485, 755, 15, 70, "Input",ExpressionUUID->"77d64a0b-d24b-4227-9fec-3ccb849590c8"],
+Cell[22139, 502, 342, 7, 70, "Input",ExpressionUUID->"e0ab28f3-9e77-45b5-8855-e184351f96c1"],
+Cell[22484, 511, 35, 0, 70, "Input",ExpressionUUID->"555d7346-da05-4b12-ab2c-f183517a96b5"]
 }
 ]
 *)

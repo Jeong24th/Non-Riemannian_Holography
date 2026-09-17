@@ -1,58 +1,46 @@
 # Verification execution record
 
-## Recorded Mathematica run before the SM1 rewrite
+## Recorded Mathematica run of the reorganized suite
 
-Executed 2026-09-10 against manuscript SHA-256 `FCBE00570616A89820C3F969E8E97BA74454B8555DDA5EBC25ED56C268C5BE6F`.
+Executed 2026-09-17 against manuscript SHA-256
+`09B04C8BCF63EBDB4A879E1C893D28F43455756535340161D1138123B55DDA84`
+(Letter (1)-(22), SM (1)-(205); 231 numbered displays).
 
 - Environment: 13.2.1 for Microsoft Windows (64-bit) (January 27, 2023); `Windows-x86-64`.
 - Command: `wolframscript -file mathematica/NRH00_RunAll.wl`.
-- Command-line result: **270/270**, exit 0; 253.71 seconds.
-- Regenerated notebook: `NotebookEvaluate[NRH00_RunAll.nb]` returned `True`,
-  **270/270**; 252.97 seconds in the Mathematica front end.
-- All nine notebooks have the same held input expressions as their `.wl` sources.
-- Section counts: NRH02 30, NRH03 32, NRH04 72, NRH05 38, NRH06 32,
-  NRH07 52, NRH08 14.
-- The four existing manuscript-contract scripts also passed with that
-  source snapshot supplied privately: NR linearization, R falloff, Gamma-squared action
-  and doubled-yet-gauged reduction. No Python predicates were changed.
+- Command-line result: **336/336**, exit 0; 303.6 seconds.
+- Section counts: NRH02 49, NRH03 13, NRH04 20, NRH05 57, NRH06 67, NRH07 29,
+  NRH08 32, NRH09 55, NRH10 14. Every section file also passes when run on its own.
+- The `.nb` notebooks were generated from the `.wl` sources by a kernel script (Title cell
+  followed by one Input cell per blank-line-separated block) and hold the same input
+  expressions.
 
-This is the recorded run on the named source snapshot, not a fresh execution on
-the current manuscript. The Wolfram runtime was unavailable on the proofreading
-host; all `.wl` and `.nb` files remain byte-identical.
+The heavy steps are the direct linearization of the exact EDFE on the two general saddles
+through order e^{-2y/l} (NRH05, about 35 s and 47 s) and the assembly of the ordered cutoff
+bilinear with the computed momenta (NRH06, about 90 s in total).
 
-The original 247 checks are retained. The 23 additions cover moving-frame momentum
-variations, independent local fluctuation arguments, finite-state response through
-exp(-2y/l), logarithmic finite coefficients and Ward-derived A/M kernels. Negative
-controls distinguish frozen frames and the opposite source sign.
+## What the run establishes
 
-The exact symbolic data remain arbitrary functions in each check's stated domain.
-The 5x5 matrix's undetermined remainder, local contacts and Green-function completion
-are not evaluated. See EQUATION_LEDGER.md for per-equation restrictions, including
-the scope of the ten-dimensional and Killing-spinor checks.
+All checks are exact symbolic identities in arbitrary chiral functions L±(x±) and, on the
+non-Riemannian branch, an arbitrary hair function W₁(x⁺,x⁻), unless a check name states a
+restriction (constant L sectors, the one-sided L₋ = 0 family, the common vacuum). The
+near-boundary solutions are solved from the coupled hierarchy with free responses R±, H_s and
+zero mode c_s; the two-point functions are obtained from the ordered second variation with two
+independent bulk solutions; counterterm cancellation is tested modulo total tangential
+derivatives with the stress constraints imposed in both slots, with a negative control.
 
-## Current manuscript proofreading and Python execution
+Not evaluated: the undetermined interior responses and the hair self-response, the finite
+local terms induced by the cutoff subtraction, complete Green functions, the general variation
+formulas of SM 3.5 (the linearized EDFE are computed directly), and the full ten-dimensional
+fermionic equations in the current real Majorana basis (the reduced one-sided jet system is
+verified in the printed frame). See EQUATION_LEDGER.md for per-equation status.
 
-Current source SHA-256: `F4B468CA5AAD0BDFCD1EDD26659E1D0CAA48B6538345520A38621EEA4654BC0E` (2026-09-10).
-Letter (1)-(22), SM (1)-(202); all 226 numbered displays retain their formulas
-through this proofreading pass. The map was checked against the matching LaTeX build.
+## Historical runs
 
-Fresh algebra runs without the manuscript source:
-
-| Check | Result |
-|---|---|
-| NR common-vacuum linearization | PASS |
-| R fixed-frame exact projection | PASS |
-| Gamma-squared action and normalization | PASS |
-| Doubled-yet-gauged worldsheet reduction, strict dependency pin | PASS |
-| One-sided reduced Killing system (`most-general`) | PASS |
-
-The worldsheet LaTeX comparison passes against the current source. The other
-three legacy comparisons fail: they look for the removed fixed-frame solution,
-old response labels and earlier scope sentences. Their failures are not counted
-as passes and do not validate the rewritten general-source derivation. No Python
-verification code was changed or added in this release.
-
-The older exact-projection scripts and the current saddle-frame tangent h use
-different objects. Their coefficients must not be identified by name alone.
-Likewise the public reduced spinor script has its own frame convention; its pass
-does not certify the updated full ten-dimensional real basis.
+- 2026-09-10: the previous suite (NRH00–NRH08, 270 checks, 253.7 s) against source
+  `FCBE00570616A89820C3F969E8E97BA74454B8555DDA5EBC25ED56C268C5BE6F`. That suite is superseded by
+  the present files; its coverage is contained in the new files (the response checks now follow
+  the SM 3.4–3.8 route with general sources).
+- The Python scripts under `checks/` and `evidence/` are historical regressions; the three
+  LaTeX-contract comparisons that target the pre-rewrite SM 1 snapshot fail against the current
+  source and are not counted. No Python verification code was changed in this release.

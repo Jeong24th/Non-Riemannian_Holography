@@ -1,9 +1,11 @@
 (* ::Title:: *)
-(*NRH05 SM Charges Action*)
+(*NRH07 SM3 Covariant Charges and Asymptotic Algebras*)
+
+(* SM3.9: surface-charge one-form, Riemannian normalization, non-Riemannian charges, C-bracket and cocycles. *)
 
 ClearAll["Global`*"];
 Get[FileNameJoin[{If[FileExistsQ[FileNameJoin[{DirectoryName[$InputFileName], "NRH01_DFT_Tools.wl"}]], DirectoryName[$InputFileName], NotebookDirectory[]], "NRH01_DFT_Tools.wl"}]];
-NRH`BeginFile["NRH05_SM_Charges_Action.wl"];
+NRH`BeginFile["NRH07_SM3_Charges.wl"];
 
 JJ = ODDJ[3];
 
@@ -207,55 +209,6 @@ NRH`Check["(vi) minus-sector C-bracket closes up to a closed B-gauge parameter (
 NRH`CheckZero["(vi) that leftover is chiral and closed, and carries no surface potential",
    {D[bracketDiffM[[2]], xp], D[bracketDiffM[[2]], z],
     Limit[Together[eDenz KhatComp[HNRz, dNRz, {0, zm[xm], 0, 0, 0, 0}, 4, 6, xsZ]], z -> 0]}];
-
-gammaR = GammaDFT[HR, dR, xsU];
-NRH`CheckZero["on R: e^{-2d} S_(0) = L_Gamma2 + d_M(e^{-2d} B^M)",
-   Together[Exp[-2 dR] ScalarS0[HR, dR, xsU]
-      - Gamma2Density[HR, dR, gammaR, xsU]
-      - Sum[DblD[Exp[-2 dR] GammaBVector[HR, dR, xsU][[m]], m, xsU], {m, 6}]]];
-BvecR = GammaBVector[HR, dR, xsU];
-NRH`CheckZero["on R: B^y = 4 d_y d and e^{-2d}B^y = -(4/l)(u + L+L-/u)",
-   {Together[BvecR[[6]] - 4 (2 u/l) D[dR, u]],
-    Together[Exp[-2 dR] BvecR[[6]] + 4/l (u + Lp[xp] Lm[xm]/u)]}];
-
-chy = -(2 Sqrt[2]/l) Sinh[ch/Sqrt[2]];
-chp = -Sqrt[2] Sinh[ch/Sqrt[2]] Derivative[1][psip][xp]/psip[xp];
-chm = -Sqrt[2] Sinh[ch/Sqrt[2]] Derivative[1][psim][xm]/psim[xm];
-xsNR = {Function[e, D[e, xp] + chp D[e, ch]], Function[e, D[e, xm] + chm D[e, ch]],
-   Function[e, chy D[e, ch] + D[e, Ysym]]};
-esig = psim[xm]/psip[xp];
-HNRchi = {{0, 0, 0, Cosh[ch], -Sinh[ch]/esig, 0}, {0, 0, 0, esig Sinh[ch], -Cosh[ch], 0},
-   {0, 0, 1, 0, 0, 0},
-   {Cosh[ch], esig Sinh[ch], 0, -W[xp, xm, ch] esig Sinh[ch], W[xp, xm, ch] Cosh[ch], 0},
-   {-Sinh[ch]/esig, -Cosh[ch], 0, W[xp, xm, ch] Cosh[ch], -W[xp, xm, ch] Sinh[ch]/esig, 0},
-   {0, 0, 0, 0, 0, 1}};
-dNRchi = -Ysym/l + Log[Cosh[ch/(2 Sqrt[2])]];
-NRHZeroNR[label_, e_] := NRH`CheckZero[label,
-   Together[ExpandAll[TrigToExp[e /. ch -> 2 Sqrt[2] Log[T]]] /. Log[T] -> LT]];
-
-gammaNRc = GammaDFT[HNRchi, dNRchi, xsNR];
-NRHZeroNR["on NR (arbitrary W): e^{-2d} S_(0) = L_Gamma2 + d_M(e^{-2d} B^M)",
-   Exp[-2 dNRchi] ScalarS0[HNRchi, dNRchi, xsNR]
-      - Gamma2Density[HNRchi, dNRchi, gammaNRc, xsNR]
-      - Sum[DblD[Exp[-2 dNRchi] GammaBVector[HNRchi, dNRchi, xsNR][[m]], m, xsNR], {m, 6}]];
-BvecNR = GammaBVector[HNRchi, dNRchi, xsNR];
-NRH`Check["on NR: B^pm and B^y contain no W (the hair never enters the flux)",
-   FreeQ[Together[BvecNR], W]];
-NRHZeroNR["on NR: B^y = 4 d_y d",
-   BvecNR[[6]] - 4 (chy D[dNRchi, ch] + D[dNRchi, Ysym])];
-
-eNRu = u - Lp[xp] Lm[xm]/(2 u);
-NRH`CheckZero["on NR: -2 d_y e^{-2d} = -(4/l)(u + (L+L-/2)/u) [mu-dichotomy]",
-   Together[-2 (2 u/l) D[eNRu, u] + 4/l (u + Lp[xp] Lm[xm]/(2 u))]];
-
-SrenY = 1/(16 Pi G) (4/l (Exp[2 Y/l] + mu Exp[-2 Y/l]) - 8/l Sqrt[mu] - 4/l (Exp[2 Y/l] - mu Exp[-2 Y/l]));
-NRH`CheckZero["the regulated combination equals (8 mu/l) e^{-2Y/l} - (8/l) Sqrt[mu]",
-   Together[SrenY - 1/(16 Pi G) (8 mu/l Exp[-2 Y/l] - 8/l Sqrt[mu])]];
-NRH`CheckZero["Y -> Infinity limit gives S_ren = -(8 Sqrt[mu])/(16 pi G l) Int d^2x",
-   Limit[SrenY, Y -> Infinity, Assumptions -> l > 0 && mu > 0] + 8 Sqrt[mu]/(16 Pi G l)];
-NRH`CheckZero["endpoints: e^{-2d} = 0 at u^2 = L+L- (R horizon) and u^2 = L+L-/2 (NR, q = 1)",
-   {Together[Exp[-2 dR] /. u -> Sqrt[Lp[xp] Lm[xm]]],
-    Together[eNRu /. u -> Sqrt[Lp[xp] Lm[xm]/2]]}];
 
 NRH`CheckZero["footnote: with delta T = eps T' + 2 T eps' - l^2 eps''' the combination L + T/4 obeys the law with -(l^2/4) eps'''",
    Module[{dL = e1[xp] D[Lp[xp], xp] + 2 Lp[xp] D[e1[xp], xp],

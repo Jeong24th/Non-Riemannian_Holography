@@ -10,23 +10,28 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     19871,        468]
-NotebookOptionsPosition[     16528,        423]
-NotebookOutlinePosition[     16841,        437]
-CellTagsIndexPosition[     16798,        434]
-WindowTitle->NRH05_SM_Charges_Action.nb
+NotebookDataLength[     16769,        397]
+NotebookOptionsPosition[     13812,        356]
+NotebookOutlinePosition[     14119,        370]
+CellTagsIndexPosition[     14076,        367]
+WindowTitle->NRH07_SM3_Charges.nb
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
-Cell["NRH05 SM Charges Action", "Title"],
+Cell["NRH07 SM3 Covariant Charges and Asymptotic Algebras", "Title"],
+
+Cell["\<\
+(* SM3.9: surface-charge one-form, Riemannian normalization, non-Riemannian \
+charges, C-bracket and cocycles. *)\
+\>", "Input"],
 
 Cell["\<\
 ClearAll[\"Global`*\"];
 Get[FileNameJoin[{If[FileExistsQ[FileNameJoin[{DirectoryName[$InputFileName], \
 \"NRH01_DFT_Tools.wl\"}]], DirectoryName[$InputFileName], \
 NotebookDirectory[]], \"NRH01_DFT_Tools.wl\"}]];
-NRH`BeginFile[\"NRH05_SM_Charges_Action.wl\"];\
+NRH`BeginFile[\"NRH07_SM3_Charges.wl\"];\
 \>", "Input"],
 
 Cell["JJ = ODDJ[3];", "Input"],
@@ -337,78 +342,6 @@ xsZ]], z -> 0]}];\
 \>", "Input"],
 
 Cell["\<\
-gammaR = GammaDFT[HR, dR, xsU];
-NRH`CheckZero[\"on R: e^{-2d} S_(0) = L_Gamma2 + d_M(e^{-2d} B^M)\",
-   Together[Exp[-2 dR] ScalarS0[HR, dR, xsU]
-      - Gamma2Density[HR, dR, gammaR, xsU]
-      - Sum[DblD[Exp[-2 dR] GammaBVector[HR, dR, xsU][[m]], m, xsU], {m, 6}]]];
-BvecR = GammaBVector[HR, dR, xsU];
-NRH`CheckZero[\"on R: B^y = 4 d_y d and e^{-2d}B^y = -(4/l)(u + L+L-/u)\",
-   {Together[BvecR[[6]] - 4 (2 u/l) D[dR, u]],
-    Together[Exp[-2 dR] BvecR[[6]] + 4/l (u + Lp[xp] Lm[xm]/u)]}];\
-\>", "Input"],
-
-Cell["\<\
-chy = -(2 Sqrt[2]/l) Sinh[ch/Sqrt[2]];
-chp = -Sqrt[2] Sinh[ch/Sqrt[2]] Derivative[1][psip][xp]/psip[xp];
-chm = -Sqrt[2] Sinh[ch/Sqrt[2]] Derivative[1][psim][xm]/psim[xm];
-xsNR = {Function[e, D[e, xp] + chp D[e, ch]], Function[e, D[e, xm] + chm D[e, \
-ch]],
-   Function[e, chy D[e, ch] + D[e, Ysym]]};
-esig = psim[xm]/psip[xp];
-HNRchi = {{0, 0, 0, Cosh[ch], -Sinh[ch]/esig, 0}, {0, 0, 0, esig Sinh[ch], \
--Cosh[ch], 0},
-   {0, 0, 1, 0, 0, 0},
-   {Cosh[ch], esig Sinh[ch], 0, -W[xp, xm, ch] esig Sinh[ch], W[xp, xm, ch] \
-Cosh[ch], 0},
-   {-Sinh[ch]/esig, -Cosh[ch], 0, W[xp, xm, ch] Cosh[ch], -W[xp, xm, ch] \
-Sinh[ch]/esig, 0},
-   {0, 0, 0, 0, 0, 1}};
-dNRchi = -Ysym/l + Log[Cosh[ch/(2 Sqrt[2])]];
-NRHZeroNR[label_, e_] := NRH`CheckZero[label,
-   Together[ExpandAll[TrigToExp[e /. ch -> 2 Sqrt[2] Log[T]]] /. Log[T] -> \
-LT]];\
-\>", "Input"],
-
-Cell["\<\
-gammaNRc = GammaDFT[HNRchi, dNRchi, xsNR];
-NRHZeroNR[\"on NR (arbitrary W): e^{-2d} S_(0) = L_Gamma2 + d_M(e^{-2d} B^M)\",
-   Exp[-2 dNRchi] ScalarS0[HNRchi, dNRchi, xsNR]
-      - Gamma2Density[HNRchi, dNRchi, gammaNRc, xsNR]
-      - Sum[DblD[Exp[-2 dNRchi] GammaBVector[HNRchi, dNRchi, xsNR][[m]], m, \
-xsNR], {m, 6}]];
-BvecNR = GammaBVector[HNRchi, dNRchi, xsNR];
-NRH`Check[\"on NR: B^pm and B^y contain no W (the hair never enters the flux)\
-\",
-   FreeQ[Together[BvecNR], W]];
-NRHZeroNR[\"on NR: B^y = 4 d_y d\",
-   BvecNR[[6]] - 4 (chy D[dNRchi, ch] + D[dNRchi, Ysym])];\
-\>", "Input"],
-
-Cell["\<\
-eNRu = u - Lp[xp] Lm[xm]/(2 u);
-NRH`CheckZero[\"on NR: -2 d_y e^{-2d} = -(4/l)(u + (L+L-/2)/u) [mu-dichotomy]\
-\",
-   Together[-2 (2 u/l) D[eNRu, u] + 4/l (u + Lp[xp] Lm[xm]/(2 u))]];\
-\>", "Input"],
-
-Cell["\<\
-SrenY = 1/(16 Pi G) (4/l (Exp[2 Y/l] + mu Exp[-2 Y/l]) - 8/l Sqrt[mu] - 4/l \
-(Exp[2 Y/l] - mu Exp[-2 Y/l]));
-NRH`CheckZero[\"the regulated combination equals (8 mu/l) e^{-2Y/l} - (8/l) \
-Sqrt[mu]\",
-   Together[SrenY - 1/(16 Pi G) (8 mu/l Exp[-2 Y/l] - 8/l Sqrt[mu])]];
-NRH`CheckZero[\"Y -> Infinity limit gives S_ren = -(8 Sqrt[mu])/(16 pi G l) \
-Int d^2x\",
-   Limit[SrenY, Y -> Infinity, Assumptions -> l > 0 && mu > 0] + 8 \
-Sqrt[mu]/(16 Pi G l)];
-NRH`CheckZero[\"endpoints: e^{-2d} = 0 at u^2 = L+L- (R horizon) and u^2 = \
-L+L-/2 (NR, q = 1)\",
-   {Together[Exp[-2 dR] /. u -> Sqrt[Lp[xp] Lm[xm]]],
-    Together[eNRu /. u -> Sqrt[Lp[xp] Lm[xm]/2]]}];\
-\>", "Input"],
-
-Cell["\<\
 NRH`CheckZero[\"footnote: with delta T = eps T' + 2 T eps' - l^2 eps''' the \
 combination L + T/4 obeys the law with -(l^2/4) eps'''\",
    Module[{dL = e1[xp] D[Lp[xp], xp] + 2 Lp[xp] D[e1[xp], xp],
@@ -421,7 +354,7 @@ D[e1[xp], {xp, 3}])]]];\
 
 Cell["NRH`FileSummary[];", "Input"]
 },
-WindowTitle->"NRH05_SM_Charges_Action.nb",
+WindowTitle->"NRH07_SM3_Charges.nb",
 FrontEndVersion->"13.2 for Microsoft Windows (64-bit) (January 30, 2023)",
 StyleDefinitions->"Default.nb"
 ]
@@ -436,40 +369,36 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[598, 21, 40, 0, 70, "Title",ExpressionUUID->"352fcb55-2e41-4c89-ba09-4fdf26e03584"],
-Cell[641, 23, 284, 6, 70, "Input",ExpressionUUID->"6eac48cc-100f-4eac-abe5-0636e1e4c3ba"],
-Cell[928, 31, 30, 0, 70, "Input",ExpressionUUID->"6753fd66-2d62-49bb-90ae-d16b6946bc6e"],
-Cell[961, 33, 945, 25, 70, "Input",ExpressionUUID->"441f36b6-0a3e-47d9-b703-8151495e76df"],
-Cell[1909, 60, 178, 4, 70, "Input",ExpressionUUID->"d31c45a3-f781-405a-817d-02103703a999"],
-Cell[2090, 66, 62, 0, 70, "Input",ExpressionUUID->"cf72caaa-b032-4c44-ab91-952570e9d26c"],
-Cell[2155, 68, 186, 5, 70, "Input",ExpressionUUID->"5f1245fe-12b0-4e1c-8028-b8414a64109d"],
-Cell[2344, 75, 290, 5, 70, "Input",ExpressionUUID->"c568d99b-8308-4aa4-841c-08f9dd14f570"],
-Cell[2637, 82, 264, 5, 70, "Input",ExpressionUUID->"33ba4699-0f29-49a8-b4d9-2f4f053f16c0"],
-Cell[2904, 89, 280, 6, 70, "Input",ExpressionUUID->"56d93d21-968b-4c46-9652-677c1a1ab05f"],
-Cell[3187, 97, 716, 14, 70, "Input",ExpressionUUID->"97b40944-cd35-44de-a4cd-ec66b86acb70"],
-Cell[3906, 113, 198, 5, 70, "Input",ExpressionUUID->"871a6cfd-30ab-4988-aae7-144662879bb5"],
-Cell[4107, 120, 492, 10, 70, "Input",ExpressionUUID->"19bf7757-3e0e-48c4-9def-208fef517997"],
-Cell[4602, 132, 320, 7, 70, "Input",ExpressionUUID->"8713daa6-951f-4f6c-b4a5-9fa414e164d1"],
-Cell[4925, 141, 626, 16, 70, "Input",ExpressionUUID->"844f7dba-8b0d-48cb-978f-b621cf3cdf4c"],
-Cell[5554, 159, 489, 10, 70, "Input",ExpressionUUID->"486e1670-5064-48df-a98e-e11d32c05b9d"],
-Cell[6046, 171, 255, 5, 70, "Input",ExpressionUUID->"3a6d1a9e-be32-4c57-b51a-9651a79d664b"],
-Cell[6304, 178, 485, 11, 70, "Input",ExpressionUUID->"ef4fb8c1-31ae-4ba6-b51f-ca0073492e88"],
-Cell[6792, 191, 352, 8, 70, "Input",ExpressionUUID->"6e2e4a00-c38a-4628-9c80-93c47194b3bc"],
-Cell[7147, 201, 786, 16, 70, "Input",ExpressionUUID->"316d2ac8-c1a7-4ff4-9c75-d7fd9cca5ae3"],
-Cell[7936, 219, 242, 5, 70, "Input",ExpressionUUID->"f6df52f7-6734-4c5c-bcb3-600f54d4468b"],
-Cell[8181, 226, 297, 6, 70, "Input",ExpressionUUID->"00923d40-9082-427f-8e75-1622d4a27990"],
-Cell[8481, 234, 1242, 24, 70, "Input",ExpressionUUID->"7e702901-c885-4bea-b16b-1ad62f9ca393"],
-Cell[9726, 260, 710, 14, 70, "Input",ExpressionUUID->"11c2116c-732d-425b-8445-a750e9e124b3"],
-Cell[10439, 276, 1192, 25, 70, "Input",ExpressionUUID->"4fa6fddd-a089-4d47-b100-617e2933d5d5"],
-Cell[11634, 303, 865, 17, 70, "Input",ExpressionUUID->"cf3de932-a4c4-4713-befd-4d7d1d84a703"],
-Cell[12502, 322, 657, 14, 70, "Input",ExpressionUUID->"a5aa311c-c04e-449f-9197-8fb52f4d7b20"],
-Cell[13162, 338, 517, 10, 70, "Input",ExpressionUUID->"f209b4d2-82e4-44f5-8d0c-d8d7dabfd68b"],
-Cell[13682, 350, 851, 20, 70, "Input",ExpressionUUID->"3b63f089-f4a7-4280-b638-33df9bc1e564"],
-Cell[14536, 372, 600, 13, 70, "Input",ExpressionUUID->"08b5c7f1-1c89-4e9b-b3c2-4ecade114206"],
-Cell[15139, 387, 208, 5, 70, "Input",ExpressionUUID->"b87ff4b5-c9bb-4303-a526-37eb6c35b711"],
-Cell[15350, 394, 682, 14, 70, "Input",ExpressionUUID->"b3165317-51bd-4442-9678-404c01721ff4"],
-Cell[16035, 410, 451, 9, 70, "Input",ExpressionUUID->"07ed9770-4e6e-4bda-b3eb-6ff25960b9f6"],
-Cell[16489, 421, 35, 0, 70, "Input",ExpressionUUID->"e9c79362-e9e1-4737-abf6-e02b3ca80ab5"]
+Cell[592, 21, 68, 0, 70, "Title",ExpressionUUID->"87901338-a963-4ee6-b9cb-674b339f660f"],
+Cell[663, 23, 138, 3, 70, "Input",ExpressionUUID->"91dcf2dc-14da-476e-9e02-bdd2440eab90"],
+Cell[804, 28, 278, 6, 70, "Input",ExpressionUUID->"8fdab7aa-1d46-4dee-942f-57091accda96"],
+Cell[1085, 36, 30, 0, 70, "Input",ExpressionUUID->"31227100-2814-4f6c-b646-0312352370d4"],
+Cell[1118, 38, 945, 25, 70, "Input",ExpressionUUID->"098f67b7-feaa-42d0-81e2-ba0414b1664a"],
+Cell[2066, 65, 178, 4, 70, "Input",ExpressionUUID->"25a728ed-b018-43a4-a6dd-549e297955b9"],
+Cell[2247, 71, 62, 0, 70, "Input",ExpressionUUID->"0b0482ff-bcfb-4c0f-8879-e1bc8928616e"],
+Cell[2312, 73, 186, 5, 70, "Input",ExpressionUUID->"04fb7b8b-841b-49b0-9cac-d3ee60c479b6"],
+Cell[2501, 80, 290, 5, 70, "Input",ExpressionUUID->"34d32c10-6e7c-494f-bc26-25b73b3cab20"],
+Cell[2794, 87, 264, 5, 70, "Input",ExpressionUUID->"d6dde84a-da6c-46c3-988f-07db1ddb7f09"],
+Cell[3061, 94, 280, 6, 70, "Input",ExpressionUUID->"ba127d05-0648-4ffc-9d9b-de44a4a949bf"],
+Cell[3344, 102, 716, 14, 70, "Input",ExpressionUUID->"e5053549-953d-484c-b1dd-b8d9a01fe0f0"],
+Cell[4063, 118, 198, 5, 70, "Input",ExpressionUUID->"aa7f69fe-ce86-4340-b5c1-78ca172b575b"],
+Cell[4264, 125, 492, 10, 70, "Input",ExpressionUUID->"528b55fd-64c4-421f-bc3e-ee9c03164a20"],
+Cell[4759, 137, 320, 7, 70, "Input",ExpressionUUID->"b8a3a913-4a71-4a21-8a0c-b588fba3928f"],
+Cell[5082, 146, 626, 16, 70, "Input",ExpressionUUID->"cad9dcd6-aed1-4a68-ad39-060487688947"],
+Cell[5711, 164, 489, 10, 70, "Input",ExpressionUUID->"6d2c8ff9-5692-4c43-b8c6-29d3ed1d20d9"],
+Cell[6203, 176, 255, 5, 70, "Input",ExpressionUUID->"39e71a08-7361-4229-8324-142f07c858d6"],
+Cell[6461, 183, 485, 11, 70, "Input",ExpressionUUID->"d9274e11-ce98-43f7-947b-f6d7465ef374"],
+Cell[6949, 196, 352, 8, 70, "Input",ExpressionUUID->"f377e4a1-8fe3-4af5-8f4d-4189e9846f59"],
+Cell[7304, 206, 786, 16, 70, "Input",ExpressionUUID->"5b0ed3c3-6971-4d68-a392-d261277f4de8"],
+Cell[8093, 224, 242, 5, 70, "Input",ExpressionUUID->"7ec8929c-8498-4d05-94ca-1b972ca17698"],
+Cell[8338, 231, 297, 6, 70, "Input",ExpressionUUID->"e49affeb-010d-4ddc-81c0-f891b31b49d1"],
+Cell[8638, 239, 1242, 24, 70, "Input",ExpressionUUID->"9652a70a-57bd-4d23-82ae-e94a5245696d"],
+Cell[9883, 265, 710, 14, 70, "Input",ExpressionUUID->"5b1024fb-5be7-4786-996c-b114d3175aeb"],
+Cell[10596, 281, 1192, 25, 70, "Input",ExpressionUUID->"bef6f84f-db71-41cd-84c0-21c26b90269b"],
+Cell[11791, 308, 865, 17, 70, "Input",ExpressionUUID->"2ea82ee7-d17d-4359-aba4-4bd72836ccf0"],
+Cell[12659, 327, 657, 14, 70, "Input",ExpressionUUID->"a379060c-3366-4869-8e94-c144a49c9938"],
+Cell[13319, 343, 451, 9, 70, "Input",ExpressionUUID->"d4b4040d-ba55-4e97-b4f2-e83f43e9865d"],
+Cell[13773, 354, 35, 0, 70, "Input",ExpressionUUID->"b6865982-3054-4cfa-b560-d2c01696589c"]
 }
 ]
 *)
