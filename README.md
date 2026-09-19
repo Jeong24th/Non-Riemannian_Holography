@@ -23,9 +23,12 @@ also provided as a double-clickable `.nb` notebook with identical content — do
 `mathematica/` folder, open `NRH00_RunAll.nb`, and use *Evaluation → Evaluate Notebook*.
 See `mathematica/README.md` for the file-by-file coverage table, the conventions and the
 method notes. `mathematica/EQUATION_LEDGER.md` walks through every numbered equation of
-the Letter (1)–(22) and the Supplemental Material (1)–(205) in order and states the public
+the Letter (1)–(22) and the Supplemental Material (1)–(209) in order and states the public
 coverage of each one (or states that it is a definition, a cited statement, or currently
-uncovered). The execution record is in `mathematica/REFERENCE_RUN.md`, and
+uncovered). Four displays added to the manuscript on 2026-09-18 (SM 105–107, the
+boundary-curvature counterterm candidate, and SM 124, the linearized Weyl anomaly) are not
+yet covered by the suite and are marked accordingly. The execution record is in
+`mathematica/REFERENCE_RUN.md`, and
 `mathematica/MANUSCRIPT_MAP.md` records the current manuscript SHA-256 and the
 LaTeX-label-to-equation-number mapping.
 

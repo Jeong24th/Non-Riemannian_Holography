@@ -73,7 +73,7 @@ both saddles. `eta3` is the null-frame metric and `etab3 = -eta3`.
 | `RiemannianSaddleExact[]`, `NonRiemannianSaddleExact[W]` | exact saddles with frames V, V̄, dilaton and (R) metric and B field |
 | `SaddleSeries[sd, n]` | the saddle truncated to order z^n (exact: nothing lowers the z order) |
 | `hpp, hpm, hmp, hmm, dd` | h_{⊕⊕̄}, h_{⊕⊖̄}, h_{⊖⊕̄}, h_{⊖⊖̄} and δd as functions of (xp, xm, yy) |
-| `a, b, r, c, v` (slot k: `a1`, `a2`, …) | the sources (h^(0)_{⊖⊖̄}, h^(0)_{⊕⊕̄}, h^(0)_{⊖⊕̄}, h^(0)_{⊕⊖̄}, δd^(0)) of SM (105) |
+| `a, b, r, c, v` (slot k: `a1`, `a2`, …) | the sources (h^(0)_{⊖⊖̄}, h^(0)_{⊕⊕̄}, h^(0)_{⊖⊕̄}, h^(0)_{⊕⊖̄}, δd^(0)) of SM (108) |
 | `Rp, Rm, H, cs` | the responses h^(2)_{⊕⊕̄}, h^(2)_{⊖⊖̄}, h^(2)_{⊕⊖̄} and the zero mode c_s |
 | `LinearizedEDFEComponents` | E_{pq̄}, E₀ of SM (41) through the requested z order |
 | `MomentumProjected` | A^y_{pq̄} and the same-chirality projections of SM (87b) |
