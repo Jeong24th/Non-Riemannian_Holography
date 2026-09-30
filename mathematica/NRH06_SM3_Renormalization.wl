@@ -1,9 +1,15 @@
 (* ::Title:: *)
 (*NRH06 SM3 Radial Momenta, Counterterms and Two-Point Functions*)
 
-(* SM3.5-SM3.8: radial momenta and the second on-shell variation, one-point functions, quadratic derivative
-   counterterms, and the two-point functions obtained from the quadratic action with both variation slots
-   extended to near-boundary bulk solutions (never by differentiating one-point functions).
+(* Current SM3.2: action variations and counterterms; SM3.3: the vacuum normalization;
+   SM3.4-3.5: general R/NR responses and kernels. Expanded ordered action calculations and
+   contact rows are retained as ancillary checks, with stable pre-rewrite assertion identifiers.
+   Both variation slots are extended to near-boundary bulk solutions. These checks provide
+   indirect support for the compact variation formulas, not a direct equality test of the
+   new curved-index first variation or symmetrically polarized Hessian.
+   The fixed-flux K3 master equation and interior matching of H_R are not tested here.
+   Historical conditional uniformization checks establish algebraic factors only; they do
+   not derive the vacuum hair response or prescribe the general NR interior state.
    z = e^{-2y/l} is the manuscript's u; yy is the explicit y; the cutoff is y = Y = yy, e^{2Y/l} = 1/z. *)
 
 ClearAll["Global`*"];
@@ -13,7 +19,7 @@ Needs["VariationalMethods`"];
 JJ = ODDJ[3];
 
 (* ::Section:: *)
-(*SM3.5 Radial momenta and the second variation*)
+(* Current SM3.2: radial momenta and ancillary ordered second-variation checks *)
 
 (* GammaDFT, variation, defB: the Gamma^2 variation identity with generic tangential h and delta d on constant BTZ *)
 xsU = {xp, xm, Function[e, (2 u/l) D[e, u]]};
@@ -131,11 +137,14 @@ Module[{rEx = RiemannianSaddleExact[], dHR, hR, nrF, dHNR, hNR, dW1},
        SeriesZ[D[nrF["d"] /. {psip -> Function[x, psip[x] + s dpsip[x]]}, s] /. s -> 0, 1]}]];
 
 (* ::Section:: *)
-(*SM3.7-3.8 The ordered second variation with both slots as bulk solutions; counterterms; finite rows; kernels*)
+(* Current SM3.2-3.5: ordered bulk-solution Hessian, counterterms, ancillary finite rows, and kernels *)
 
-(* The near-boundary solutions of SM3.4 (verified in NRH05).  Slot k = 1, 2 carries sources a_k, b_k, r_k, c_k, v_k
-   = (h^(0)_{om omb}, h^(0)_{op opb}, h^(0)_{om opb}, h^(0)_{op omb}, delta d^(0)) and responses Rp_k, Rm_k, H_k, cs_k. *)
-(* Machine-transcribed target formulas from the manuscript displays (SM3.4); generated from the TeX source. *)
+(* Expanded near-boundary solutions checked in NRH05 and underlying current SM3.4-3.5.
+   Slot k = 1, 2 carries sources a_k, b_k, r_k, c_k, v_k
+   = (h^(0)_{om omb}, h^(0)_{op opb}, h^(0)_{om opb}, h^(0)_{op omb}, delta d^(0)).
+   Rp_k,Rm_k are the full h_pp^(2,0),h_mm^(2,0), including compact b/omega/local terms;
+   H_k is the full hair response H_s, not a partial Omega coefficient. On R, cs_k = -4 f_0. *)
+(* Historical machine-transcribed expanded targets; the current compact a/b/omega/U formulas require a separate direct bridge. *)
 (* Fields: hpp,hpm,hmp,hmm,dd of [xp,xm,yy]; sources a0,b0,r0,c0,v0 of [xp,xm]; responses Rp,Rm of [xp,xm]. *)
 E0target["pp"] := ReleaseHold[-1/4*Hold[D[hmp[xp, xm, yy], {xp, 2}]] - 1/4*Hold[D[hpp[xp, xm, yy], {yy, 2}]] - 1/2*Hold[D[hpp[xp, xm, yy], yy]]/l];
 E0target["pm"] := ReleaseHold[-1/4*Hold[D[hmm[xp, xm, yy], {xp, 2}]] - 1/4*Hold[D[hpm[xp, xm, yy], {yy, 2}]] - 1/4*Hold[D[hpp[xp, xm, yy], {xm, 2}]] + Hold[D[dd[xp, xm, yy], xm, xp]] - 1/2*Hold[D[hpm[xp, xm, yy], yy]]/l];
@@ -332,7 +341,7 @@ NRH`CheckZero["SMctadjoint: (L+ d+ + (1/2) d+ L+)^dagger = -(L+ d+ + (1/2) d+ L+
    Module[{op, f = ff[xp], g = gg[xp]}, op[e_] := Lp[xp] D[e, xp] + 1/2 D[Lp[xp], xp] e;
       Together[g op[f] + f op[g] - D[Lp[xp] f g, xp]]]];
 
-(* SMfullfinitehessian and the explicit rows SMdirectstressrows / SMdirectremainingrows *)
+(* SMfullfinitehessian, SMdirectstressrows, SMdirectremainingrows: historical finite-source-scheme Hessian and contact rows, retained as ancillary checks. *)
 finiteDisplay[s_] := Module[{f1 = solution[s, 1], f2 = solution[s, 2], p1, p2, coefY, coefZ},
    coefZ[e_, n_] := Coefficient[Expand[e], z, n]; coefY[e_, j_] := Coefficient[Expand[e], yy, j];
    p1 = Association[Table[ch -> <|"0" -> coefY[coefZ[f1[ch], 0], 0], "1" -> coefY[coefZ[f1[ch], 0], 1], "2" -> coefY[coefZ[f1[ch], 1], 0], "2L" -> coefY[coefZ[f1[ch], 1], 1]|>,
@@ -348,7 +357,7 @@ localize[e_, s_] := Module[{ex = Expand[e], rules},
    rules = {Rp1[xp, xm] Derivative[0, n_][r2][xp, xm] /; n >= 1 :> (-1)^n r2[xp, xm] D[Rp1[xp, xm], {xm, n}],
       Rm1[xp, xm] Derivative[n_, 0][r2][xp, xm] /; n >= 1 :> (-1)^n r2[xp, xm] D[Rm1[xp, xm], {xp, n}]};
    Expand[(ex /. rules) //. constraintRules[s]]];
-(* displayed rows q_{s,I} with slot-2 arguments (SMdirectstressrows, SMdirectremainingrows) *)
+(* Historical rows q_{s,I} with slot-2 arguments (SMdirectstressrows, SMdirectremainingrows); no longer displayed in the compact SM. *)
 qDisplayed[s_] := Module[{eps = epsS[s], J = Jsrc[s], D2 = Function[{f, v}, D[f, Sequence @@ v]], a = a2[xp, xm], b = b2[xp, xm], r = r2[xp, xm], c = c2[xp, xm], v = v2[xp, xm], LpS, LmS},
    LpS = Lp[xp]; LmS = Lm[xm];
    <|"a" -> Rp2[xp, xm]/l + eps l^3/16 D[r, {xp, 3}, xm] - 3 l/4 LpS D[r, xp, xm] - l/2 D[LpS, xp] D[r, xm] - 4/l LpS v,
@@ -376,7 +385,7 @@ Do[
          Together[rows["v"]/(4 16 Pi G) - If[s == "R",
             l/(64 Pi G) (-D[a2[xp, xm], {xp, 2}] - D[b2[xp, xm], {xm, 2}] + (l^2/4) D[r2[xp, xm], {xp, 2}, {xm, 2}] - Lp[xp] D[r2[xp, xm], {xm, 2}] - Lm[xm] D[r2[xp, xm], {xp, 2}] + 4 D[v2[xp, xm], xp, xm]),
             -l/(64 Pi G) (Lp[xp] D[r2[xp, xm], {xm, 2}] + Lm[xm] D[r2[xp, xm], {xp, 2}])] /. NRLpsi]];
-      NRH`Check["fourth row on " <> s <> ": the type-changing source couples only to c_s/l (the 4 delta d^(0)/l terms cancel against the measure term)",
+      NRH`Check["fourth row on " <> s <> ": the fourth h_pm/W0-source row couples only to c_s/l (the 4 delta d^(0)/l terms cancel against the measure term)",
          Together[rows["c"] - cs2/l] === 0]],
    {s, {"R", "NR"}}];
 
@@ -427,7 +436,7 @@ Module[{alpha = al[xp, xm], xiy, xiR, xiNR, rEx = RiemannianSaddleExact[], nrEx,
       {hR[[All, 3]], hR[[3, All]], hNR[[All, 3]], hNR[[3, All]], Coefficient[ddR, z, 0], Coefficient[ddNR, z, 0]}];
    NRH`CheckZero["SMindependentsourcegenerator: the only leading source is h^(0)_{om omb} = -2 d_- alpha^+ (both saddles)",
       {(Coefficient[hR[[1 ;; 2, 1 ;; 2]], z, 0] /. yy -> 0) - {{0, 0}, {0, -2 D[alpha, xm]}}, (Coefficient[hNR[[1 ;; 2, 1 ;; 2]], z, 0] /. yy -> 0) - {{0, 0}, {0, -2 D[alpha, xm]}}}];
-   NRH`CheckZero["SMindependentsourcegenerator: the y-linear piece of the leading block is the SM3.4 response h^(1)_{op omb} = -(l/2) d_+^2 h^(0)_{om omb} = l d_+^2 d_- alpha^+ (no y^2 term)",
+   NRH`CheckZero["SMindependentsourcegenerator: the y-linear piece of the leading block is the current SM3.4-3.5 response h^(1)_{op omb} = -(l/2) d_+^2 h^(0)_{om omb} = l d_+^2 d_- alpha^+ (no y^2 term)",
       {Coefficient[Coefficient[hR[[1 ;; 2, 1 ;; 2]], z, 0], yy, 1] - {{0, l D[alpha, {xp, 2}, xm]}, {0, 0}}, Coefficient[Coefficient[hNR[[1 ;; 2, 1 ;; 2]], z, 0], yy, 1] - {{0, l D[alpha, {xp, 2}, xm]}, {0, 0}},
        Coefficient[Coefficient[hR[[1 ;; 2, 1 ;; 2]], z, 0], yy, 2], Coefficient[Coefficient[hNR[[1 ;; 2, 1 ;; 2]], z, 0], yy, 2]}];
    Vp[e_, s_] := 2 Lp[xp] D[e, xp] + D[Lp[xp], xp] e - If[s == "R", l^2/4 D[e, {xp, 3}], 0];
@@ -448,7 +457,9 @@ Module[{alpha = al[xp, xm], xiy, xiR, xiNR, rEx = RiemannianSaddleExact[], nrEx,
    NRH`CheckZero["SMNRhairhessian: the hair-hair coefficient (1/l)/(64 pi G)/i = 1/(64 pi i G l)",
       Together[(1/l)/(64 Pi G)/I - 1/(64 Pi I G l)]]];
 
-(* SMRhairuniformization, SMRhairconditional, SMRhairconstantL: algebraic identities of the conditional completion *)
+(* SMRhairuniformization, SMRhairconditional, SMRhairconstantL: historical conditional
+   uniformization identities, retained as ancillary algebra. These factors do not establish
+   the current SM3.3 K3 interior prescription or derive its H_R response and hair coefficient. *)
 Module[{f = Exp[2 alp xx], schw, Bpm, BpmC},
    schw = D[f, {xx, 3}]/D[f, xx] - 3/2 (D[f, {xx, 2}]/D[f, xx])^2;
    NRH`CheckZero["SMRhairuniformization: {e^{2 alpha x}; x} = -2 alpha^2 = -4 L/l^2 for alpha = Sqrt[2L]/l",
@@ -460,7 +471,7 @@ Module[{f = Exp[2 alp xx], schw, Bpm, BpmC},
       Limit[(alp/Sinh[alp dp])^4, alp -> 0] - 1/dp^4];
    NRH`CheckZero["SMRhairconditional: the stress coefficient 3l/(256 pi^2 G) equals (8 pi)^{-2} c/2",
       Together[3 l/(256 Pi^2 G) - 1/(8 Pi)^2 (3 l/(2 G))/2]];
-   NRH`CheckZero["SMRhairconditional: 9 l^5/(64 pi^2 G r^8) with r^2 = -2 D+ D- is 9 l^5/(1024 pi^2 G) (-D+ D-)^{-4}",
+   NRH`CheckZero["SMRhairconditional: algebraic rewriting only: 9 l^5/(64 pi^2 G r^8) with r^2 = -2 D+ D- is 9 l^5/(1024 pi^2 G) (-D+ D-)^{-4}",
       Together[9 l^5/(64 Pi^2 G (-2 dp dm)^4) - 9 l^5/(1024 Pi^2 G) (-dp dm)^-4]]];
 NRH`CheckZero["SMonepointequivalence: (1/2) delta O^_I/delta j_J with O^_I = (1/2) delta S/delta j_I is (1/4) delta^2 S/delta j_I delta j_J",
    Together[1/2 D[1/2 D[SS[j1, j2], j1], j2] - 1/4 D[SS[j1, j2], j1, j2]]];

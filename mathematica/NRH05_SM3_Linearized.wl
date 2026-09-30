@@ -1,9 +1,15 @@
 (* ::Title:: *)
 (*NRH05 SM3 Linearized Dynamics and Holographic Renormalization*)
 
-(* Checks follow SM3.1-SM3.8 of the Supplemental Material in order.  Two-point data are obtained by the
-   manuscript's route: the second on-shell variation with both slots extended to bulk solutions (SM3.5, SM3.8),
-   never by differentiating one-point functions.  z = e^{-2y/l} (manuscript u); yy is the explicit y. *)
+(* Current SM3: 3.1 constrained variations, 3.2 action variations, 3.3 linearized EDFE and interior
+   condition, 3.4 Riemannian branch, 3.5 non-Riemannian branch, 3.6 covariant charges.
+   This file retains expanded component algebra underlying current SM3.1 and SM3.3-3.5;
+   stable assertion identifiers also refer to ancillary displays removed in the compact rewrite.
+   General linearized curvature equations are checked through u. The current integrated
+   a/b/omega coefficient formulas require a separate equivalence bridge; the new fixed-flux
+   K3 interior prescription and H_R matching are not tested here. The Einstein-tensor assembly
+   assumes its defining formula and does not prove the universal Box or Codazzi identities.
+   z = e^{-2y/l} (manuscript u); yy is the explicit y. Two-point action checks are in NRH06. *)
 
 ClearAll["Global`*"];
 Get[FileNameJoin[{If[FileExistsQ[FileNameJoin[{DirectoryName[$InputFileName], "NRH01_DFT_Tools.wl"}]], DirectoryName[$InputFileName], NotebookDirectory[]], "NRH01_DFT_Tools.wl"}]];
@@ -51,7 +57,7 @@ Do[
    {data, {{"R", sdR}, {"NR", sdNR}}}];
 
 (* ::Section:: *)
-(*SM3.2 Boundary sources and general backgrounds*)
+(* Current SM3 source conventions and SM3.4-3.5 backgrounds; expanded ancillary checks *)
 
 NRH`CheckZero["SMflatmetrics, SMinfinityvielbein: V eta V^T = P^infty, Vbar etabar Vbar^T = Pbar^infty, V^T J Vbar = 0",
    {Vinf . eta3 . Transpose[Vinf] - Pinf, Vbinf . etab3 . Transpose[Vbinf] - Pbinf, Transpose[JJ . Vinf] . Vbinf}];
@@ -91,9 +97,9 @@ NRH`CheckZero["SMbackgroundexpansion: e^{-2 d_s} = u^{-1}[1 + O(u^2)] on both sa
     SeriesCoefficient[Exp[-2 nrEx["d"]], {z, 0, 0}] - Exp[2 yy/l], SeriesCoefficient[Exp[-2 nrEx["d"]], {z, 0, -1}]} /. Exp[2 yy/l] -> 0];
 (* the derivative-dependent hair coefficient W_2 from the exact solution NRWgeneral *)
 Module[{chiZ = 2 Sqrt[2] ArcTanh[z/(Sqrt[2] psip[xp] psim[xm])], GG, Wex, c2},
-   GG[c_] := 4 Sqrt[2] (Sinh[c]/Sinh[c/Sqrt[2]] - Sqrt[2]);   (* G'(chi) *)
+   GG[c_] := 4 Sqrt[2] (Sinh[c]/Sinh[c/Sqrt[2]] - Sqrt[2]);   (* derivative of the manuscript radial profile I(chi), now written calligraphically *)
    Wex = W1[xp, xm] chiZ psip[xp] psim[xm]/2 + l^2/(16 psip[xp] psim[xm]) (
-      (Derivative[2][psip][xp] psip[xp] + Derivative[2][psim][xm] psim[xm]) (Integrate[Normal[Series[GG[c], {c, 0, 7}]], c] /. c -> chiZ)   (* G(chi) through chi^8 suffices for O(z^2) *)
+      (Derivative[2][psip][xp] psip[xp] + Derivative[2][psim][xm] psim[xm]) (Integrate[Normal[Series[GG[c], {c, 0, 7}]], c] /. c -> chiZ)   (* calligraphic I(chi) through chi^8 suffices for O(z^2) *)
       - 2 (Derivative[1][psip][xp] + Derivative[1][psim][xm])^2 (Exp[chiZ] - 1 - chiZ)
       + 2 (Derivative[1][psip][xp] - Derivative[1][psim][xm])^2 (Exp[-chiZ] - 1 + chiZ));
    c2 = SeriesCoefficient[Wex, {z, 0, 2}];
@@ -101,7 +107,7 @@ Module[{chiZ = 2 Sqrt[2] ArcTanh[z/(Sqrt[2] psip[xp] psim[xm])], GG, Wex, c2},
       {SeriesCoefficient[Wex, {z, 0, 1}] - W1[xp, xm], Simplify[c2 - NRW2]}]];
 
 (* ::Section:: *)
-(*SM3.3 Exact linearized EDFE and local radial solutions*)
+(* Current SM3.3: direct linearized curvature through u; ancillary radial constraints *)
 
 NRH`CheckZero["SMexactRdata: e eta e^T = g and ebar etabar ebar^T = -g; V, Vbar reconstruct P, Pbar and are orthogonal",
    Simplify[{rEx["e"] . eta3 . Transpose[rEx["e"]] - rEx["g"], rEx["eb"] . etab3 . Transpose[rEx["eb"]] + rEx["g"],
@@ -115,7 +121,7 @@ sdNR1 = SaddleSeries[NonRiemannianSaddleExact[W1[xp, xm] z + NRW2 z^2], 1];
 NRH`CheckZero["both saddle frames tend to the limiting frame SMinfinityvielbein at u = 0",
    {(sdR1["V"] /. z -> 0) - Vinf, (sdR1["Vb"] /. z -> 0) - Vbinf, (sdNR1["V"] /. z -> 0) - Vinf, (sdNR1["Vb"] /. z -> 0) - Vbinf}];
 
-(* generic radial-gauge fluctuation (SMFG) and the exact linearized EDFE components (SMexactcomponentrecipe) *)
+(* SMFG, SMexactcomponentrecipe: radial-gauge fluctuation and direct linearized curvature, expanded through u; legacy labels retained. *)
 hmat = {{hpp[xp, xm, yy], hpm[xp, xm, yy], 0}, {hmp[xp, xm, yy], hmm[xp, xm, yy], 0}, {0, 0, 0}};
 ddf = dd[xp, xm, yy];
 Print["  computing the linearized EDFE on the general Riemannian saddle through u ..."];
@@ -139,7 +145,7 @@ NRH`Check["SMexactCauchyconstraints: E_{p ybar}, E_{y qbar} and E_0 - 4 E_{y yba
    FreeQ[Expand[{getE[linR, "py"], getE[linR, "my"], getE[linR, "yp"], getE[linR, "ym"], getE[linR, "s0"] - 4 getE[linR, "yy"],
       getE[linNR, "py"], getE[linNR, "my"], getE[linNR, "yp"], getE[linNR, "ym"], getE[linNR, "s0"] - 4 getE[linNR, "yy"]}],
       Derivative[_, _, 2][_][__]]];
-(* SMexactconstraintpropagation: the d_y coefficient of the Bianchi identity in terms of the components *)
+(* SMexactconstraintpropagation: algebraic radial projection using the Einstein-tensor definition; this does not independently prove the Bianchi or Codazzi identity. *)
 Module[{Ecomp, dPSP, dG, Es, tang},
    Ecomp = Table[ee[p, q], {p, 3}, {q, 3}];
    dPSP = (sdR1["V"] . eta3) . Ecomp . Transpose[sdR1["Vb"] . etab3];   (* delta(P S Pbar)_MN = V_M^p E_{p qbar} Vbar_N^qbar, lower-index frames *)
@@ -148,7 +154,7 @@ Module[{Ecomp, dPSP, dG, Es, tang},
    tang = Table[Sqrt[2] Sum[(sdR1["Vb"] . etab3)[[N, a]] Ecomp[[3, a]] + (sdR1["V"] . eta3)[[N, a]] Ecomp[[a, 3]], {a, 3}], {N, 6}];
    NRH`CheckZero["SMexactconstraintpropagation: delta G_{y~ N}: tangential = sqrt2(Vbar_N^a E_{y a} + V_N^a E_{a y}), N=y gives -(E_0 - 4E_{yy})/2, N=y~ vanishes",
       SeriesZM[{Es[[{1, 2, 4, 5}]] - tang[[{1, 2, 4, 5}]], Es[[6]] + 1/2 (e0s - 4 ee[3, 3]), Es[[3]]}, 1]]];
-(* SMexactTaylorSolution: the recursion reproduces the Taylor coefficients of the normal form (two fields, one boundary variable) *)
+(* SMexactTaylorSolution: historical toy recursion with two fields and one boundary variable, not an exact DFT radial solution. *)
 Module[{Mm, A0, A1, B0, B1, h0v, h1v, hser, Eop, coeffs, recur},
    Mm = DiagonalMatrix[{-1/4, 1}];
    A0 = Table[a0f[i, j][x], {i, 2}, {j, 2}] + tt Table[a1f[i, j][x], {i, 2}, {j, 2}];       (* A_alpha(t) through t^1 *)
@@ -161,15 +167,18 @@ Module[{Mm, A0, A1, B0, B1, h0v, h1v, hser, Eop, coeffs, recur},
    hser = {h0v, h1v}; hser = Append[hser, recur[0, hser]]; hser = Append[hser, recur[1, hser]];
    Eop = Mm . D[Sum[hser[[k + 1]] tt^k, {k, 0, 3}], {tt, 2}] + B0 . D[Sum[hser[[k + 1]] tt^k, {k, 0, 3}], tt]
       + A0 . Sum[hser[[k + 1]] tt^k, {k, 0, 3}] + A1 . D[Sum[hser[[k + 1]] tt^k, {k, 0, 3}], x];
-   NRH`CheckZero["SMexactTaylorSolution: the displayed recursion makes the t^0 and t^1 coefficients of the normal form vanish (toy system)",
+   NRH`CheckZero["SMexactTaylorSolution: the historical toy recursion makes the t^0 and t^1 coefficients of its normal form vanish",
       {Coefficient[Expand[Eop], tt, 0], Coefficient[Expand[Eop], tt, 1]}]];
 
 (* ::Section:: *)
-(*SM3.4 Near-boundary solutions with general sources*)
+(* Current SM3.4-3.5: expanded near-boundary component solutions with general sources *)
 
-(* the displayed component operators, transcribed from the manuscript displays *)
-(* Machine-transcribed target formulas from the manuscript displays (SM3.4); generated from the TeX source. *)
-(* Fields: hpp,hpm,hmp,hmm,dd of [xp,xm,yy]; sources a0,b0,r0,c0,v0 of [xp,xm]; responses Rp,Rm of [xp,xm]. *)
+(* Historical expanded component operators, retained as ancillary checks underlying current SM3.4-3.5. *)
+(* Historical machine-transcribed targets; these are not a direct transcription of the current compact formulas. *)
+(* Fields: hpp,hpm,hmp,hmm,dd of [xp,xm,yy]; sources a0,b0,r0,c0,v0 of [xp,xm].
+   r0 = h_mp^(0) is the type-changing source; c0 = h_pm^(0) is the W0/B-source channel.
+   Rp,Rm are the full h_pp^(2,0),h_mm^(2,0), not just the compact b coefficients.
+   H_s is the full h_pm^(2,0) response; the R integration constant c_R is -4 f_0. *)
 E0target["pp"] := ReleaseHold[-1/4*Hold[D[hmp[xp, xm, yy], {xp, 2}]] - 1/4*Hold[D[hpp[xp, xm, yy], {yy, 2}]] - 1/2*Hold[D[hpp[xp, xm, yy], yy]]/l];
 E0target["pm"] := ReleaseHold[-1/4*Hold[D[hmm[xp, xm, yy], {xp, 2}]] - 1/4*Hold[D[hpm[xp, xm, yy], {yy, 2}]] - 1/4*Hold[D[hpp[xp, xm, yy], {xm, 2}]] + Hold[D[dd[xp, xm, yy], xm, xp]] - 1/2*Hold[D[hpm[xp, xm, yy], yy]]/l];
 E0target["py"] := ReleaseHold[Hold[D[dd[xp, xm, yy], xp, yy]] - 1/4*Hold[D[hpp[xp, xm, yy], xm, yy]]];
@@ -228,9 +237,9 @@ NRH`CheckZero["SMtotalorderhierarchy: E_I[u^n f] = u^n E_I(d_y - 2n/l, d_+, d_-)
 
 W1toR = {W1 -> Function[{a, b}, 4 Lp[a] Lm[b]]};      (* "replace W_1 by 4 L+ L-", including its derivatives *)
 okE0 = AllTrue[comps, Together[E0R[#] - E0target[#]] === 0 && Together[E0NR[#] - E0target[#]] === 0 &];
-NRH`Check["SMEzerocomponents: the ten displayed leading operators E^{(0)} equal the u^0 part of the linearized EDFE on both saddles", okE0];
+NRH`Check["SMEzerocomponents: the ten historical expanded leading operators E^{(0)} equal the u^0 part of the linearized EDFE on both saddles", okE0];
 okE1NR = AllTrue[comps, Together[E1NR[#] - (E1NRtarget[#] /. NRLpsi)] === 0 &];
-NRH`Check["SMEoneNRcomponents: the ten displayed E^{(1),NR} equal the u^1 part of the linearized EDFE on the general NR saddle", okE1NR];
+NRH`Check["SMEoneNRcomponents: the ten historical expanded E^{(1),NR} equal the u^1 part of the linearized EDFE on the general NR saddle", okE1NR];
 okDE1 = AllTrue[comps, Together[E1R[#] - (E1NRtarget[#] /. W1toR) - DE1target[#]] === 0 &];
 NRH`Check["SMRoperatorrule, SMDeltaEonecomponents: E^{(1),R} = E^{(1),NR}|_{W1 -> 4 L+ L-} + Delta E^{(1)} with the ten displayed Delta E^{(1)}", okDE1];
 If[! okE1NR, Do[Print["   NR residual ", c, ": ", Together[E1NR[c] - (E1NRtarget[c] /. NRLpsi)]], {c, comps}]];
@@ -343,8 +352,8 @@ Do[
          Table[Together[((uu /. sol1["solution"]) /. typeSub) - (uu /. targ1)], {uu, DeleteCases[unkSyms1, h2LLf[_][__]]}]]],
    {s, {"R", "NR"}}];
 
-(* SMlogfreeconditions: on the common vacuum, the absence of all logarithms requires the displayed source conditions *)
-NRH`CheckZero["SMlogfreeconditions: dd^{(1)} = h^{(1)} = h^{(1b)} = 0 <=> d_+ d_- r = d_+^2 r = d_-^2 r = 0, delta d^{(0)} = 0 and d_+^2 a + d_-^2 b = 0",
+(* SMlogfreeconditions: historical sufficient restrictions annihilating the leading logarithmic coefficients; neither an iff nor an all-orders log-free proof. *)
+NRH`CheckZero["SMlogfreeconditions: the leading logs vanish if d_+ d_- r = d_+^2 r = d_-^2 r = 0, d_+ d_- delta d^{(0)} = 0 and d_+^2 a + d_-^2 b = 0 (sufficient conditions)",
    Module[{c = {D[r0[xp, xm], xp, xm], D[r0[xp, xm], {xp, 2}], D[r0[xp, xm], {xm, 2}], v0[xp, xm]}},
       Together[({dd1f[xp, xm], h1f["pp"][xp, xm], h1f["mm"][xp, xm], h1bf["pm"][xp, xm], h1f["pm"][xp, xm]} /. targ0)
          /. {Derivative[1, 1][r0][xp, xm] -> 0, Derivative[2, 0][r0][xp, xm] -> 0, Derivative[0, 2][r0][xp, xm] -> 0,

@@ -1,53 +1,73 @@
 # Non-Riemannian Holography Verification
 
-Reproducibility scripts supporting the manuscript **“Non-Riemannian Holography: Long Strings and Soft Hair”** by Shaun D. Hampton, Hyun-Cheol Kim, Jae-Hyuk Oh, and Jeong-Hyuck Park.
+Reproducibility scripts supporting **Non-Riemannian Holography: Long Strings and Soft Hair** by Shaun D. Hampton, Hyun-Cheol Kim, Jae-Hyuk Oh, and Jeong-Hyuck Park.
 
-The scripts check the two exact saddles and their boundary data, the linearized dynamics and
-holographic renormalization (near-boundary solutions, counterterms, one- and two-point
-functions), the covariant charges, the doubled-yet-gauged worldsheet reduction and the
-Gomis–Ooguri limit, the ten-dimensional uplift and Killing spinors, and the boundary
-candidate action.
+This archive contains symbolic checks of the exact saddles and boundary data,
+linearized dynamics, holographic renormalization, covariant charges, worldsheet
+reduction, Killing-spinor sectors, and a classical boundary action. Coverage
+varies by equation; definitions, cited results, partial checks, and untested
+results are distinguished in the [equation ledger](mathematica/EQUATION_LEDGER.md).
+
+## Manuscript version and verification status
+
+The documentation and equation map target the 2026-09-30 manuscript source:
+
+```text
+SHA-256: 57960AAD42F2A9150C0958D1C253F08B0939B76C0E646EE250A7D824D6319B68
+```
+
+The Letter has equations (1)-(21), comprising 23 numbered displays, and the
+Supplemental Material has (SM1)-(SM129), comprising 130 numbered displays:
+153 in total. Current SM3 has six subsections and 49 displays. Its compact
+presentation replaces a much longer derivation; the corresponding expanded
+calculations remain useful regression checks in the archive.
+
+The latest recorded Wolfram execution is **336/336 checks passed on 2026-09-17**
+with Mathematica 13.2.1, against an earlier manuscript. The 2026-09-30 update
+changes the mapping, coverage descriptions, comments, and printed check names;
+it leaves the executable algebra unchanged. No Wolfram runtime was available
+for a new execution. This is not a new 336/336 verification of the current
+manuscript. See the [execution record](mathematica/REFERENCE_RUN.md) and
+[revision notes](mathematica/SM_REVISION_NOTES.md).
+
+In particular, the general off-shell Codazzi identity, exact radial metric
+variation and compact metric Hessian, and the new fixed-flux Bessel solution
+and interior response are not fully checked by the retained suite. Older
+conditional hair-correlator normalization tests do not verify the new
+specified-vacuum derivation. The current [equation ledger](mathematica/EQUATION_LEDGER.md)
+and [manuscript map](mathematica/MANUSCRIPT_MAP.md) give the scope of each display.
 
 ## Mathematica suite
 
-`mathematica/` contains exact-symbolic checks organized in the order of the manuscript: one
-file for the Letter and one file per Supplemental Material section (SM 3 is split into three
-files). The suite is implemented in Wolfram Language and was tested with Mathematica 13.2:
+Run all section files from the repository root:
 
 ```bash
 wolframscript -file mathematica/NRH00_RunAll.wl
 ```
 
-runs all 336 checks (about five minutes) and exits nonzero on any failure. Every file is
-also provided as a double-clickable `.nb` notebook with identical content — download the
-`mathematica/` folder, open `NRH00_RunAll.nb`, and use *Evaluation → Evaluate Notebook*.
-See `mathematica/README.md` for the file-by-file coverage table, the conventions and the
-method notes. `mathematica/EQUATION_LEDGER.md` walks through every numbered equation of
-the Letter (1)–(22) and the Supplemental Material (1)–(209) in order and states the public
-coverage of each one (or states that it is a definition, a cited statement, or currently
-uncovered). Four displays added to the manuscript on 2026-09-18 (SM 105–107, the
-boundary-curvature counterterm candidate, and SM 124, the linearized Weyl anomaly) are not
-yet covered by the suite and are marked accordingly. The execution record is in
-`mathematica/REFERENCE_RUN.md`, and
-`mathematica/MANUSCRIPT_MAP.md` records the current manuscript SHA-256 and the
-LaTeX-label-to-equation-number mapping.
+A failed check returns a nonzero exit status. The recorded full run took about
+five minutes. Each `.wl` file also has a `.nb` notebook with the same input
+expressions. Keep the `mathematica/` folder together, open `NRH00_RunAll.nb`,
+and choose **Evaluation > Evaluate Notebook**. Section files run independently.
+[mathematica/README.md](mathematica/README.md) explains the file organization,
+conventions, and methods.
 
-The computations follow the methods stated in the manuscript. In particular, the two-point
-functions are computed from the ordered second variation of the on-shell action with two
-independent bulk solutions inserted (SM 3.8), not by differentiating one-point functions; the
-near-boundary solutions are obtained from the coupled hierarchy of the linearized EDFE (SM
-3.4); and the counterterm cancellation is tested modulo total tangential derivatives with the
-stress constraints imposed. Backgrounds carry arbitrary chiral functions L±(x±) and, on the
-non-Riemannian branch, an arbitrary hair function W₁(x⁺,x⁻); no sample data are used.
+The suite directly linearizes the bulk curvature and solves the coupled
+near-boundary hierarchy. Its two-point calculations use the ordered second
+variation and source linear response, with two independent bulk solutions and
+the stated source normalization. Counterterm cancellation is checked modulo
+total tangential derivatives with stress constraints imposed in both slots.
+These calculations determine particular kernels and leave general interior
+responses and contact terms unresolved. General-background checks use
+arbitrary chiral functions and arbitrary NR hair; restricted sectors are
+identified in the ledger.
 
 ## Python environment
 
-The strict verification environment for the historical Python checks is:
+The pinned environment for the historical Python checks is:
 
 - Python 3.12
 - SymPy 1.14.0
-
-Install the pinned Python dependency with:
 
 ```bash
 python -m pip install -r requirements-verification.txt
@@ -55,14 +75,14 @@ python -m pip install -r requirements-verification.txt
 
 ## Algebraic regression checks (historical)
 
-The Python scripts under `checks/` and `evidence/` predate the current Mathematica suite and
-are retained as historical regressions. Their algebraic predicates run without the manuscript
-source and report skipped LaTeX string comparisons; three of them
-(`verify_sm_nr_linearization.py`, `verify_sm_riemannian_falloff.py`, and
-`verify_gamma2_action.py`) target a pre-rewrite SM snapshot and fail against the current
-source because formulas and labels were replaced. They must not be used to validate the
-current manuscript; the corresponding coverage is supplied by the Mathematica suite. Keep the
-private manuscript outside the repository when running them.
+The scripts under `checks/` and `evidence/` predate the Mathematica suite.
+Their algebraic predicates can run without the manuscript source and report
+skipped LaTeX string comparisons. Three scripts target a pre-rewrite snapshot:
+`verify_sm_nr_linearization.py`, `verify_sm_riemannian_falloff.py`, and
+`verify_gamma2_action.py`. Their LaTeX comparisons fail against the current
+source and must not be used as current-manuscript verification. Current public
+coverage, including its gaps, is recorded in the Mathematica ledger. The
+manuscript source is not included in this repository.
 
 ```bash
 python checks/verify_sm_nr_linearization.py
@@ -76,9 +96,10 @@ python checks/verify_brst_w1.py
 python checks/verify_gamma2_action.py
 ```
 
-The `most-general` mode checks the reduced one-sided jet system in its own frame convention;
-it does not verify the current full real Majorana basis. The Riemannian falloff check also
-runs `checks/verify_exact_projected_fluctuations.py`. The charge calculations can be run
+The `most-general` mode checks the reduced one-sided jet system in its own
+frame convention; it does not verify the current full real Majorana basis.
+The Riemannian falloff script also runs
+`checks/verify_exact_projected_fluctuations.py`. Charge calculations can be run
 separately:
 
 ```bash
@@ -90,13 +111,10 @@ python checks/dft_zero_mode_symplectic.py
 
 Additional symbolic domain checks and negative controls are under `evidence/`.
 
-## Scope
+## Scope and versioning
 
-This public archive contains reproducibility software only. Internal companion-paper notes,
-review deliberations, and unpublished working documents are intentionally excluded.
-
-## Versioning
-
-The manuscript Data Availability Statement should cite a tagged release or immutable commit of
-this repository. `MANIFEST.sha256` records SHA-256 hashes of the tracked payload bytes (after
-Git line-ending normalization).
+This public archive contains reproducibility software. Internal companion-paper
+notes, review deliberations, and unpublished working documents are excluded.
+The manuscript Data Availability Statement should cite a tagged release or an
+immutable commit. `MANIFEST.sha256` records hashes of the tracked payload bytes
+after Git line-ending normalization.

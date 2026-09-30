@@ -1,8 +1,9 @@
 (* ::Title:: *)
 (*NRH02 Letter*)
 
-(* The numbered equations of the Letter, (1)-(22), in order.  Two-point kernels (21) are evaluated from the
-   quadratic-action results of SM3.8 (verified in NRH06), not from derivatives of one-point functions. *)
+(* Checks for the current Letter (1)-(21), with retained ancillary identities.  The particular two-point
+   kernels (20) use the ordered second variation / linear response and source normalization checked in
+   NRH06 (current SM3.2, SM3.4-SM3.5).  The generic off-shell Codazzi identity (13) is not checked here. *)
 
 ClearAll["Global`*"];
 Get[FileNameJoin[{If[FileExistsQ[FileNameJoin[{DirectoryName[$InputFileName], "NRH01_DFT_Tools.wl"}]], DirectoryName[$InputFileName], NotebookDirectory[]], "NRH01_DFT_Tools.wl"}]];
@@ -73,22 +74,22 @@ NRHZeroNR["EDFE scalar on NR: S_(0) = -4/l^2 for ARBITRARY W(x+, x-, chi)", curv
 odeRule = Derivative[0, 0, 2][W][xp, xm, ch] -> radialSource;
 NRHZeroNR["EDFE tensor on NR: (P S Pbar)_MN = 0 <=> d^2 W/d chi^2 = F (the radial equation of SM2)", curvNR["PSPbar"] /. odeRule];
 NRHZeroNR["G_MN = 2 l^-2 J_MN on the non-Riemannian saddle", (curvNR["G"] /. odeRule) - 2/l^2 JJ];
-Gp[c_] := 4 Sqrt[2] (Sinh[c]/Sinh[c/Sqrt[2]] - Sqrt[2]);     (* G'(chi) of MainGprofile *)
+Gp[c_] := 4 Sqrt[2] (Sinh[c]/Sinh[c/Sqrt[2]] - Sqrt[2]);     (* Gp = I_radial'(chi), GG = I_radial(chi), the manuscript's calligraphic I in MainGprofile. *)
 Wexact = W0[xp, xm] + W1[xp, xm] ch psip[xp] psim[xm]/2 +
    l^2/(16 psip[xp] psim[xm]) ((Derivative[2][psip][xp] psip[xp] + Derivative[2][psim][xm] psim[xm]) GG[ch]
       - 2 (Derivative[1][psip][xp] + Derivative[1][psim][xm])^2 (Exp[ch] - 1 - ch)
       + 2 (Derivative[1][psip][xp] - Derivative[1][psim][xm])^2 (Exp[-ch] - 1 + ch));
-NRHZeroNR["NRWgeneral: solves d^2W/dchi^2 = F with G'' = rho", (D[Wexact, {ch, 2}] /. Derivative[2][GG][ch] -> D[Gp[ch], ch]) - radialSource];
+NRHZeroNR["NRWgeneral: solves d^2W/dchi^2 = F with I_radial'' = rho", (D[Wexact, {ch, 2}] /. Derivative[2][GG][ch] -> D[Gp[ch], ch]) - radialSource];
 NRH`Check["NRWgeneral: W_0 and W_1 multiply the two homogeneous modes {1, chi/(2 Sqrt[Pi])}",
    {D[Wexact, W0[xp, xm]], Together[D[Wexact, W1[xp, xm]] - ch psip[xp] psim[xm]/2]} === {1, 0}];
-NRH`CheckZero["MainGprofile: G(0) = G'(0) = 0 and G'' = rho: G'(chi) = (2/3) chi^2 + O(chi^4), hence G = (2/9) chi^3 + O(chi^5)", {Limit[Gp[ch], ch -> 0], Normal[Series[Gp[ch], {ch, 0, 3}]] - 2/3 ch^2}];
+NRH`CheckZero["MainGprofile: I_radial'(0) = 0 and I_radial'(chi) = (2/3) chi^2 + O(chi^4); the integral normalization I_radial(0) = 0 gives I_radial = (2/9) chi^3 + O(chi^5)", {Limit[Gp[ch], ch -> 0], Normal[Series[Gp[ch], {ch, 0, 3}]] - 2/3 ch^2}];
 NRH`CheckZero["W = W_0 + W_1 e^{-2y/l} + O(e^{-4y/l}) near the boundary (chi = 2 Sqrt[2] q + O(q^3))",
    {SeriesCoefficient[chiq, {q, 0, 1}] - 2 Sqrt[2], SeriesCoefficient[chiq, {q, 0, 2}]}];
 NRH`CheckZero["endpoint q = 1: e^{-2d} = 0 at e^{4y/l} = L+ L-/2 (distinct from the Riemannian horizon)",
    Together[(u (1 - z0^2) /. z0 -> 1/(Sqrt[2] psip[xp] psim[xm] u)) /. u -> 1/(Sqrt[2] psip[xp] psim[xm])]];
 
 (* ::Section:: *)
-(*(10)-(14) Doubled dictionary and Ward identities*)
+(*(10)-(14) Doubled dictionary and constant-boundary Ward identities; retained Rcontinuity checks are ancillary, not a check of Codazzi (13).*)
 
 NRH`CheckZero["RKdef: -2K = (16 pi G)^{-1} A^y and 2 T_(0) = (16 pi G)^{-1} 2 (B^y + 4/l) fix the coefficients -1/(32 pi G) and 1/(16 pi G)",
    {Together[-2 (-(1/(32 Pi G))) - 1/(16 Pi G)], Together[2 (1/(16 Pi G)) - 2/(16 Pi G)]}];
@@ -103,9 +104,9 @@ bD[e_, a_] := If[a <= 2, 0, D[e, {xp, xm}[[a - 2]]]];
 divT = Table[Together[Sum[J4[[a, c]] bD[TAB[[a, b]], c], {a, 4}, {c, 4}]], {b, 4}];
 ward1 = D[Kpp[xp, xm], xm] + 1/4 D[T0f, xp];
 ward2 = D[Kmm[xp, xm], xp] + 1/4 D[T0f, xm];
-NRH`CheckZero["RDFTconservation, Rcontinuity: div T = {d_- K_mp, -d_+ K_mp, -2 Ward_+, -2 Ward_-}",
+NRH`CheckZero["RDFTconservation, Rcontinuity: on the constant boundary, div T = {d_- K_mp, -d_+ K_mp, -2 Ward_+, -2 Ward_-}",
    Together[divT - {D[Kmp[xp, xm], xm], -D[Kmp[xp, xm], xp], -2 ward1, -2 ward2}]];
-NRH`Check["Rcontinuity: no local condition on K_{op bom}; K_{om bop} must be constant", FreeQ[divT, Kpm] && ! FreeQ[divT, Kmp]];
+NRH`Check["Rcontinuity: ancillary constant-boundary identity: no local condition on K_{op bom}; K_{om bop} must be constant", FreeQ[divT, Kpm] && ! FreeQ[divT, Kmp]];
 
 (* ::Section:: *)
 (*(15)-(17) Asymptotic symmetry generators and transformation laws*)
@@ -147,7 +148,7 @@ NRH`CheckZero["charges: with T = 8 pi K = L+/(2 G l), RVirasoro is delta T = eps
 NRH`CheckZero["charge normalization: (16 pi G)^{-1}(4/l) = 1/(4 pi G l) (Q[eps] of the Letter)", Together[1/(16 Pi G) 4/l - 1/(4 Pi G l)]];
 
 (* ::Section:: *)
-(*(18)-(19) One-point functions and frame variation*)
+(*(18) One-point functions; retained frame-variation check for SMframevariation (formerly Mainframevariation).*)
 
 AyR = MomentumAK[HR, curvR["Gamma"], xs][[6]];
 AfixR = Map[Together, Transpose[JJ . Vinf] . AyR . (JJ . Vbinf), {2}];
@@ -167,14 +168,15 @@ NRH`CheckZero["Mainonepoints on NR: e^{2Y/l}(B^y + 4/l) -> 0, <T_(0)> = 0", Limi
 hgen = Table[hh[p, q], {p, 3}, {q, 3}];
 dHgen = MixedFluctuationH[Vinf, Vbinf, hgen];
 {dV, dVb} = FrameVariation[Vinf, Vbinf, hgen];
-NRH`CheckZero["Mainframevariation: delta(V eta V^T) = delta H/2 and delta(Vbar etabar Vbar^T) = -delta H/2",
+NRH`CheckZero["Mainframevariation, SMframevariation: delta(V eta V^T) = delta H/2 and delta(Vbar etabar Vbar^T) = -delta H/2",
    {dV . eta3 . Transpose[Vinf] + Vinf . eta3 . Transpose[dV] - dHgen/2, dVb . etab3 . Transpose[Vbinf] + Vbinf . etab3 . Transpose[dVb] + dHgen/2}];
 
 (* ::Section:: *)
-(*(20)-(21) Two-point kernels (position space of the SM3.8 result)*)
+(*(19)-(20) Particular two-point kernels (position-space linear response; current SM3.2, SM3.4-SM3.5).*)
 
-(* The stress and hair boundary operators V_pm^s, W_pm follow from the stress constraints and the nonchiral generator
-   completion of SM3.8 (NRH06).  Here their kernels are put in position space with the Lorentzian prescription:
+(* The stress and hair boundary operators V_pm^s, W_pm follow from the stress constraints and the retained
+   nonchiral-generator derivation in NRH06.  They give the particular kernels of current SM3.5; homogeneous
+   responses and local contacts are not fixed here.  The Lorentzian position-space prescription is:
    A^s = -(kappa/(4 i)) V^s d_-^{-1} delta, M^NR = -(kappa/(16 i)) W d_-^{-1} delta, d_-^{-1} delta -> 1/(2 pi i D+). *)
 Module[{kappa = 1/(16 Pi G l), inv = 1/(2 Pi I dp), VnrK, VrK, WK, aNR, aR, mNR, mR, targetA, targetM},
    VnrK[f_] := 2 Lp[xp] D[f, dp] + D[Lp[xp], xp] f;
@@ -194,7 +196,7 @@ Module[{kappa = 1/(16 Pi G l), inv = 1/(2 Pi I dp), VnrK, VrK, WK, aNR, aR, mNR,
       D[Coefficient[Expand[mNR], dp, -4], Lm[xm]] - 3 l/(256 Pi^2 G)]];
 
 (* ::Section:: *)
-(*(22) Worldsheet: Gomis-Ooguri limit*)
+(*(21) Worldsheet: Gomis-Ooguri limit*)
 
 fRc = u + Lpc Lmc/u;
 L1 = dy by + 2 Lpc dxp bxp + 2 Lmc dxm bxm + beta bxp + betab dxm + beta betab/(2 fRc);

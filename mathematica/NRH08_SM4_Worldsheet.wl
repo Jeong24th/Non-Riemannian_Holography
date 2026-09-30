@@ -96,7 +96,7 @@ NRH`CheckZero["h_y(i p_y) = (alpha'/4) p_y (p_y - 2 i/l) and P_y = p_y - i/l giv
 fieldsGO = {betaF, xpF, betabF, xmF, yF};
 contractionPairs = {{betaF, xpF}, {betabF, xmF}, {yF, yF}};
 vertexContent = {xpF, xmF};
-NRH`Check["V_W x V_W is nonsingular: no contraction pair lies inside {x^+, x^-}^2",
+NRH`Check["V_W: the undressed W_0 longitudinal operator has no self-contraction pair inside {x^+, x^-}^2; radial W_1 dressing is checked separately",
    ! AnyTrue[contractionPairs, SubsetQ[vertexContent, #] &]];
 NRH`Check["<x^+ x^-> = 0 in the Gomis-Ooguri system (x^+ pairs only with beta)",
    ! MemberQ[contractionPairs, {xpF, xmF}] && ! MemberQ[contractionPairs, {xmF, xpF}]];

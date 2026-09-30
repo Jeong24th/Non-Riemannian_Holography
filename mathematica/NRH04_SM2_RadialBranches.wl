@@ -49,15 +49,15 @@ curvNR = DFTCurvature[HNR, dNR, xsNR];
 NRH`Check["NRchiODE: the tensor EDFE contains d^2 W/d chi^2", ! FreeQ[curvNR["PSPbar"], Derivative[0, 0, 2][W]]];
 NRHZeroNR["NRchiODE, NRsource: (P S Pbar)_MN = 0 <=> d^2W/dchi^2 = F with the displayed source", curvNR["PSPbar"] /. Derivative[0, 0, 2][W][xp, xm, ch] -> radialSource];
 NRHZeroNR["EDFE scalar: S_(0) = -4/l^2 for arbitrary W", curvNR["S0"] + 4/l^2];
-Gp[c_] := 4 Sqrt[2] (Sinh[c]/Sinh[c/Sqrt[2]] - Sqrt[2]);
-NRHZeroNR["NRg, NRGprofile: d^2 G/d chi^2 = rho(chi)", D[Gp[ch], ch] - rho];
-NRH`CheckZero["NRGprofile: G(0) = G'(0) = 0: G'(chi) = (2/3) chi^2 + O(chi^4), hence G = (2/9) chi^3 + O(chi^5)", {Limit[Gp[ch], ch -> 0], Normal[Series[Gp[ch], {ch, 0, 3}]] - 2/3 ch^2}];
+Gp[c_] := 4 Sqrt[2] (Sinh[c]/Sinh[c/Sqrt[2]] - Sqrt[2]);  (* Gp = I_radial', GG = I_radial: manuscript calligraphic I. *)
+NRHZeroNR["NRg, NRGprofile: d^2 I_radial/d chi^2 = rho(chi)", D[Gp[ch], ch] - rho];
+NRH`CheckZero["NRGprofile: I_radial'(0) = 0 and I_radial'(chi) = (2/3) chi^2 + O(chi^4); the integral normalization I_radial(0) = 0 gives I_radial = (2/9) chi^3 + O(chi^5)", {Limit[Gp[ch], ch -> 0], Normal[Series[Gp[ch], {ch, 0, 3}]] - 2/3 ch^2}];
 NRH`CheckZero["NRGprofile: d^2/dchi^2 (e^{s chi} - 1 - s chi) = e^{s chi}", {D[Exp[ch] - 1 - ch, {ch, 2}] - Exp[ch], D[Exp[-ch] - 1 + ch, {ch, 2}] - Exp[-ch]}];
 Wexact = W0[xp, xm] + W1[xp, xm] ch psip[xp] psim[xm]/2 + l^2/(16 psip[xp] psim[xm]) (
    (Derivative[2][psip][xp] psip[xp] + Derivative[2][psim][xm] psim[xm]) GG[ch]
    - 2 (Derivative[1][psip][xp] + Derivative[1][psim][xm])^2 (Exp[ch] - 1 - ch)
    + 2 (Derivative[1][psip][xp] - Derivative[1][psim][xm])^2 (Exp[-ch] - 1 + ch));
-NRHZeroNR["NRWgeneral: twice integrating NRchiODE gives the exact solution (with G'' = rho)",
+NRHZeroNR["NRWgeneral: twice integrating NRchiODE gives the exact solution (with I_radial'' = rho)",
    (D[Wexact, {ch, 2}] /. Derivative[2][GG][ch] -> D[Gp[ch], ch]) - radialSource];
 NRH`Check["the two integration functions W_0, W_1 multiply {1, chi/(2 Sqrt[Pi])}",
    {D[Wexact, W0[xp, xm]], Together[D[Wexact, W1[xp, xm]] - ch psip[xp] psim[xm]/2]} === {1, 0}];

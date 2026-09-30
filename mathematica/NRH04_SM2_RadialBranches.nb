@@ -1,188 +1,22 @@
-(* Content-type: application/vnd.wolfram.mathematica *)
-
-(*** Wolfram Notebook File ***)
-(* http://www.wolfram.com/nb *)
-
-(* CreatedBy='Mathematica 13.2' *)
-
-(*CacheID: 234*)
-(* Internal cache information:
-NotebookFileLineBreakTest
-NotebookFileLineBreakTest
-NotebookDataPosition[       158,          7]
-NotebookDataLength[      7771,        179]
-NotebookOptionsPosition[      6771,        159]
-NotebookOutlinePosition[      7085,        173]
-CellTagsIndexPosition[      7042,        170]
-WindowTitle->NRH04_SM2_RadialBranches.nb
-WindowFrame->Normal*)
-
-(* Beginning of Notebook Content *)
+(* Input cells serialized from the canonical .wl source; no new kernel execution. *)
 Notebook[{
 Cell["NRH04 SM2 Exact Radial Branches and Boundary Data", "Title"],
 
-Cell["\<\
-ClearAll[\"Global`*\"];
-Get[FileNameJoin[{If[FileExistsQ[FileNameJoin[{DirectoryName[$InputFileName], \
-\"NRH01_DFT_Tools.wl\"}]], DirectoryName[$InputFileName], \
-NotebookDirectory[]], \"NRH01_DFT_Tools.wl\"}]];
-NRH`BeginFile[\"NRH04_SM2_RadialBranches.wl\"];\
-\>", "Input"],
+Cell["(* ::Title:: *)\n(*NRH04 SM2 Exact Radial Branches and Boundary Data*)", "Input"],
 
-Cell["\<\
-JJ = ODDJ[3];
-xsU = {xp, xm, Function[e, (2 u/l) D[e, u]]};\
-\>", "Input"],
+Cell["ClearAll[\"Global`*\"];\nGet[FileNameJoin[{If[FileExistsQ[FileNameJoin[{DirectoryName[$InputFileName], \"NRH01_DFT_Tools.wl\"}]], DirectoryName[$InputFileName], NotebookDirectory[]], \"NRH01_DFT_Tools.wl\"}]];\nNRH`BeginFile[\"NRH04_SM2_RadialBranches.wl\"];", "Input"],
 
-Cell["\<\
-(* ::Section:: *)
-(*SM2.1 Riemannian saddle*)\
-\>", "Input"],
+Cell["JJ = ODDJ[3];\nxsU = {xp, xm, Function[e, (2 u/l) D[e, u]]};", "Input"],
 
-Cell["\<\
-gR = RiemannianMetric[Lp[xp], Lm[xm], u];
-bR = RiemannianB[Lp[xp], Lm[xm], u];
-HR = Map[Together, RiemannianH[gR, bR], {2}];
-dR = RiemannianD[Lp[xp], Lm[xm], u];
-NRH`Check[\"SM2.1: the Riemannian saddle is of type (0,0): the upper-left \
-block H^{mu nu} = g^{-1} is invertible\",
-   Together[Det[HR[[1 ;; 3, 1 ;; 3]]]] =!= 0];
-NRH`CheckZero[\"SM2.1: the fixed, L-independent e^{-2y/l} falloff in the \
-type-changing channel H^{+-} (even at L_pm = 0)\",
-   {SeriesCoefficient[HR[[1, 2]], {u, Infinity, 1}] + 1, \
-SeriesCoefficient[HR[[1, 2]] /. {Lp -> (0 &), Lm -> (0 &)}, {u, Infinity, 1}] \
-+ 1}];
-NRH`CheckZero[\"SM2.1: exterior terminates at the Killing horizon e^{4y/l} = \
-L+ L- where e^{-2d} = 0\",
-   Together[Exp[-2 dR] /. u -> Sqrt[Lp[xp] Lm[xm]]]];\
-\>", "Input"],
+Cell["(* ::Section:: *)\n(*SM2.1 Riemannian saddle*)", "Input"],
 
-Cell["\<\
-(* ::Section:: *)
-(*SM2.2 Non-Riemannian saddle: exact radial equation*)\
-\>", "Input"],
+Cell["gR = RiemannianMetric[Lp[xp], Lm[xm], u];\nbR = RiemannianB[Lp[xp], Lm[xm], u];\nHR = Map[Together, RiemannianH[gR, bR], {2}];\ndR = RiemannianD[Lp[xp], Lm[xm], u];\nNRH`Check[\"SM2.1: the Riemannian saddle is of type (0,0): the upper-left block H^{mu nu} = g^{-1} is invertible\",\n   Together[Det[HR[[1 ;; 3, 1 ;; 3]]]] =!= 0];\nNRH`CheckZero[\"SM2.1: the fixed, L-independent e^{-2y/l} falloff in the type-changing channel H^{+-} (even at L_pm = 0)\",\n   {SeriesCoefficient[HR[[1, 2]], {u, Infinity, 1}] + 1, SeriesCoefficient[HR[[1, 2]] /. {Lp -> (0 &), Lm -> (0 &)}, {u, Infinity, 1}] + 1}];\nNRH`CheckZero[\"SM2.1: exterior terminates at the Killing horizon e^{4y/l} = L+ L- where e^{-2d} = 0\",\n   Together[Exp[-2 dR] /. u -> Sqrt[Lp[xp] Lm[xm]]]];", "Input"],
 
-Cell["\<\
-NRH`CheckZero[\"NRhill: A = (1/4)(d ln L)^2 - (1/2) d^2 ln L = psi''/psi with \
-psi = L^{-1/2}\",
-   Together[PowerExpand[1/4 D[Log[LL[x]], x]^2 - 1/2 D[Log[LL[x]], {x, 2}] - \
-D[LL[x]^(-1/2), {x, 2}]/LL[x]^(-1/2)]]];
-chiq = 2 Sqrt[2] ArcTanh[q];
-NRH`CheckZero[\"NRradialchange: d chi/d q = 2 Sqrt[2]/(1 - q^2) and d_y = \
--(2q/l) d_q for q = e^{-2y/l} Sqrt[Pi/2]\",
-   {Together[D[chiq, q] - 2 Sqrt[2]/(1 - q^2)], Together[D[qq0 Exp[-2 yv/l], \
-yv] + (2/l) qq0 Exp[-2 yv/l]]}];
-NRH`CheckZero[\"NRradialoperator: (1-q^2)^2/8 (d_q^2 - 2q/(1-q^2) d_q) = \
-d_chi^2\",
-   Together[(1 - q^2)^2/8 (D[ff[chiq], {q, 2}] - 2 q/(1 - q^2) D[ff[chiq], \
-q]) - Derivative[2][ff][chiq]]];
-chy = -(2 Sqrt[2]/l) Sinh[ch/Sqrt[2]];
-NRHZeroNR[label_, e_] := NRH`CheckZero[label, Together[ExpandAll[TrigToExp[e \
-/. ch -> 2 Sqrt[2] Log[T]]] /. Log[T] -> LT]];
-NRHZeroNR[\"d_y chi = -4 Sqrt[Pi] e^{2d}/l (hyperbolic identity form)\",
-   chy + (4 Sqrt[2]/l) Tanh[ch/(2 Sqrt[2])] Cosh[ch/(2 Sqrt[2])]^2];
-chp = -Sqrt[2] Sinh[ch/Sqrt[2]] Derivative[1][psip][xp]/psip[xp];
-chm = -Sqrt[2] Sinh[ch/Sqrt[2]] Derivative[1][psim][xm]/psim[xm];
-xsNR = {Function[e, D[e, xp] + chp D[e, ch]], Function[e, D[e, xm] + chm D[e, \
-ch]], Function[e, chy D[e, ch] + D[e, Ysym]]};
-esig = psim[xm]/psip[xp];
-HNR = NonRiemannianH[ch, esig, W[xp, xm, ch]];
-dNR = -Ysym/l + Log[Cosh[ch/(2 Sqrt[2])]];
-rho = Together[4 Sqrt[2] D[Sinh[ch]/Sinh[ch/Sqrt[2]], ch]];
-radialSource = l^2/(16 psip[xp] psim[xm]) (rho (Derivative[2][psip][xp] \
-psip[xp] + Derivative[2][psim][xm] psim[xm])
-   - 2 (Derivative[1][psip][xp] + Derivative[1][psim][xm])^2 Exp[ch] + 2 \
-(Derivative[1][psip][xp] - Derivative[1][psim][xm])^2 Exp[-ch]);
-curvNR = DFTCurvature[HNR, dNR, xsNR];
-NRH`Check[\"NRchiODE: the tensor EDFE contains d^2 W/d chi^2\", ! \
-FreeQ[curvNR[\"PSPbar\"], Derivative[0, 0, 2][W]]];
-NRHZeroNR[\"NRchiODE, NRsource: (P S Pbar)_MN = 0 <=> d^2W/dchi^2 = F with \
-the displayed source\", curvNR[\"PSPbar\"] /. Derivative[0, 0, 2][W][xp, xm, \
-ch] -> radialSource];
-NRHZeroNR[\"EDFE scalar: S_(0) = -4/l^2 for arbitrary W\", curvNR[\"S0\"] + \
-4/l^2];
-Gp[c_] := 4 Sqrt[2] (Sinh[c]/Sinh[c/Sqrt[2]] - Sqrt[2]);
-NRHZeroNR[\"NRg, NRGprofile: d^2 G/d chi^2 = rho(chi)\", D[Gp[ch], ch] - \
-rho];
-NRH`CheckZero[\"NRGprofile: G(0) = G'(0) = 0: G'(chi) = (2/3) chi^2 + \
-O(chi^4), hence G = (2/9) chi^3 + O(chi^5)\", {Limit[Gp[ch], ch -> 0], \
-Normal[Series[Gp[ch], {ch, 0, 3}]] - 2/3 ch^2}];
-NRH`CheckZero[\"NRGprofile: d^2/dchi^2 (e^{s chi} - 1 - s chi) = e^{s chi}\", \
-{D[Exp[ch] - 1 - ch, {ch, 2}] - Exp[ch], D[Exp[-ch] - 1 + ch, {ch, 2}] - \
-Exp[-ch]}];
-Wexact = W0[xp, xm] + W1[xp, xm] ch psip[xp] psim[xm]/2 + l^2/(16 psip[xp] \
-psim[xm]) (
-   (Derivative[2][psip][xp] psip[xp] + Derivative[2][psim][xm] psim[xm]) GG[ch]
-   - 2 (Derivative[1][psip][xp] + Derivative[1][psim][xm])^2 (Exp[ch] - 1 - ch)
-   + 2 (Derivative[1][psip][xp] - Derivative[1][psim][xm])^2 (Exp[-ch] - 1 + \
-ch));
-NRHZeroNR[\"NRWgeneral: twice integrating NRchiODE gives the exact solution \
-(with G'' = rho)\",
-   (D[Wexact, {ch, 2}] /. Derivative[2][GG][ch] -> D[Gp[ch], ch]) - \
-radialSource];
-NRH`Check[\"the two integration functions W_0, W_1 multiply {1, chi/(2 \
-Sqrt[Pi])}\",
-   {D[Wexact, W0[xp, xm]], Together[D[Wexact, W1[xp, xm]] - ch psip[xp] \
-psim[xm]/2]} === {1, 0}];
-NRH`CheckZero[\"constant L: q = Sqrt[L+L-/2] mu_RG^{-2}; mu d chi/d mu = -2 \
-Sqrt[2] sinh(chi/Sqrt[2])\",
-   Module[{qm = Sqrt[L0p L0m/2] muRG^-2, chim},
-      chim = 2 Sqrt[2] ArcTanh[qm];
-      Simplify[muRG D[chim, muRG] + 2 Sqrt[2] Sinh[chim/Sqrt[2]], L0p > 0 && \
-L0m > 0 && muRG > 0 && qm < 1]]];
-NRH`CheckZero[\"the endpoint q = 1 lies at e^{4y/l} = L+ L-/2\", \
-Together[(Sqrt[L0p L0m/2] muRG^-2 /. muRG -> (L0p L0m/2)^(1/4)) - 1]];\
-\>", "Input"],
+Cell["(* ::Section:: *)\n(*SM2.2 Non-Riemannian saddle: exact radial equation*)", "Input"],
 
-Cell["\<\
-(* ::Section:: *)
-(*SM2.2 The radial zero mode W_0 is locally pure generalized gauge*)\
-\>", "Input"],
+Cell["NRH`CheckZero[\"NRhill: A = (1/4)(d ln L)^2 - (1/2) d^2 ln L = psi''/psi with psi = L^{-1/2}\",\n   Together[PowerExpand[1/4 D[Log[LL[x]], x]^2 - 1/2 D[Log[LL[x]], {x, 2}] - D[LL[x]^(-1/2), {x, 2}]/LL[x]^(-1/2)]]];\nchiq = 2 Sqrt[2] ArcTanh[q];\nNRH`CheckZero[\"NRradialchange: d chi/d q = 2 Sqrt[2]/(1 - q^2) and d_y = -(2q/l) d_q for q = e^{-2y/l} Sqrt[Pi/2]\",\n   {Together[D[chiq, q] - 2 Sqrt[2]/(1 - q^2)], Together[D[qq0 Exp[-2 yv/l], yv] + (2/l) qq0 Exp[-2 yv/l]]}];\nNRH`CheckZero[\"NRradialoperator: (1-q^2)^2/8 (d_q^2 - 2q/(1-q^2) d_q) = d_chi^2\",\n   Together[(1 - q^2)^2/8 (D[ff[chiq], {q, 2}] - 2 q/(1 - q^2) D[ff[chiq], q]) - Derivative[2][ff][chiq]]];\nchy = -(2 Sqrt[2]/l) Sinh[ch/Sqrt[2]];\nNRHZeroNR[label_, e_] := NRH`CheckZero[label, Together[ExpandAll[TrigToExp[e /. ch -> 2 Sqrt[2] Log[T]]] /. Log[T] -> LT]];\nNRHZeroNR[\"d_y chi = -4 Sqrt[Pi] e^{2d}/l (hyperbolic identity form)\",\n   chy + (4 Sqrt[2]/l) Tanh[ch/(2 Sqrt[2])] Cosh[ch/(2 Sqrt[2])]^2];\nchp = -Sqrt[2] Sinh[ch/Sqrt[2]] Derivative[1][psip][xp]/psip[xp];\nchm = -Sqrt[2] Sinh[ch/Sqrt[2]] Derivative[1][psim][xm]/psim[xm];\nxsNR = {Function[e, D[e, xp] + chp D[e, ch]], Function[e, D[e, xm] + chm D[e, ch]], Function[e, chy D[e, ch] + D[e, Ysym]]};\nesig = psim[xm]/psip[xp];\nHNR = NonRiemannianH[ch, esig, W[xp, xm, ch]];\ndNR = -Ysym/l + Log[Cosh[ch/(2 Sqrt[2])]];\nrho = Together[4 Sqrt[2] D[Sinh[ch]/Sinh[ch/Sqrt[2]], ch]];\nradialSource = l^2/(16 psip[xp] psim[xm]) (rho (Derivative[2][psip][xp] psip[xp] + Derivative[2][psim][xm] psim[xm])\n   - 2 (Derivative[1][psip][xp] + Derivative[1][psim][xm])^2 Exp[ch] + 2 (Derivative[1][psip][xp] - Derivative[1][psim][xm])^2 Exp[-ch]);\ncurvNR = DFTCurvature[HNR, dNR, xsNR];\nNRH`Check[\"NRchiODE: the tensor EDFE contains d^2 W/d chi^2\", ! FreeQ[curvNR[\"PSPbar\"], Derivative[0, 0, 2][W]]];\nNRHZeroNR[\"NRchiODE, NRsource: (P S Pbar)_MN = 0 <=> d^2W/dchi^2 = F with the displayed source\", curvNR[\"PSPbar\"] /. Derivative[0, 0, 2][W][xp, xm, ch] -> radialSource];\nNRHZeroNR[\"EDFE scalar: S_(0) = -4/l^2 for arbitrary W\", curvNR[\"S0\"] + 4/l^2];\nGp[c_] := 4 Sqrt[2] (Sinh[c]/Sinh[c/Sqrt[2]] - Sqrt[2]);  (* Gp = I_radial', GG = I_radial: manuscript calligraphic I. *)\nNRHZeroNR[\"NRg, NRGprofile: d^2 I_radial/d chi^2 = rho(chi)\", D[Gp[ch], ch] - rho];\nNRH`CheckZero[\"NRGprofile: I_radial'(0) = 0 and I_radial'(chi) = (2/3) chi^2 + O(chi^4); the integral normalization I_radial(0) = 0 gives I_radial = (2/9) chi^3 + O(chi^5)\", {Limit[Gp[ch], ch -> 0], Normal[Series[Gp[ch], {ch, 0, 3}]] - 2/3 ch^2}];\nNRH`CheckZero[\"NRGprofile: d^2/dchi^2 (e^{s chi} - 1 - s chi) = e^{s chi}\", {D[Exp[ch] - 1 - ch, {ch, 2}] - Exp[ch], D[Exp[-ch] - 1 + ch, {ch, 2}] - Exp[-ch]}];\nWexact = W0[xp, xm] + W1[xp, xm] ch psip[xp] psim[xm]/2 + l^2/(16 psip[xp] psim[xm]) (\n   (Derivative[2][psip][xp] psip[xp] + Derivative[2][psim][xm] psim[xm]) GG[ch]\n   - 2 (Derivative[1][psip][xp] + Derivative[1][psim][xm])^2 (Exp[ch] - 1 - ch)\n   + 2 (Derivative[1][psip][xp] - Derivative[1][psim][xm])^2 (Exp[-ch] - 1 + ch));\nNRHZeroNR[\"NRWgeneral: twice integrating NRchiODE gives the exact solution (with I_radial'' = rho)\",\n   (D[Wexact, {ch, 2}] /. Derivative[2][GG][ch] -> D[Gp[ch], ch]) - radialSource];\nNRH`Check[\"the two integration functions W_0, W_1 multiply {1, chi/(2 Sqrt[Pi])}\",\n   {D[Wexact, W0[xp, xm]], Together[D[Wexact, W1[xp, xm]] - ch psip[xp] psim[xm]/2]} === {1, 0}];\nNRH`CheckZero[\"constant L: q = Sqrt[L+L-/2] mu_RG^{-2}; mu d chi/d mu = -2 Sqrt[2] sinh(chi/Sqrt[2])\",\n   Module[{qm = Sqrt[L0p L0m/2] muRG^-2, chim},\n      chim = 2 Sqrt[2] ArcTanh[qm];\n      Simplify[muRG D[chim, muRG] + 2 Sqrt[2] Sinh[chim/Sqrt[2]], L0p > 0 && L0m > 0 && muRG > 0 && qm < 1]]];\nNRH`CheckZero[\"the endpoint q = 1 lies at e^{4y/l} = L+ L-/2\", Together[(Sqrt[L0p L0m/2] muRG^-2 /. muRG -> (L0p L0m/2)^(1/4)) - 1]];", "Input"],
 
-Cell["\<\
-bshift = {{1, 0, 0, 0, 0, 0}, {0, 1, 0, 0, 0, 0}, {0, 0, 1, 0, 0, 0}, {0, \
-bpm, 0, 1, 0, 0}, {-bpm, 0, 0, 0, 1, 0}, {0, 0, 0, 0, 0, 1}};
-NRHZeroNR[\"SMBtransform, SMWshift: Omega_b H(W) Omega_b^T = H(W - 2 b_{+-}) \
-exactly, d untouched\",
-   bshift . NonRiemannianH[ch, esig, Wf[xp, xm, ch]] . Transpose[bshift] - \
-NonRiemannianH[ch, esig, Wf[xp, xm, ch] - 2 bpm]];
-NRH`Check[\"SMBtransform: Omega_b is O(3,3)\", Together[bshift . JJ . \
-Transpose[bshift] - JJ] === ConstantArray[0, {6, 6}]];
-NRH`CheckZero[\"b = (1/2) W_0 dx+ ^ dx- = d lambda with lambda_- = (1/2) \
-Int^{x+} W_0, lambda_+ = lambda_y = 0\",
-   Module[{lam = {0, 1/2 Integrate[W0[s, xm], {s, 0, xp}], 0}, b},
-      b = Table[D[lam[[j]], {xp, xm, yv}[[i]]] - D[lam[[i]], {xp, xm, \
-yv}[[j]]], {i, 3}, {j, 3}];
-      {b[[1, 2]] - W0[xp, xm]/2, b[[1, 3]], b[[2, 3]]}]];
-NRH`FileSummary[];\
-\>", "Input"]
-},
-WindowTitle->"NRH04_SM2_RadialBranches.nb",
-FrontEndVersion->"13.2 for Microsoft Windows (64-bit) (January 30, 2023)",
-StyleDefinitions->"Default.nb"
-]
-(* End of Notebook Content *)
+Cell["(* ::Section:: *)\n(*SM2.2 The radial zero mode W_0 is locally pure generalized gauge*)", "Input"],
 
-(* Internal cache information *)
-(*CellTagsOutline
-CellTagsIndex->{}
-*)
-(*CellTagsIndex
-CellTagsIndex->{}
-*)
-(*NotebookFileOutline
-Notebook[{
-Cell[599, 21, 66, 0, 70, "Title",ExpressionUUID->"820d0f13-c942-4b06-b5d4-e0a2a37e78a5"],
-Cell[668, 23, 285, 6, 70, "Input",ExpressionUUID->"455227e9-b144-4d7a-bda8-98d4b2b5c4f9"],
-Cell[956, 31, 84, 3, 70, "Input",ExpressionUUID->"e33b0d1a-f2d6-4efd-9ee7-6e923e165f4c"],
-Cell[1043, 36, 70, 3, 70, "Input",ExpressionUUID->"6ebb0474-8905-41e9-a221-93ab6bb6a5a2"],
-Cell[1116, 41, 783, 16, 70, "Input",ExpressionUUID->"ca85d868-1b7f-4799-b5b1-302595709a6c"],
-Cell[1902, 59, 97, 3, 70, "Input",ExpressionUUID->"6dfcebd8-71c6-4ce2-b558-0d86c909438a"],
-Cell[2002, 64, 3768, 70, 70, "Input",ExpressionUUID->"7aebf82f-62b9-4d76-8ee8-7b274b395461"],
-Cell[5773, 136, 111, 3, 70, "Input",ExpressionUUID->"d2bb46dc-f80a-4e99-82a5-93afadec0b58"],
-Cell[5887, 141, 880, 16, 70, "Input",ExpressionUUID->"4e11fb62-7f24-425a-8e44-275d1505b4cb"]
-}
-]
-*)
-
-(* End of internal cache information *)
+Cell["bshift = {{1, 0, 0, 0, 0, 0}, {0, 1, 0, 0, 0, 0}, {0, 0, 1, 0, 0, 0}, {0, bpm, 0, 1, 0, 0}, {-bpm, 0, 0, 0, 1, 0}, {0, 0, 0, 0, 0, 1}};\nNRHZeroNR[\"SMBtransform, SMWshift: Omega_b H(W) Omega_b^T = H(W - 2 b_{+-}) exactly, d untouched\",\n   bshift . NonRiemannianH[ch, esig, Wf[xp, xm, ch]] . Transpose[bshift] - NonRiemannianH[ch, esig, Wf[xp, xm, ch] - 2 bpm]];\nNRH`Check[\"SMBtransform: Omega_b is O(3,3)\", Together[bshift . JJ . Transpose[bshift] - JJ] === ConstantArray[0, {6, 6}]];\nNRH`CheckZero[\"b = (1/2) W_0 dx+ ^ dx- = d lambda with lambda_- = (1/2) Int^{x+} W_0, lambda_+ = lambda_y = 0\",\n   Module[{lam = {0, 1/2 Integrate[W0[s, xm], {s, 0, xp}], 0}, b},\n      b = Table[D[lam[[j]], {xp, xm, yv}[[i]]] - D[lam[[i]], {xp, xm, yv}[[j]]], {i, 3}, {j, 3}];\n      {b[[1, 2]] - W0[xp, xm]/2, b[[1, 3]], b[[2, 3]]}]];\nNRH`FileSummary[];", "Input"]
+}, StyleDefinitions -> "Default.nb"]

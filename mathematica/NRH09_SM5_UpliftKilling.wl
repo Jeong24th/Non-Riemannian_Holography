@@ -1,5 +1,9 @@
 (* ::Title:: *)
 (*NRH09 SM5 Ten-Dimensional Uplift and Killing Symmetries*)
+(* Direct uplift checks cover arbitrary chiral R data and the one-sided NR family.  Reduced spinor and
+   historical complex-rank checks do not verify the full current real Majorana product basis or construct
+   nonzero fermionic charges.  Finite counts refer to polarizations/constant representatives, not the
+   dimension of the arbitrary chiral-function solution space. *)
 
 ClearAll["Global`*"];
 Get[FileNameJoin[{If[FileExistsQ[FileNameJoin[{DirectoryName[$InputFileName], "NRH01_DFT_Tools.wl"}]], DirectoryName[$InputFileName], NotebookDirectory[]], "NRH01_DFT_Tools.wl"}]];
@@ -200,7 +204,7 @@ NRH`Check["adding the Weyl condition leaves 16 real components",
 
 projS3perp = KroneckerProduct[id2, {{0, 0}, {0, 1}}, id2, id4];
 projAuxPerp = KroneckerProduct[id2, id2, {{0, 0}, {0, 1}}, id4];
-NRH`Check["Weyl + S^3-line + zeta_+ leave complex dimension 4 (the Xi_{+r} span)",
+NRH`Check["historical complex-rank check: Weyl + S^3-line + zeta_+ leave complex dimension 4; not a verification of the current real product basis",
    32 - MatrixRank[Join[(id32 - Gam11)/2, projS3perp, projAuxPerp]] == 4];
 
 gammaVac = GammaDFT[Hinf, dinf, xsU];
@@ -250,7 +254,8 @@ NRH`Check["the bilinear is symmetric under f1 <-> f2 (commuting coefficient func
 
 (* The reduced one-sided jet system after SMreducedDirac, derived in the printed frame: D_{pbar} E = 0 and the
    opposite-channel Dirac equation gamma^p D_p E + E/(Sqrt[2] l) = 0 on the exact L_- = 0 background with
-   W = W_0 + u W_1, generic spinor E = (e0, e1)(x+, x-, y). *)
+   W = W_0 + u_m W_1 with manuscript u_m = e^{-2y/l} (code u = e^{2y/l}),
+   generic spinor E = (e0, e1)(x+, x-, y). *)
 Module[{Wn, HNRone1, VexU1, VbexU1, V1, Vb1, gamma1, Phi1, spin1, DA1, DP1, DPbar1, slashD1, Eg, jetRule, grav, dirOpp,
         jetVars, sysDisplayed, mat, mC, computed, simp},
    Wn = W0[xp, xm] + W1[xp, xm]/u;
@@ -322,7 +327,7 @@ NRH`Check["constant L > 0: monodromy multipliers e^{pm 2 Sqrt[L0] pi} are real a
 
 NRH`Check["the two surviving directions are complementary in the reduced basis",
    MatrixRank[{{1, 0}, {0, 1}}] == 2 && {1, 0} . {0, 1} == 0];
-NRH`Check["counting: (4,4) + (4,4) = the sixteen constant vacuum modes; one-sided (4,0)/(0,4) = extremal count",
+NRH`Check["counting: arithmetic consistency of the stated polarization counts, (4,4) + (4,4) = 16 and (4,0)/(0,4) = 4; not an independent global spinor count",
    4 + 4 + 4 + 4 == 16 && 4 + 0 == 4 && 0 + 4 == 4];
 
 NRH`FileSummary[];

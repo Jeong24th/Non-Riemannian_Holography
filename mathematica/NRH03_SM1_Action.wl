@@ -20,7 +20,7 @@ NRH`CheckZero["SMgamma2 on R: e^{-2d} S_(0) = L_Gamma2 + d_M(e^{-2d} B^M) for ar
 BvecR = GammaBVector[HR, dR, xsU];
 NRH`CheckZero["SMgamma2flux on R: B^y = 4 d_y d and e^{-2d} B^y = -(4/l)(e^{2y/l} + L+L- e^{-2y/l})",
    {Together[BvecR[[6]] - 4 (2 u/l) D[dR, u]], Together[Exp[-2 dR] BvecR[[6]] + 4/l (u + Lp[xp] Lm[xm]/u)]}];
-NRH`Check["SMgamma2 on R: the section fluxes B^{x pm} are built from the W-independent blocks and are total x-derivatives of periodic data",
+NRH`Check["SMgamma2 on R: the section fluxes B^{x pm} contain no W (tangential integration uses the stated periodic or decay conditions)",
    FreeQ[Together[BvecR[[4 ;; 5]]], W] ];
 
 chy = -(2 Sqrt[2]/l) Sinh[ch/Sqrt[2]];

@@ -1,7 +1,14 @@
 (* ::Title:: *)
 (*NRH07 SM3 Covariant Charges and Asymptotic Algebras*)
 
-(* SM3.9: surface-charge one-form, Riemannian normalization, non-Riemannian charges, C-bracket and cocycles. *)
+(* Current SM3.6: surface-charge one-form, Riemannian normalization, non-Riemannian charges,
+   C-bracket and cocycles. Assertion identifiers are retained from the expanded archive.
+   In the R calculation below, u = exp(+2y/l), reciprocal to the manuscript radial variable;
+   in the NR calculation z = exp(-2y/l), equal to the manuscript u. Their derivatives and
+   boundary limits accordingly differ. Antisymmetric K^(y+) is minus the printed K^(+y).
+   Mixed parameter-bracket leftovers are tested by their vanishing surface potentials,
+   not by claiming that the raw parameter bracket vanishes. The final L+T/4 identity is
+   ancillary algebra and does not alter the physical NR charge central term. *)
 
 ClearAll["Global`*"];
 Get[FileNameJoin[{If[FileExistsQ[FileNameJoin[{DirectoryName[$InputFileName], "NRH01_DFT_Tools.wl"}]], DirectoryName[$InputFileName], NotebookDirectory[]], "NRH01_DFT_Tools.wl"}]];
@@ -210,7 +217,7 @@ NRH`CheckZero["(vi) that leftover is chiral and closed, and carries no surface p
    {D[bracketDiffM[[2]], xp], D[bracketDiffM[[2]], z],
     Limit[Together[eDenz KhatComp[HNRz, dNRz, {0, zm[xm], 0, 0, 0, 0}, 4, 6, xsZ]], z -> 0]}];
 
-NRH`CheckZero["footnote: with delta T = eps T' + 2 T eps' - l^2 eps''' the combination L + T/4 obeys the law with -(l^2/4) eps'''",
+NRH`CheckZero["footnote: historical auxiliary algebra only: with delta T = eps T' + 2 T eps' - l^2 eps''' the combination L + T/4 obeys the law with -(l^2/4) eps'''",
    Module[{dL = e1[xp] D[Lp[xp], xp] + 2 Lp[xp] D[e1[xp], xp],
       dT = e1[xp] D[TT[xp], xp] + 2 TT[xp] D[e1[xp], xp] - l^2 D[e1[xp], {xp, 3}], comb},
       comb = Lp[xp] + TT[xp]/4;

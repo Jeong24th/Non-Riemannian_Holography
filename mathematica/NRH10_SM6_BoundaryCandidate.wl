@@ -1,5 +1,8 @@
 (* ::Title:: *)
 (*NRH10 SM6 A Classical Boundary-Theory Candidate*)
+(* Scope: the bosonic gauge and extra-transformation checks use non-Abelian covariant derivatives.
+   The Grassmann Witt, fermionic and trivial-variation checks use the A=0 realization with partial
+   derivatives.  They are not a full non-Abelian fermionic verification or a quantum/holographic test. *)
 
 ClearAll["Global`*"];
 Get[FileNameJoin[{If[FileExistsQ[FileNameJoin[{DirectoryName[$InputFileName], "NRH01_DFT_Tools.wl"}]], DirectoryName[$InputFileName], NotebookDirectory[]], "NRH01_DFT_Tools.wl"}]];
