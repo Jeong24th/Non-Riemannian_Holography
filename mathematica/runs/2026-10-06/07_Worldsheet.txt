@@ -1,0 +1,42 @@
+[NRH01] DFT toolbox loaded.
+
+================================================================
+  07_Worldsheet.wl
+================================================================
+  [PASS] the auxiliary equations give beta = -2F d x^- and betabar = -2F dbar x^+
+  [PASS] eliminating the auxiliaries reproduces E_{mu nu} dx^mu dbar x^nu, E = g - B
+  [PASS] -det g_par = F^2 - 4 L+ L- = e^{-4 d_R}
+  [PASS] c_eff^2 = 2F -> 4 Sqrt[L+L-] at the horizon u = Sqrt[L+L-]
+  [PASS] SM: H^{mu nu} tau^pm_nu = 0 (two-dimensional longitudinal kernel)
+  [PASS] SM: the dual vectors Y, Ybar exist at every radius (unit clock determinant)
+  [PASS] symmetric-block route - antisymmetric-clock route = W (tau- . dx)(tau+ . dbar x)
+  [PASS] at chi -> 0 the W coupling reduces to (W/2) dx^+ dbar x^- (+ constraint terms)
+  [PASS] with the 1/(2 pi alpha') prefactor this is V_W = (1/(4 pi alpha')) W dx+ dbar x-
+  [PASS] before : with constant L_pm the (t, phi) components of g and B are t-independent, so d_t is Killing and B is invariant
+  [PASS] before : gamma^{tau a} g_{t nu} d_a X^nu = gamma^{tau a} gamma_{a tau} = 1 on the static embedding
+  [PASS] before : B_{t phi} = l (e^{2y/l} + L+L- e^{-2y/l}) and B_{t nu} X'^nu = w B_{t phi}
+  [PASS] before : E = -Int_0^{2 pi} d sigma P_t with the displayed P_mu reproduces E(y) = -(2 w l/alpha') L+L- e^{-2y/l}
+  [PASS] -det g_(t,phi) = l^2 (e^{2y/l} - L+L- e^{-2y/l})^2 per winding, i.e. the Nambu-Goto area density l(e^{2y/l} - L+L- e^{-2y/l}) (exact, arbitrary chiral L_pm)
+  [PASS] E(y) = (w l/alpha')[(e^{2y/l} - L+L- e^{-2y/l}) - (e^{2y/l} + L+L- e^{-2y/l})] = -(2 w l/alpha') L+L- e^{-2y/l}
+  [PASS] remark: with phi_0 = 0 the area density equals l e^{-2d} (a coincidence of the gauge choice, not a property of the Nambu-Goto action)
+  [PASS] k = |Int_{S^3} H| / (4 pi^2 alpha') = l^2/alpha'
+  [PASS] the two OPE contributions assemble to h_y(a)/(z-w)^2
+  [PASS] the marginal roots of h_y are a = 0 and a = -2/l (modes {1, e^{-2y/l}})
+  [PASS] (d_y^2 + (2/l) d_y) f = 0 for f = W0 + W1 e^{-2y/l}
+  [PASS] h_y(i p_y) = (alpha'/4) p_y (p_y - 2 i/l) and P_y = p_y - i/l gives (alpha'/4)(P_y^2 + 1/l^2)
+  [PASS] V_W: the undressed W_0 longitudinal operator has no self-contraction pair inside {x^+, x^-}^2; radial W_1 dressing is checked separately
+  [PASS] <x^+ x^-> = 0 in the Gomis-Ooguri system (x^+ pairs only with beta)
+  [PASS] c_y/2 = 1/2 + 3 alpha'/l^2 from the two TT contractions, i.e. c_y = 1 + 6 alpha'/l^2
+  [PASS] c_{beta gamma} + c_y = 2 + (1 + 6/k) = 3(k+2)/k
+  [PASS] Lhat_xi H^infty = D H^infty + H^infty D^T with D = ((-(dv)^T, 0), (b, dv)), b = d lambda~
+  [PASS] the conditions force d_y v^mu = 0, d_- v^+ = 0 = d_+ v^-, b_{+-} = -varpi/2, b_{+y} = d_+ v^y, b_{-y} = -d_- v^y, v^y = -(l/2)(d_+ v^+ + d_- v^-)
+  [PASS] (db)_{+-y} = d_+ b_{-y} + d_- b_{y+} + d_y b_{+-} = -2 d_+ d_- v^y - (1/2) d_y varpi
+  [PASS] v^y = -(l/2)(d_+ v^+(x^+) + d_- v^-(x^-)) has d_+ d_- v^y = 0, so closure forces d_y varpi = 0: W_0 is gauge, e^{-2y/l} W_1 is not
+  [PASS] e^{a y(z)} e^{a y(0)} ~ |z|^{-alpha' a^2} = |z|^{-4 alpha'/l^2} for a = -2/l (from <y y> = -(alpha'/2) Log|z|^2)
+  [PASS] the n-fold fused weight h_n = n + q n(1-n) equals n + h_y(-2n/l) with q = alpha'/l^2
+  [PASS] h_n = 1 exactly at n = 1 or at the resonant value q = 1/n
+  [PASS] SNCdualB: dual vectors and tau+ wedge tau- = dx+ wedge dx-
+  [PASS] SNCreconstruction: all lower-right generalized-metric components
+  [PASS] SMvielbein: both frames are the B transforms of W=0 frames
+----------------------------------------------------------------
+  07_Worldsheet.wl: 35/35 checks passed.

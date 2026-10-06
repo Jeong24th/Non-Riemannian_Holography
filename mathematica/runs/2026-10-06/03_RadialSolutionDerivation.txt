@@ -1,0 +1,31 @@
+[NRH01] DFT toolbox loaded.
+
+================================================================
+  03_RadialSolutionDerivation.wl
+================================================================
+  [PASS] SM2.1: the Riemannian saddle is of type (0,0): the upper-left block H^{mu nu} = g^{-1} is invertible
+  [PASS] SM2.1: the fixed, L-independent e^{-2y/l} falloff in the type-changing channel H^{+-} (even at L_pm = 0)
+  [PASS] SM2.1: exterior terminates at the Killing horizon e^{4y/l} = L+ L- where e^{-2d} = 0
+  [PASS] NRhill: A = (1/4)(d ln L)^2 - (1/2) d^2 ln L = psi''/psi with psi = L^{-1/2}
+  [PASS] NRradialchange: d chi/d q = 2 Sqrt[2]/(1 - q^2) and d_y = -(2q/l) d_q for q = e^{-2y/l} Sqrt[Pi/2]
+  [PASS] NRradialoperator: (1-q^2)^2/8 (d_q^2 - 2q/(1-q^2) d_q) = d_chi^2
+  [PASS] d_y chi = -4 Sqrt[Pi] e^{2d}/l (hyperbolic identity form)
+    [timing] Gamma: 0.6000000000000001 s
+    [timing] R4:    1.9000000000000001 s
+    [timing] Ricci: 0.5 s
+    [timing] S0:    0.1 s
+  [PASS] NRchiODE: the tensor EDFE contains d^2 W/d chi^2
+  [PASS] NRchiODE, NRsource: (P S Pbar)_MN = 0 <=> d^2W/dchi^2 = F with the displayed source
+  [PASS] EDFE scalar: S_(0) = -4/l^2 for arbitrary W
+  [PASS] NRg, NRGprofile: d^2 I_radial/d chi^2 = rho(chi)
+  [PASS] NRGprofile: I_radial'(0) = 0 and I_radial'(chi) = (2/3) chi^2 + O(chi^4); the integral normalization I_radial(0) = 0 gives I_radial = (2/9) chi^3 + O(chi^5)
+  [PASS] NRGprofile: d^2/dchi^2 (e^{s chi} - 1 - s chi) = e^{s chi}
+  [PASS] NRWgeneral: twice integrating NRchiODE gives the exact solution (with I_radial'' = rho)
+  [PASS] the two integration functions W_0, W_1 multiply {1, chi/(2 Sqrt[Pi])}
+  [PASS] constant L: q = Sqrt[L+L-/2] mu_RG^{-2}; mu d chi/d mu = -2 Sqrt[2] sinh(chi/Sqrt[2])
+  [PASS] the endpoint q = 1 lies at e^{4y/l} = L+ L-/2
+  [PASS] SMBtransform, SMWshift: Omega_b H(W) Omega_b^T = H(W - 2 b_{+-}) exactly, d untouched
+  [PASS] SMBtransform: Omega_b is O(3,3)
+  [PASS] b = (1/2) W_0 dx+ ^ dx- = d lambda with lambda_- = (1/2) Int^{x+} W_0, lambda_+ = lambda_y = 0
+----------------------------------------------------------------
+  03_RadialSolutionDerivation.wl: 20/20 checks passed.

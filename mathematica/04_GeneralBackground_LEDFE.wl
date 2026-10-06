@@ -1,9 +1,340 @@
+(* 04_GeneralBackground_LEDFE.wl | 2026-10-06 standalone edition.
+   All definitions are embedded. No Get, Needs, input files, or packages.
+   Run in a fresh kernel; this file clears Global` and NRH`.
+   Stable labels identify formulas; old SM numbers in inherited check IDs are historical. *)
+ClearAll["Global`*", "NRH`*"];
+(* ::Title:: *)
+(*NRH01 DFT Tools*)
+
+NRH`$FileResults;
+If[!ListQ[NRH`$AllResults], NRH`$AllResults = {}];
+
+NRH`BeginFile[name_String] := (
+   NRH`$CurrentFile = name;
+   NRH`$FileResults = {};
+   Print["\n================================================================"];
+   Print["  ", name];
+   Print["================================================================"]);
+
+NRH`Record[label_String, ok : (True | False)] := (
+   AppendTo[NRH`$FileResults, {NRH`$CurrentFile, label, ok}];
+   AppendTo[NRH`$AllResults, {NRH`$CurrentFile, label, ok}];
+   Print[If[ok, "  [PASS] ", "  [FAIL] "], label];
+   ok);
+
+NRH`CheckZero[label_String, expr_] := Module[{z},
+   z = NRH`ZeroQ[expr];
+   NRH`Record[label, TrueQ[z]]];
+
+NRH`Check[label_String, statement_] := NRH`Record[label, TrueQ[statement]];
+
+NRH`FileSummary[] := Module[{n, bad},
+   n = Length[NRH`$FileResults];
+   bad = Select[NRH`$FileResults, #[[3]] === False &];
+   Print["----------------------------------------------------------------"];
+   Print["  ", NRH`$CurrentFile, ": ", n - Length[bad], "/", n, " checks passed."];
+   If[Length[bad] > 0,
+      Print["  FAILED: ", bad[[All, 2]]];
+      If[$FrontEnd === Null && ! TrueQ[NRH`$DeferExit], Exit[1]]];
+   Length[bad] === 0];
+
+NRH`GrandSummary[] := Module[{n, bad},
+   n = Length[NRH`$AllResults];
+   bad = Select[NRH`$AllResults, #[[3]] === False &];
+   Print["\n################################################################"];
+   Print["  GRAND TOTAL: ", n - Length[bad], "/", n, " checks passed."];
+   Scan[Print["  FAILED: ", #[[1]], " -- ", #[[2]]] &, bad];
+   Print["################################################################"];
+   If[Length[bad] > 0 && $FrontEnd === Null, Exit[1]];
+   Length[bad] === 0];
+
+NRH`ZeroQ[expr_] := Module[{flat, t},
+   flat = Flatten[{expr}];
+   AllTrue[flat,
+      Function[e,
+         t = Together[Expand[e]];
+         If[t === 0, True,
+            t = Together[ExpandAll[TrigToExp[t]]];
+            If[t === 0, True, PossibleZeroQ[Simplify[t]]]]]]];
+
+ODDJ[nphys_Integer] := ArrayFlatten[{{0, IdentityMatrix[nphys]}, {IdentityMatrix[nphys], 0}}];
+
+DblD[expr_, m_Integer, xs_List] := Module[{n = Length[xs], op},
+   If[m <= n, 0*expr,
+      op = xs[[m - n]];
+      If[Head[op] === Function, op[expr], D[expr, op]]]];
+
+DblGrad[expr_, xs_List] := Table[DblD[expr, m, xs], {m, 1, 2 Length[xs]}];
+
+(* Lowered Gamma_CAB, unit-weight antisymmetrization; trace fixed by nabla d = 0. *)
+GammaDFT[HH_, dd_, xs_List] := Module[
+   {n = Length[xs], dim, JJ, P, Pb, Pm, Pbm, PbUD, dP, gradd,
+    gamma12, T12, X, PbmX, PmX, coeff},
+   dim = 2 n; JJ = ODDJ[n];
+   P = (JJ + HH)/2; Pb = (JJ - HH)/2;
+   Pm = P . JJ; Pbm = Pb . JJ; PbUD = JJ . Pb;
+   dP = Table[DblD[P, m, xs], {m, 1, dim}];
+   gradd = DblGrad[dd, xs];
+   gamma12 = Table[
+      Module[{term1, m2},
+         term1 = Pm . dP[[c]] . PbUD;
+         term1 = term1 - Transpose[term1];
+
+         m2 = Sum[
+            Module[{colQb = (Pbm . dP[[dd2]])[[All, c]], colQ = (Pm . dP[[dd2]])[[All, c]]},
+               Outer[Times, Pbm[[All, dd2]], colQb] - Outer[Times, colQb, Pbm[[All, dd2]]]
+               - Outer[Times, Pm[[All, dd2]], colQ] + Outer[Times, colQ, Pm[[All, dd2]]]],
+            {dd2, n + 1, dim}];
+         Map[Together, term1 + m2, {2}]],
+      {c, 1, dim}];
+   T12 = Table[Together[Sum[JJ[[b, e]]*gamma12[[e, b, a]], {b, 1, dim}, {e, 1, dim}]], {a, 1, dim}];
+   X = gradd + T12/2;
+   PbmX = Pbm . X; PmX = Pm . X;
+   coeff = -4/(n - 1);
+   Table[
+      Map[Together, gamma12[[c]] + coeff/2*(
+         Outer[Times, Pb[[c]], PbmX] - Outer[Times, PbmX, Pb[[c]]]
+         + Outer[Times, P[[c]], PmX] - Outer[Times, PmX, P[[c]]]), {2}],
+      {c, 1, dim}]];
+
+RiemannR4[gamma_List, xs_List] := Module[{n = Length[xs], dim, JJ},
+   dim = 2 n; JJ = ODDJ[n];
+   Table[
+      If[b <= a, ConstantArray[0, {dim, dim}],
+         Map[Together,
+            DblD[gamma[[b]], a, xs] - DblD[gamma[[a]], b, xs]
+            + gamma[[a]] . JJ . gamma[[b]] - gamma[[b]] . JJ . gamma[[a]], {2}]],
+      {a, 1, dim}, {b, 1, dim}]
+   // (# - Transpose[#, {2, 1, 3, 4}] &)];
+
+Partner[m_Integer, n_Integer] := If[m <= n, m + n, m - n];
+
+RicciS[gamma_List, r4_List, xs_List] := Module[{n = Length[xs], dim, gg},
+   dim = 2 n;
+
+   Table[
+      Together[Sum[Module[{e = Partner[c, n]},
+         (r4[[c, b, e, a]] + r4[[e, a, c, b]]
+            - Sum[gamma[[Partner[f, n], e, a]]*gamma[[f, c, b]], {f, 1, dim}])/2],
+         {c, 1, dim}]],
+      {a, 1, dim}, {b, 1, dim}]];
+
+ScalarS0[HH_, dd_, xs_List] := Module[
+   {n = Length[xs], dim, JJ, Hup, Hmix, gradd, term},
+   dim = 2 n; JJ = ODDJ[n];
+   Hup = JJ . HH . JJ;
+   Hmix = HH . JJ;
+   gradd = DblGrad[dd, xs];
+   term =
+      Sum[Hup[[a, b]]*(
+            1/8*Sum[DblD[Hup[[c, e]], a, xs]*DblD[HH[[c, e]], b, xs], {c, 1, dim}, {e, 1, dim}]
+            + 1/2*Sum[DblD[Hmix[[a, e]], c, xs]*DblD[Hmix[[b, c]], e, xs], {c, 1, dim}, {e, 1, dim}]
+            - 4*gradd[[a]]*gradd[[b]] + 4*DblD[gradd[[b]], a, xs]),
+         {a, 1, dim}, {b, 1, dim}]
+      - Sum[DblD[DblD[Hup[[a, b]], a, xs], b, xs], {a, 1, dim}, {b, 1, dim}]
+      + 4*Sum[DblD[Hup[[a, b]], a, xs]*gradd[[b]], {a, 1, dim}, {b, 1, dim}];
+   term];
+
+ScalarS0FromS4[gamma_List, r4_List, HH_, xs_List] := Module[
+   {n = Length[xs], dim, JJ, P, Pb, Pup, Pbup, s4},
+   dim = 2 n; JJ = ODDJ[n];
+   P = (JJ + HH)/2; Pb = (JJ - HH)/2;
+   Pup = JJ . P . JJ; Pbup = JJ . Pb . JJ;
+   s4[a_, b_, c_, d_] :=
+      (r4[[c, d, a, b]] + r4[[a, b, c, d]]
+         - Sum[gamma[[Partner[f, n], a, b]]*gamma[[f, c, d]], {f, 1, dim}])/2;
+   Sum[(Pup[[a, c]]*Pup[[b, d]] - Pbup[[a, c]]*Pbup[[b, d]])*s4[a, b, c, d],
+      {a, 1, dim}, {b, 1, dim}, {c, 1, dim}, {d, 1, dim}]];
+
+ProjectedRicci[HH_, ricci_, xs_List] := Module[{n = Length[xs], JJ, P, Pb},
+   JJ = ODDJ[n]; P = (JJ + HH)/2; Pb = (JJ - HH)/2;
+   P . JJ . ricci . JJ . Pb];
+
+EinsteinG[HH_, ricci_, s0_, xs_List] := Module[{n = Length[xs], JJ, psp},
+   JJ = ODDJ[n];
+   psp = ProjectedRicci[HH, ricci, xs];
+   4*(psp - Transpose[psp])/2 - 1/2*JJ*s0];
+
+GenLieH[xiUp_List, HH_, xs_List] := Module[
+   {n = Length[xs], dim, JJ, xiLow, dxiUp, dxiLow, amat},
+   dim = 2 n; JJ = ODDJ[n];
+   xiLow = JJ . xiUp;
+   dxiUp = Table[DblD[xiUp[[c]], m, xs], {m, 1, dim}, {c, 1, dim}];
+   dxiLow = Table[DblD[xiLow[[c]], m, xs], {m, 1, dim}, {c, 1, dim}];
+
+   amat = Table[dxiUp[[m, c]] - Sum[JJ[[c, dd2]]*dxiLow[[dd2, m]], {dd2, 1, dim}], {m, 1, dim}, {c, 1, dim}];
+   Sum[xiUp[[c]]*DblD[HH, c, xs], {c, 1, dim}] + amat . HH + HH . Transpose[amat]];
+
+GenLieD[xiUp_List, dd_, xs_List] := Module[{n = Length[xs], dim},
+   dim = 2 n;
+   Sum[xiUp[[a]]*DblD[dd, a, xs], {a, 1, dim}] - 1/2*Sum[DblD[xiUp[[a]], a, xs], {a, 1, dim}]];
+
+RiemannianH[g_, B_] := Module[{gi = Inverse[g]},
+   ArrayFlatten[{{gi, -gi . B}, {B . gi, g - B . gi . B}}]];
+
+RiemannianDilaton[g_, phi_] := phi - 1/4 Log[-Det[g]];
+
+Gamma2Density[HH_, dd_, gamma_List, xs_List] := Module[
+   {n = Length[xs], dim, JJ, P, Pb, Pup, Pbup, gup},
+   dim = 2 n; JJ = ODDJ[n];
+   P = (JJ + HH)/2; Pb = (JJ - HH)/2;
+   Pup = JJ . P . JJ; Pbup = JJ . Pb . JJ;
+
+   Exp[-2 dd]*Sum[(Pup[[a, c]]*Pup[[b, d]] - Pbup[[a, c]]*Pbup[[b, d]])*
+        Sum[gamma[[a, c, Partner[e, n]]]*gamma[[b, d, e]]
+            - gamma[[a, b, Partner[e, n]]]*gamma[[d, c, e]]
+            + 1/2*gamma[[Partner[e, n], a, b]]*gamma[[e, c, d]], {e, 1, dim}],
+      {a, 1, dim}, {b, 1, dim}, {c, 1, dim}, {d, 1, dim}]];
+
+GammaBVector[HH_, dd_, xs_List] := Module[{n = Length[xs], dim, JJ, Hup},
+   dim = 2 n; JJ = ODDJ[n]; Hup = JJ . HH . JJ;
+   Table[4*Sum[Hup[[a, b]]*DblD[dd, b, xs], {b, 1, dim}]
+         - Sum[DblD[Hup[[a, b]], b, xs], {b, 1, dim}], {a, 1, dim}]];
+
+(* Unprojected mathcal A and its mixed projected tensor; doubled indices are lowered. *)
+MomentumCore[gamma_List, xs_List] := Module[{dim = 2 Length[xs], j = ODDJ[Length[xs]], tr},
+   tr = Table[Sum[j[[a, b]] gamma[[b, a, n]], {a, dim}, {b, dim}], {n, dim}];
+   Table[KroneckerDelta[k, m] tr[[n]] + KroneckerDelta[k, n] tr[[m]]
+      - Sum[j[[k, a]] (gamma[[m, a, n]] + gamma[[n, a, m]]), {a, dim}],
+      {k, dim}, {m, dim}, {n, dim}]];
+MomentumAK[HH_, gamma_List, xs_List] := With[{j = ODDJ[Length[xs]]},
+   Map[Map[Together, ((j + HH)/2) . j . # . Transpose[((j - HH)/2) . j], {2}] &,
+      MomentumCore[gamma, xs]]];
+
+SpinConnectionDFT[V_, eta_, gamma_List, xs_List] := Module[
+   {n = Length[xs], dim, JJ, VlowFlat, VupLowFlat, deriv, cov, phi},
+   dim = 2 n; JJ = ODDJ[n];
+   VlowFlat = V . eta;
+   VupLowFlat = JJ . V . eta;
+   Table[
+      deriv = DblD[V, a, xs] . eta;
+      cov = deriv + gamma[[a]] . JJ . VlowFlat;
+      phi = Transpose[VupLowFlat] . cov;
+      (phi - Transpose[phi])/2,
+      {a, 1, dim}]];
+
+DFTCurvature[HH_, dd_, xs_List] := Module[{gamma, r4, ric, s0, t},
+   {t, gamma} = AbsoluteTiming[GammaDFT[HH, dd, xs]];
+   Print["    [timing] Gamma: ", Round[t, 0.1], " s"];
+   {t, r4} = AbsoluteTiming[RiemannR4[gamma, xs]];
+   Print["    [timing] R4:    ", Round[t, 0.1], " s"];
+   {t, ric} = AbsoluteTiming[RicciS[gamma, r4, xs]];
+   Print["    [timing] Ricci: ", Round[t, 0.1], " s"];
+   {t, s0} = AbsoluteTiming[Together[ScalarS0[HH, dd, xs]]];
+   Print["    [timing] S0:    ", Round[t, 0.1], " s"];
+   <|"Gamma" -> gamma, "R4" -> r4, "Ricci" -> ric, "S0" -> s0,
+     "PSPbar" -> ProjectedRicci[HH, ric, xs],
+     "G" -> EinsteinG[HH, ric, s0, xs]|>];
+
+Print["[NRH01] DFT toolbox loaded."];
+
+(* Shared three-dimensional backgrounds; u = exp(2 y/l), z = 1/u. *)
+Hinf = {{0, 0, 0, 1, 0, 0}, {0, 0, 0, 0, -1, 0}, {0, 0, 1, 0, 0, 0},
+        {1, 0, 0, 0, 0, 0}, {0, -1, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 1}};
+Vinf = {{1/Sqrt[2], 0, 0}, {0, 0, 0}, {0, 0, 1/Sqrt[2]},
+   {0, -Sqrt[2], 0}, {0, 0, 0}, {0, 0, 1/Sqrt[2]}};
+Vbinf = {{0, 0, 0}, {0, 1/Sqrt[2], 0}, {0, 0, 1/Sqrt[2]},
+   {0, 0, 0}, {Sqrt[2], 0, 0}, {0, 0, -1/Sqrt[2]}};
+eta3 = {{0, -1, 0}, {-1, 0, 0}, {0, 0, 1}};
+etab3 = -eta3;
+
+RiemannianMetric[lp_, lm_, u_] := With[{f = u + lp lm/u},
+   {{2 lp, -f, 0}, {-f, 2 lm, 0}, {0, 0, 1}}];
+RiemannianB[lp_, lm_, u_] := (u + lp lm/u) {{0, -1, 0}, {1, 0, 0}, {0, 0, 0}};
+RiemannianD[lp_, lm_, u_] := -Log[u (1 - lp lm/u^2)]/2;
+NonRiemannianH[chi_, esigma_, w_] := With[{c = Cosh[chi], s = Sinh[chi]},
+   {{0, 0, 0, c, -s/esigma, 0}, {0, 0, 0, esigma s, -c, 0},
+    {0, 0, 1, 0, 0, 0}, {c, esigma s, 0, -w esigma s, w c, 0},
+    {-s/esigma, -c, 0, w c, -w s/esigma, 0}, {0, 0, 0, 0, 0, 1}}];
+NRBoundaryH[lp_, lm_, w1_, z_] := With[{c = 1 + 2 lp lm z^2},
+   {{0, 0, 0, c, -2 lm z, 0}, {0, 0, 0, 2 lp z, -c, 0},
+    {0, 0, 1, 0, 0, 0}, {c, 2 lp z, 0, -2 lp w1 z^2, w1 z, 0},
+    {-2 lm z, -c, 0, w1 z, -2 lm w1 z^2, 0}, {0, 0, 0, 0, 0, 1}}];
+NRBoundaryD[lp_, lm_, z_] := Log[z]/2 + lp lm z^2/4;
+
+(* ---------------------------------------------------------------------------------------------- *)
+(* Near-boundary tools used by the SM3 files.  z = e^{-2y/l} is the manuscript's u; the radial       *)
+(* derivative acts on an explicit y (symbol yy) and on z: d_y = d_yy - (2z/l) d_z.  Backgrounds and    *)
+(* frames are expanded through z^n; nothing lowers the z-order, so truncation is exact at each order. *)
+(* ---------------------------------------------------------------------------------------------- *)
+
+xsZY = {xp, xm, Function[e, D[e, yy] - (2 z/l) D[e, z]]};
+DyZY[e_] := D[e, yy] - (2 z/l) D[e, z];
+SeriesZ[e_, n_] := Together[Normal[Series[e, {z, 0, n}]]];
+SeriesZM[m_, n_] := Map[SeriesZ[#, n] &, m, {ArrayDepth[m]}];
+LinearT[e_] := Coefficient[Normal[Series[e, {t, 0, 1}]], t, 1];
+
+(* Exact Riemannian saddle data of SMexactRdata (lower flat indices), as rational functions of z. *)
+RiemannianSaddleExact[] := Module[{Pi2, g, B, e, eb, V, Vb, d},
+   Pi2 = Lp[xp] Lm[xm];
+   g = {{2 Lp[xp], -1/z - Pi2 z, 0}, {-1/z - Pi2 z, 2 Lm[xm], 0}, {0, 0, 1}};
+   B = {{0, -1/z - Pi2 z, 0}, {1/z + Pi2 z, 0, 0}, {0, 0, 0}};
+   e = {{1, -Lp[xp], 0}, {-z Lm[xm], 1/z, 0}, {0, 0, 1}};
+   eb = {{1/z, -z Lp[xp], 0}, {-Lm[xm], 1, 0}, {0, 0, 1}};
+   V = 1/Sqrt[2] ArrayFlatten[{{Transpose[Inverse[e]]}, {e . eta3 + B . Transpose[Inverse[e]]}}];
+   Vb = 1/Sqrt[2] ArrayFlatten[{{Transpose[Inverse[eb]]}, {eb . etab3 + B . Transpose[Inverse[eb]]}}];
+   d = -yy/l - 1/2 Log[1 - Pi2 z^2];
+   <|"H" -> Map[Together, RiemannianH[g, B], {2}], "V" -> Map[Together, V, {2}], "Vb" -> Map[Together, Vb, {2}],
+     "d" -> d, "g" -> g, "B" -> B, "e" -> e, "eb" -> eb|>];
+
+(* Exact non-Riemannian saddle data of SMexactNRdata / SMvielbein in the rational variables
+   psi_pm = L_pm^{-1/2}: L+ = 1/psip^2, L- = 1/psim^2, e^sigma = psim/psip, chi = 2 sqrt2 arctanh(z sqrt(Pi/2)).
+   Wz is the hair function of z (W0 = 0 unless supplied). *)
+NonRiemannianSaddleExact[Wz_] := Module[{Pi2, chi, esg, hh, chh, shh, Vup, Vbup, H, d},
+   Pi2 = 1/(psip[xp]^2 psim[xm]^2);
+   chi = 2 Sqrt[2] ArcTanh[z/(Sqrt[2] psip[xp] psim[xm])];     (* q = z sqrt(Pi/2) written rationally *)
+   esg = psim[xm]/psip[xp];
+   hh = chi/2; chh = Cosh[hh]; shh = Sinh[hh];
+   Vup = {{0, -chh/Sqrt[2], 0}, {0, -esg shh/Sqrt[2], 0}, {0, 0, 1/Sqrt[2]},
+      {Sqrt[2] chh, Wz esg shh/(2 Sqrt[2]), 0}, {-Sqrt[2] shh/esg, -Wz chh/(2 Sqrt[2]), 0}, {0, 0, 1/Sqrt[2]}};
+   Vbup = {{shh/(esg Sqrt[2]), 0, 0}, {chh/Sqrt[2], 0, 0}, {0, 0, -1/Sqrt[2]},
+      {-Wz chh/(2 Sqrt[2]), -Sqrt[2] esg shh, 0}, {Wz shh/(2 Sqrt[2] esg), Sqrt[2] chh, 0}, {0, 0, 1/Sqrt[2]}};
+   H = NonRiemannianH[chi, esg, Wz];
+   d = -yy/l + Log[Cosh[chi/(2 Sqrt[2])]];
+   <|"H" -> H, "V" -> Vup . eta3, "Vb" -> Vbup . etab3, "d" -> d, "chi" -> chi, "esigma" -> esg|>];
+NRW2 := -(l^2/4) D[1/psip[xp]^2, xp] D[1/psim[xm]^2, xm];    (* SMbackgroundexpansion: the derivative-dependent W_2 *)
+NRLpsi = {Lp -> Function[x, 1/psip[x]^2], Lm -> Function[x, 1/psim[x]^2]};
+
+SaddleSeries[sd_Association, n_] := <|"H" -> SeriesZM[sd["H"], n], "V" -> SeriesZM[sd["V"], n],
+   "Vb" -> SeriesZM[sd["Vb"], n], "d" -> SeriesZ[sd["d"], n]|>;
+
+(* SMcosetreconstruction: delta H_MN = 2 V_(M^p Vbar_N)^qbar h_{p qbar} for a lower-index mixed fluctuation matrix. *)
+MixedFluctuationH[V_, Vb_, hmat_] := Module[{m = (V . eta3) . hmat . Transpose[Vb . etab3]}, m + Transpose[m]];
+
+(* Frame variation of SMframevariation, lower flat indices. *)
+FrameVariation[V_, Vb_, hmat_] := {1/2 (Vb . etab3) . Transpose[hmat], -1/2 (V . eta3) . hmat};
+
+(* Linearized EDFE components E_{p qbar} = V^M_p delta(P S Pbar)_MN Vbar^N_qbar and E_0 = delta S_(0)
+   on a z-series saddle, for the mixed fluctuation hmat (functions of xp, xm, yy) and dilaton fluctuation ddf. *)
+LinearizedEDFEComponents[bg_Association, hmat_, ddf_, n_] := Module[
+   {JJ = ODDJ[3], dH, Hlin, dlin, gamma, r4, ric, psp, Vup, Vbup, E, E0, tr},
+   dH = SeriesZM[MixedFluctuationH[bg["V"], bg["Vb"], hmat], n];
+   Hlin = bg["H"] + t dH; dlin = bg["d"] + t ddf;
+   tr[e_] := SeriesZ[Normal[Series[e, {t, 0, 1}]], n];
+   gamma = Map[tr, GammaDFT[Hlin, dlin, xsZY], {3}];
+   r4 = Map[tr, RiemannR4[gamma, xsZY], {4}];
+   ric = Map[tr, RicciS[gamma, r4, xsZY], {2}];
+   psp = Map[Function[e, Together[LinearT[Expand[e]]]], ProjectedRicci[Hlin, ric, xsZY], {2}];
+   Vup = JJ . bg["V"]; Vbup = JJ . bg["Vb"];
+   E = Map[Function[e, SeriesZ[e, n]], Transpose[Vup] . psp . Vbup, {2}];
+   E0 = SeriesZ[Together[LinearT[Expand[ScalarS0[Hlin, dlin, xsZY]]]], n];
+   <|"E" -> E, "E0" -> E0, "dH" -> dH|>];
+
+(* Frame-projected radial momentum A^y_{p qbar} = V^M_p A^y_MN Vbar^N_qbar (SMAdefinition) and same-chirality
+   projections, from the unprojected tensor of MomentumCore. *)
+MomentumProjected[gamma_List, V_, Vb_, xs_List] := Module[{JJ = ODDJ[3], core, Vup, Vbup},
+   core = MomentumCore[gamma, xs][[6]];
+   Vup = JJ . V; Vbup = JJ . Vb;
+   <|"Amixed" -> Transpose[Vup] . core . Vbup, "Aunbarred" -> Transpose[Vup] . core . Vup,
+     "Abarred" -> Transpose[Vbup] . core . Vbup, "core" -> core|>];
+
+(* === CALCULATION === *)
 (* ::Title:: *)
 (*NRH05 SM3 Linearized Dynamics and Holographic Renormalization*)
 
-(* Current SM3: 3.1 constrained variations, 3.2 action variations, 3.3 linearized EDFE and interior
+(* Historical SM3: 3.1 constrained variations, 3.2 action variations, 3.3 linearized EDFE and interior
    condition, 3.4 Riemannian branch, 3.5 non-Riemannian branch, 3.6 covariant charges.
-   This file retains expanded component algebra underlying current SM3.1 and SM3.3-3.5;
+   This file retains expanded component algebra underlying historical SM3.1 and SM3.3-3.5;
    stable assertion identifiers also refer to ancillary displays removed in the compact rewrite.
    General linearized curvature equations are checked through u. The current integrated
    a/b/omega coefficient formulas require a separate equivalence bridge; the new fixed-flux
@@ -11,9 +342,7 @@
    assumes its defining formula and does not prove the universal Box or Codazzi identities.
    z = e^{-2y/l} (manuscript u); yy is the explicit y. Two-point action checks are in NRH06. *)
 
-ClearAll["Global`*"];
-Get[FileNameJoin[{If[FileExistsQ[FileNameJoin[{DirectoryName[$InputFileName], "NRH01_DFT_Tools.wl"}]], DirectoryName[$InputFileName], NotebookDirectory[]], "NRH01_DFT_Tools.wl"}]];
-NRH`BeginFile["NRH05_SM3_Linearized.wl"];
+NRH`BeginFile["04_GeneralBackground_LEDFE.wl"];
 
 JJ = ODDJ[3];
 
@@ -57,7 +386,7 @@ Do[
    {data, {{"R", sdR}, {"NR", sdNR}}}];
 
 (* ::Section:: *)
-(* Current SM3 source conventions and SM3.4-3.5 backgrounds; expanded ancillary checks *)
+(* Historical SM3 source conventions and SM3.4-3.5 backgrounds; expanded ancillary checks *)
 
 NRH`CheckZero["SMflatmetrics, SMinfinityvielbein: V eta V^T = P^infty, Vbar etabar Vbar^T = Pbar^infty, V^T J Vbar = 0",
    {Vinf . eta3 . Transpose[Vinf] - Pinf, Vbinf . etab3 . Transpose[Vbinf] - Pbinf, Transpose[JJ . Vinf] . Vbinf}];
@@ -107,7 +436,7 @@ Module[{chiZ = 2 Sqrt[2] ArcTanh[z/(Sqrt[2] psip[xp] psim[xm])], GG, Wex, c2},
       {SeriesCoefficient[Wex, {z, 0, 1}] - W1[xp, xm], Simplify[c2 - NRW2]}]];
 
 (* ::Section:: *)
-(* Current SM3.3: direct linearized curvature through u; ancillary radial constraints *)
+(* Historical SM3.3: direct linearized curvature through u; ancillary radial constraints *)
 
 NRH`CheckZero["SMexactRdata: e eta e^T = g and ebar etabar ebar^T = -g; V, Vbar reconstruct P, Pbar and are orthogonal",
    Simplify[{rEx["e"] . eta3 . Transpose[rEx["e"]] - rEx["g"], rEx["eb"] . etab3 . Transpose[rEx["eb"]] + rEx["g"],
@@ -171,9 +500,9 @@ Module[{Mm, A0, A1, B0, B1, h0v, h1v, hser, Eop, coeffs, recur},
       {Coefficient[Expand[Eop], tt, 0], Coefficient[Expand[Eop], tt, 1]}]];
 
 (* ::Section:: *)
-(* Current SM3.4-3.5: expanded near-boundary component solutions with general sources *)
+(* Historical SM3.4-3.5: expanded near-boundary component solutions with general sources *)
 
-(* Historical expanded component operators, retained as ancillary checks underlying current SM3.4-3.5. *)
+(* Historical expanded component operators, retained as ancillary checks underlying historical SM3.4-3.5. *)
 (* Historical machine-transcribed targets; these are not a direct transcription of the current compact formulas. *)
 (* Fields: hpp,hpm,hmp,hmm,dd of [xp,xm,yy]; sources a0,b0,r0,c0,v0 of [xp,xm].
    r0 = h_mp^(0) is the type-changing source; c0 = h_pm^(0) is the W0/B-source channel.
@@ -359,5 +688,54 @@ NRH`CheckZero["SMlogfreeconditions: the leading logs vanish if d_+ d_- r = d_+^2
          /. {Derivative[1, 1][r0][xp, xm] -> 0, Derivative[2, 0][r0][xp, xm] -> 0, Derivative[0, 2][r0][xp, xm] -> 0,
              Derivative[2, 2][r0][xp, xm] -> 0, Derivative[1, 1][v0][xp, xm] -> 0,
              Derivative[2, 0][a0][xp, xm] -> -Derivative[0, 2][b0][xp, xm]}]]];
+
+(* === Direct bridge to the current compact SM2.3 and SM2.4 formulas ===
+   All five sources, arbitrary chiral L_pm, arbitrary NR W1; no constant-profile test.
+   Inverse derivatives are tested by differentiating their defining equations.
+   Chiral zero modes and H_s remain free. The remainder is O(z^2 poly(y)). *)
+Module[{r=r0[xp,xm],a=a0[xp,xm],b=b0[xp,xm],v=v0[xp,xm],lp=Lp[xp],lm=Lm[xm],
+ app,amm,apm,bpm,dbpp,dbmm,dwp,dwm,corrp,corrm,rlog,nru,solutions,sub,ops,res,stressRules},
+ app=b-lp r; amm=a-lm r; apm=2 v-2 f0-l^2/8 D[r,xp,xm];
+ bpm=-lm app-lp amm+l^2/4(D[amm,{xp,2}]+D[app,{xm,2}]-2 D[apm,xp,xm]);
+ dbpp=D[bpm,xp]+lm D[app,xp]-lp D[amm,xp];
+ dbmm=D[bpm,xm]-lm D[app,xm]+lp D[amm,xm];
+ dwp=lm/2(l^2 D[r,{xp,3}]-8 lp D[r,xp]-4 D[lp,xp] r);
+ dwm=lp/2(l^2 D[r,{xm,3}]-8 lm D[r,xm]-4 D[lm,xm] r);
+ corrp=lp (4 v-4 f0-l^2/4 D[r,xp,xm])-l^2/4(3 l^2/4 D[r,{xp,3},xm]-6 lp D[r,xp,xm]-4 D[lp,xp] D[r,xm]);
+ corrm=lm (4 v-4 f0-l^2/4 D[r,xp,xm])-l^2/4(3 l^2/4 D[r,xp,{xm,3}]-6 lm D[r,xp,xm]-4 D[lm,xm] D[r,xp]);
+ NRH`CheckZero["current SMRintegratedstress: both differentiated b+omega responses solve the constraints",
+ {dbpp+dwp+D[corrp,xm]-Fptarget["R"],dbmm+dwm+D[corrm,xp]-Fmtarget["R"]}];
+ NRH`CheckZero["current SMNRintegratedstress: differentiating both inverse derivatives gives the stress constraints",
+ {l^2/4(lm D[r,{xp,3}]+4 lp D[r,xp,{xm,2}]+3 D[lp,xp] D[r,{xm,2}])+4 lp D[v,xm]
+ -2 lp D[a,xp]-D[lp,xp] a-1/4(2 W1[xp,xm] D[r,xp]+D[W1[xp,xm],xp] r)-Fptarget["NR"],
+ l^2/4(lp D[r,{xm,3}]+4 lm D[r,{xp,2},xm]+3 D[lm,xm] D[r,{xp,2}])+4 lm D[v,xp]
+ -2 lm D[b,xm]-D[lm,xm] b-1/4(2 W1[xp,xm] D[r,xm]+D[W1[xp,xm],xm] r)-Fmtarget["NR"]}];
+ rlog=-l^3/4(l^2/8 D[r,{xp,3},{xm,3}]-3/2 lp D[r,xp,{xm,3}]-D[lp,xp] D[r,{xm,3}])
+ -l^3/4(l^2/8 D[r,{xm,3},{xp,3}]-3/2 lm D[r,xm,{xp,3}]-D[lm,xm] D[r,{xp,3}])
+ -l/2(5 lp lm D[r,xp,xm]+3 D[lm,xm] lp D[r,xp]+3 D[lp,xp] lm D[r,xm]+2 D[lp,xp] D[lm,xm] r);
+ nru=l/2(2 lp D[a,xp,xm]+D[lp,xp] D[a,xm]+2 lm D[b,xp,xm]+D[lm,xm] D[b,xp])
+ -2 l(lp D[v,{xm,2}]+lm D[v,{xp,2}])+l/2(D[Rp[xp,xm],{xm,2}]+D[Rm[xp,xm],{xp,2}])
+ -l^3/4 D[lp D[r,{xm,3}],xp]-l^3/4 D[lm D[r,{xp,3}],xm]-l/8 W1[xp,xm] D[r,xp,xm];
+ solutions["R"]={b-l/2 yy D[r,{xp,2}]+z(Rp[xp,xm]+yy(-l/8)(l^2 D[r,{xp,3},xm]-4 lp D[r,xp,xm]-4 D[lp,xp] D[r,xm])),
+ c0[xp,xm]+z Hr[xp,xm]+l^2/8 yy^2 D[r,{xp,2},{xm,2}]-l/2 yy(D[b,{xm,2}]+D[a,{xp,2}]-4 D[v,xp,xm]+l^2/4 D[r,{xp,2},{xm,2}])+z yy rlog,
+ r+z(4 v-4 f0-l^2/4 D[r,xp,xm]-l/2 yy D[r,xp,xm]),
+ a-l/2 yy D[r,{xm,2}]+z(Rm[xp,xm]+yy(-l/8)(l^2 D[r,xp,{xm,3}]-4 lm D[r,xp,xm]-4 D[lm,xm] D[r,xp])),
+ v-l/8 yy D[r,xp,xm]+z(l^2/8(D[b,{xm,2}]+D[a,{xp,2}]-4 D[v,xp,xm])-l^2/32(l^2 D[r,{xp,2},{xm,2}]-4 lp D[r,{xm,2}]-4 lm D[r,{xp,2}])-l^3/16 yy D[r,{xp,2},{xm,2}])};
+ solutions["NR"]={b+z Rp[xp,xm]-l/2 yy(D[r,{xp,2}]-z D[lp D[r,xm],xp]),
+ c0[xp,xm]+z Hn[xp,xm]+l^2/8 yy^2 D[r,{xp,2},{xm,2}]-l/2 yy(D[b,{xm,2}]+D[a,{xp,2}]-4 D[v,xp,xm]+l^2/4 D[r,{xp,2},{xm,2}]-2/l z nru),
+ r+z cNR,a+z Rm[xp,xm]-l/2 yy(D[r,{xm,2}]-z D[lm D[r,xp],xm]),
+ v+l^2/8 z(lm D[r,{xp,2}]+lp D[r,{xm,2}])-l/8 yy D[r,xp,xm]};
+ Do[
+ sub=Thread[fieldsH->(Function[{xa,xb,yc},Evaluate[#/.{xp->xa,xm->xb,yy->yc}]]& /@ solutions[branch])];
+ ops=Table[If[branch=="R",getE[linR,c],getE[linNR,c]],{c,comps}];
+ If[branch=="NR", sub=sub/.NRLpsi];
+ stressRules={Derivative[i_,j_][Rp][xp,xm] /; j>=1 :> D[Fptarget[branch],{xp,i},{xm,j-1}],
+ Derivative[i_,j_][Rm][xp,xm] /; i>=1 :> D[Fmtarget[branch],{xp,i-1},{xm,j}]};
+ res=Map[SeriesZ[#,1]&,applyOp[#,sub]& /@ ops];
+ res=res/.stressRules; If[branch=="NR",res=res/.NRLpsi];
+ NRH`CheckZero["CURRENT compact "<>branch<>" solution: all ten direct-curvature residuals through z",res];
+ Print["  compact ",branch," residuals: ",InputForm[Together /@ res]],
+ {branch,{"R","NR"}}];
+];
 
 NRH`FileSummary[];

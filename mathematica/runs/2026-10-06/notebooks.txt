@@ -1,0 +1,13 @@
+01_ExactBackgrounds_EDFE.nb embedded program matches and parses: True
+02_RenormalizedOnShellAction.nb embedded program matches and parses: True
+03_RadialSolutionDerivation.nb embedded program matches and parses: True
+04_GeneralBackground_LEDFE.nb embedded program matches and parses: True
+05_QuadraticRenormalization_TwoPoint.nb embedded program matches and parses: True
+06_NoetherCharges.nb embedded program matches and parses: True
+07_Worldsheet.nb embedded program matches and parses: True
+08_Uplift_Killing.nb embedded program matches and parses: True
+09_BoundaryCandidate.nb embedded program matches and parses: True
+10_AsymptoticSymmetries.nb embedded program matches and parses: True
+11_ZeroL_ExactLEDFE.nb embedded program matches and parses: True
+12_RiemannianVacuum_ExactLEDFE.nb embedded program matches and parses: True
+13_TwoPointFunctions.nb embedded program matches and parses: True

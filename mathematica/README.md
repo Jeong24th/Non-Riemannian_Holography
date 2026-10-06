@@ -1,138 +1,60 @@
-# Mathematica verification
+# Standalone Mathematica verification
 
-Symbolic checks for *Non-Riemannian Holography: Long Strings and Soft Hair*.
-The `.wl` files are canonical; each `.nb` notebook contains the same input
-expressions. The files follow the manuscript's broad organization, with SM3
-split into linearized dynamics, renormalization, and charges.
-
-## Version and execution
-
-Current documentation targets source SHA-256
-`57960AAD42F2A9150C0958D1C253F08B0939B76C0E646EE250A7D824D6319B68`
-(2026-09-30): Letter (1)-(21), 23 numbered displays; SM1-SM129, 130 displays;
-153 total. SM3 now has six subsections and 49 displays.
-
-The recorded Mathematica 13.2.1 run passed 336/336 checks on 2026-09-17 against
-an earlier source. The current update preserves executable algebra while
-updating documentation, comments, and check descriptions. No Wolfram runtime
-was available for a new run. Historical success does not imply verification
-of every revised or newly added formula.
-
-From this directory, run:
+Each `.wl` file contains every definition it uses. Copy **one file** into an empty directory and run it in a fresh Mathematica kernel. No shared tools, companion files, external packages, downloads or manuscript source are needed. Each `.nb` embeds that entire program and can likewise be used alone. Notebook evaluation clears `Global` and the suite's `NRH` context.
 
 ```sh
-wolframscript -file NRH00_RunAll.wl
+wolframscript -file 11_ZeroL_ExactLEDFE.wl
 ```
 
-Or keep the directory together, open `NRH00_RunAll.nb`, and choose
-**Evaluation > Evaluate Notebook**. Section files run independently; a failed
-check returns a nonzero command-line exit status. The recorded full run took
-303.6 seconds. See [REFERENCE_RUN.md](REFERENCE_RUN.md).
+In Mathematica, open the matching notebook and choose **Evaluation > Evaluate Notebook**. The single input cell embeds the complete source as a string evaluated by `ToExpression`; it does not load its `.wl`. Code and notebook payloads are checked for exact agreement. A failed check exits command-line execution with status 1.
 
-| File | Current correspondence and retained calculations | Checks in recorded run |
-|---|---|---:|
-| NRH00 | Runner | -- |
-| NRH01 | Shared tools: O(3,3) metric, connection, curvatures, Gamma-squared density and flux, momenta, generalized Lie derivative, saddle series, frame variation, projected linearized EDFE | -- |
-| NRH02 | Letter (1)-(21): saddle and boundary data, field equations, boundary Ward components, symmetry transformations, one-point matrices, particular kernels, worldsheet vertex; no general off-shell Codazzi check | 49 |
-| NRH03 | SM1: action density, radial flux, regulated and on-shell saddle values | 13 |
-| NRH04 | SM2: Hill data, radial equation and hair profile, W0 shift, constant-profile radial flow | 20 |
-| NRH05 | SM3.1 and SM3.3-3.5: fluctuation algebra, frames, direct curvature linearization and near-boundary hierarchy; retains expanded component operators, constraints and auxiliary recursion checks | 57 |
-| NRH06 | SM3.2-3.5: action variation, momenta, ordered asymptotic bilinear, quadratic counterterms, finite response rows and particular kernels; retains the earlier expanded calculation | 67 |
-| NRH07 | SM3.6: surface-charge one-form, R and NR charge components, cocycles and charge algebra | 29 |
-| NRH08 | SM4: first-order worldsheet, SNC clocks, Gomis-Ooguri limit, static long-string energy, radial vertex, linearized weights and fusion | 32 |
-| NRH09 | SM5: specified uplift sectors, Clifford algebra, vacuum and R Killing-spinor ingredients, reduced one-sided NR jet system | 55 |
-| NRH10 | SM6: classical candidate action, bosonic non-Abelian tests and specified Grassmann symmetry tests | 14 |
+To run every file with separate kernels in PowerShell:
 
-[EQUATION_LEDGER.md](EQUATION_LEDGER.md) maps every current numbered display to
-its actual public coverage. [MANUSCRIPT_MAP.md](MANUSCRIPT_MAP.md) pins the source
-and label-to-number map. [SM_REVISION_NOTES.md](SM_REVISION_NOTES.md) explains
-label migration. A legacy label in a check name may refer to a retained
-intermediate calculation whose display was removed from the compact manuscript;
-it is not automatically a current equation or a claim of complete verification.
+```powershell
+Get-ChildItem *.wl | Sort-Object Name | ForEach-Object {
+    wolframscript -file $_.FullName
+    if ($LASTEXITCODE -ne 0) { throw "Verification failed: $($_.Name)" }
+}
+```
 
-## Methods
+Source SHA-256: `F8AC68BB80B6C3D572160FD83705FE7506FCF277B00FB95021D39C2AF1E8E239` (2026-10-06). 139 numbered displays, including subequations.
 
-- General-background calculations retain arbitrary chiral L-plus/L-minus and
-  arbitrary NR hair W1. Constant-profile, vacuum, and one-sided restrictions
-  are stated separately. The derivative-dependent W2 coefficient follows from
-  the exact hair profile.
-- The linearized EDFE are obtained by direct linearization of the scalar and
-  projected curvature, followed by projection on the saddle frames. The
-  coupled near-boundary hierarchy determines the logarithmic coefficients and
-  stress/type constraints while retaining the undetermined responses.
-- The two-point calculation uses the ordered second variation with two
-  independent bulk solutions and extracts source linear response with the
-  manuscript normalization. It is the retained expanded asymptotic calculation;
-  the current compact metric Hessian has no direct public equality check.
-- Counterterm cancellation is tested after integration by parts, with the
-  stress constraints imposed in both variation slots. A negative control
-  confirms that the divergences remain without the counterterm. This does
-  not establish a universal nonlinear intrinsic counterterm completion.
-- Particular nonlocal kernels follow from Ward operators acting on the joint
-  Lorentzian inverse derivative, with the time-ordering factor 1/i. This does
-  not determine all homogeneous responses or a complete Green function.
-- The reduced one-sided Killing-spinor jet system is derived from its frame
-  and semi-covariant connection. Separate Clifford-algebra checks do not make
-  it a verification of every equation in the current real ten-dimensional basis.
+The current SM has five sections: action; linearized dynamics and renormalization; worldsheet; uplift and symmetries; boundary candidate. Former SM2 and SM3.6 were removed from the manuscript, but the supporting radial and charge calculations remain here.
 
-## Conventions and symbols
-
-The doubled order is `(dual x+, dual x-, dual y; x+, x-, y)`; dual derivatives
-vanish. `JJ` is the O(3,3) metric. Antisymmetrization has unit weight. The
-connection obeys `Gamma^B_BA = -2 partial_A d`; compatibility, trace and torsion
-identities are checked on the stated saddle series. `eta3` is the null-frame
-metric and `etab3 = -eta3`.
-
-| Code | Manuscript quantity |
+| Standalone file | Calculation and limits |
 |---|---|
-| `u` | e^(2y/l) in NRH02-NRH04; the radial derivative is `(2u/l) D[...,u]` |
-| `z`, `yy` | e^(-2y/l), the current manuscript's u, and the explicit radial coordinate y in SM3 calculations; `DyZY = d_yy - (2z/l) d_z` |
-| `Lp[xp]`, `Lm[xm]`, `W0`, `W1[xp,xm]` | Chiral data and hair modes; `psip`, `psim` are psi-plus/minus = L-plus/minus^(-1/2) |
-| `RiemannianSaddleExact[]`, `NonRiemannianSaddleExact[W]` | Exact backgrounds with double vielbeins and dilaton, plus the R metric and B field |
-| `SaddleSeries[sd,n]` | Series truncation to order z^n; the radial derivative does not lower the z order |
-| `hpp,hpm,hmp,hmm,dd` | h_(plus,bar-plus), h_(plus,bar-minus), h_(minus,bar-plus), h_(minus,bar-minus), delta d |
-| `a,b,r,c,v` (slot k: `a1,a2,...`) | Leading sources h_(minus,bar-minus), h_(plus,bar-plus), h_(minus,bar-plus), h_(plus,bar-minus), delta d, in the order of Letter (19) |
-| `r` / `r0` | Type-changing source h^(0)_(minus,bar-plus); `c` / `c0` is the fourth, W0-source channel |
-| `Rp,Rm,H,cs` | Full stress responses h^(2)_(plus,bar-plus), h^(2)_(minus,bar-minus), hair response H_s, and constant mode c_s; on R, c_s = -4 f0 |
-| `LinearizedEDFEComponents` | Direct projected curvature variations through the requested z order; not a separate implementation of the universal tensor Box |
-| `MomentumProjected` | Mixed and same-chirality projections of radial A^y |
-| `GenLieH`, `GenLieD` | Generalized Lie derivatives of H and d |
-| `chiq`, `ch`, `esig` | chi = 2 sqrt(2) arctanh(q), symbolic chi, and exp(sigma) |
-| `GG[ch]`, `Gp[ch]` in NRH02/NRH04 | Manuscript radial calligraphic I(chi) and its first derivative, respectively; labels `MainGprofile` and `NRGprofile` are unchanged |
-| Module-local `GG[c]` in NRH05 | The first derivative of calligraphic I; its series is integrated to reconstruct the profile |
+| [01_ExactBackgrounds_EDFE.wl](01_ExactBackgrounds_EDFE.wl) | Full R and NR EDFE; arbitrary chiral L_pm; NR equation for arbitrary W and its exact integrated solution; Letter responses. |
+| [02_RenormalizedOnShellAction.wl](02_RenormalizedOnShellAction.wl) | Gamma-squared identity, endpoint contribution, volume counterterm and finite cutoff limit; negative control without CT. |
+| [03_RadialSolutionDerivation.wl](03_RadialSolutionDerivation.wl) | Supplemental derivation of the Letter NR radial solution, retained after removal of former SM2. |
+| [04_GeneralBackground_LEDFE.wl](04_GeneralBackground_LEDFE.wl) | Derive all ten linearized equations; solve the hierarchy; directly substitute current R/NR compact solutions through exp(-2y/l). |
+| [05_QuadraticRenormalization_TwoPoint.wl](05_QuadraticRenormalization_TwoPoint.wl) | Radial momenta, ordered second variation, quadratic derivative CT cancellation modulo tangential integration by parts, particular two-point response. |
+| [06_NoetherCharges.wl](06_NoetherCharges.wl) | Noether potential, field-dependent parameter subtraction, surface one-form, path integral to Q[epsilon], circle normalization and central terms. |
+| [07_Worldsheet.wl](07_Worldsheet.wl) | First-order worldsheet and clock algebra; current SNCdualB/SNCreconstruction and both B-transformed frames; stated vertex/probe sectors. |
+| [08_Uplift_Killing.wl](08_Uplift_Killing.wl) | Specified uplift/Killing and Clifford sectors, including the reduced one-sided NR system. |
+| [09_BoundaryCandidate.wl](09_BoundaryCandidate.wl) | Classical boundary action; non-Abelian bosons and specified Grassmann realizations. |
+| [10_AsymptoticSymmetries.wl](10_AsymptoticSymmetries.wl) | Generalized Lie derivatives give both R/NR asymptotic transformations and print delta L and delta W1. |
+| [11_ZeroL_ExactLEDFE.wl](11_ZeroL_ExactLEDFE.wl) | Exact NR L_pm=0 solution, arbitrary W1 and sources, c_NR=0, free H_NR/chiral modes; solves the -W1^2 r z^2/16 coefficient and checks ten full-radius equations. |
+| [12_RiemannianVacuum_ExactLEDFE.wl](12_RiemannianVacuum_ExactLEDFE.wl) | Exact R L_pm=0 reconstruction using Bessel solutions and two exact quadratures, fixed NS flux/nonzero momentum; ten full-radius residuals; K3 regularity and H_R matching. |
+| [13_TwoPointFunctions.wl](13_TwoPointFunctions.wl) | Particular diagonal/mixed kernels, reverse ordering, R-vacuum hair self-correlator, normalization and regular exchange defect. |
 
-The radial helper identifiers are retained. Bare `I` in Wolfram Language is the
-protected imaginary unit and is not used as a replacement profile name. Newton's
-`G`, the Einstein tensor and the two-point matrix retain their distinct meanings.
-`T = exp(chi/(2 sqrt(2)))` simplifies hyperbolic identities on the NR saddle.
+## What the checks establish
 
-## Limits of current coverage
+The EDFE implementation computes the semi-covariant connection, curvature, scalar and mixed projector equation from the fields. It does not just compare copied answers. The general-background LEDFE are obtained by differentiating these tensors; the current compact expressions are then substituted separately. Their zero residuals are through z=exp(-2y/l), not an assertion of exact full-radius solutions at general L_pm.
 
-The ledger distinguishes direct checks, partial checks, definitions, cited
-results and uncovered formulas. In particular:
+For L_pm=0, file 11 checks an exact NR solution without a radial series truncation. File 12 derives exact R equations including z^2 terms, solves the reduced Bessel equation and verifies reconstruction via A'=phi and B'=A. Primitive constants remain free. The regular K3 branch on nonzero Euclidean momentum fixes the specified R-vacuum logarithmic hair response. Neither calculation silently imposes a unique NR interior condition or deletes all homogeneous data.
 
-- Letter (13), the general off-shell Codazzi identity in FG gauge, is not
-  checked by evaluating exact saddles or by the constant-boundary Ward test.
-- The universal tensor Box includes derivative, curvature and connection terms
-  whose combination is fully covariant. Direct component linearization does
-  not verify the full Box identities or off-shell curvature-variation formulas.
-- SM34's exact radial metric variation and SM35's compact polarized Hessian
-  are not directly tested. Tests retaining the `SMsecondvariation` label
-  concern coset-coordinate auxiliaries and the earlier asymptotic bilinear.
-- The fixed-flux K3 solution and interior H_R matching in SM43-SM44 are not
-  computed by the suite. Old conditional normalization tests do not establish
-  the specified-vacuum hair correlator in SM48. General H_s remains free.
-- The new compact a/b/omega and integrated NR coefficient expressions have
-  supporting checks of the earlier component hierarchy and differential
-  constraints, but no direct public bridge for every rewritten display.
-- Worldsheet checks have their stated radial, near-boundary or constant-profile
-  scope. A longitudinal contraction check does not establish nonsingularity
-  or exact marginality of the dressed W1 vertex.
-- The uplift and spinor tests cover the specified sectors, including the reduced
-  one-sided NR system. They do not construct nonzero fermionic charges or prove
-  all current real-basis and global counting claims. Grassmann candidate-action
-  checks use the stated Abelian/zero-connection realization; separate bosonic
-  tests retain non-Abelian covariant derivatives.
+The on-shell action limit assumes no extra action at the interior endpoint. Quadratic counterterm checks in file 05 use tangential integration by parts and the stress constraints in both slots; they do not establish a universal nonlinear intrinsic CT. Particular two-point kernels use the manuscript's joint Lorentzian Green-function prescription; local contacts, spatial quotient and general homogeneous completion remain to be fixed. File 13 computes the R-vacuum hair coefficient from the differentiated logarithmic response, with file 12 providing its exact interior matching.
 
-The boundary candidate is classical. Quantum conformal invariance, anomalies,
-and a complete holographic operator identification are not computed here.
+## Conventions
+
+Doubled coordinate order: (dual x+, dual x-, dual y; x+, x-, y). Dual derivatives vanish. Lowered Gamma_CAB has unit-weight antisymmetrization and Gamma^B_BA=-2 partial_A d. The EDFE are PSPbar=0 and S_(0)=-4/l^2, equivalently G_MN=2 J_MN/l^2. Boundary eta_(+-)=-1 and barred eta_(+-)=+1. These are the manuscript's core lecture conventions.
+
+`u` in the older exact-background code means exp(+2y/l); `z` always means exp(-2y/l). `yy` is the explicit y and DyZY=d_yy-(2z/l)d_z. `a0,b0,r0,c0,v0` are the five sources (h--,h++,h-+,h+-,delta d). `Rp,Rm,Hr,Hn` are response functions. In file 12 p,m denote eigenvalues of partial+/- with k^2=2pm>0 on the Euclidean branch. That nonzero-momentum reconstruction does not fix chiral/zero-mode sectors.
+
+## Remaining coverage limits
+
+The generic off-shell Codazzi identity, complete universal Box identities, exact compact metric first variation and polarized Hessian are not newly proven by the existing on-shell or ordered-asymptotic tests. The complete current real ten-dimensional spinor basis and nonzero integrable fermionic charges are not constructed. Some worldsheet checks are limited to the indicated radial, boundary or constant-profile sector. Boundary candidate Grassmann tests use the stated zero-connection realization. The [equation ledger](EQUATION_LEDGER.md) distinguishes these gaps instead of equating a passing test total with full manuscript verification.
+
+See [REFERENCE_RUN.md](REFERENCE_RUN.md) for executable hashes, fresh-kernel results and logs, and [MANUSCRIPT_MAP.md](MANUSCRIPT_MAP.md) for settled current equation numbers.
+
+Fresh execution: **377/377 checks passed**, 13 programs, 13 standalone notebook payloads validated.

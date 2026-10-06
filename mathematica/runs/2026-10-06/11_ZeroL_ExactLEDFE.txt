@@ -1,0 +1,18 @@
+[NRH01] DFT toolbox loaded.
+
+================================================================
+  11_ZeroL_ExactLEDFE.wl
+================================================================
+Deriving all ten exact linearized curvature equations (no radial truncation)...
+Maximum power of z in exact operators: 2
+Solved stress radial equation: InputForm[-1/2*(l*srcPP*yy) - (l*C[1])/(2*E^((2*yy)/l)) + C[2]]
+  [PASS] radial DSolve residual
+Solved higher radial coefficient: InputForm[{{alpha -> -1/16}}]
+  [PASS] full EDFE determine the z^2 W1^2 r coefficient
+  [PASS] all ten full-radius LEDFE residuals, arbitrary W1 and sources
+  [PASS] negative control: omitting z^2 term fails the full equations
+  [PASS] H_NR is not fixed by these equations
+Exact solution {h++,h+-,h-+,h--,delta d}: InputForm[{b0[xp, xm] + z*Rp[xp, xm] - (l*yy*Derivative[2, 0][r0][xp, xm])/2, c0[xp, xm] + z*Hn[xp, xm] - (z^2*r0[xp, xm]*W1[xp, xm]^2)/16 + yy*z*(-1/8*(l*W1[xp, xm]*Derivative[1, 1][r0][xp, xm]) + (l*(Derivative[0, 2][Rp][xp, xm] + Derivative[2, 0][Rm][xp, xm]))/2) + (l^2*yy^2*Derivative[2, 2][r0][xp, xm])/8 - (l*yy*(Derivative[0, 2][b0][xp, xm] - 4*Derivative[1, 1][v0][xp, xm] + Derivative[2, 0][a0][xp, xm] + (l^2*Derivative[2, 2][r0][xp, xm])/4))/2, r0[xp, xm], a0[xp, xm] + z*Rm[xp, xm] - (l*yy*Derivative[0, 2][r0][xp, xm])/2, v0[xp, xm] - (l*yy*Derivative[1, 1][r0][xp, xm])/8}]
+Integrate d_- Rp=InputForm[(-2*W1[xp, xm]*Derivative[1, 0][r0][xp, xm] - r0[xp, xm]*Derivative[1, 0][W1][xp, xm])/4] and d_+ Rm=InputForm[(-2*W1[xp, xm]*Derivative[0, 1][r0][xp, xm] - r0[xp, xm]*Derivative[0, 1][W1][xp, xm])/4]; retain arbitrary chiral integration functions.
+----------------------------------------------------------------
+  11_ZeroL_ExactLEDFE.wl: 5/5 checks passed.

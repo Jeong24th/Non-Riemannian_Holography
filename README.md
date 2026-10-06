@@ -1,120 +1,21 @@
-# Non-Riemannian Holography Verification
+# Non-Riemannian Holography verification
 
-Reproducibility scripts supporting **Non-Riemannian Holography: Long Strings and Soft Hair** by Shaun D. Hampton, Hyun-Cheol Kim, Jae-Hyuk Oh, and Jeong-Hyuck Park.
+Reproducibility calculations supporting *Non-Riemannian Holography: Long Strings and Soft Hair* by Shaun D. Hampton, Hyun-Cheol Kim, Jae-Hyuk Oh, and Jeong-Hyuck Park.
 
-This archive contains symbolic checks of the exact saddles and boundary data,
-linearized dynamics, holographic renormalization, covariant charges, worldsheet
-reduction, Killing-spinor sectors, and a classical boundary action. Coverage
-varies by equation; definitions, cited results, partial checks, and untested
-results are distinguished in the [equation ledger](mathematica/EQUATION_LEDGER.md).
+The October 6 update supplies **13 standalone Mathematica programs and matching standalone notebooks**, aligned with the revised five-section Supplemental Material. Every program embeds its own tensor tools and can run alone in an empty directory.
 
-## Manuscript version and verification status
+Source SHA-256: `F8AC68BB80B6C3D572160FD83705FE7506FCF277B00FB95021D39C2AF1E8E239` (2026-10-06). 139 numbered displays, including subequations.
 
-The documentation and equation map target the 2026-09-30 manuscript source:
+The suite includes exact R/NR EDFE, asymptotic symmetry transformations, the Noether surface charge Q[epsilon], exact L_pm=0 linearized solutions, general-background asymptotic LEDFE checks, counterterms and finite renormalized action, and two-point functions. It preserves radial and charge derivations as supporting calculations after their sections were removed from the manuscript.
 
-```text
-SHA-256: 57960AAD42F2A9150C0958D1C253F08B0939B76C0E646EE250A7D824D6319B68
+```sh
+wolframscript -file mathematica/11_ZeroL_ExactLEDFE.wl
 ```
 
-The Letter has equations (1)-(21), comprising 23 numbered displays, and the
-Supplemental Material has (SM1)-(SM129), comprising 130 numbered displays:
-153 in total. Current SM3 has six subsections and 49 displays. Its compact
-presentation replaces a much longer derivation; the corresponding expanded
-calculations remain useful regression checks in the archive.
+Use [the file guide](mathematica/README.md) to choose a calculation. Each matching `.nb` embeds the full source; it does not need the `.wl` or any other file. Mathematica 13.2.1 was used for the recorded execution. See [fresh execution results](mathematica/REFERENCE_RUN.md), [equation coverage](mathematica/EQUATION_LEDGER.md), and [current numbering](mathematica/MANUSCRIPT_MAP.md).
 
-The latest recorded Wolfram execution is **336/336 checks passed on 2026-09-17**
-with Mathematica 13.2.1, against an earlier manuscript. The 2026-09-30 update
-changes the mapping, coverage descriptions, comments, and printed check names;
-it leaves the executable algebra unchanged. No Wolfram runtime was available
-for a new execution. This is not a new 336/336 verification of the current
-manuscript. See the [execution record](mathematica/REFERENCE_RUN.md) and
-[revision notes](mathematica/SM_REVISION_NOTES.md).
+The checks retain their stated restrictions: general L_pm solutions are verified through exp(-2y/l), whereas the specified L_pm=0 solutions have exact full-radius residual checks. General homogeneous responses, contact terms, spatial quotient and NR interior completion are not uniquely determined. The regular R-vacuum K3 response and its separated-point hair correlator are explicitly calculated. A passing suite is not a claim that every equation or interpretation has been proved.
 
-In particular, the general off-shell Codazzi identity, exact radial metric
-variation and compact metric Hessian, and the new fixed-flux Bessel solution
-and interior response are not fully checked by the retained suite. Older
-conditional hair-correlator normalization tests do not verify the new
-specified-vacuum derivation. The current [equation ledger](mathematica/EQUATION_LEDGER.md)
-and [manuscript map](mathematica/MANUSCRIPT_MAP.md) give the scope of each display.
+Historical Python checks under `checks/` and `evidence/` are retained for provenance; they are not the current release entry point and some manuscript-string guards target older sources. No new Python verification code is published in this update. The manuscript, protected coauthor notes and private working files are not included. `MANIFEST.sha256` hashes tracked payload bytes after Git normalization.
 
-## Mathematica suite
-
-Run all section files from the repository root:
-
-```bash
-wolframscript -file mathematica/NRH00_RunAll.wl
-```
-
-A failed check returns a nonzero exit status. The recorded full run took about
-five minutes. Each `.wl` file also has a `.nb` notebook with the same input
-expressions. Keep the `mathematica/` folder together, open `NRH00_RunAll.nb`,
-and choose **Evaluation > Evaluate Notebook**. Section files run independently.
-[mathematica/README.md](mathematica/README.md) explains the file organization,
-conventions, and methods.
-
-The suite directly linearizes the bulk curvature and solves the coupled
-near-boundary hierarchy. Its two-point calculations use the ordered second
-variation and source linear response, with two independent bulk solutions and
-the stated source normalization. Counterterm cancellation is checked modulo
-total tangential derivatives with stress constraints imposed in both slots.
-These calculations determine particular kernels and leave general interior
-responses and contact terms unresolved. General-background checks use
-arbitrary chiral functions and arbitrary NR hair; restricted sectors are
-identified in the ledger.
-
-## Python environment
-
-The pinned environment for the historical Python checks is:
-
-- Python 3.12
-- SymPy 1.14.0
-
-```bash
-python -m pip install -r requirements-verification.txt
-```
-
-## Algebraic regression checks (historical)
-
-The scripts under `checks/` and `evidence/` predate the Mathematica suite.
-Their algebraic predicates can run without the manuscript source and report
-skipped LaTeX string comparisons. Three scripts target a pre-rewrite snapshot:
-`verify_sm_nr_linearization.py`, `verify_sm_riemannian_falloff.py`, and
-`verify_gamma2_action.py`. Their LaTeX comparisons fail against the current
-source and must not be used as current-manuscript verification. Current public
-coverage, including its gaps, is recorded in the Mathematica ledger. The
-manuscript source is not included in this repository.
-
-```bash
-python checks/verify_sm_nr_linearization.py
-python checks/verify_sm_riemannian_falloff.py
-python checks/verify_dyg_reduction.py --strict-pin
-python checks/verify_lambda_limit_ws.py --strict-pin
-python checks/verify_10d_killing_spinor.py
-python checks/verify_hairy_killing_spinor.py most-general
-python checks/verify_n2_mirror_killing_spinor.py
-python checks/verify_brst_w1.py
-python checks/verify_gamma2_action.py
-```
-
-The `most-general` mode checks the reduced one-sided jet system in its own
-frame convention; it does not verify the current full real Majorana basis.
-The Riemannian falloff script also runs
-`checks/verify_exact_projected_fluctuations.py`. Charge calculations can be run
-separately:
-
-```bash
-python checks/dft_asymptotic_charge.py
-python checks/dft_covariant_phase_space.py
-python checks/dft_translation_charge.py
-python checks/dft_zero_mode_symplectic.py
-```
-
-Additional symbolic domain checks and negative controls are under `evidence/`.
-
-## Scope and versioning
-
-This public archive contains reproducibility software. Internal companion-paper
-notes, review deliberations, and unpublished working documents are excluded.
-The manuscript Data Availability Statement should cite a tagged release or an
-immutable commit. `MANIFEST.sha256` records hashes of the tracked payload bytes
-after Git line-ending normalization.
+Fresh execution: **377/377 checks passed**, 13 programs, 13 standalone notebook payloads validated.

@@ -1,0 +1,21 @@
+[NRH01] DFT toolbox loaded.
+
+================================================================
+  13_TwoPointFunctions.wl
+================================================================
+A_NR = InputForm[(-2*LL + dx*Lprime)/(128*dx^2*G*l*Pi^2)]; A_R = InputForm[(3*l^2 - 4*dx^2*LL + 2*dx^3*Lprime)/(256*dx^4*G*l*Pi^2)]
+M_NR = InputForm[(6*l^2*Lopp + dx^3*Wprime - 2*dx^2*WW)/(512*dx^4*G*l*Pi^2)]; M_R = InputForm[(Lopp*(3*l^2 - 4*dx^2*LL + 2*dx^3*Lprime))/(256*dx^4*G*l*Pi^2)]
+  [PASS] SMgeneralpositionkernels diagonal NR
+  [PASS] SMgeneralpositionkernels diagonal R
+  [PASS] SMgeneralpositionkernels mixed NR
+  [PASS] R mixed channel from the source response
+  [PASS] Rvacuum stress normalization
+  [PASS] NRvacuum mixed reverse ordering is the transposed kernel
+R vacuum connected hair correlator = InputForm[(9*l^5)/(1024*dm^4*dp^4*G*Pi^2)]
+  [PASS] SMRvacuumhaircorrelator from differentiated logarithmic response
+  [PASS] hair coefficient in central-charge notation
+  [PASS] negative control: omitting the 1/2 logarithm coefficient fails normalization
+  [PASS] diagonal exchange defect has no pole and starts at L''' Delta/(768 pi^2 G l)
+Full correlators also require delta H_s/delta source and homogeneous completion; these particular kernels do not fix them.
+----------------------------------------------------------------
+  13_TwoPointFunctions.wl: 10/10 checks passed.
