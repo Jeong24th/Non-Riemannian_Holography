@@ -1,0 +1,80 @@
+SMboundarycurvaturecandidate: intrinsic D=2 quadratic derivation
+u=Exp[-2 Y/l]; all printed densities omit -1/(32 Pi G).
+
+=== NR branch: intrinsic free-cutoff calculation ===
+  [PASS] NR background/frame matrix dimensions
+  [PASS] NR background H J H = J through O(u)
+  [PASS] NR frame projector completeness
+  [PASS] NR frame reconstruction
+  [PASS] NR coset quadratic completion
+  [PASS] NR fluctuation/frame round trip
+  [PASS] NR quadratic completion has no mixed projection
+  [PASS] NR intrinsic background scalar vanishes
+S1 = InputForm[Lp*u*Derivative[0, 2][fMP][xp, xm] + Derivative[1, 1][fMP][xp, xm] + Lm*u*Derivative[2, 0][fMP][xp, xm]]
+S2 = InputForm[-4*Lp*u*Derivative[0, 1][fd][xp, xm]*Derivative[0, 1][fMP][xp, xm] + (Derivative[0, 1][fMP][xp, xm]*Derivative[0, 1][fPP][xp, xm])/2 - 4*Lp*u*fMP[xp, xm]*Derivative[0, 2][fd][xp, xm] + (fPP[xp, xm]*Derivative[0, 2][fMP][xp, xm])/2 + (fMP[xp, xm]*Derivative[0, 2][fPP][xp, xm])/2 - 2*Derivative[0, 1][fMP][xp, xm]*Derivative[1, 0][fd][xp, xm] + (Lp*u*Derivative[0, 1][fMP][xp, xm]*Derivative[1, 0][fMM][xp, xm])/2 - 2*Derivative[0, 1][fd][xp, xm]*Derivative[1, 0][fMP][xp, xm] + (Lp*u*Derivative[0, 1][fMM][xp, xm]*Derivative[1, 0][fMP][xp, xm])/2 + (Lm*u*Derivative[0, 1][fPP][xp, xm]*Derivative[1, 0][fMP][xp, xm])/2 - 4*Lm*u*Derivative[1, 0][fd][xp, xm]*Derivative[1, 0][fMP][xp, xm] + (Derivative[1, 0][fMM][xp, xm]*Derivative[1, 0][fMP][xp, xm])/2 + (Lm*u*Derivative[0, 1][fMP][xp, xm]*Derivative[1, 0][fPP][xp, xm])/2 - 4*fMP[xp, xm]*Derivative[1, 1][fd][xp, xm] + Lp*u*fMP[xp, xm]*Derivative[1, 1][fMM][xp, xm] + Lp*u*fMM[xp, xm]*Derivative[1, 1][fMP][xp, xm] + Lm*u*fPP[xp, xm]*Derivative[1, 1][fMP][xp, xm] + Lm*u*fMP[xp, xm]*Derivative[1, 1][fPP][xp, xm] - 4*Lm*u*fMP[xp, xm]*Derivative[2, 0][fd][xp, xm] + (fMP[xp, xm]*Derivative[2, 0][fMM][xp, xm])/2 + (fMM[xp, xm]*Derivative[2, 0][fMP][xp, xm])/2]
+  [PASS] NR scalar from Christoffel curvature equals explicit DFT scalar at linear order
+  [PASS] NR mixed Ricci: Christoffel vs independent variation formula
+S_(a,bbar) at order eps = InputForm[{{-1/2*(Lp*u*Derivative[1, 1][fMP][xp, xm]) - Derivative[2, 0][fMP][xp, xm]/4, Lp*u*Derivative[0, 2][fd][xp, xm] - Derivative[0, 2][fPP][xp, xm]/4 + Derivative[1, 1][fd][xp, xm] - (Lp*u*Derivative[1, 1][fMM][xp, xm])/2 - (Lm*u*Derivative[1, 1][fPP][xp, xm])/2 + Lm*u*Derivative[2, 0][fd][xp, xm] - Derivative[2, 0][fMM][xp, xm]/4}, {0, -1/4*Derivative[0, 2][fMP][xp, xm] - (Lm*u*Derivative[1, 1][fMP][xp, xm])/2}}]
+  [PASS] NR mixed Ricci: independent Euler derivative of scalar Hessian
+  [PASS] NR Q_AB Q^AB agrees with flat contraction
+(S1)^2 + 8 (Q1)^2 = InputForm[Derivative[1, 1][fMP][xp, xm]^2 - Derivative[0, 2][fMP][xp, xm]*Derivative[2, 0][fMP][xp, xm]]
+S1 Box0 S1 = InputForm[0]
+  [PASS] NR SMvolumecounterterm quadratic coefficient
+SM29 minus common volume, free-cutoff quadratic density (mod parts) = InputForm[-2*l*Lp*fMP[xp, xm]*Derivative[0, 2][fd][xp, xm] + (l*fPP[xp, xm]*Derivative[0, 2][fMP][xp, xm])/(2*u) - (2*l*fMP[xp, xm]*Derivative[1, 1][fd][xp, xm])/u + l*Lp*fMM[xp, xm]*Derivative[1, 1][fMP][xp, xm] + l*Lm*fPP[xp, xm]*Derivative[1, 1][fMP][xp, xm] + (l^3*Lp*fMP[xp, xm]*Derivative[1, 3][fMP][xp, xm])/8 - 2*l*Lm*fMP[xp, xm]*Derivative[2, 0][fd][xp, xm] + (l*fMM[xp, xm]*Derivative[2, 0][fMP][xp, xm])/(2*u) + (l^3*fMP[xp, xm]*Derivative[2, 2][fMP][xp, xm])/(16*u) + (l^3*Lm*fMP[xp, xm]*Derivative[3, 1][fMP][xp, xm])/8]
+SM29 - (volume + branch source counterterm), free-cutoff density = InputForm[-2*l*Lp*fMP[xp, xm]*Derivative[0, 2][fd][xp, xm] + l*Lp*fMM[xp, xm]*Derivative[1, 1][fMP][xp, xm] - 2*Lp*Y*fMM[xp, xm]*Derivative[1, 1][fMP][xp, xm] + l*Lm*fPP[xp, xm]*Derivative[1, 1][fMP][xp, xm] - 2*Lm*Y*fPP[xp, xm]*Derivative[1, 1][fMP][xp, xm] + (l^3*Lp*fMP[xp, xm]*Derivative[1, 3][fMP][xp, xm])/8 - (l*Lp*Y^2*fMP[xp, xm]*Derivative[1, 3][fMP][xp, xm])/2 - 2*l*Lm*fMP[xp, xm]*Derivative[2, 0][fd][xp, xm] + (l^3*Lm*fMP[xp, xm]*Derivative[3, 1][fMP][xp, xm])/8 - (l*Lm*Y^2*fMP[xp, xm]*Derivative[3, 1][fMP][xp, xm])/2]
+  [PASS] NR source substitution preserves undifferentiated cutoff field
+  [PASS] NR source substitution commutes with tangential derivatives
+  [PASS] NR branch quadratic counterterm cancels raw UV divergence (constant state)
+  [PASS] NR branch quadratic counterterm cancels raw UV divergence (vacuum)
+NR vacuum: candidate - (volume + source counterterm) = InputForm[0]
+  [PASS] NR vacuum: SM29 divergent match
+  [PASS] NR vacuum: SM29 finite and divergent equality modulo parts
+NR constant-state divergent obstruction Drem = InputForm[-2*Lp*Y*a0[xp, xm]*Derivative[1, 1][r0][xp, xm] - 2*Lm*Y*b0[xp, xm]*Derivative[1, 1][r0][xp, xm] - (l^2*Lp*Y*r0[xp, xm]*Derivative[1, 3][r0][xp, xm])/4 + (l*Lp*Y^2*r0[xp, xm]*Derivative[1, 3][r0][xp, xm])/2 - (l^2*Lm*Y*r0[xp, xm]*Derivative[3, 1][r0][xp, xm])/4 + (l*Lm*Y^2*r0[xp, xm]*Derivative[3, 1][r0][xp, xm])/2]
+  [PASS] NR constant-state obstruction equals displayed Drem
+  [PASS] NR generic nonzero Lpm obstructs SM29 cancellation
+  [PASS] NR divergent obstruction independent of W1
+  [PASS] NR no uncanceled power divergence in candidate difference
+
+=== R branch: intrinsic free-cutoff calculation ===
+  [PASS] R background/frame matrix dimensions
+  [PASS] R background H J H = J through O(u)
+  [PASS] R frame projector completeness
+  [PASS] R frame reconstruction
+  [PASS] R coset quadratic completion
+  [PASS] R fluctuation/frame round trip
+  [PASS] R quadratic completion has no mixed projection
+  [PASS] R intrinsic background scalar vanishes
+S1 = InputForm[Lp*u*Derivative[0, 2][fMP][xp, xm] + u*Derivative[0, 2][fPP][xp, xm] - 8*u*Derivative[1, 1][fd][xp, xm] + Derivative[1, 1][fMP][xp, xm] + u*Derivative[2, 0][fMM][xp, xm] + Lm*u*Derivative[2, 0][fMP][xp, xm]]
+S2 = InputForm[-4*Lp*u*Derivative[0, 1][fd][xp, xm]*Derivative[0, 1][fMP][xp, xm] - 4*u*Derivative[0, 1][fd][xp, xm]*Derivative[0, 1][fPP][xp, xm] + (Derivative[0, 1][fMP][xp, xm]*Derivative[0, 1][fPP][xp, xm])/2 - 4*Lp*u*fMP[xp, xm]*Derivative[0, 2][fd][xp, xm] - 4*u*fPP[xp, xm]*Derivative[0, 2][fd][xp, xm] + (fPP[xp, xm]*Derivative[0, 2][fMP][xp, xm])/2 + (fMP[xp, xm]*Derivative[0, 2][fPP][xp, xm])/2 + 8*u*Derivative[0, 1][fd][xp, xm]*Derivative[1, 0][fd][xp, xm] - 2*Derivative[0, 1][fMP][xp, xm]*Derivative[1, 0][fd][xp, xm] + (Lp*u*Derivative[0, 1][fMP][xp, xm]*Derivative[1, 0][fMM][xp, xm])/2 + (3*u*Derivative[0, 1][fPP][xp, xm]*Derivative[1, 0][fMM][xp, xm])/2 - 4*u*Derivative[1, 0][fd][xp, xm]*Derivative[1, 0][fMM][xp, xm] - 2*Derivative[0, 1][fd][xp, xm]*Derivative[1, 0][fMP][xp, xm] + (Lp*u*Derivative[0, 1][fMM][xp, xm]*Derivative[1, 0][fMP][xp, xm])/2 + u*Derivative[0, 1][fPM][xp, xm]*Derivative[1, 0][fMP][xp, xm] + (Lm*u*Derivative[0, 1][fPP][xp, xm]*Derivative[1, 0][fMP][xp, xm])/2 - 4*Lm*u*Derivative[1, 0][fd][xp, xm]*Derivative[1, 0][fMP][xp, xm] + (Derivative[1, 0][fMM][xp, xm]*Derivative[1, 0][fMP][xp, xm])/2 + u*Derivative[0, 1][fMP][xp, xm]*Derivative[1, 0][fPM][xp, xm] + (u*Derivative[0, 1][fMM][xp, xm]*Derivative[1, 0][fPP][xp, xm])/2 + (Lm*u*Derivative[0, 1][fMP][xp, xm]*Derivative[1, 0][fPP][xp, xm])/2 - 4*fMP[xp, xm]*Derivative[1, 1][fd][xp, xm] + Lp*u*fMP[xp, xm]*Derivative[1, 1][fMM][xp, xm] + u*fPP[xp, xm]*Derivative[1, 1][fMM][xp, xm] + Lp*u*fMM[xp, xm]*Derivative[1, 1][fMP][xp, xm] + u*fPM[xp, xm]*Derivative[1, 1][fMP][xp, xm] + Lm*u*fPP[xp, xm]*Derivative[1, 1][fMP][xp, xm] + u*fMP[xp, xm]*Derivative[1, 1][fPM][xp, xm] + u*fMM[xp, xm]*Derivative[1, 1][fPP][xp, xm] + Lm*u*fMP[xp, xm]*Derivative[1, 1][fPP][xp, xm] - 4*u*fMM[xp, xm]*Derivative[2, 0][fd][xp, xm] - 4*Lm*u*fMP[xp, xm]*Derivative[2, 0][fd][xp, xm] + (fMP[xp, xm]*Derivative[2, 0][fMM][xp, xm])/2 + (fMM[xp, xm]*Derivative[2, 0][fMP][xp, xm])/2]
+  [PASS] R scalar from Christoffel curvature equals explicit DFT scalar at linear order
+  [PASS] R mixed Ricci: Christoffel vs independent variation formula
+S_(a,bbar) at order eps = InputForm[{{-1/2*(Lp*u*Derivative[1, 1][fMP][xp, xm]) + u*Derivative[2, 0][fd][xp, xm] - Derivative[2, 0][fMP][xp, xm]/4, Lp*u*Derivative[0, 2][fd][xp, xm] - Derivative[0, 2][fPP][xp, xm]/4 + Derivative[1, 1][fd][xp, xm] - (Lp*u*Derivative[1, 1][fMM][xp, xm])/2 - (Lm*u*Derivative[1, 1][fPP][xp, xm])/2 + Lm*u*Derivative[2, 0][fd][xp, xm] - Derivative[2, 0][fMM][xp, xm]/4}, {0, u*Derivative[0, 2][fd][xp, xm] - Derivative[0, 2][fMP][xp, xm]/4 - (Lm*u*Derivative[1, 1][fMP][xp, xm])/2}}]
+  [PASS] R mixed Ricci: independent Euler derivative of scalar Hessian
+  [PASS] R Q_AB Q^AB agrees with flat contraction
+(S1)^2 + 8 (Q1)^2 = InputForm[2*u*Derivative[0, 2][fPP][xp, xm]*Derivative[1, 1][fMP][xp, xm] - 16*u*Derivative[1, 1][fd][xp, xm]*Derivative[1, 1][fMP][xp, xm] + Derivative[1, 1][fMP][xp, xm]^2 + 4*u*Derivative[0, 2][fMP][xp, xm]*Derivative[2, 0][fd][xp, xm] + 2*u*Derivative[1, 1][fMP][xp, xm]*Derivative[2, 0][fMM][xp, xm] + 4*u*Derivative[0, 2][fd][xp, xm]*Derivative[2, 0][fMP][xp, xm] - Derivative[0, 2][fMP][xp, xm]*Derivative[2, 0][fMP][xp, xm]]
+S1 Box0 S1 = InputForm[-2*u*Derivative[1, 1][fMP][xp, xm]*Derivative[2, 2][fMP][xp, xm]]
+  [PASS] R SMvolumecounterterm quadratic coefficient
+SM29 minus common volume, free-cutoff quadratic density (mod parts) = InputForm[-2*l*Lp*fMP[xp, xm]*Derivative[0, 2][fd][xp, xm] - 2*l*fPP[xp, xm]*Derivative[0, 2][fd][xp, xm] + (l*fPP[xp, xm]*Derivative[0, 2][fMP][xp, xm])/(2*u) + 8*l*fd[xp, xm]*Derivative[1, 1][fd][xp, xm] - (2*l*fMP[xp, xm]*Derivative[1, 1][fd][xp, xm])/u + l*Lp*fMM[xp, xm]*Derivative[1, 1][fMP][xp, xm] + l*Lm*fPP[xp, xm]*Derivative[1, 1][fMP][xp, xm] + (l^3*Lp*fMP[xp, xm]*Derivative[1, 3][fMP][xp, xm])/8 + (l^3*fPP[xp, xm]*Derivative[1, 3][fMP][xp, xm])/8 - (l^2*Y*fPP[xp, xm]*Derivative[1, 3][fMP][xp, xm])/4 - 2*l*fMM[xp, xm]*Derivative[2, 0][fd][xp, xm] - 2*l*Lm*fMP[xp, xm]*Derivative[2, 0][fd][xp, xm] + (l*fMM[xp, xm]*Derivative[2, 0][fMP][xp, xm])/(2*u) - l^3*fMP[xp, xm]*Derivative[2, 2][fd][xp, xm] + l^2*Y*fMP[xp, xm]*Derivative[2, 2][fd][xp, xm] + (l^3*fMP[xp, xm]*Derivative[2, 2][fMP][xp, xm])/(16*u) + (l^3*fMM[xp, xm]*Derivative[3, 1][fMP][xp, xm])/8 - (l^2*Y*fMM[xp, xm]*Derivative[3, 1][fMP][xp, xm])/4 + (l^3*Lm*fMP[xp, xm]*Derivative[3, 1][fMP][xp, xm])/8 - (l^3*Y^2*fMP[xp, xm]*Derivative[3, 3][fMP][xp, xm])/16]
+SM29 - (volume + branch source counterterm), free-cutoff density = InputForm[-2*l*Lp*fMP[xp, xm]*Derivative[0, 2][fd][xp, xm] - 2*l*fPP[xp, xm]*Derivative[0, 2][fd][xp, xm] + 8*l*fd[xp, xm]*Derivative[1, 1][fd][xp, xm] + l*Lp*fMM[xp, xm]*Derivative[1, 1][fMP][xp, xm] - 2*Lp*Y*fMM[xp, xm]*Derivative[1, 1][fMP][xp, xm] + l*Lm*fPP[xp, xm]*Derivative[1, 1][fMP][xp, xm] - 2*Lm*Y*fPP[xp, xm]*Derivative[1, 1][fMP][xp, xm] + (l^3*Lp*fMP[xp, xm]*Derivative[1, 3][fMP][xp, xm])/8 - (l*Lp*Y^2*fMP[xp, xm]*Derivative[1, 3][fMP][xp, xm])/2 + (l^3*fPP[xp, xm]*Derivative[1, 3][fMP][xp, xm])/8 - (l^2*Y*fPP[xp, xm]*Derivative[1, 3][fMP][xp, xm])/4 - 2*l*fMM[xp, xm]*Derivative[2, 0][fd][xp, xm] - 2*l*Lm*fMP[xp, xm]*Derivative[2, 0][fd][xp, xm] - l^3*fMP[xp, xm]*Derivative[2, 2][fd][xp, xm] + (l^3*fMM[xp, xm]*Derivative[3, 1][fMP][xp, xm])/8 - (l^2*Y*fMM[xp, xm]*Derivative[3, 1][fMP][xp, xm])/4 + (l^3*Lm*fMP[xp, xm]*Derivative[3, 1][fMP][xp, xm])/8 - (l*Lm*Y^2*fMP[xp, xm]*Derivative[3, 1][fMP][xp, xm])/2 - (l^3*Y^2*fMP[xp, xm]*Derivative[3, 3][fMP][xp, xm])/8]
+  [PASS] R source substitution preserves undifferentiated cutoff field
+  [PASS] R source substitution commutes with tangential derivatives
+  [PASS] R branch quadratic counterterm cancels raw UV divergence (constant state)
+  [PASS] R branch quadratic counterterm cancels raw UV divergence (vacuum)
+R vacuum: candidate - (volume + source counterterm) = InputForm[-2*l*b0[xp, xm]*Derivative[0, 2][v0][xp, xm] + 8*l*v0[xp, xm]*Derivative[1, 1][v0][xp, xm] + (l^3*b0[xp, xm]*Derivative[1, 3][r0][xp, xm])/8 - 2*l*a0[xp, xm]*Derivative[2, 0][v0][xp, xm] - l^3*r0[xp, xm]*Derivative[2, 2][v0][xp, xm] + (l^3*a0[xp, xm]*Derivative[3, 1][r0][xp, xm])/8]
+  [PASS] R vacuum: SM29 divergent match
+  [PASS] R vacuum: explicitly computed finite local contact mismatch
+  [PASS] R vacuum: finite local mismatch is not zero
+R constant-state divergent obstruction Drem = InputForm[-2*Lp*Y*a0[xp, xm]*Derivative[1, 1][r0][xp, xm] - 2*Lm*Y*b0[xp, xm]*Derivative[1, 1][r0][xp, xm] - (l^2*Lp*Y*r0[xp, xm]*Derivative[1, 3][r0][xp, xm])/4 + (l*Lp*Y^2*r0[xp, xm]*Derivative[1, 3][r0][xp, xm])/2 - (l^2*Lm*Y*r0[xp, xm]*Derivative[3, 1][r0][xp, xm])/4 + (l*Lm*Y^2*r0[xp, xm]*Derivative[3, 1][r0][xp, xm])/2]
+  [PASS] R constant-state obstruction equals displayed Drem
+  [PASS] R generic nonzero Lpm obstructs SM29 cancellation
+  [PASS] R divergent obstruction independent of W1
+  [PASS] R no uncanceled power divergence in candidate difference
+  [PASS] same generic constant-state obstruction on R and NR
+  [PASS] cosine witness obtained from computed obstruction
+Periodic A*R obstruction witness integral = InputForm[4*aa*Lp*Pi^2*rr*Y]
+  [PASS] obstruction is not a tangential total derivative: periodic witness
+  [PASS] periodic witness is generically nonzero
+Conclusion: vacuum quadratic matching only. This does not establish a general-state or finite-source nonlinear counterterm.
+R contact adjustment: subtract the printed finite mismatch density from the SM29 quadratic density to match the branch source-counterterm convention.
+----------------------------------------------------------------
+  14_SM29_IntrinsicCounterterm.wl: 51/51 checks passed.

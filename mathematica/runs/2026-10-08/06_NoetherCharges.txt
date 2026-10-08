@@ -1,0 +1,79 @@
+[NRH01] DFT toolbox loaded.
+
+
+
+================================================================
+
+  06_NoetherCharges.wl
+
+================================================================
+
+  [PASS] lim e^{-2d} Khat^{-y}[eps+] = (4/l) eps+ L+ - 2 l eps+''
+
+  [PASS] lim e^{-2d} Khat^{y+}[eps-] = -(4/l) eps- L- + 2 l eps-'' (mirror)
+
+  [PASS] Virasoro cocycle: (charge bracket density) + (l^2/4) e1 e2''' is a total derivative
+
+  [PASS] the central term itself is NOT a total derivative (the center is real)
+
+  [PASS] truncation obeys H J H = J through z^2
+
+  [PASS] state-dependent falloffs delta H^-_+ = 2 z dL+, delta H^+_- = -2 z dL-, delta H_{+-} = z dW1
+
+  [PASS] lim e^{-2d} Thetahat^{+,-,y} = 0 at the boundary
+
+  [PASS] k^{-y}[eps+] = (4/l) eps+ dL+
+
+  [PASS] k^{+y}[eps-] = (4/l) eps- dL-
+
+  [PASS] W_1, delta W_1, and the opposite-chirality delta L all drop out componentwise
+
+  [PASS] the same-chirality C-bracket closes up to a closed B-gauge parameter (slot x~+ only)
+
+  [PASS] the leftover reducibility parameter is chiral and closed: d_- and d_y of it vanish
+
+  [PASS] the closed B-gauge parameter carries no surface potential
+
+  [PASS] NR cocycle e1 (e2 L' + 2 L e2') - alpha L = d/dx (e1 e2 L) => c_charge = 0
+
+  [PASS] (i) k^{-y}[eps+] = delta[(4/l) eps+ L+] (the charge exists and is integrable)
+
+  [PASS] (i) mirror: k^{+y}[eps-] = delta[(4/l) eps- L-]
+
+  [PASS] (ii) {Q[e1+], Q[e2+]} - Q[[e1,e2]] is a total derivative: centerless plus sector
+
+  [PASS] (ii) minus-sector mirror: {Q[e1-], Q[e2-]} - Q[[e1,e2]] is a total derivative
+
+  [PASS] (ii) opposite chiralities Poisson-commute: delta_{eps-} L+ = 0 kills the mixed bracket
+
+  [PASS] (iii) R bracket - adjoint - central = total derivative (Brown-Henneaux center isolated)
+
+  [PASS] (iii) normalization chain: (16 pi G)^{-1} (4/l) = 1/(4 pi G l), the Letter's charge normalization
+
+  [PASS] (iv) the central cocycle is antisymmetric modulo total derivatives
+
+  [PASS] (iv) Witt Jacobi identity: [[e1,e2],e3] + cyclic = 0 exactly
+
+  [PASS] (iv) Gelfand-Fuchs cocycle condition: c(e1,[e2,e3]) + cyclic = total derivative
+
+  [PASS] (v) the adjusted mixed bracket has a leftover (the raw closure fails, as it should)
+
+  [PASS] (v) but its Khat surface potentials vanish at the boundary: mixed charge bracket = 0
+
+  [PASS] (vi) minus-sector C-bracket closes up to a closed B-gauge parameter (slot x~- only)
+
+  [PASS] (vi) that leftover is chiral and closed, and carries no surface potential
+
+  [PASS] footnote: historical auxiliary algebra only: with delta T = eps T' + 2 T eps' - l^2 eps''' the combination L + T/4 obeys the law with -(l^2/4) eps'''
+
+  [PASS] integrated Q coefficients from k, with background subtraction
+
+Q[epsilon] = Integral(dphi,0,2pi) of InputForm[(em[xm]*Lm[xm] + ep[xp]*Lp[xp])/(4*Sqrt[2]*G*Pi)] with x_pm=(t +/- l phi)/sqrt2.
+
+  [PASS] constant-data circle charge
+
+Constant-data Q = InputForm[(em0*lm0 + ep0*lp0)/(2*Sqrt[2]*G)]
+
+----------------------------------------------------------------
+
+  06_NoetherCharges.wl: 31/31 checks passed.

@@ -1,8 +1,10 @@
 # Manuscript equation map
 
-Source SHA-256: `F8AC68BB80B6C3D572160FD83705FE7506FCF277B00FB95021D39C2AF1E8E239` (2026-10-06). 139 numbered displays, including subequations.
+Source SHA-256: `2E6A7A8A20D581043D6457865662E76F7D46433AF29847393F1DBA4BF753F822` (2026-10-08). 136 numbered displays, including subequations.
 
-Numbering checked against a settled build of the pinned source. This is a map, not a completeness claim.
+Numbers were checked against the settled isolated MiKTeX build of this exact source. The map includes numbered displays only; unnumbered source-response derivations and the H_R decomposition are described below.
+
+This is a location map, not a completeness claim.
 
 | Equation | Stable label |
 |---|---|
@@ -44,7 +46,7 @@ Numbering checked against a settled build of the pinned source. This is a map, n
 | SM 13 | `SMfullOmega` |
 | SM 14 | `SMboxdefinition` |
 | SM 15 | `SMmixedboxdefinition` |
-| SM 16 | `None` |
+| SM 16 | — (unlabeled) |
 | SM 17 | `SMboxcurvature` |
 | SM 18 | `SMEinsteintensor` |
 | SM 19 | `SMexactboxEDFE` |
@@ -58,90 +60,95 @@ Numbering checked against a settled build of the pinned source. This is a map, n
 | SM 26 | `SMsecondvariation` |
 | SM 27 | `SMderivativectNR` |
 | SM 28 | `SMderivativectR` |
-| SM 29 | `SMexactRdata` |
-| SM 30 | `SMRvacuumdilatoncoefficient` |
-| SM 31 | `SMRvacuumsolution` |
-| SM 32 | `SMRvacuumresponse` |
-| SM 33 | `SMRvacuumhessian` |
-| SM 34 | `SMLorentziandeltaconvention` |
-| SM 35 | `SMRtwopt` |
-| SM 36 | `SMRvacuumhaircorrelator` |
-| SM 37 | `SMradialansatz` |
-| SM 38 | `SMRstresspluscoefficients` |
-| SM 39 | `SMRstressminuscoefficients` |
-| SM 40 | `SMRtypecoefficients` |
-| SM 41 | `SMRhaircoefficients` |
-| SM 42 | `SMRdilatoncoefficients` |
-| SM 43 | `SMRintegratedstress` |
-| SM 44 | `SMvielbein` |
-| SM 45 | `SMvielbeincheck` |
-| SM 46 | `SMNRcompactsolution` |
-| SM 47 | `SMNRintegratedstress` |
-| SM 48 | `SMNRcompactU` |
-| SM 49 | `SMstatefluctuations` |
-| SM 50 | `SMgeneralpositionkernels` |
-| SM 51 | `SMNRhairhessian` |
-| SM 52 | `SMdyg` |
-| SM 53 | `SMphysicalsectionA` |
-| SM 54 | `SMRfirstorder` |
-| SM 55 | `SMceff` |
-| SM 56 | `None` |
-| SM 57 | `SMlongstringE` |
-| SM 58 | `SNCtau` |
-| SM 59 | `SNCdualB` |
-| SM 60 | `SNCreconstruction` |
-| SM 61 | `SMdygconstraints` |
-| SM 62 | `SMdygGO` |
-| SM 63 | `SMGO` |
-| SM 64 | `SMvertex` |
-| SM 65 | `SMWisB` |
-| SM 66 | `SMdeltaL` |
-| SM 67 | `SMFTsector` |
-| SM 68 | `SMWZWlevel` |
-| SM 69 | `SMFTweight` |
-| SM 70 | `SMBRSTradial` |
-| SM 71 | `SMBRSTmomentum` |
-| SM 72 | `SMBRSTvertex` |
-| SM 73 | `SMBRSTcentral` |
-| SM 74 | `SMWgaugeobstruction` |
-| SM 75 | `SMBRSTfusion` |
-| SM 76 | `SMupliftblocks` |
-| SM 77 | `SMDFTKilling` |
-| SM 78 | `SMtypeIIKS` |
-| SM 79 | `SMsusyclosure` |
-| SM 80 | `SMsemicov` |
-| SM 81 | `SMuplift` |
-| SM 82 | `SMRDFTKilling` |
-| SM 83 | `SMRlocaliso` |
-| SM 84 | `None` |
-| SM 85 | `None` |
-| SM 86 | `SMRcomponentHill` |
-| SM 87 | `SMRlocalKS` |
-| SM 88 | `None` |
-| SM 89 | `SMNRlocalstabilizer` |
-| SM 90 | `SMexactiso` |
-| SM 91 | `SMweighteddilaton` |
-| SM 92 | `SMkillingspinor` |
-| SM 93 | `SMcomplexblocks` |
-| SM 94 | `None` |
-| SM 95 | `SMgammaten` |
-| SM 96 | `SMgammaMajorana` |
-| SM 97 | `SMgammabarred` |
-| SM 98 | `SMreducedDirac` |
-| SM 99 | `SMinternalprojectors` |
-| SM 100 | `None` |
-| SM 101 | `SMspinorcountchain` |
-| SM 102 | `SMhairyKS` |
-| SM 103 | `None` |
-| SM 104 | `None` |
-| SM 105 | `SMcandidateD` |
-| SM 106 | `SMcandidateaction` |
-| SM 107 | `SMcandidategauge` |
-| SM 108 | `SMcandidateWitt` |
-| SM 109 | `SMcandidateWittL` |
-| SM 110 | `SMcandidatefermionic` |
-| SM 111 | `SMcandidatefermionicL` |
-| SM 112 | `SMcandidateextra` |
-| SM 113 | `SMcandidateextraL` |
-| SM 114 | `SMcandidatetrivial` |
-| SM 115 | `SMcandidatetrivialL` |
+| SM 29 | `SMboundarycurvaturecandidate` |
+| SM 30 | `SMRvacuumhessian` |
+| SM 31 | `SMNRhairhessian` |
+| SM 32 | `SMLorentziandeltaconvention` |
+| SM 33 | `SMexactRdata` |
+| SM 34 | `SMRvacuumdilatoncoefficient` |
+| SM 35 | `SMRvacuumsolution` |
+| SM 36 | `SMRvacuumresponse` |
+| SM 37 | `SMRtwopt` |
+| SM 38 | `SMRvacuumhaircorrelator` |
+| SM 39 | `SMradialansatz` |
+| SM 40 | `SMRstresspluscoefficients` |
+| SM 41 | `SMRstressminuscoefficients` |
+| SM 42 | `SMRtypecoefficients` |
+| SM 43 | `SMRhaircoefficients` |
+| SM 44 | `SMRdilatoncoefficients` |
+| SM 45 | `SMRintegratedstress` |
+| SM 46 | `SMvielbein` |
+| SM 47 | `SMvielbeincheck` |
+| SM 48 | `SMNRcompactsolution` |
+| SM 49 | `SMNRintegratedstress` |
+| SM 50 | `SMNRcompactU` |
+| SM 51 | `SMdyg` |
+| SM 52 | `SMphysicalsectionA` |
+| SM 53 | `SMRfirstorder` |
+| SM 54 | `SMceff` |
+| SM 55 | `SNCtau` |
+| SM 56 | `SNCdualB` |
+| SM 57 | `SNCreconstruction` |
+| SM 58 | `SMdygconstraints` |
+| SM 59 | `SMdygGO` |
+| SM 60 | `SMGO` |
+| SM 61 | `SMvertex` |
+| SM 62 | `SMWisB` |
+| SM 63 | `SMdeltaL` |
+| SM 64 | `SMFTsector` |
+| SM 65 | `SMWZWlevel` |
+| SM 66 | `SMFTweight` |
+| SM 67 | `SMBRSTradial` |
+| SM 68 | `SMBRSTmomentum` |
+| SM 69 | `SMBRSTvertex` |
+| SM 70 | `SMBRSTcentral` |
+| SM 71 | `SMWgaugeobstruction` |
+| SM 72 | `SMBRSTfusion` |
+| SM 73 | `SMupliftblocks` |
+| SM 74 | `SMDFTKilling` |
+| SM 75 | `SMtypeIIKS` |
+| SM 76 | `SMsusyclosure` |
+| SM 77 | `SMsemicov` |
+| SM 78 | `SMuplift` |
+| SM 79 | `SMRDFTKilling` |
+| SM 80 | `SMRlocaliso` |
+| SM 81 | — (unlabeled) |
+| SM 82 | — (unlabeled) |
+| SM 83 | `SMRcomponentHill` |
+| SM 84 | `SMRlocalKS` |
+| SM 85 | — (unlabeled) |
+| SM 86 | `SMNRlocalstabilizer` |
+| SM 87 | `SMexactiso` |
+| SM 88 | `SMweighteddilaton` |
+| SM 89 | `SMkillingspinor` |
+| SM 90 | `SMcomplexblocks` |
+| SM 91 | — (unlabeled) |
+| SM 92 | `SMgammaten` |
+| SM 93 | `SMgammaMajorana` |
+| SM 94 | `SMgammabarred` |
+| SM 95 | `SMreducedDirac` |
+| SM 96 | `SMinternalprojectors` |
+| SM 97 | — (unlabeled) |
+| SM 98 | `SMspinorcountchain` |
+| SM 99 | `SMhairyKS` |
+| SM 100 | — (unlabeled) |
+| SM 101 | — (unlabeled) |
+| SM 102 | `SMcandidateD` |
+| SM 103 | `SMcandidateaction` |
+| SM 104 | `SMcandidategauge` |
+| SM 105 | `SMcandidateWitt` |
+| SM 106 | `SMcandidateWittL` |
+| SM 107 | `SMcandidatefermionic` |
+| SM 108 | `SMcandidatefermionicL` |
+| SM 109 | `SMcandidateextra` |
+| SM 110 | `SMcandidateextraL` |
+| SM 111 | `SMcandidatetrivial` |
+| SM 112 | `SMcandidatetrivialL` |
+
+## Unnumbered derivations and historical checks
+
+- SM2.2 contains the common response normalization, Lorentzian prescription, and regular exchange-defect discussion. The normalization, hair self-response and delta prescription are now SM30, SM31 and SM32.
+- SM2.3 contains the explicit H_R decomposition after `SMRintegratedstress`, followed by its R diagonal/mixed source-response derivation. H_R has determined source terms and an undetermined F_R; it is not wholly free.
+- SM2.4 contains the NR diagonal/mixed derivation, including the nonchiral generator and its radial/dual completion. The final particular kernels remain in Letter (20), `Rcorrelators`.
+- `SMsub:kernels`, `SMgeneralpositionkernels`, `SMstatefluctuations` and `SMlongstringE` are absent from this source. Historical assertion names may still mention them. The corresponding retained calculations are supporting checks, not references to current equations.
+- `SNCtau` remains a stable label, but its displayed one-forms are X and bar-X. Bars denote real Lorentzian chiral sectors in SM3. The Pauli matrices tau_i in SM4 are unrelated.

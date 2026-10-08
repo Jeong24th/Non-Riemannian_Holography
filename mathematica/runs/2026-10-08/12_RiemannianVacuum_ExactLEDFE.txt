@@ -1,0 +1,41 @@
+[NRH01] DFT toolbox loaded.
+
+
+
+================================================================
+
+  12_RiemannianVacuum_ExactLEDFE.wl
+
+================================================================
+
+Deriving full R-vacuum LEDFE, including z^2 terms...
+
+Exact residuals: InputForm[{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}]
+
+  [PASS] all ten exact LEDFE for the Bessel/quadrature reconstruction
+
+  [PASS] physical dilaton equals the massive scalar
+
+Full solution {h++,h+-,h-+,h--,delta d}: InputForm[{p0 + (p*(4*((l^2*(m0*p^2 + m^2*p0)*z)/8 - (2/l + l*m*p*z)*aa[yy] + (l*Derivative[1][ph][yy])/2) + l*((-2*z*((l^2*(m0*p^2 + m^2*p0))/8 - l*m*p*aa[yy]))/l - (2/l + l*m*p*z)*Derivative[1][aa][yy] + (l*Derivative[2][ph][yy])/2)))/m, b0 - (l*(m0*p^2 + m^2*p0)*yy)/2 - 4*l*m*p*aa[yy] + 4*m*p*bb[yy] + (-4*ph[yy] + 2*l*Derivative[1][ph][yy])/z, (-8*z*aa[yy])/l + z^2*(-b0 + (l^2*(m0*p^2 + m^2*p0))/2 + (l*(m0*p^2 + m^2*p0)*yy)/2 - 4*m*p*bb[yy]), m0 + (m*(4*((l^2*(m0*p^2 + m^2*p0)*z)/8 - (2/l + l*m*p*z)*aa[yy] + (l*Derivative[1][ph][yy])/2) + l*((-2*z*((l^2*(m0*p^2 + m^2*p0))/8 - l*m*p*aa[yy]))/l - (2/l + l*m*p*z)*Derivative[1][aa][yy] + (l*Derivative[2][ph][yy])/2)))/p, (l^2*(m0*p^2 + m^2*p0)*z)/8 - (2/l + l*m*p*z)*aa[yy] + (l*Derivative[1][ph][yy])/2}]
+
+A'=phi, B'=A; primitive constants remain free. phi''+2 phi'/l-(8/l^2+2 p m z)phi=0.
+
+DSolve of the reduced master equation: InputForm[-(BesselJ[3, I*xx]*C[1]) + BesselY[3, -I*xx]*C[2]]
+
+  [PASS] DSolve Bessel master residual
+
+  [PASS] I3 and K3 solve the exact scalar master equation
+
+  [PASS] regular K3 branch has source -r/(4z)
+
+  [PASS] K3 branch decays at the Euclidean interior
+
+Derived H_R: InputForm[(k^6*l^6*r*(-3 + 2*EulerGamma - Log[4] + 2*Log[k*l]))/256]
+
+  [PASS] SMRvacuumresponse: exact K3 matching fixes H_R
+
+  [PASS] mu cancels from the current spectral expression
+
+----------------------------------------------------------------
+
+  12_RiemannianVacuum_ExactLEDFE.wl: 8/8 checks passed.

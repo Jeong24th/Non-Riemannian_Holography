@@ -1,4 +1,4 @@
-(* 13_TwoPointFunctions.wl | 2026-10-06 standalone edition.
+(* 13_TwoPointFunctions.wl | 2026-10-08 standalone edition.
    All definitions are embedded. No Get, Needs, input files, or packages.
    Run in a fresh kernel; this file clears Global` and NRH`.
    Stable labels identify formulas; old SM numbers in inherited check IDs are historical. *)
@@ -330,6 +330,73 @@ MomentumProjected[gamma_List, V_, Vb_, xs_List] := Module[{JJ = ODDJ[3], core, V
 
 (* === CALCULATION === *)
 NRH`BeginFile["13_TwoPointFunctions.wl"];
+(* Current manuscript organization: common normalization/prescription in
+   SM2.2, R source derivation in SM2.3, NR source derivation in SM2.4.
+   Rcorrelators is the remaining main-text kernel display; the duplicate
+   SMgeneralpositionkernels display and the old SM2.5 section were removed.
+
+   The H_R check below converts the independent sigma,nu parametrization
+   to the displayed q=h^(0)_{ominus bar-oplus}, F_R=-12 nu decomposition.
+   It is an algebraic consistency check, not an interior boundary condition
+   or a fresh derivation of the full general-background scalar response. *)
+Module[{xx, zz, lp, lm, q, qf, dd0, fzero, apm, bp, bm, op, om, fr, nu,
+   p, m, hr, sigma, independent, shown, vf, v, srcP, srcM, mixP, mixM,
+   bpp, bmp, bmm, bpm, alphaP, alphaM, wf, w, nrHairP, nrHairM},
+ lp = ellPlus[xx]; lm = ellMinus[zz]; q = qf[xx, zz]; v = vf[xx, zz];
+ p[f_, n_:1] := D[f, {xx, n}]; m[f_, n_:1] := D[f, {zz, n}];
+ hr[qq_, aa_, bplus_, bminus_, wplus_, wminus_, ff_] :=
+   lm (bplus + wplus) + lp (bminus + wminus) + 2 lp lm aa + ff
+   - l^4/48 (7 l^2/8 p[m[qq, 3], 3] - 2 lp p[m[qq, 3]] - 7 p[lp] m[qq, 3])
+   - l^4/48 (7 l^2/8 m[p[qq, 3], 3] - 2 lm m[p[qq, 3]] - 7 m[lm] p[qq, 3])
+   + l^2/12 (20 lp lm p[m[qq]] + lp m[lm] p[qq]
+      + p[lp] lm m[qq] - 7 p[lp] m[lm] qq);
+ sigma = -q/4;
+ independent = 7 l^6/48 p[m[sigma, 3], 3]
+   - l^4/6 (lp p[m[sigma, 3]] + lm p[m[sigma], 3])
+   - 7 l^4/12 (p[lp] m[sigma, 3] + m[lm] p[sigma, 3])
+   - 20 l^2/3 lp lm p[m[sigma]]
+   - l^2/3 (lp m[lm] p[sigma] + p[lp] lm m[sigma])
+   + 7 l^2/3 p[lp] m[lm] sigma - 12 nu
+   + 2 lp lm apm + lm (bp + op) + lp (bm + om);
+ NRH`CheckZero["SM2.3 H_R: sigma=-q/4 and F_R=-12 nu reproduce the full source decomposition",
+   independent - hr[q, apm, bp, bm, op, om, -12 nu]];
+ shown = hr[q, 2 dd0 - 2 fzero - l^2/8 p[m[q]], bp, bm, op, om, fr];
+ NRH`CheckZero["SMRintegratedstress: H_R contains exactly the displayed dilaton/f0 and stress-response factors",
+   {D[shown, dd0] - 4 lp lm, D[shown, fzero] + 4 lp lm,
+    D[shown, bp] - lm, D[shown, bm] - lp, D[shown, fr] - 1}];
+
+ (* v is the prescribed inverse derivative of the selected stress source.
+    Differentiating the response checks both original b constraints without
+    silently selecting or discarding any homogeneous integration function. *)
+ srcP = m[v]; mixP = -lp srcP + l^2/4 p[srcP, 2];
+ bpp = l^2/4 p[v, 3] - 2 lp p[v] - p[lp] v;
+ bmp = l^2/4 p[m[srcP]];
+ NRH`CheckZero["SM2.3 plus-source derivation: particular b++ solves the nonlocal stress constraint",
+   m[bpp] - (p[mixP] - lp p[srcP])];
+ NRH`CheckZero["SM2.3 plus-source derivation: opposite b-- is a local source derivative",
+   p[bmp] - (m[mixP] + lp m[srcP])];
+ srcM = p[v]; mixM = -lm srcM + l^2/4 m[srcM, 2];
+ bmm = l^2/4 m[v, 3] - 2 lm m[v] - m[lm] v;
+ bpm = l^2/4 p[m[srcM]];
+ NRH`CheckZero["SM2.3 minus-source derivation: particular b-- solves the nonlocal stress constraint",
+   p[bmm] - (m[mixM] - lm m[srcM])];
+ NRH`CheckZero["SM2.3 minus-source derivation: opposite b++ is a local source derivative",
+   m[bpm] - (p[mixM] + lm p[srcM])];
+ NRH`CheckZero["SM2.3 H_R stress-source restriction: nonlocal L_opposite b plus local derivative only",
+   {hr[0, 0, bpp, bmp, 0, 0, 0] - lm bpp - l^2/4 lp p[m[srcP]],
+    hr[0, 0, bpm, bmm, 0, 0, 0] - lp bmm - l^2/4 lm p[m[srcM]]}];
+
+ (* This checks the source-generator substitution in the displayed NR hair
+    response; it does not solve the full radial gauge equations anew. *)
+ w = wf[xx, zz]; alphaP = -v/2; alphaM = -v/2;
+ NRH`CheckZero["SM2.4: alpha^pm=-inverse_source/2 produces the selected stress source",
+   {-2 m[alphaP] - srcP, -2 p[alphaM] - srcM}];
+ nrHairP = (alphaP p[w] + 2 w p[alphaP] - l^2 lm p[alphaP, 3])/2;
+ nrHairM = (alphaM m[w] + 2 w m[alphaM] - l^2 lp m[alphaM, 3])/2;
+ NRH`CheckZero["SM2.4: both NR particular hair operators follow from the chosen generator",
+   {nrHairP - (l^2 lm p[v, 3]/4 - w p[v]/2 - p[w] v/4),
+    nrHairM - (l^2 lp m[v, 3]/4 - w m[v]/2 - m[w] v/4)}];
+];
 (* Covering-space separated-point kernels; the joint Lorentzian prescription
    is an input, not derived by ordinary differentiation off the singular set.
    General H_s, spatial quotient, zero modes and contacts remain separate.
@@ -341,12 +408,12 @@ hairOp[f_]:=2 WW D[f,dx]+Wprime f-l^2 Lopp D[f,{dx,3}];
 anr=Together[-kappa/(4 I) vNR[inv]];
 ar=Together[-kappa/(4 I) vR[inv]];
 mnr=Together[-kappa/(16 I) hairOp[inv]];
-mr=Lopp ar;
+mr=Together[(1/(64 Pi I G l)) Lopp (l^2/4 D[inv,{dx,3}] - 2 LL D[inv,dx] - Lprime inv)];
 Print["A_NR = ",InputForm[anr],"; A_R = ",InputForm[ar]];
 Print["M_NR = ",InputForm[mnr],"; M_R = ",InputForm[mr]];
-NRH`CheckZero["SMgeneralpositionkernels diagonal NR",anr-(Lprime/dx-2 LL/dx^2)/(128 Pi^2 G l)];
-NRH`CheckZero["SMgeneralpositionkernels diagonal R",ar-anr-3 l/(256 Pi^2 G dx^4)];
-NRH`CheckZero["SMgeneralpositionkernels mixed NR",mnr-(Wprime/dx-2 WW/dx^2+6 l^2 Lopp/dx^4)/(512 Pi^2 G l)];
+NRH`CheckZero["Rcorrelators diagonal NR",anr-(Lprime/dx-2 LL/dx^2)/(128 Pi^2 G l)];
+NRH`CheckZero["Rcorrelators diagonal R",ar-anr-3 l/(256 Pi^2 G dx^4)];
+NRH`CheckZero["Rcorrelators mixed NR",mnr-(Wprime/dx-2 WW/dx^2+6 l^2 Lopp/dx^4)/(512 Pi^2 G l)];
 NRH`CheckZero["R mixed channel from the source response",mr-Lopp ar];
 NRH`CheckZero["Rvacuum stress normalization",((8 Pi)^2 ar/.{LL->0,Lprime->0})-(3 l/(2 G))/(2 dx^4)];
 NRH`CheckZero["NRvacuum mixed reverse ordering is the transposed kernel",

@@ -1,0 +1,135 @@
+[NRH01] DFT toolbox loaded.
+
+
+
+================================================================
+
+  08_Uplift_Killing.wl
+
+================================================================
+
+  [PASS] R(S3) = +6/l^2 and H^2(S3) = +24/l^2 (pairwise cancellation with AdS3)
+
+  [PASS] R_{mu nu} = (1/4) H_{mu rho sigma} H_nu^{rho sigma} on the S3 factor
+
+  [PASS] S_(0)(S3 block) = +4/l^2 via the closed form (cancels -4/l^2 of either 3d saddle)
+
+  [PASS] S_(0)(R4 block) = 0 (flat block, constant dilaton)
+
+  [PASS] R(AdS3, Banados) = -6/l^2 and H^2 = -24/l^2 for arbitrary chiral L_pm (pairwise cancellation with S3)
+
+  [PASS] R_{mu nu} = (1/4) H_{mu rho sigma} H_nu^{rho sigma} on the AdS3 factor, arbitrary chiral L_pm
+
+  [PASS] flux orientation: H_{y-+} = +(2/l) Sqrt[|g_3|] = (2/l)(e^{2y/l} - L+L- e^{-2y/l})
+
+    [10d timing] Gamma: 5.7 s
+
+    [10d timing] R4: 19.200000000000003 s
+
+    [10d timing] Ricci: 4.3 s
+
+  [PASS] R uplift, arbitrary chiral L_+(x^+), L_-(x^-):  S_(0)^{(10)} = 0
+
+  [PASS] R uplift, arbitrary chiral L_+(x^+), L_-(x^-):  (P S Pbar)^{(10)} = 0
+
+  [PASS] one-sided NR family obeys H J H = J exactly for arbitrary L_+(x^+), W_0, W_1
+
+    [10d timing] Gamma: 1. s
+
+    [10d timing] R4: 2.9000000000000004 s
+
+    [10d timing] Ricci: 0.8 s
+
+  [PASS] NR uplift, one-sided hairy family L_- = 0, arbitrary L_+(x^+), W_0(x), W_1(x):  S_(0)^{(10)} = 0
+
+  [PASS] NR uplift, one-sided hairy family L_- = 0, arbitrary L_+(x^+), W_0(x), W_1(x):  (P S Pbar)^{(10)} = 0
+
+  [PASS] Lhat_xi H^infty = 0 for arbitrary chiral v^pm and omega_pm
+
+  [PASS] Lhat_xi d = 0 (the radial component compensates the divergence)
+
+  [PASS] equivalently d_M(e^{-2d} xi^M) = 0
+
+  [PASS] eps = c/Sqrt[L] solves eps dL + 2 L d eps = 0 (the generic obstruction)
+
+  [PASS] the exact one-sided family (L- = 0) obeys H J H = J for arbitrary L+(x+), W0, W1
+
+  [PASS] exact one-sided identity Lhat_xi H = delta H, with weights (1,2) for (W0, W1)
+
+  [PASS] V_M^p V_Np = P_MN and Vbar_M^pbar Vbar_Npbar = Pbar_MN for the exact frame , any hh, sigma, W
+
+  [PASS] V^M_p Vbar_{M qbar} = 0 and P + Pbar = J
+
+  [PASS] V eta V^T - Vbar etabar Vbar^T = H(W) exactly (H = P - Pbar)
+
+  [PASS] at hh = 0 and W_0 = 0, lowering the local indices with eta, etabar gives the limiting frame
+
+  [PASS] x rows = Sqrt[2] tau^pm, x~ rows = the dual vectors -Y/Sqrt[2], Ybar/Sqrt[2], and the W entries = -(W/(2 Sqrt[2])) tau^mp
+
+  [PASS] k = s_i s_j with (l^2/2) s'' = L s obeys k L' + 2 L k' - (l^2/4) k''' = 0 (the stabilizer equation)
+
+  [PASS] rep: {gamma^p, gamma^q} = 2 eta^{pq} (3d lightcone blocks)
+
+  [PASS] {Gamma^p, Gamma^q} = 2 eta_{(10)}^{pq} I_32
+
+  [PASS] Gamma_11^2 = 1 and {Gamma_11, Gamma^p} = 0
+
+  [PASS] BB10 Gamma^p BB10^{-1} = (Gamma^p)^*, same for Gamma_11, and BB10 BB10^* = 1
+
+  [PASS] {Gammabar, Gammabar} = -2 eta, Gammabar_{pq} = -Gamma_{pq}, same Majorana intertwiner
+
+  [PASS] the Majorana condition leaves 32 real components
+
+  [PASS] adding the Weyl condition leaves 16 real components
+
+  [PASS] historical complex-rank check: Weyl + S^3-line + zeta_+ leave complex dimension 4; not a verification of the current real product basis
+
+  [PASS] SM: vacuum spin connection = displayed Phi_{~+ oplus y} = 1/(2l), Phi_{+ ominus y} = -1/l (raised slots)
+
+  [PASS] D_{pbar} E = 0 for E = (Sqrt[2] f(x+), l f'(x+)), arbitrary chiral f
+
+  [PASS] gamma^p D_p E = E/(Sqrt[2] l)
+
+  [PASS] reduced system gamma^p D_p E = (1/(Sqrt[2] l)) diag(1,-1).E + (0,0;1,0).d_+E
+
+  [PASS] the opposite channel E = (0, g(x+)) has eigenvalue -1/(Sqrt[2] l)
+
+  [PASS] both channels also satisfy D_{pbar} E = 0
+
+  [PASS] C = i sigma_2 is the Majorana conjugation for the representation: C gamma^p C^-1 = -(gamma^p)^T
+
+  [PASS] X^M = (omega_+, 0, -(l/2) v'; v^+, 0, -(l/2) v') with v^+ = 2 f1 f2, omega_+ = -2 l^2 f1' f2'
+
+  [PASS] Lhat_X H^infty = 0 and Lhat_X d = 0 for the Killing-spinor bilinear, arbitrary chiral f1, f2
+
+  [PASS] the bilinear is symmetric under f1 <-> f2 (commuting coefficient functions)
+
+  [PASS] one-sided printed frame: V eta V^T - Vbar etabar Vbar^T = H(L+, W_0, W_1) and V -> Vinf at L+ = W = 0
+
+  [PASS] SM text after SMreducedDirac: D_{pbar} E has the components 0, -L+ u e0/l, em0/Sqrt2, em1/Sqrt2 - W1 u e0/(4l), ey0/Sqrt2, ey1/Sqrt2
+
+  [PASS] SM text after SMreducedDirac: gamma^p D_p E + E/(Sqrt2 l) has the components ey0/Sqrt2 + Sqrt2 e0/l and ep0 - ey1/Sqrt2 + L+ u em0
+
+  [PASS] the displayed system has rank six (seven relations, one dependent) and spans the derived equations
+
+  [PASS] the solution space is exactly {e_1, d_+ e_1}: e_0 = 0, e_1 = F_+(x^+) with d_+ e_1 unconstrained
+
+  [PASS] the mechanism: W_1 multiplies only e_0, and every d_+ L_+, d W_0, d W_1 term cancels in the full connection
+
+  [PASS] below : d_theta eta = (i/2) sigma1 eta, d_phi1 eta = -d_phi2 eta = -(i/2)(sin theta sigma3 - cos theta sigma2) eta is integrable (flat connection)
+
+  [PASS] the first-order pair (d+ u = Sqrt[2]/l v, d+ v = Sqrt[2]/l L u) closes into (l^2/2) s'' = L s
+
+  [PASS] global AdS3 (L = -1/4): Hill solutions e^{pm i x/(Sqrt[2] l)}; one circuit gives e^{pm i pi} = -1 (antiperiodic)
+
+  [PASS] massless BTZ (L = 0): the (u, v) pair shifts by exactly 2 pi v over one circuit (unipotent)
+
+  [PASS] constant L > 0: monodromy multipliers e^{pm 2 Sqrt[L0] pi} are real and not +-1: (0,0) kernel
+
+  [PASS] the two surviving directions are complementary in the reduced basis
+
+  [PASS] counting: arithmetic consistency of the stated polarization counts, (4,4) + (4,4) = 16 and (4,0)/(0,4) = 4; not an independent global spinor count
+
+----------------------------------------------------------------
+
+  08_Uplift_Killing.wl: 55/55 checks passed.

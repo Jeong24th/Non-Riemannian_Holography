@@ -1,0 +1,51 @@
+[NRH01] DFT toolbox loaded.
+
+
+
+================================================================
+
+  02_RenormalizedOnShellAction.wl
+
+================================================================
+
+  [PASS] SMgamma2 on R: e^{-2d} S_(0) = L_Gamma2 + d_M(e^{-2d} B^M) for arbitrary chiral L_pm
+
+  [PASS] SMgamma2flux on R: B^y = 4 d_y d and e^{-2d} B^y = -(4/l)(e^{2y/l} + L+L- e^{-2y/l})
+
+  [PASS] SMgamma2 on R: the section fluxes B^{x pm} contain no W (tangential integration uses the stated periodic or decay conditions)
+
+  [PASS] SMgamma2 on NR (arbitrary W): e^{-2d} S_(0) = L_Gamma2 + d_M(e^{-2d} B^M)
+
+  [PASS] SMgamma2 on NR: B^pm and B^y contain no W (the hair never enters the flux)
+
+  [PASS] SMgamma2flux on NR: B^y = 4 d_y d
+
+  [PASS] SMmudefinition on NR: e^{-2d} = e^{2y/l}(1 - q^2) = u - (L+L-/2)/u with q = Sqrt[L+L-/2] e^{-2y/l}, so -2 d_y e^{-2d} = -(4/l)(u + mu/u) with mu = L+L-/2
+
+  [PASS] SMgamma2flux, SMmudefinition: the same formula e^{-2d} B^y = -(4/l)(e^{2y/l} + mu e^{-2y/l}) holds on both branches
+
+  [PASS] SMgamma2cutoff: the regulated flux plus the volume counterterm equals (16 pi G)^{-1}[(8 mu/l) e^{-2Y/l} - (8/l) Sqrt[mu]]
+
+  [PASS] SMgamma2cutoff: the interior endpoint e^{2y*/l} = Sqrt[mu] contributes (4/l)(Sqrt[mu] + Sqrt[mu]) = (8/l) Sqrt[mu]
+
+  [PASS] SMgamma2value: Y -> Infinity gives S_ren = -(8 Sqrt[mu])/(16 pi G l) Int d^2x
+
+  [PASS] endpoints: e^{-2d} = 0 at u^2 = L+L- (Riemannian horizon) and at u^2 = L+L-/2 (non-Riemannian q = 1)
+
+  [PASS] the hair costs no on-shell action: neither the on-shell density, the flux nor the counterterm involves W
+
+  [PASS] counterterm cancels the bare exponential divergence
+
+  [PASS] without the counterterm the action diverges
+
+bare action density = InputForm[((-8*Sqrt[mu])/l + (4*(E^((2*Y)/l) + mu/E^((2*Y)/l)))/l)/(16*G*Pi)]
+
+counterterm density = InputForm[-1/4*(E^((2*Y)/l) - mu/E^((2*Y)/l))/(G*l*Pi)]
+
+renormalized limit = InputForm[-1/2*Sqrt[mu]/(G*l*Pi)]
+
+Assumption: no extra interior boundary action; mu=L+L- (R), mu=L+L-/2 (NR).
+
+----------------------------------------------------------------
+
+  02_RenormalizedOnShellAction.wl: 15/15 checks passed.

@@ -1,0 +1,155 @@
+[NRH01] DFT toolbox loaded.
+
+
+
+================================================================
+
+  05_QuadraticRenormalization_TwoPoint.wl
+
+================================================================
+
+  [PASS] variation, SMBdefinition, SMAdefinition: delta L_Gamma2 = 2e^{-2d}(h^{p qbar} S_{p qbar} - delta d S_(0)) + d_K(h e^{-2d} A^K + 2 delta d e^{-2d} B^K), generic tangential h and delta d on BTZ
+
+  [PASS] the identity is not vacuous: the flux carries the fluctuations, S_{p qbar} = 0 and S_(0) = -4/l^2 on shell
+
+  [PASS] SMrenvariation, SMvolumecounterterm: on shell the bulk term cancels delta(-2 Lambda e^{-2d}) and the counterterm shifts B^y by 4/l
+
+  [PASS] SMmetricradialdictionary, SMscalarradialdictionary: coefficient matching -2K = (16 pi G)^{-1} A^y and 2 T_(0) = (16 pi G)^{-1} 2 (B^y + 4/l)
+
+  [PASS] SMsecondvariation: mixed coset constraint at second order
+
+  [PASS] SMsecondvariation: h_1 projection and delta_2 h_1^{p qbar} = 0
+
+  [PASS] negative control: independent h does not mean delta_2 delta_1 H = 0
+
+  computing background momenta and their variations on both saddles ...
+
+  [timing] R: 13. s
+
+  [timing] NR: 19.5 s
+
+  [PASS] SMbackgroundmomenta on R: A^y_{a bbar} = -(2u/l) {{L+, J_s},{eps_s, L-}} + O(u^2), B^y = -4/l + O(u^2)
+
+  [PASS] SMsamechiralitymomenta on R: tangential A^y_{ab} = eta/l, A^y_{abar bbar} = -etabar/l + O(u^2)
+
+  [PASS] SMframemomentumcheck on R: the two frame terms give -(1/l) h_{a bbar} + O(u^2)
+
+  [PASS] SMconnectionmomentumcheck on R: V^M_a Vbar^N_bbar delta A^y_MN = (1/2) d_y h_{a bbar} + h_{a bbar}/l + O(u^2)
+
+  [PASS] SMlinearizedmomenta on R: delta A^y_{a bbar} = (1/2) d_y h_{a bbar} + O(u^2), delta B^y = 4 d_y delta d + O(u^2)
+
+  [PASS] negative control on R: freezing the bulk frames changes the tangential momentum variation
+
+  [PASS] SMonept/SMNRonept on R: <K_{a bbar}> = -(32 pi G)^{-1} FP e^{2Y/l} A^y = target/(16 pi G l), <T_(0)> = 0
+
+  [PASS] SMbackgroundmomenta on NR: A^y_{a bbar} = -(2u/l) {{L+, J_s},{eps_s, L-}} + O(u^2), B^y = -4/l + O(u^2)
+
+  [PASS] SMsamechiralitymomenta on NR: tangential A^y_{ab} = eta/l, A^y_{abar bbar} = -etabar/l + O(u^2)
+
+  [PASS] SMframemomentumcheck on NR: the two frame terms give -(1/l) h_{a bbar} + O(u^2)
+
+  [PASS] SMconnectionmomentumcheck on NR: V^M_a Vbar^N_bbar delta A^y_MN = (1/2) d_y h_{a bbar} + h_{a bbar}/l + O(u^2)
+
+  [PASS] SMlinearizedmomenta on NR: delta A^y_{a bbar} = (1/2) d_y h_{a bbar} + O(u^2), delta B^y = 4 d_y delta d + O(u^2)
+
+  [PASS] negative control on NR: freezing the bulk frames changes the tangential momentum variation
+
+  [PASS] SMonept/SMNRonept on NR: <K_{a bbar}> = -(32 pi G)^{-1} FP e^{2Y/l} A^y = target/(16 pi G l), <T_(0)> = 0
+
+  [PASS] SMstatefluctuations on R: h_{a bbar} = u {{2 dL+, 2 d(L+L-)},{0, 2 dL-}} + O(u^2), delta d = O(u^2)
+
+  [PASS] SMstatefluctuations on NR: h_{a bbar} = u {{2 dL+, dW1/2},{0, 2 dL-}} + O(u^2), delta d = O(u^2)
+
+  [PASS] SMfinitepartexplicit on R: u^{-1} delta A^y_{a bbar} = u^{-1}(h^(1)/2 + y h^(1b)) - h^(2)/l + h^(2L)/2 - (y/l) h^(2L), u^{-1} delta B^y = 4 u^{-1} delta d^(1) - (8/l) delta d^(2) + 4 delta d^(2L) - (8y/l) delta d^(2L)
+
+  [PASS] SMfinitepartexplicit on NR: u^{-1} delta A^y_{a bbar} = u^{-1}(h^(1)/2 + y h^(1b)) - h^(2)/l + h^(2L)/2 - (y/l) h^(2L), u^{-1} delta B^y = 4 u^{-1} delta d^(1) - (8/l) delta d^(2) + 4 delta d^(2L) - (8y/l) delta d^(2L)
+
+  assembling the ordered cutoff bilinear on both saddles ...
+
+  [PASS] SMdirectcutoffbilinear on R: the general second variation with the computed momenta equals the displayed ordered bilinear through Y^0
+
+  [PASS] SMdirectcutoffbilinear on NR: the general second variation with the computed momenta equals the displayed ordered bilinear through Y^0
+
+  [PASS] SMderivativect on R: delta_2 delta_1 S_ct^(2) cancels every e^{2Y/l} poly(Y) and Y^k divergence of the ordered bilinear (mod total tangential derivatives, with the stress constraints imposed)
+
+  [PASS] negative control on R: without the counterterm the divergences remain
+
+  [PASS] SMctlocality on R: with the stress constraints the divergent rows of the bare bilinear are local in both slots (no undetermined responses)
+
+  [PASS] SMderivativect on NR: delta_2 delta_1 S_ct^(2) cancels every e^{2Y/l} poly(Y) and Y^k divergence of the ordered bilinear (mod total tangential derivatives, with the stress constraints imposed)
+
+  [PASS] negative control on NR: without the counterterm the divergences remain
+
+  [PASS] SMctlocality on NR: with the stress constraints the divergent rows of the bare bilinear are local in both slots (no undetermined responses, no W_1)
+
+  [PASS] SMctadjoint: (L+ d+ + (1/2) d+ L+)^dagger = -(L+ d+ + (1/2) d+ L+) on test functions
+
+  [PASS] SMfullfinitehessian on R: the Y^0 coefficient of the ordered bilinear equals the displayed finite integrand
+
+  [PASS] SMcontactconstraintreduction on R: after integrating the slot-1 response terms by parts the finite part is local in the first source
+
+  [PASS] SMdirectstressrows, SMdirectremainingrows on R: the Euler-Lagrange derivatives of the finite bilinear with respect to the five first-slot sources are the displayed rows q_{s,I}
+
+  [PASS] SMdirectkernel, SMRscalarcontactrow: (G_s)_{5J}|action response = q_5/(4 * 16 pi G) reproduces the displayed scalar contact row
+
+  [PASS] fourth row on R: the fourth h_pm/W0-source row couples only to c_s/l (the 4 delta d^(0)/l terms cancel against the measure term)
+
+  [PASS] SMfullfinitehessian on NR: the Y^0 coefficient of the ordered bilinear equals the displayed finite integrand
+
+  [PASS] SMcontactconstraintreduction on NR: after integrating the slot-1 response terms by parts the finite part is local in the first source
+
+  [PASS] SMdirectstressrows, SMdirectremainingrows on NR: the Euler-Lagrange derivatives of the finite bilinear with respect to the five first-slot sources are the displayed rows q_{s,I}
+
+  [PASS] SMdirectkernel, SMNRscalarcontactrow: (G_s)_{5J}|action response = q_5/(4 * 16 pi G) reproduces the displayed scalar contact row
+
+  [PASS] fourth row on NR: the fourth h_pm/W0-source row couples only to c_s/l (the 4 delta d^(0)/l terms cancel against the measure term)
+
+  [PASS] SMLorentziandeltaconvention: the box integral of (1/(2 pi i)) d+ d- ln(-x+ x- + i eps) over [-R,R]^2 is 1
+
+  [PASS] SMPBHkernel: d_-^{-1} delta^2 = (1/(2 pi i)) d_+ ln(-D+ D- + i eps) -> 1/(2 pi i D+) away from the light cone
+
+  [PASS] SMstresssourceexample: with only h^(0)_{om omb} the R stress constraint is d_- h^(2)_{op opb} = -(2L+ d+ + d+L+ - (l^2/4) d+^3) h^(0)_{om omb}
+
+  [PASS] SMstresssourceexample: on NR the third-derivative term is absent
+
+  [PASS] SMstressparticular: -(1/l)/(64 pi G)/i = -kappa/(4 i) with kappa = 1/(16 pi G l)
+
+  [PASS] SMgeneralpositionkernels, Rcorrelators: A_+^NR = [L+'/D+ - 2L+/D+^2]/(128 pi^2 G l)
+
+  [PASS] SMgeneralpositionkernels, Rcorrelators: A_+^R = A_+^NR + 3l/(256 pi^2 G D+^4)
+
+  [PASS] SMRtwopt: at L+ = 0, (8 pi)^2 A_+^R = (c/2)/D+^4 with c = 3l/(2G)
+
+  [PASS] the Lorentzian route is real: the 1/i of the action variation and the 1/i of d_-^{-1} delta combine to -1/(2 pi)
+
+  [PASS] SMindependentsourcegenerator: radial gauge h_{p ybar} = h_{y qbar} = 0 through u on both saddles, and delta d^(0) = 0
+
+  [PASS] SMindependentsourcegenerator: the only leading source is h^(0)_{om omb} = -2 d_- alpha^+ (both saddles)
+
+  [PASS] SMindependentsourcegenerator: the y-linear piece of the leading block is the historical SM3.4-3.5 response h^(1)_{op omb} = -(l/2) d_+^2 h^(0)_{om omb} = l d_+^2 d_- alpha^+ (no y^2 term)
+
+  [PASS] SMhairparticularsolution: h^(2)_{op opb} = 2 V_+^s alpha^+ on both saddles
+
+  [PASS] SMhairparticularsolution: h^(2)_{op omb}|R = 2 L- V_+^R alpha - (l^2/2) L+ d+ d-^2 alpha, |NR = (1/2) W_+ alpha - (l^2/2) L+ d+ d-^2 alpha
+
+  [PASS] SMgeneralparticularkernels: M_+^R = L_- A_+^R and M_+^NR = -(kappa/(16 i)) W_+ d_-^{-1} delta (normalization chain)
+
+  [PASS] SMgeneralpositionkernels, Rcorrelators: M_+^NR = [W1'/D+ - 2W1/D+^2 + 6 l^2 L-/D+^4]/(512 pi^2 G l) with d_-^{-1} delta -> 1/(2 pi i D+)
+
+  [PASS] SMNRhairhessian: the hair-hair coefficient (1/l)/(64 pi G)/i = 1/(64 pi i G l)
+
+  [PASS] SMRhairuniformization: {e^{2 alpha x}; x} = -2 alpha^2 = -4 L/l^2 for alpha = Sqrt[2L]/l
+
+  [PASS] SMRhairconstantL: B(x,x') = [alpha/sinh(alpha D)]^4 for f = e^{2 alpha x}
+
+  [PASS] SMRhairconstantL: the L -> 0 limit of the thermal factor is 1/D^4
+
+  [PASS] SMRhairconditional: the stress coefficient 3l/(256 pi^2 G) equals (8 pi)^{-2} c/2
+
+  [PASS] SMRhairconditional: algebraic rewriting only: 9 l^5/(64 pi^2 G r^8) with r^2 = -2 D+ D- is 9 l^5/(1024 pi^2 G) (-D+ D-)^{-4}
+
+  [PASS] SMonepointequivalence: (1/2) delta O^_I/delta j_J with O^_I = (1/2) delta S/delta j_I is (1/4) delta^2 S/delta j_I delta j_J
+
+----------------------------------------------------------------
+
+  05_QuadraticRenormalization_TwoPoint.wl: 67/67 checks passed.

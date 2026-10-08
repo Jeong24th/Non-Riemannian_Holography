@@ -1,0 +1,31 @@
+[NRH01] DFT toolbox loaded.
+
+
+
+================================================================
+
+  10_AsymptoticSymmetries.wl
+
+================================================================
+
+  [PASS] Rkilling, RVirasoro: Lhat_xi H - delta_eps H = O(e^{-4y/l}) with delta L = eps L' + 2 L eps' - (l^2/4) eps'''
+
+  [PASS] Rkilling: Lhat_xi d = O(e^{-4y/l}) (the radial component compensates the weight)
+
+  [PASS] Rkilling (NR form), NRasympt: Lhat_xi H - delta_(L, W1) H = O(u^-2) componentwise
+
+  [PASS] NRasympt: delta psi is equivalent to delta L = eps L' + 2 L eps' (no central term)
+
+  [PASS] NRasympt: Lhat_xi d = O(u^-2)
+
+  [PASS] charges: with T = 8 pi K = L+/(2 G l), RVirasoro is delta T = eps T' + 2 T eps' - (c/12) eps''' with c = 3l/(2G)
+
+  [PASS] charge normalization: (16 pi G)^{-1}(4/l) = 1/(4 pi G l) (Q[eps] of the Letter)
+
+delta L+ (R) = InputForm[2*Lp[xp]*Derivative[1][ep][xp] + ep[xp]*Derivative[1][Lp][xp] - (l^2*Derivative[3][ep][xp])/4]
+
+delta W1 (NR) = InputForm[2*W1[xp, xm]*(Derivative[1][em][xm] + Derivative[1][ep][xp]) - l^2*(Derivative[3][em][xm]/psip[xp]^2 + Derivative[3][ep][xp]/psim[xm]^2) + em[xm]*Derivative[0, 1][W1][xp, xm] + ep[xp]*Derivative[1, 0][W1][xp, xm]]
+
+----------------------------------------------------------------
+
+  10_AsymptoticSymmetries.wl: 7/7 checks passed.

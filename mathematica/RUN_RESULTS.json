@@ -1,142 +1,166 @@
 {
-  "date_kst": "2026-10-06",
+  "date_kst": "2026-10-08",
   "wolfram_version": "13.2.1 for Microsoft Windows (64-bit) (January 27, 2023)",
-  "source_sha256": "F8AC68BB80B6C3D572160FD83705FE7506FCF277B00FB95021D39C2AF1E8E239",
-  "method": "One file per otherwise empty folder, fresh wolframscript kernel per program.",
-  "checks_passed": 377,
-  "checks_total": 377,
-  "standalone_notebook_payloads_validated": 13,
-  "hash_note": "executed_file_sha256 records Windows CRLF bytes; lf_source_sha256 is repository-normalized text.",
+  "source_sha256": "2E6A7A8A20D581043D6457865662E76F7D46433AF29847393F1DBA4BF753F822",
+  "method": "Each program copied to its own isolated directory and executed by a fresh wolframscript process, with no sibling source, package, or manuscript input.",
+  "checks_passed": 451,
+  "checks_total": 451,
+  "standalone_notebook_payloads_validated": 14,
+  "hash_note": "executed_file_sha256 records exact executed bytes; lf_source_sha256 records Git-normalized LF bytes.",
   "files": [
     {
       "file": "01_ExactBackgrounds_EDFE.wl",
       "exit": 0,
-      "seconds": 42.1705587,
+      "seconds": 39.391,
+      "lf_source_sha256": "E53EF311F860C3CFE2B2A0CCB589DB89A5A125308C3C02CCC1B3B5EB16CB4F4D",
+      "source_unchanged": true,
       "passed": 49,
       "total": 49,
       "executed_file_sha256": "F731E38972C97A1B492005209939D3CC97E89E1C85DFE9880C00E78BA7F40412",
-      "lf_source_sha256": "E53EF311F860C3CFE2B2A0CCB589DB89A5A125308C3C02CCC1B3B5EB16CB4F4D",
-      "log": "runs/2026-10-06/01_ExactBackgrounds_EDFE.txt"
+      "log": "runs/2026-10-08/01_ExactBackgrounds_EDFE.txt"
     },
     {
       "file": "02_RenormalizedOnShellAction.wl",
       "exit": 0,
-      "seconds": 18.0766657,
+      "seconds": 16.765,
+      "lf_source_sha256": "C3DC4886826FAA3CCB285CF5C595FCCFAD25B94D00C5BBE0A6AACD4FAF606302",
+      "source_unchanged": true,
       "passed": 15,
       "total": 15,
       "executed_file_sha256": "681B3CAC2DD100FB480E6F0F86D47B3C330AB0541E6A70D412EE5AE178E7B9F7",
-      "lf_source_sha256": "C3DC4886826FAA3CCB285CF5C595FCCFAD25B94D00C5BBE0A6AACD4FAF606302",
-      "log": "runs/2026-10-06/02_RenormalizedOnShellAction.txt"
+      "log": "runs/2026-10-08/02_RenormalizedOnShellAction.txt"
     },
     {
       "file": "03_RadialSolutionDerivation.wl",
       "exit": 0,
-      "seconds": 18.4626435,
+      "seconds": 18.469,
+      "lf_source_sha256": "0E948A760D30689DF4D3F272579FB896B0816D383FB18A27C04787B5FEC72DCB",
+      "source_unchanged": true,
       "passed": 20,
       "total": 20,
       "executed_file_sha256": "F8E8544B97AC7C96BAD0DCFBF6FBC7B8A17FF8FE6D557AD6B6438B8B6B3CAED8",
-      "lf_source_sha256": "0E948A760D30689DF4D3F272579FB896B0816D383FB18A27C04787B5FEC72DCB",
-      "log": "runs/2026-10-06/03_RadialSolutionDerivation.txt"
+      "log": "runs/2026-10-08/03_RadialSolutionDerivation.txt"
     },
     {
       "file": "04_GeneralBackground_LEDFE.wl",
       "exit": 0,
-      "seconds": 76.8326463,
+      "seconds": 76.265,
+      "lf_source_sha256": "6EF3FD4911833EC4B6C6FAE9AE7BB65D73C7419FF5E14AA362FD3C9AF1B5899D",
+      "source_unchanged": true,
       "passed": 61,
       "total": 61,
       "executed_file_sha256": "C909C02F1B84090DB6A9BC2D5DA5FEB62EDA2BA9F9633E529B3274D1096F547A",
-      "lf_source_sha256": "6EF3FD4911833EC4B6C6FAE9AE7BB65D73C7419FF5E14AA362FD3C9AF1B5899D",
-      "log": "runs/2026-10-06/04_GeneralBackground_LEDFE.txt"
+      "log": "runs/2026-10-08/04_GeneralBackground_LEDFE.txt"
     },
     {
       "file": "05_QuadraticRenormalization_TwoPoint.wl",
       "exit": 0,
-      "seconds": 76.8342578,
+      "seconds": 76.922,
+      "lf_source_sha256": "2DD40A3EF18F57226D92FAA011FC9DB5CE5ABCB32C01865C6DDAC5685151208B",
+      "source_unchanged": true,
       "passed": 67,
       "total": 67,
       "executed_file_sha256": "302D70900A205BE87F1358B0BAD421B521DF2CC8277D2C4F8216E3B70DF58111",
-      "lf_source_sha256": "2DD40A3EF18F57226D92FAA011FC9DB5CE5ABCB32C01865C6DDAC5685151208B",
-      "log": "runs/2026-10-06/05_QuadraticRenormalization_TwoPoint.txt"
+      "log": "runs/2026-10-08/05_QuadraticRenormalization_TwoPoint.txt"
     },
     {
       "file": "06_NoetherCharges.wl",
       "exit": 0,
-      "seconds": 5.0681238,
+      "seconds": 3.125,
+      "lf_source_sha256": "5241DED94642EEFDE634850EADBF05FEFD263279A28E9ADFB4441C212B7E5286",
+      "source_unchanged": true,
       "passed": 31,
       "total": 31,
       "executed_file_sha256": "DBCCA9EB0CA603896AA2D89AE48C94D10CC4FD69B4FB400A37B670348E23C366",
-      "lf_source_sha256": "5241DED94642EEFDE634850EADBF05FEFD263279A28E9ADFB4441C212B7E5286",
-      "log": "runs/2026-10-06/06_NoetherCharges.txt"
+      "log": "runs/2026-10-08/06_NoetherCharges.txt"
     },
     {
       "file": "07_Worldsheet.wl",
       "exit": 0,
-      "seconds": 5.063763,
-      "passed": 35,
-      "total": 35,
-      "executed_file_sha256": "356FE63F5C115CDC270D0E6F94CF58319F37B0976AEF317E300A936D0502699B",
-      "lf_source_sha256": "54B38DE5401AD571E8365682F5C658CC90B399ABADCB1044F83B71DE0ED2CDE3",
-      "log": "runs/2026-10-06/07_Worldsheet.txt"
+      "seconds": 3.468,
+      "lf_source_sha256": "7E19A6FD25D00BF2A287BECDB832A51F27FBD079DEB26192174D78B43C2D6B41",
+      "source_unchanged": true,
+      "passed": 49,
+      "total": 49,
+      "executed_file_sha256": "56C65BBE1840A9A8BA8F1205F5889CB014DE89431FBD71D937055ADE26FA0325",
+      "log": "runs/2026-10-08/07_Worldsheet.txt"
     },
     {
       "file": "08_Uplift_Killing.wl",
       "exit": 0,
-      "seconds": 63.6729155,
+      "seconds": 61.734,
+      "lf_source_sha256": "02578585793B9FB79F33B6E40185219E9A8DF94615D5C45EA561020D40424CBF",
+      "source_unchanged": true,
       "passed": 55,
       "total": 55,
       "executed_file_sha256": "DC8480A1DCAD318B7FDED213F98B56C610A74EB9E92451F940030B2DD9090CA2",
-      "lf_source_sha256": "02578585793B9FB79F33B6E40185219E9A8DF94615D5C45EA561020D40424CBF",
-      "log": "runs/2026-10-06/08_Uplift_Killing.txt"
+      "log": "runs/2026-10-08/08_Uplift_Killing.txt"
     },
     {
       "file": "09_BoundaryCandidate.wl",
       "exit": 0,
-      "seconds": 3.441557,
+      "seconds": 2.719,
+      "lf_source_sha256": "237DA55DB0F40950566F373694E2D04DD12E601BFBB8F6A170B4C297CD25516D",
+      "source_unchanged": true,
       "passed": 14,
       "total": 14,
       "executed_file_sha256": "7FC7BE07981D8A23DC6BB54D966B85EF68EA21429CAB388C4A255DA5AAC707B4",
-      "lf_source_sha256": "237DA55DB0F40950566F373694E2D04DD12E601BFBB8F6A170B4C297CD25516D",
-      "log": "runs/2026-10-06/09_BoundaryCandidate.txt"
+      "log": "runs/2026-10-08/09_BoundaryCandidate.txt"
     },
     {
       "file": "10_AsymptoticSymmetries.wl",
       "exit": 0,
-      "seconds": 3.8273521,
+      "seconds": 3.594,
+      "lf_source_sha256": "31D9E64BCA3D15BA91A957F8013384962E42F126C7C83B6A42BD9DAA0AB6283B",
+      "source_unchanged": true,
       "passed": 7,
       "total": 7,
       "executed_file_sha256": "24C3BCA0904FD6E48963937FE97E3DF5965476ABF4208EEFFA08F705AA17D028",
-      "lf_source_sha256": "31D9E64BCA3D15BA91A957F8013384962E42F126C7C83B6A42BD9DAA0AB6283B",
-      "log": "runs/2026-10-06/10_AsymptoticSymmetries.txt"
+      "log": "runs/2026-10-08/10_AsymptoticSymmetries.txt"
     },
     {
       "file": "11_ZeroL_ExactLEDFE.wl",
       "exit": 0,
-      "seconds": 7.3847407,
+      "seconds": 7.219,
+      "lf_source_sha256": "BF3CD7A76ABE49463444924BF2AEDD9FB6EC47A0853F175FF78CCE00CD7EB5F5",
+      "source_unchanged": true,
       "passed": 5,
       "total": 5,
       "executed_file_sha256": "7943DC3F86763A889FE7DFFE142C588E6D559DB5EC99485A8E3F3AC234E403C5",
-      "lf_source_sha256": "BF3CD7A76ABE49463444924BF2AEDD9FB6EC47A0853F175FF78CCE00CD7EB5F5",
-      "log": "runs/2026-10-06/11_ZeroL_ExactLEDFE.txt"
+      "log": "runs/2026-10-08/11_ZeroL_ExactLEDFE.txt"
     },
     {
       "file": "12_RiemannianVacuum_ExactLEDFE.wl",
       "exit": 0,
-      "seconds": 9.3977357,
+      "seconds": 10.75,
+      "lf_source_sha256": "E4D8E620438D19CAB4F9AD296C199D8DF33418EC887CCFCA536002DC9DDD758B",
+      "source_unchanged": true,
       "passed": 8,
       "total": 8,
       "executed_file_sha256": "8C170E019743E77D937825A148B9C3BA5A9C98FABDEB01EFD0577E5703864940",
-      "lf_source_sha256": "E4D8E620438D19CAB4F9AD296C199D8DF33418EC887CCFCA536002DC9DDD758B",
-      "log": "runs/2026-10-06/12_RiemannianVacuum_ExactLEDFE.txt"
+      "log": "runs/2026-10-08/12_RiemannianVacuum_ExactLEDFE.txt"
     },
     {
       "file": "13_TwoPointFunctions.wl",
       "exit": 0,
-      "seconds": 2.973166,
-      "passed": 10,
-      "total": 10,
-      "executed_file_sha256": "3A44DEC9D0248195567B3F5B4E861459E5D8A3B0220F2BF54972FF4DFAFE0591",
-      "lf_source_sha256": "BFFE0A9B3B5C6A198057892866C66521047F80892FE294A1EFA837FCEB7B60D0",
-      "log": "runs/2026-10-06/13_TwoPointFunctions.txt"
+      "seconds": 7.032,
+      "lf_source_sha256": "CB787821C788B65AA1C9DBB4C0E8E95A8BE535897B7684C61FC2548162579816",
+      "source_unchanged": true,
+      "passed": 19,
+      "total": 19,
+      "executed_file_sha256": "13F7B777966A2B9E67C43A590CE104A5BF6332662FE1A047D0D4A7D8B358F93D",
+      "log": "runs/2026-10-08/13_TwoPointFunctions.txt"
+    },
+    {
+      "file": "14_SM29_IntrinsicCounterterm.wl",
+      "exit": 0,
+      "seconds": 4.219,
+      "lf_source_sha256": "17FE8A5DDB088DDF8F1C0C6FDB66138F48D20D232521F59A328C4A9CD4E8CEFD",
+      "source_unchanged": true,
+      "passed": 51,
+      "total": 51,
+      "executed_file_sha256": "17FE8A5DDB088DDF8F1C0C6FDB66138F48D20D232521F59A328C4A9CD4E8CEFD",
+      "log": "runs/2026-10-08/14_SM29_IntrinsicCounterterm.txt"
     }
   ]
 }

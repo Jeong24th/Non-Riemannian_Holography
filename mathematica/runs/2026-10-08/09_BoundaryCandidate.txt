@@ -1,0 +1,41 @@
+[NRH01] DFT toolbox loaded.
+
+
+
+================================================================
+
+  09_BoundaryCandidate.wl
+
+================================================================
+
+  [PASS] the P^(0) term contains only D_+ and the Pbar^(0) term only D_-
+
+  [PASS] each term selects a single independent component of phi_A
+
+  [PASS] gamma^oplus (gamma^bar-ominus) have rank one: one surviving chiral component each
+
+  [PASS] delta_Lambda L = 0 for the non-abelian bosonic sector
+
+  [PASS] Jordan-Wigner generators anticommute (exact Grassmann algebra)
+
+  [PASS] delta_v L = d_+(v^+ L) + d_-(v^- L) (unit-weight scalar density)
+
+  [PASS] Lhat_xi H^(0) = 0 <=> d_- v^+ = 0 = d_+ v^-
+
+  [PASS] delta_{eps+} L = d_-( psi^+ delta_{eps+} psi^+ )
+
+  [PASS] delta_{eps-} L = d_+( psi^- delta_{eps-} psi^- )
+
+  [PASS] the fermionic parameters carry arbitrary chiral profiles (one function per chirality)
+
+  [PASS] delta_zeta L = (1/2) d_+ Tr[zetabar (D_- phi^-)^2] + (1/2) d_- Tr[zeta (D_+ phi^+)^2]
+
+  [PASS] delta_alpha L = d_-(psi^+ delta_alpha psi^+) + d_+(psi^- delta_alpha psi^-) identically (off shell)
+
+  [PASS] the transformations are built from the fermion equations of motion d_- psi^+ = 0 = d_+ psi^-, hence vanish on shell
+
+  [PASS] the two-component fermions used here are genuinely Grassmann: psi^+ d_- psi^+ is nonzero off shell
+
+----------------------------------------------------------------
+
+  09_BoundaryCandidate.wl: 14/14 checks passed.

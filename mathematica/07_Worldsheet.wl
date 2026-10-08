@@ -1,4 +1,4 @@
-(* 07_Worldsheet.wl | 2026-10-06 standalone edition.
+(* 07_Worldsheet.wl | 2026-10-08 standalone edition.
    All definitions are embedded. No Get, Needs, input files, or packages.
    Run in a fresh kernel; this file clears Global` and NRH`.
    Stable labels identify formulas; old SM numbers in inherited check IDs are historical. *)
@@ -330,7 +330,7 @@ MomentumProjected[gamma_List, V_, Vb_, xs_List] := Module[{JJ = ODDJ[3], core, V
 
 (* === CALCULATION === *)
 (* ::Title:: *)
-(*NRH08 SM4 Worldsheet Reduction and Radial Vertex Operators*)
+(*SM3 Lorentzian Worldsheet Reduction and Radial Vertex Operators*)
 
 NRH`BeginFile["07_Worldsheet.wl"];
 
@@ -344,15 +344,20 @@ EmatR = {{2 Lp, 0, 0}, {-2 fR, 2 Lm, 0}, {0, 0, 1}};
 LE = Sum[EmatR[[m, n]] {dxp, dxm, dy}[[m]] {bxp, bxm, by}[[n]], {m, 3}, {n, 3}];
 NRH`CheckZero["eliminating the auxiliaries reproduces E_{mu nu} dx^mu dbar x^nu, E = g - B",
    Together[L2 - LE]];
+NRH`CheckZero["SMRfirstorder: multiplier shifts retain the full L_pm-dependent finite-radius interaction",
+   Together[(L1 /. {beta -> betaNew - 2 Lp dxp, betab -> betabNew - 2 Lm bxm})
+    - (dy by + betaNew bxp + betabNew dxm
+       + (betaNew - 2 Lp dxp) (betabNew - 2 Lm bxm)/(2 fR))]];
 NRH`CheckZero["-det g_par = F^2 - 4 L+ L- = e^{-4 d_R}",
    Together[-Det[{{2 Lp, -fR}, {-fR, 2 Lm}}] - (fR^2 - 4 Lp Lm)]];
 NRH`CheckZero["c_eff^2 = 2F -> 4 Sqrt[L+L-] at the horizon u = Sqrt[L+L-]",
    Together[(2 fR /. u -> Sqrt[Lp Lm]) - 4 Sqrt[Lp Lm]]];
 
+(* Internal legacy identifiers tauP/tauM denote the manuscript's X/bar-X. *)
 tauP = {Cosh[ch/2], -esig^-1 Sinh[ch/2], 0};
 tauM = {-esig Sinh[ch/2], Cosh[ch/2], 0};
 Hupper = {{0, 0, 0}, {0, 0, 0}, {0, 0, 1}};
-NRH`CheckZero["SM: H^{mu nu} tau^pm_nu = 0 (two-dimensional longitudinal kernel)",
+NRH`CheckZero["SNCtau: H^{mu nu} X_nu = H^{mu nu} bar-X_nu = 0",
    {Hupper . tauP, Hupper . tauM}];
 
 Ysol = First@Solve[{yv1 tauP[[1]] + yv2 tauP[[2]] == 1, yv1 tauM[[1]] + yv2 tauM[[2]] == 0}, {yv1, yv2}];
@@ -368,7 +373,7 @@ tdotd = tauP[[1]] dxp + tauP[[2]] dxm;   tdotb = tauP[[1]] bxp + tauP[[2]] bxm;
 mdotd = tauM[[1]] dxp + tauM[[2]] dxm;   mdotb = tauM[[1]] bxp + tauM[[2]] bxm;
 symRoute = Wc/2 (tdotd mdotb + mdotd tdotb);
 antisymRoute = Wc/2 (dxp bxm - bxp dxm);
-NRH`CheckZero["symmetric-block route - antisymmetric-clock route = W (tau- . dx)(tau+ . dbar x)",
+NRH`CheckZero["symmetric-block route - antisymmetric-clock route = W (bar-X . dx)(X . dbar x)",
    Together[symRoute - antisymRoute - Wc mdotd tdotb]];
 
 NRH`CheckZero["at chi -> 0 the W coupling reduces to (W/2) dx^+ dbar x^- (+ constraint terms)",
@@ -376,6 +381,11 @@ NRH`CheckZero["at chi -> 0 the W coupling reduces to (W/2) dx^+ dbar x^- (+ cons
 NRH`Check["with the 1/(2 pi alpha') prefactor this is V_W = (1/(4 pi alpha')) W dx+ dbar x-",
    Together[1/(2 Pi alphaPrime) Wc/2 - Wc/(4 Pi alphaPrime)] === 0];
 
+(* Ancillary historical calculation: the classical wound-string energy passage
+   and SMlongstringE were deleted from the manuscript on 2026-10-08.
+   The following seven algebraic checks are retained as historical evidence,
+   not coverage of a current manuscript claim. *)
+Print["Ancillary historical checks: deleted classical wound-string energy passage."];
 gR = RiemannianMetric[Lp, Lm, u];
 bR = RiemannianB[Lp, Lm, u];
 et = {1/Sqrt[2], 1/Sqrt[2], 0};
@@ -385,29 +395,33 @@ g2 = {{et . gR . et, et . gR . ephi}, {ephi . gR . et, ephi . gR . ephi}};
 ephi1 = {l/Sqrt[2], -l/Sqrt[2], 0};
 gtphi = {{et . gR . et, et . gR . ephi1}, {ephi1 . gR . et, ephi1 . gR . ephi1}};
 Btphi = et . bR . ephi1;
-NRH`Check["before : with constant L_pm the (t, phi) components of g and B are t-independent, so d_t is Killing and B is invariant",
+NRH`Check["Ancillary deleted-energy passage: constant L_pm gives t-independent (t,phi) metric and B components",
    FreeQ[{gtphi, Btphi}, t] && FreeQ[{gR, bR}, xp] && FreeQ[{gR, bR}, xm]];
-NRH`CheckZero["before : gamma^{tau a} g_{t nu} d_a X^nu = gamma^{tau a} gamma_{a tau} = 1 on the static embedding",
+NRH`CheckZero["Ancillary deleted-energy passage: gamma^{tau a} g_{t nu} d_a X^nu = 1 on the static embedding",
    Together[Sum[Inverse[g2][[1, a]] (et . gR . {et, ephi}[[a]]), {a, 2}] - 1]];
-NRH`CheckZero["before : B_{t phi} = l (e^{2y/l} + L+L- e^{-2y/l}) and B_{t nu} X'^nu = w B_{t phi}",
+NRH`CheckZero["Ancillary deleted-energy passage: B_{t phi} = l F and B_{t nu} X'^nu = w B_{t phi}",
    {Together[Btphi - l (u + Lp Lm/u)], Together[et . bR . ephi - wN Btphi]}];
 sqrtMinusGamma = l wN (u - Lp Lm/u);
 Pt = 1/(2 Pi alphaPrime) (-sqrtMinusGamma Sum[Inverse[g2][[1, a]] (et . gR . {et, ephi}[[a]]), {a, 2}] + et . bR . ephi);
-NRH`CheckZero["before : E = -Int_0^{2 pi} d sigma P_t with the displayed P_mu reproduces E(y) = -(2 w l/alpha') L+L- e^{-2y/l}",
+NRH`CheckZero["Ancillary deleted-energy passage: E = -Int P_t reproduces E(y) = -(2 w l/alpha') L+L- e^{-2y/l}",
    Together[-2 Pi Pt + 2 wN l/alphaPrime Lp Lm/u]];
-NRH`CheckZero["-det g_(t,phi) = l^2 (e^{2y/l} - L+L- e^{-2y/l})^2 per winding, i.e. the Nambu-Goto area density l(e^{2y/l} - L+L- e^{-2y/l}) (exact, arbitrary chiral L_pm)",
+NRH`CheckZero["Ancillary deleted-energy passage: -det g_(t,phi) equals the squared Nambu-Goto area density",
    Together[-Det[g2] - (l wN (u - Lp Lm/u))^2]];
 
 BtphiPerW = l (u + Lp Lm/u);
-NRH`CheckZero["E(y) = (w l/alpha')[(e^{2y/l} - L+L- e^{-2y/l}) - (e^{2y/l} + L+L- e^{-2y/l})] = -(2 w l/alpha') L+L- e^{-2y/l}",
+NRH`CheckZero["Ancillary deleted-energy passage: area minus B coupling gives E(y)=-(2 w l/alpha') L+L- e^{-2y/l}",
    Together[wN l/alphaPrime ((u - Lp Lm/u) - (u + Lp Lm/u)) + 2 wN l/alphaPrime Lp Lm/u]];
-NRH`CheckZero["remark: with phi_0 = 0 the area density equals l e^{-2d} (a coincidence of the gauge choice, not a property of the Nambu-Goto action)",
+NRH`CheckZero["Ancillary deleted-energy passage: with phi_0=0 the area density equals l e^{-2d}",
    Together[l (u - Lp Lm/u) - l u (1 - Lp Lm/u^2)]];
+Print["End ancillary historical checks; resume current SM3 calculations."];
 
 fluxH = Integrate[D[l^2 Cos[th]^2, th], {th, 0, Pi/2}] (2 Pi) (2 Pi);
 NRH`CheckZero["k = |Int_{S^3} H| / (4 pi^2 alpha') = l^2/alpha'",
    Together[(-fluxH)/(4 Pi^2 alphaPrime) - l^2/alphaPrime]];
 
+(* One real Lorentzian null separation; this is one chiral component of
+   <y(s)y(u)> = -(alpha'/2) Log[(s+ - u+)(s- - u-)]. The causal boundary
+   value is an input and is not established by this separated-point algebra. *)
 prop[zz_] := -alphaPrime/2 Log[zz];
 doubleContraction = -(1/alphaPrime) aa^2 (D[prop[z - w], z])^2;
 improvement = -(aa/l) D[prop[z - w], {z, 2}];
@@ -469,20 +483,20 @@ NRH`CheckZero["(db)_{+-y} = d_+ b_{-y} + d_- b_{y+} + d_y b_{+-} = -2 d_+ d_- v^
 NRH`CheckZero["v^y = -(l/2)(d_+ v^+(x^+) + d_- v^-(x^-)) has d_+ d_- v^y = 0, so closure forces d_y varpi = 0: W_0 is gauge, e^{-2y/l} W_1 is not",
    D[-l/2 (D[vpf[xp], xp] + D[vmf[xm], xm]), xp, xm]];
 
-NRH`CheckZero["e^{a y(z)} e^{a y(0)} ~ |z|^{-alpha' a^2} = |z|^{-4 alpha'/l^2} for a = -2/l (from <y y> = -(alpha'/2) Log|z|^2)",
-   Together[-alphaPrime (-2/l)^2 + 4 alphaPrime/l^2]];
+NRH`CheckZero["SMBRSTfusion: each real null separation has exponent -2 alpha'/l^2 for a = -2/l",
+   Together[-alphaPrime/2 (-2/l)^2 + 2 alphaPrime/l^2]];
 hn = nn + qq nn (1 - nn);
 NRH`CheckZero["the n-fold fused weight h_n = n + q n(1-n) equals n + h_y(-2n/l) with q = alpha'/l^2",
    Together[(hn - (nn + (-alphaPrime/4 (-2 nn/l) (-2 nn/l + 2/l)))) /. qq -> alphaPrime/l^2]];
 NRH`Check["h_n = 1 exactly at n = 1 or at the resonant value q = 1/n",
    Solve[hn == 1, qq] === {{qq -> 1/nn}} && Together[(hn /. nn -> 1) - 1] === 0];
 
-(* Current October 6 SNCdualB and SNCreconstruction; also checks the exact frames. *)
+(* SNCdualB and SNCreconstruction with current X/bar-X notation; exact frames. *)
 Module[{cc=chiLocal,ee=sigmaExp,ww=wLocal,tp,tm,yv,yb,bmat,lower,hh,omega,v,vb},
  tp={Cosh[cc/2],-Sinh[cc/2]/ee,0}; tm={-ee Sinh[cc/2],Cosh[cc/2],0};
  yv={Cosh[cc/2],ee Sinh[cc/2],0}; yb={Sinh[cc/2]/ee,Cosh[cc/2],0};
  bmat=-ww/2(Outer[Times,tp,tm]-Outer[Times,tm,tp]);
- NRH`CheckZero["SNCdualB: dual vectors and tau+ wedge tau- = dx+ wedge dx-",
+ NRH`CheckZero["SNCdualB: dual vectors and X wedge bar-X = dx+ wedge dx-",
  {tp.yv-1,tm.yb-1,tp.yb,tm.yv,bmat-{{0,-ww/2,0},{ww/2,0,0},{0,0,0}}}];
  lower=DiagonalMatrix[{0,0,1}]+Outer[Times,tp,bmat.yv]+Outer[Times,bmat.yv,tp]
  -Outer[Times,tm,bmat.yb]-Outer[Times,bmat.yb,tm];
@@ -495,5 +509,79 @@ Module[{cc=chiLocal,ee=sigmaExp,ww=wLocal,tp,tm,yv,yb,bmat,lower,hh,omega,v,vb},
  {-w Cosh[cc/2]/(2 Sqrt[2]),-Sqrt[2] ee Sinh[cc/2],0},{w Sinh[cc/2]/(2 Sqrt[2] ee),Sqrt[2] Cosh[cc/2],0},{0,0,1/Sqrt[2]}};
  NRH`CheckZero["SMvielbein: both frames are the B transforms of W=0 frames",{omega.v[0]-v[ww],omega.vb[0]-vb[ww]}];
 ];
+
+(* Direct Lorentzian reduction of SMdyg before longitudinal constraints.
+   This block omits the overall 1/(4 pi alpha'). Set rt=exp(chi/2), so the
+   rational ct,st expressions implement cosh(chi/2),sinh(chi/2) exactly. *)
+Module[{rt, ee, wc, ct, st, xcov, xbar, yvec, ybar, transverse, mixed, lower,
+   hh, up, um, uy, vp, vm, vy, ap, am, ay, abp, abm, aby, du, dv, au, av,
+   ddu, ddv, raw, transverseRules, betaOld, betabarOld, expected, be, beb,
+   newbe, multiplierLag, shifted, nullJac, eps01, flatH, stressP, stressM},
+ ct = (rt + 1/rt)/2; st = (rt - 1/rt)/2;
+ xcov = {ct, -st/ee, 0}; xbar = {-ee st, ct, 0};
+ yvec = {ct, ee st, 0}; ybar = {st/ee, ct, 0};
+ transverse = DiagonalMatrix[{0, 0, 1}];
+ mixed = Outer[Times, yvec, xcov] - Outer[Times, ybar, xbar];
+ lower = transverse + wc (Outer[Times, xcov, xbar] + Outer[Times, xbar, xcov]);
+ hh = ArrayFlatten[{{transverse, mixed}, {Transpose[mixed], lower}}];
+ NRH`CheckZero["SNCdualB: completeness Y X + bar-Y bar-X + transverse = identity",
+   Outer[Times, yvec, xcov] + Outer[Times, ybar, xbar] + transverse - IdentityMatrix[3]];
+ NRH`CheckZero["SNCreconstruction: complete X/bar-X generalized metric obeys H J H = J",
+   hh . ODDJ[3] . hh - ODDJ[3]];
+ nullJac = {{1, 1}, {1, -1}}/Sqrt[2]; eps01 = {{0, 1}, {-1, 0}};
+ NRH`CheckZero["SMdyg Lorentzian orientation: epsilon^{+-} = -1",
+   nullJac . eps01 . Transpose[nullJac] - {{0, -1}, {1, 0}}];
+ du = {up, um, uy}; dv = {vp, vm, vy}; au = {ap, am, ay}; av = {abp, abm, aby};
+ ddu = Join[-au, du]; ddv = Join[-av, dv];
+ raw = ddu . hh . ddv + du . av - dv . au;
+ transverseRules = {ay -> -uy, aby -> vy};
+ NRH`CheckZero["SMphysicalsectionA: transverse auxiliary equations a_y=-partial y and bar-a_y=bar-partial y",
+   {D[raw, ay], D[raw, aby]} /. transverseRules];
+ betaOld = -yvec . au; betabarOld = ybar . av;
+ expected = 2 uy vy + 2 betaOld (xcov . dv) + 2 betabarOld (xbar . du)
+   + wc ((xcov . du) (xbar . dv) + (xbar . du) (xcov . dv));
+ NRH`CheckZero["SMdygGO: exact Lorentzian doubled-action reduction at finite chi",
+   (raw /. transverseRules) - expected];
+ NRH`CheckZero["SMdygGO: no longitudinal auxiliary bilinear at any radius",
+   Table[D[raw /. transverseRules, aa, bb], {aa, {ap, am}}, {bb, {abp, abm}}]];
+ multiplierLag = 2 uy vy + 2 be (xcov . dv) + 2 beb (xbar . du)
+   + wc ((xcov . du) (xbar . dv) + (xbar . du) (xcov . dv));
+ NRH`CheckZero["SMdygconstraints: longitudinal multipliers impose X dot bar-partial x and bar-X dot partial x",
+   {D[multiplierLag, be] - 2 xcov . dv, D[multiplierLag, beb] - 2 xbar . du}];
+ shifted = multiplierLag /. be -> newbe - wc/2 (xbar . du);
+ NRH`CheckZero["SMdygGO: unit-Jacobian beta shift leaves exactly W (X dot partial x)(bar-X dot bar-partial x)",
+   shifted - (2 uy vy + 2 newbe (xcov . dv) + 2 beb (xbar . du)
+     + wc (xcov . du) (xbar . dv))];
+ NRH`CheckZero["SMdygGO: beta redefinition has unit derivative",D[newbe - wc/2 (xbar . du), newbe] - 1];
+ flatH = hh /. {rt -> 1, wc -> 0};
+ stressP = (ddu . flatH . ddu /. transverseRules) /. um -> 0;
+ stressM = (ddv . flatH . ddv /. transverseRules) /. vp -> 0;
+ NRH`CheckZero["SMGO: doubled metric variation gives both normalized Lorentzian chiral stresses",
+   {stressP - 2 (uy^2 - ap up), stressM - 2 (vy^2 + abm vm)}];
+];
+
+Module[{pp, pm, zz, halfchi, ee, xx, xb},
+ halfchi = Sqrt[2] ArcTanh[zz/(Sqrt[2] pp pm)]; ee = pm/pp;
+ xx = {Cosh[halfchi], -Sinh[halfchi]/ee, 0};
+ xb = {-ee Sinh[halfchi], Cosh[halfchi], 0};
+ NRH`CheckZero["SNCtau: first X/bar-X corrections are -z L_- dx^- and -z L_+ dx^+",
+   Normal[Series[{xx, xb}, {zz, 0, 1}]] - {{1, -zz/pm^2, 0}, {-zz/pp^2, 1, 0}}];
+];
+
+(* W0 has no radial dressing. Contract beta(s) with W0(x(u)) and partial x(u),
+   then expand partial x(s). The right-moving calculation is identical. *)
+Module[{ss, uu, alpha, wc, wx, gamma1, gamma2, barred1, delta, contraction,
+   operator, derivative},
+ delta = ss - uu;
+ contraction = (-1/alpha) (gamma1 + delta gamma2) barred1
+   (wx (-alpha/delta) gamma1 + wc D[-alpha/delta, uu]);
+ operator = wc gamma1 barred1;
+ derivative = (wx gamma1^2 + wc gamma2) barred1;
+ NRH`CheckZero["SMvertex: Lorentzian T V_W0 OPE has unit double-pole weight and the derivative simple pole",
+   Normal[Series[contraction - operator/delta^2 - derivative/delta, {ss, uu, -1}]]];
+];
+
+NRH`CheckZero["SMBRSTcentral: bosonic level k_bos=k+2 gives the same central charge",
+   3 (kk + 2)/((kk + 2) - 2) - (3 + 6/kk)];
 
 NRH`FileSummary[];

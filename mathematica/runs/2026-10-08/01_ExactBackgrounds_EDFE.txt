@@ -1,0 +1,127 @@
+[NRH01] DFT toolbox loaded.
+
+
+
+================================================================
+
+  01_ExactBackgrounds_EDFE.wl
+
+================================================================
+
+  [PASS] Rfields: dy^2 - 2 theta+ theta- reproduces the displayed metric components
+
+  [PASS] Rfields: B_{-+} = e^{2y/l} + e^{-2y/l} L+ L- (B = (...) dx^- ^ dx^+)
+
+  [PASS] RDFTfields: H J H = J (O(3,3) constraint)
+
+  [PASS] RDFTfields: e^{-2d} = e^{2y/l}(1 - L+ L- e^{-4y/l}) = sqrt(-g) at phi_0 = 0
+
+    [timing] Gamma: 4.1000000000000005 s
+
+    [timing] R4:    1.3 s
+
+    [timing] Ricci: 0.4 s
+
+    [timing] S0:    0.2 s
+
+  [PASS] EDFE on R: (P S Pbar)_MN = 0 and S_(0) = -4/l^2 for arbitrary chiral L_pm
+
+  [PASS] G_MN = 2 l^-2 J_MN on the Riemannian saddle
+
+  [PASS] Rboundary: H - H^infty = O(e^{-2y/l}) and d + y/l = O(e^{-4y/l})
+
+  [PASS] boundaryH: H^infty is the displayed 6x6 matrix
+
+  [PASS] boundaryH: the induced boundary H^(0) is of type (1,1): vanishing upper-left block
+
+  [PASS] Rboundaryframe: the aligned D = 2 DFT vielbein reproduces P^(0), Pbar^(0)
+
+  [PASS] horizon: e^{-2d} = 0 at e^{2y/l} = Sqrt[L+ L-] for constant L_pm > 0
+
+  [PASS] NRvariables: chi = 2 Sqrt[2] arctanh q and e^{pm sigma} sinh(chi/2) = e^{-2y/l} L_pm + O(e^{-6y/l})
+
+  [PASS] NRHcompact: H J H = J for the exact non-Riemannian matrix (generic W)
+
+  [PASS] NRHcompact: type (1,1) at every radius (upper-left block diag(0,0,1))
+
+  [PASS] NRdilaton: e^{-2d} = e^{2y/l}(1 - q^2) with q = tanh(chi/(2 Sqrt[2]))
+
+    [timing] Gamma: 0.6000000000000001 s
+
+    [timing] R4:    2.4000000000000004 s
+
+    [timing] Ricci: 0.6000000000000001 s
+
+    [timing] S0:    0.1 s
+
+  [PASS] EDFE scalar on NR: S_(0) = -4/l^2 for ARBITRARY W(x+, x-, chi)
+
+  [PASS] EDFE tensor on NR: (P S Pbar)_MN = 0 <=> d^2 W/d chi^2 = F (the radial equation of SM2)
+
+  [PASS] G_MN = 2 l^-2 J_MN on the non-Riemannian saddle
+
+  [PASS] NRWgeneral: solves d^2W/dchi^2 = F with I_radial'' = rho
+
+  [PASS] NRWgeneral: W_0 and W_1 multiply the two homogeneous modes {1, chi/(2 Sqrt[Pi])}
+
+  [PASS] MainGprofile: I_radial'(0) = 0 and I_radial'(chi) = (2/3) chi^2 + O(chi^4); the integral normalization I_radial(0) = 0 gives I_radial = (2/9) chi^3 + O(chi^5)
+
+  [PASS] W = W_0 + W_1 e^{-2y/l} + O(e^{-4y/l}) near the boundary (chi = 2 Sqrt[2] q + O(q^3))
+
+  [PASS] endpoint q = 1: e^{-2d} = 0 at e^{4y/l} = L+ L-/2 (distinct from the Riemannian horizon)
+
+  [PASS] RKdef: -2K = (16 pi G)^{-1} A^y and 2 T_(0) = (16 pi G)^{-1} 2 (B^y + 4/l) fix the coefficients -1/(32 pi G) and 1/(16 pi G)
+
+  [PASS] Mainmomenta: B^y = 4 d_y d on both saddles (H^{yN} = delta^N_y)
+
+  [PASS] RDFTconservation, Rcontinuity: on the constant boundary, div T = {d_- K_mp, -d_+ K_mp, -2 Ward_+, -2 Ward_-}
+
+  [PASS] Rcontinuity: ancillary constant-boundary identity: no local condition on K_{op bom}; K_{om bop} must be constant
+
+  [PASS] Rkilling, RVirasoro: Lhat_xi H - delta_eps H = O(e^{-4y/l}) with delta L = eps L' + 2 L eps' - (l^2/4) eps'''
+
+  [PASS] Rkilling: Lhat_xi d = O(e^{-4y/l}) (the radial component compensates the weight)
+
+  [PASS] Rkilling (NR form), NRasympt: Lhat_xi H - delta_(L, W1) H = O(u^-2) componentwise
+
+  [PASS] NRasympt: delta psi is equivalent to delta L = eps L' + 2 L eps' (no central term)
+
+  [PASS] NRasympt: Lhat_xi d = O(u^-2)
+
+  [PASS] charges: with T = 8 pi K = L+/(2 G l), RVirasoro is delta T = eps T' + 2 T eps' - (c/12) eps''' with c = 3l/(2G)
+
+  [PASS] charge normalization: (16 pi G)^{-1}(4/l) = 1/(4 pi G l) (Q[eps] of the Letter)
+
+  [PASS] Mainonepoints on R: -(32 pi G)^{-1} lim e^{2Y/l} A^y_{a bbar} = {{L+, L+L-},{1, L-}}/(16 pi G l) (exact family, aligned frame)
+
+  [PASS] Mainonepoints on R: e^{2Y/l}(B^y + 4/l) -> 0, <T_(0)> = 0
+
+  [PASS] Mainonepoints on NR: -(32 pi G)^{-1} lim e^{2Y/l} A^y_{a bbar} = {{L+, W1/4},{0, L-}}/(16 pi G l)
+
+  [PASS] Mainonepoints on NR: e^{2Y/l}(B^y + 4/l) -> 0, <T_(0)> = 0
+
+  [PASS] Mainframevariation, SMframevariation: delta(V eta V^T) = delta H/2 and delta(Vbar etabar Vbar^T) = -delta H/2
+
+  [PASS] Rcorrelators: A_+^NR = [L+'/D+ - 2 L+/D+^2]/(128 pi^2 G l)
+
+  [PASS] Rcorrelators: A_+^R = A_+^NR + 3 l/(256 pi^2 G D+^4)
+
+  [PASS] Rcorrelators: M_+^NR = [W1'/D+ - 2 W1/D+^2 + 6 l^2 L-/D+^4]/(512 pi^2 G l)
+
+  [PASS] Mainfivebyfive: M_+^R = L_- A_+^R
+
+  [PASS] c = 3l/(2G): at L+ = 0, (8 pi)^2 A_+^R = (c/2)/D+^4
+
+  [PASS] negative control: reversing the source sign fails the NR kernel
+
+  [PASS] the mixed fourth-order pole is proportional to L_- (state dependent, no state-independent central charge)
+
+  [PASS] Mainworldsheet: eliminating beta, betabar from the first-order action reproduces E_{mu nu} dx dbar x (E = g - B)
+
+  [PASS] c_eff^2 := 2F = 2(e^{2y/l} + L+ L- e^{-2y/l}) ~ 2 e^{2y/l}: the Gomis-Ooguri limit is reached without tuning
+
+  [PASS] Mainworldsheet: V_W = (1/(4 pi alpha')) W dx+ dbar x- with the 1/(2 pi alpha') prefactor of the reduced action
+
+----------------------------------------------------------------
+
+  01_ExactBackgrounds_EDFE.wl: 49/49 checks passed.

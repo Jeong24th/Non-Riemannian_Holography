@@ -1,0 +1,147 @@
+[NRH01] DFT toolbox loaded.
+
+
+
+================================================================
+
+  04_GeneralBackground_LEDFE.wl
+
+================================================================
+
+  [PASS] SMprojectors: P + Pbar = J, P J P = P, Pbar J Pbar = Pbar, P J Pbar = 0 on the limiting metric
+
+  [PASS] SMcosetreconstruction: P delta H P = 0 = Pbar delta H Pbar for the reconstructed mixed variation
+
+  [PASS] SMmixedfluctuation: projecting the reconstruction back gives h_{p qbar}
+
+  [PASS] constraint: delta(H J H) = 0 for the mixed variation (H J delta H + delta H J H = 0)
+
+  [PASS] SMframevariation: delta(V eta V^T) = delta H/2 and delta(Vbar etabar Vbar^T) = -delta H/2
+
+  [PASS] coset count: 9 mixed components - (3 diffeomorphisms + 2 B-gauge) = 4 tangential fields
+
+  [PASS] SMbackgroundconnection on R: nabla_C P_AB = 0 through z^2
+
+  [PASS] SMbackgroundconnection on R: Gamma^B_BA = -2 d_A d through z^2
+
+  [PASS] SMbackgroundconnection on R: torsionless cyclic sum
+
+  [PASS] SMbackgroundconnection on NR: nabla_C P_AB = 0 through z^2
+
+  [PASS] SMbackgroundconnection on NR: Gamma^B_BA = -2 d_A d through z^2
+
+  [PASS] SMbackgroundconnection on NR: torsionless cyclic sum
+
+  [PASS] SMflatmetrics, SMinfinityvielbein: V eta V^T = P^infty, Vbar etabar Vbar^T = Pbar^infty, V^T J Vbar = 0
+
+  [PASS] SMsources: -h^{(0)a bbar} K_{a bbar} = h_mm K_pp + h_pp K_mm + h_mp K_pm + h_pm K_mp
+
+  [PASS] SMWshift: Omega_b H(W) Omega_b^T = H(W - 2 b_{+-}) exactly
+
+  [PASS] SMW0completion: b_{+-} = -W_0/2 gives H_s[W_0] with W -> W + W_0, and Omega_b is O(3,3)
+
+  [PASS] SMW0completion: the transported frames V_s[W_0] = Omega_b V_s[0] reconstruct P, Pbar of H_s[W_0]
+
+  [PASS] SMW0completion: flat components h_{p qbar} are unchanged by the transport
+
+  [PASS] SMW0variation: varying W_0 gives h^{(0)}_{op bom} = delta W_0/2 at the reference boundary
+
+  [PASS] SMbackgroundexpansion: d_R = -y/l - (1/2) ln(1 - Pi u^2) and d_NR = -y/l - (1/2) ln(1 - Pi u^2/2)
+
+  [PASS] SMbackgroundexpansion: e^{-2 d_s} = u^{-1}[1 + O(u^2)] on both saddles
+
+  [PASS] SMbackgroundexpansion: W_NR = W_1 u - (l^2/4) L+' L-' u^2 + O(u^3) from the exact NRWgeneral
+
+  [PASS] SMexactRdata: e eta e^T = g and ebar etabar ebar^T = -g; V, Vbar reconstruct P, Pbar and are orthogonal
+
+  [PASS] SMexactNRdata: the lowered SMvielbein frames reconstruct P, Pbar of the exact hairy metric and are orthogonal
+
+  [PASS] both saddle frames tend to the limiting frame SMinfinityvielbein at u = 0
+
+  computing the linearized EDFE on the general Riemannian saddle through u ...
+
+  [timing] R: 30.6 s
+
+  computing the linearized EDFE on the general non-Riemannian saddle through u ...
+
+  [timing] NR: 40. s
+
+  [PASS] SMexactnormalform: M = diag(-1/4,-1/4,-1/4,-1/4,1) multiplies d_y^2 (h_pp,h_pm,h_mp,h_mm,delta d) in (E_pp,E_pm,E_mp,E_mm,E_yy)
+
+  [PASS] SMexactCauchyconstraints: E_{p ybar}, E_{y qbar} and E_0 - 4 E_{y ybar} contain no second radial derivative (both saddles, through u)
+
+  [PASS] SMexactconstraintpropagation: delta G_{y~ N}: tangential = sqrt2(Vbar_N^a E_{y a} + V_N^a E_{a y}), N=y gives -(E_0 - 4E_{yy})/2, N=y~ vanishes
+
+  [PASS] SMexactTaylorSolution: the historical toy recursion makes the t^0 and t^1 coefficients of its normal form vanish
+
+  [PASS] SMNRradialintegration: (d_y^2 + 2 d_y/l) annihilates 1 and u, gives 2/l on y and -2u/l on u y
+
+  [PASS] SMtotalorderhierarchy: E_I[u^n f] = u^n E_I(d_y - 2n/l, d_+, d_-) f for the ten E^{(0)}_I and all five fields (n = 1, 2)
+
+  [PASS] SMEzerocomponents: the ten historical expanded leading operators E^{(0)} equal the u^0 part of the linearized EDFE on both saddles
+
+  [PASS] SMEoneNRcomponents: the ten historical expanded E^{(1),NR} equal the u^1 part of the linearized EDFE on the general NR saddle
+
+  [PASS] SMRoperatorrule, SMDeltaEonecomponents: E^{(1),R} = E^{(1),NR}|_{W1 -> 4 L+ L-} + Delta E^{(1)} with the ten displayed Delta E^{(1)}
+
+  [PASS] E^{(1),NR}_{om bop} = 0 while Delta E^{(1)}_{om bop} = -2 d_y delta d/l (the branch dependence of SMlogexample)
+
+  [PASS] u^0 order: the log branches h^{(1)}, h^{(1b)}, delta d^{(1)} are all determined and no equation restricts the sources
+
+  [PASS] SMleadingdilaton, SMleadingstress, SMNRsol: the solved u^0 coefficients equal the displayed ones
+
+  [PASS] u^1 order on R: all h^{(2LL)}, h^{(2L)}, delta d^{(2L)}, delta d^{(2)} are determined algebraically by the log-free responses h^{(2)}
+
+  [PASS] u^1 order on R: the type-changing response h^{(2)}_{op bom} = H_s is unconstrained (SMgeneralradialsolution)
+
+  [PASS] SMtypeconstraint on R: the type-changing channel is constrained (equations in h^{(2)}_{om bop} alone remain, and they are nontrivial)
+
+  [PASS] SMtypeconstraint on R: they are solved exactly by h^{(2)}_{om bop} = c_s + (4*v0[xp, xm] - (l^2*Derivative[1, 1][r0][xp, xm])/4)
+
+  [PASS] SMtypeconstraint on R: the shift 4 delta d^{(0)} - (l^2/4) d_+ d_- r is required (negative control with h^{(2)}_{om bop} = c_s)
+
+  [PASS] u^1 order on R: one equation is linear in d_- h^{(2)}_{op bop} alone and one in d_+ h^{(2)}_{om bom} alone
+
+  [PASS] SMRconstraint0, SMRconstraint1: d_- h^{(2)}_{op bop} = F_+^R and d_+ h^{(2)}_{om bom} = F_-^R with the displayed F_pm
+
+  [PASS] u^1 order on R: with the type and stress constraints imposed every remaining order-u equation is satisfied (SMgeneralradialsolution: R_pm, H_s and c_s are the free data)
+
+  [PASS] u^1 order on R: all four h^{(2LL)} vanish (no y^2 e^{-2y/l} terms)
+
+  [PASS] SMRh2L_*, SMRdd2L, SMRdd2: the solved u^1 coefficients equal the displayed ones (R_pm = h^{(2)}_{pm bpm})
+
+  [PASS] u^1 order on NR: all h^{(2LL)}, h^{(2L)}, delta d^{(2L)}, delta d^{(2)} are determined algebraically by the log-free responses h^{(2)}
+
+  [PASS] u^1 order on NR: the type-changing response h^{(2)}_{op bom} = H_s is unconstrained (SMgeneralradialsolution)
+
+  [PASS] SMtypeconstraint on NR: the type-changing channel is constrained (equations in h^{(2)}_{om bop} alone remain, and they are nontrivial)
+
+  [PASS] SMtypeconstraint on NR: they are solved exactly by h^{(2)}_{om bop} = c_s + (0)
+
+  [PASS] u^1 order on NR: one equation is linear in d_- h^{(2)}_{op bop} alone and one in d_+ h^{(2)}_{om bom} alone
+
+  [PASS] SMNRconstraint0, SMNRconstraint1: d_- h^{(2)}_{op bop} = F_+^NR and d_+ h^{(2)}_{om bom} = F_-^NR with the displayed F_pm
+
+  [PASS] u^1 order on NR: with the type and stress constraints imposed every remaining order-u equation is satisfied (SMgeneralradialsolution: R_pm, H_s and c_s are the free data)
+
+  [PASS] u^1 order on NR: all four h^{(2LL)} vanish (no y^2 e^{-2y/l} terms)
+
+  [PASS] SMNRh2L_*, SMNRdd2L, SMNRdd2: the solved u^1 coefficients equal the displayed ones (R_pm = h^{(2)}_{pm bpm})
+
+  [PASS] SMlogfreeconditions: the leading logs vanish if d_+ d_- r = d_+^2 r = d_-^2 r = 0, d_+ d_- delta d^{(0)} = 0 and d_+^2 a + d_-^2 b = 0 (sufficient conditions)
+
+  [PASS] current SMRintegratedstress: both differentiated b+omega responses solve the constraints
+
+  [PASS] current SMNRintegratedstress: differentiating both inverse derivatives gives the stress constraints
+
+  [PASS] CURRENT compact R solution: all ten direct-curvature residuals through z
+
+  compact R residuals: InputForm[{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}]
+
+  [PASS] CURRENT compact NR solution: all ten direct-curvature residuals through z
+
+  compact NR residuals: InputForm[{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}]
+
+----------------------------------------------------------------
+
+  04_GeneralBackground_LEDFE.wl: 61/61 checks passed.

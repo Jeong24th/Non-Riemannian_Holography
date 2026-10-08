@@ -1,6 +1,8 @@
 {
-  "source_sha256": "F8AC68BB80B6C3D572160FD83705FE7506FCF277B00FB95021D39C2AF1E8E239",
-  "date": "2026-10-06",
+  "source_sha256": "2E6A7A8A20D581043D6457865662E76F7D46433AF29847393F1DBA4BF753F822",
+  "date": "2026-10-08",
+  "numbering_status": "verified_against_settled_build_of_pinned_source",
+  "numbered_display_count": 136,
   "equations": [
     {
       "part": "Letter",
@@ -166,16 +168,16 @@
       "part": "Letter",
       "number": "19",
       "label": "Mainfivebyfive",
-      "topic": "Connected five-by-five two-point response matrix with interior and contact contributions",
-      "evidence": "Retained scoped check: `01_ExactBackgrounds_EDFE`/`05_QuadraticRenormalization_TwoPoint`: particular stress and mixed kernels and the relation M_+^R = L_- A_+^R. The full response matrix, undetermined interior functions and contact terms are not fixed.",
+      "topic": "Five-source response matrix with calculated particular kernels and remaining response",
+      "evidence": "`13_TwoPointFunctions` and `05_QuadraticRenormalization_TwoPoint`: specified diagonal/mixed entries and normalization, with reverse mixed ordering. The remaining matrix R_s includes additional source dependence of integration functions; the entire general-state matrix is not fixed.",
       "status": "V°"
     },
     {
       "part": "Letter",
       "number": "20",
       "label": "Rcorrelators",
-      "topic": "particular A_NR, A_R, M_NR, M_R kernels, with coefficients at x",
-      "evidence": "`13_TwoPointFunctions` and `05_QuadraticRenormalization_TwoPoint`: particular covering-space kernels from Ward/source operators and the stated inverse derivative. General homogeneous completion, quotient and contact terms are not determined.",
+      "topic": "Particular diagonal and mixed separated-point kernels on R/NR backgrounds",
+      "evidence": "`13_TwoPointFunctions` and `05_QuadraticRenormalization_TwoPoint`: the displayed covering-space kernels, source normalization, reverse ordering, and regular exchange defect. Common normalization and Lorentzian prescription are in SM2.2; R and NR source-response derivations are in SM2.3 and SM2.4. A full general-state Green function still needs interior, quotient and homogeneous data; contact terms are excluded.",
       "status": "V"
     },
     {
@@ -262,7 +264,7 @@
       "part": "SM",
       "number": "SM 10",
       "label": "SMbackgroundconnection",
-      "topic": "Torsionless DFT connection",
+      "topic": "Background DFT Christoffel connection",
       "evidence": "Retained scoped check: `04_GeneralBackground_LEDFE`: `SMbackgroundconnection on R/NR: nabla_C P_AB = 0 through z^2`, `Gamma^B_BA = -2 d_A d through z^2`, `torsionless cyclic sum` Scope: The helper implements this connection. Its properties are checked on the two saddle series through z^2, not a general proof of the displayed formula.",
       "status": "V°"
     },
@@ -308,11 +310,11 @@
     },
     {
       "part": "SM",
-      "number": "SM 16",
       "label": null,
-      "topic": "Unlabeled display",
+      "topic": "Unlabeled numbered display",
       "evidence": "No separate full-expression check assigned; see neighboring named identities and file-specific scope.",
-      "status": "N"
+      "status": "N",
+      "number": "SM 16"
     },
     {
       "part": "SM",
@@ -375,8 +377,8 @@
       "number": "SM 23",
       "label": "SMvolumecounterterm",
       "topic": "Volume counterterm",
-      "evidence": "Retained scoped check: `05_QuadraticRenormalization_TwoPoint`: `SMrenvariation, SMvolumecounterterm` Scope: Coefficient shift B^y -> B^y+4/l and bulk cosmological cancellation checked; not nonlinear derivative-counterterm completeness.",
-      "status": "V°"
+      "evidence": "`02_RenormalizedOnShellAction` and `05_QuadraticRenormalization_TwoPoint`: leading volume subtraction and its momentum shift. `14_SM29_IntrinsicCounterterm`: retains its full quadratic measure term and includes it once in the SM29 candidate.",
+      "status": "V"
     },
     {
       "part": "SM",
@@ -407,7 +409,7 @@
       "number": "SM 27",
       "label": "SMderivativectNR",
       "topic": "Quadratic NR derivative counterterm",
-      "evidence": "Retained scoped check: `05_QuadraticRenormalization_TwoPoint`: `SMderivativect on NR`, `negative control on NR: without the counterterm the divergences remain`, `SMctlocality on NR` Scope: Displayed ctQ matches; divergence cancellation is modulo tangential total derivatives with stress constraints in both slots. No claim of universal nonlinear intrinsic completion.",
+      "evidence": "`05_QuadraticRenormalization_TwoPoint`: cancellation of the quadratic divergent Hessian modulo tangential integration by parts and both stress constraints, at general chiral L_pm and W1. `14_SM29_IntrinsicCounterterm`: compares this source counterterm plus the volume term with the intrinsic candidate on the NR vacuum; checks constant-state mismatch.",
       "status": "V"
     },
     {
@@ -415,12 +417,44 @@
       "number": "SM 28",
       "label": "SMderivativectR",
       "topic": "Quadratic R derivative counterterm",
-      "evidence": "Retained scoped check: `05_QuadraticRenormalization_TwoPoint`: `SMderivativect on R`, `negative control on R: without the counterterm the divergences remain`, `SMctlocality on R` Scope: Displayed R additions match ctQ. Same quadratic/asymptotic/IBP restrictions as SM36.",
+      "evidence": "`05_QuadraticRenormalization_TwoPoint`: R-specific quadratic derivative counterterms and divergence cancellation modulo tangential integration by parts. `14_SM29_IntrinsicCounterterm`: vacuum comparison to the intrinsic candidate, including the finite local contact mismatch. The NR polynomial is evaluated on R fluctuation fields and the volume term is retained.",
       "status": "V"
     },
     {
       "part": "SM",
-      "number": "SM 29",
+      "label": "SMboundarycurvaturecandidate",
+      "topic": "Intrinsic D=2 curvature counterterm candidate, including the volume term",
+      "evidence": "`14_SM29_IntrinsicCounterterm`: constructs the tangential DFT Christoffel connection, scalar and mixed projected curvature, and expands the full candidate through quadratic order with the measure and source-to-cutoff fields. Vacuum comparison is modulo tangential integration by parts: all divergent and finite terms match on the NR vacuum; the R vacuum needs a finite local contact adjustment. Constant-state residuals exhibit failure away from the vacua. This is not a universal nonlinear counterterm proof.",
+      "status": "V°",
+      "number": "SM 29"
+    },
+    {
+      "part": "SM",
+      "number": "SM 30",
+      "label": "SMRvacuumhessian",
+      "topic": "Common source normalization: connected two-point function equals (1/4i) times the action Hessian",
+      "evidence": "`05_QuadraticRenormalization_TwoPoint` and `13_TwoPointFunctions`: normalization from the +2 h K source coupling and the 1/(32 pi G l) response coefficient; now placed in SM2.2 and used for both branches.",
+      "status": "V"
+    },
+    {
+      "part": "SM",
+      "number": "SM 31",
+      "label": "SMNRhairhessian",
+      "topic": "Full hair self-response as the derivative of H_s with respect to the type-changing source",
+      "evidence": "`05_QuadraticRenormalization_TwoPoint` and `13_TwoPointFunctions`: coefficient 1/(64 pi i G l) and the source-response structure. `12_RiemannianVacuum_ExactLEDFE` fixes H_R for the specified R vacuum. On general backgrounds the explicit terms in H_R give only part of this derivative; F_R and other integration functions need an interior prescription. The NR mixed-source calculation does not determine this full self-response.",
+      "status": "V°"
+    },
+    {
+      "part": "SM",
+      "number": "SM 32",
+      "label": "SMLorentziandeltaconvention",
+      "topic": "Joint Lorentzian delta-function and inverse-derivative prescription",
+      "evidence": "Input prescription in SM2.2. `13_TwoPointFunctions` differentiates its separated-point Green kernels with the stated factors of i. Ordinary differentiation away from the singular set does not independently prove the distributional identity.",
+      "status": "D"
+    },
+    {
+      "part": "SM",
+      "number": "SM 33",
       "label": "SMexactRdata",
       "topic": "Exact R fields and lower-index frames",
       "evidence": "Retained scoped check: `04_GeneralBackground_LEDFE`: `SMbackgroundexpansion`, `SMexactRdata` Scope: Exact frame/projector relations and background dilaton match unchanged formulas.",
@@ -428,7 +462,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 30",
+      "number": "SM 34",
       "label": "SMRvacuumdilatoncoefficient",
       "topic": "Vacuum dilaton u coefficient",
       "evidence": "`04_GeneralBackground_LEDFE`: current R dilaton coefficients directly checked for arbitrary backgrounds, including the L_pm=0 specialization.",
@@ -436,7 +470,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 31",
+      "number": "SM 35",
       "label": "SMRvacuumsolution",
       "topic": "Explicit five-field R vacuum expansion",
       "evidence": "`04_GeneralBackground_LEDFE`: general R coefficients and compact constraints checked through z; `12` independently reconstructs full-radius vacuum. The complete five-source asymptotic display is not separately matched term by term to the exact quadratures.",
@@ -444,7 +478,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 32",
+      "number": "SM 36",
       "label": "SMRvacuumresponse",
       "topic": "Interior-determined H_R logarithmic response and C_mu",
       "evidence": "`12_RiemannianVacuum_ExactLEDFE`: full-radius R vacuum reconstruction, all ten residuals zero, Bessel master solved, regular K3 expansion fixes H_R and cancels mu. Fixed NS flux, nonzero Euclidean momentum, covering-space vacuum.",
@@ -452,23 +486,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 33",
-      "label": "SMRvacuumhessian",
-      "topic": "Correlator = (1/4i) source Hessian",
-      "evidence": "Retained scoped check: `05_QuadraticRenormalization_TwoPoint`: `SMstressparticular`, `SMNRhairhessian`, `SMonepointequivalence` Scope: Quarter-factor and Lorentzian normalization algebra checked; no full new vacuum interior Hessian computation.",
-      "status": "V°"
-    },
-    {
-      "part": "SM",
-      "number": "SM 34",
-      "label": "SMLorentziandeltaconvention",
-      "topic": "Joint Lorentzian delta prescription",
-      "evidence": "Retained scoped check: `05_QuadraticRenormalization_TwoPoint`: `SMLorentziandeltaconvention`, `SMPBHkernel` Scope: Box-integral normalization and inverse-derivative kernel away from light cone checked; not a general distribution-theory proof.",
-      "status": "V°"
-    },
-    {
-      "part": "SM",
-      "number": "SM 35",
+      "number": "SM 37",
       "label": "SMRtwopt",
       "topic": "R vacuum stress correlator",
       "evidence": "`13_TwoPointFunctions` and `05_QuadraticRenormalization_TwoPoint`: particular covering-space kernels from Ward/source operators and the stated inverse derivative. General homogeneous completion, quotient and contact terms are not determined.",
@@ -476,7 +494,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 36",
+      "number": "SM 38",
       "label": "SMRvacuumhaircorrelator",
       "topic": "R vacuum hair self-correlator",
       "evidence": "`12_RiemannianVacuum_ExactLEDFE` + `13_TwoPointFunctions`: exact K3 matching followed by differentiated logarithmic kernel and source normalization; separated points under the stated joint Lorentzian continuation, not contact terms.",
@@ -484,7 +502,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 37",
+      "number": "SM 39",
       "label": "SMradialansatz",
       "topic": "General near-boundary polynomial expansion",
       "evidence": "Retained scoped check: `04_GeneralBackground_LEDFE`: `u^0 order`, `u^1 order on R/NR` Scope: Ansatz definition; the old hierarchy uses equivalent h^(1), h^(1b), h^(2), h^(2L), h^(2LL) naming.",
@@ -492,55 +510,55 @@
     },
     {
       "part": "SM",
-      "number": "SM 38",
+      "number": "SM 40",
       "label": "SMRstresspluscoefficients",
       "topic": "R plus stress coefficients in compact a,b,omega basis",
-      "evidence": "`04_GeneralBackground_LEDFE`: current compact formulas transcribed and substituted into all ten independently linearized curvature components through z=exp(-2y/l); arbitrary chiral L_pm and W1, source functions and free H_s. Integrated constraints checked by differentiation; no interior completion inferred.",
-      "status": "V"
-    },
-    {
-      "part": "SM",
-      "number": "SM 39",
-      "label": "SMRstressminuscoefficients",
-      "topic": "R minus stress coefficients in compact a,b,omega basis",
-      "evidence": "`04_GeneralBackground_LEDFE`: current compact formulas transcribed and substituted into all ten independently linearized curvature components through z=exp(-2y/l); arbitrary chiral L_pm and W1, source functions and free H_s. Integrated constraints checked by differentiation; no interior completion inferred.",
-      "status": "V"
-    },
-    {
-      "part": "SM",
-      "number": "SM 40",
-      "label": "SMRtypecoefficients",
-      "topic": "R type-channel coefficients",
-      "evidence": "`04_GeneralBackground_LEDFE`: current compact formulas transcribed and substituted into all ten independently linearized curvature components through z=exp(-2y/l); arbitrary chiral L_pm and W1, source functions and free H_s. Integrated constraints checked by differentiation; no interior completion inferred.",
+      "evidence": "`04_GeneralBackground_LEDFE`: current compact formulas transcribed and substituted into all ten independently linearized curvature components through z=exp(-2y/l); arbitrary chiral L_pm and W1, source functions and the retained H_s response coefficient (the explicit R decomposition is described at SMRhaircoefficients). Integrated constraints checked by differentiation; no interior completion inferred.",
       "status": "V"
     },
     {
       "part": "SM",
       "number": "SM 41",
-      "label": "SMRhaircoefficients",
-      "topic": "R hair coefficients after stress elimination",
-      "evidence": "`04_GeneralBackground_LEDFE`: current compact formulas transcribed and substituted into all ten independently linearized curvature components through z=exp(-2y/l); arbitrary chiral L_pm and W1, source functions and free H_s. Integrated constraints checked by differentiation; no interior completion inferred.",
+      "label": "SMRstressminuscoefficients",
+      "topic": "R minus stress coefficients in compact a,b,omega basis",
+      "evidence": "`04_GeneralBackground_LEDFE`: current compact formulas transcribed and substituted into all ten independently linearized curvature components through z=exp(-2y/l); arbitrary chiral L_pm and W1, source functions and the retained H_s response coefficient (the explicit R decomposition is described at SMRhaircoefficients). Integrated constraints checked by differentiation; no interior completion inferred.",
       "status": "V"
     },
     {
       "part": "SM",
       "number": "SM 42",
-      "label": "SMRdilatoncoefficients",
-      "topic": "R dilaton coefficients",
-      "evidence": "`04_GeneralBackground_LEDFE`: current compact formulas transcribed and substituted into all ten independently linearized curvature components through z=exp(-2y/l); arbitrary chiral L_pm and W1, source functions and free H_s. Integrated constraints checked by differentiation; no interior completion inferred.",
+      "label": "SMRtypecoefficients",
+      "topic": "R type-channel coefficients",
+      "evidence": "`04_GeneralBackground_LEDFE`: current compact formulas transcribed and substituted into all ten independently linearized curvature components through z=exp(-2y/l); arbitrary chiral L_pm and W1, source functions and the retained H_s response coefficient (the explicit R decomposition is described at SMRhaircoefficients). Integrated constraints checked by differentiation; no interior completion inferred.",
       "status": "V"
     },
     {
       "part": "SM",
       "number": "SM 43",
-      "label": "SMRintegratedstress",
-      "topic": "Integrated R stress constraints and a,b,omega definitions",
-      "evidence": "`04_GeneralBackground_LEDFE`: current compact formulas transcribed and substituted into all ten independently linearized curvature components through z=exp(-2y/l); arbitrary chiral L_pm and W1, source functions and free H_s. Integrated constraints checked by differentiation; no interior completion inferred.",
+      "label": "SMRhaircoefficients",
+      "topic": "R hair expansion with H_R split into explicit source terms and undetermined F_R",
+      "evidence": "`04_GeneralBackground_LEDFE`: substitutes the compact expansion through exp(-2y/l) into all ten independently derived LEDFE. `13_TwoPointFunctions`: checks the unnumbered H_R decomposition after SMRintegratedstress, its coefficient conversion, and the particular source response including its local term. General F_R[source] is not fixed.",
       "status": "V"
     },
     {
       "part": "SM",
       "number": "SM 44",
+      "label": "SMRdilatoncoefficients",
+      "topic": "R dilaton coefficients",
+      "evidence": "`04_GeneralBackground_LEDFE`: current compact formulas transcribed and substituted into all ten independently linearized curvature components through z=exp(-2y/l); arbitrary chiral L_pm and W1, source functions and the retained H_s response coefficient (the explicit R decomposition is described at SMRhaircoefficients). Integrated constraints checked by differentiation; no interior completion inferred.",
+      "status": "V"
+    },
+    {
+      "part": "SM",
+      "number": "SM 45",
+      "label": "SMRintegratedstress",
+      "topic": "Integrated R stress constraints and a,b,omega definitions",
+      "evidence": "`04_GeneralBackground_LEDFE`: differentiates the integrated constraints and checks the compact solution through exp(-2y/l). `13_TwoPointFunctions`: checks both chiral stress-constraint solutions, their local source term, and the H_R mixed-source split with F_R, lambda_pm and f0 held fixed. The explicit H_R decomposition follows this display without a separate number.",
+      "status": "V"
+    },
+    {
+      "part": "SM",
+      "number": "SM 46",
       "label": "SMvielbein",
       "topic": "exact non-Riemannian double vielbein",
       "evidence": "`04_GeneralBackground_LEDFE` and `07_Worldsheet`: exact projector reconstruction and orthogonality, limiting frame, plus both frames as B transforms of W=0 frames.",
@@ -548,7 +566,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 45",
+      "number": "SM 47",
       "label": "SMvielbeincheck",
       "topic": "defining relations",
       "evidence": "`04_GeneralBackground_LEDFE` and `07_Worldsheet`: exact projector reconstruction and orthogonality, limiting frame, plus both frames as B transforms of W=0 frames.",
@@ -556,63 +574,39 @@
     },
     {
       "part": "SM",
-      "number": "SM 46",
+      "number": "SM 48",
       "label": "SMNRcompactsolution",
       "topic": "Compact NR five-field expansion",
-      "evidence": "`04_GeneralBackground_LEDFE`: current compact formulas transcribed and substituted into all ten independently linearized curvature components through z=exp(-2y/l); arbitrary chiral L_pm and W1, source functions and free H_s. Integrated constraints checked by differentiation; no interior completion inferred.",
-      "status": "V"
-    },
-    {
-      "part": "SM",
-      "number": "SM 47",
-      "label": "SMNRintegratedstress",
-      "topic": "Integrated NR stress responses including W1",
-      "evidence": "`04_GeneralBackground_LEDFE`: current compact formulas transcribed and substituted into all ten independently linearized curvature components through z=exp(-2y/l); arbitrary chiral L_pm and W1, source functions and free H_s. Integrated constraints checked by differentiation; no interior completion inferred.",
-      "status": "V"
-    },
-    {
-      "part": "SM",
-      "number": "SM 48",
-      "label": "SMNRcompactU",
-      "topic": "Compact NR U log coefficient",
-      "evidence": "`04_GeneralBackground_LEDFE`: current compact formulas transcribed and substituted into all ten independently linearized curvature components through z=exp(-2y/l); arbitrary chiral L_pm and W1, source functions and free H_s. Integrated constraints checked by differentiation; no interior completion inferred.",
+      "evidence": "`04_GeneralBackground_LEDFE`: current compact formulas transcribed and substituted into all ten independently linearized curvature components through z=exp(-2y/l); arbitrary chiral L_pm and W1, source functions and the retained H_s response coefficient (the explicit R decomposition is described at SMRhaircoefficients). Integrated constraints checked by differentiation; no interior completion inferred.",
       "status": "V"
     },
     {
       "part": "SM",
       "number": "SM 49",
-      "label": "SMstatefluctuations",
-      "topic": "NR state variations",
-      "evidence": "Retained scoped check: `05_QuadraticRenormalization_TwoPoint`: `SMstatefluctuations on NR` Scope: Direct projection of exact state variation through u, including delta W1/2 and delta d=O(u^2).",
+      "label": "SMNRintegratedstress",
+      "topic": "Integrated NR stress responses including W1",
+      "evidence": "`04_GeneralBackground_LEDFE`: checks the NR integrated stress constraints and compact solution through exp(-2y/l) for arbitrary chiral L_pm and W1. `13_TwoPointFunctions`: substitutes the prescribed source-generator choice into both particular NR hair-response operators in SM2.4. The full radial-gauge derivation is not repeated by that substitution check.",
       "status": "V"
     },
     {
       "part": "SM",
       "number": "SM 50",
-      "label": "SMgeneralpositionkernels",
-      "topic": "Particular separated-point A/M kernels",
-      "evidence": "`13_TwoPointFunctions` and `05_QuadraticRenormalization_TwoPoint`: particular covering-space kernels from Ward/source operators and the stated inverse derivative. General homogeneous completion, quotient and contact terms are not determined.",
+      "label": "SMNRcompactU",
+      "topic": "Compact NR U log coefficient",
+      "evidence": "`04_GeneralBackground_LEDFE`: current compact formulas transcribed and substituted into all ten independently linearized curvature components through z=exp(-2y/l); arbitrary chiral L_pm and W1, source functions and the retained H_s response coefficient (the explicit R decomposition is described at SMRhaircoefficients). Integrated constraints checked by differentiation; no interior completion inferred.",
       "status": "V"
     },
     {
       "part": "SM",
       "number": "SM 51",
-      "label": "SMNRhairhessian",
-      "topic": "Full hair response via functional derivative of H_s",
-      "evidence": "Retained scoped check: `05_QuadraticRenormalization_TwoPoint`: `SMdirectstressrows, SMdirectremainingrows`, `SMNRhairhessian` Scope: Coefficient 1/(64 pi i G l) and finite action-response structure checked; functional H_s[j] remains unspecified, so no general hair-hair kernel is computed.",
-      "status": "V°"
-    },
-    {
-      "part": "SM",
-      "number": "SM 52",
       "label": "SMdyg",
-      "topic": "doubled-yet-gauged action",
-      "evidence": "Retained scoped check: — (defining action; its reductions are verified below)",
+      "topic": "Lorentzian doubled-yet-gauged action",
+      "evidence": "Defining action with epsilon^(01)=1, epsilon^(+-)=-1 and real null worldsheet derivatives. `07_Worldsheet` checks its classical finite-chi auxiliary reduction, transverse elimination and longitudinal multipliers. This does not derive a quantum worldsheet path integral.",
       "status": "D"
     },
     {
       "part": "SM",
-      "number": "SM 53",
+      "number": "SM 52",
       "label": "SMphysicalsectionA",
       "topic": "Â_αμ, D_αx^M on the section",
       "evidence": "Retained scoped check: —",
@@ -620,7 +614,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 54",
+      "number": "SM 53",
       "label": "SMRfirstorder",
       "topic": "Riemannian first-order form",
       "evidence": "Retained scoped check: `07_Worldsheet` \"the auxiliary equations give beta = -2F d x^- and betabar = -2F dbar x^+\", \"eliminating the auxiliaries reproduces E_{mu nu} dx^mu dbar x^nu, E = g - B\"",
@@ -628,7 +622,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 55",
+      "number": "SM 54",
       "label": "SMceff",
       "topic": "c_eff² = 2F",
       "evidence": "Retained scoped check: `01_ExactBackgrounds_EDFE` \"c_eff^2 := 2F = 2(e^{2y/l} + L+ L- e^{-2y/l}) ~ 2 e^{2y/l}: the Gomis-Ooguri limit is reached without tuning\"; `07_Worldsheet` \"c_eff^2 = 2F -> 4 Sqrt[L+L-] at the horizon u = Sqrt[L+L-]\"",
@@ -636,63 +630,47 @@
     },
     {
       "part": "SM",
+      "number": "SM 55",
+      "label": "SNCtau",
+      "topic": "Non-Riemannian covector one-forms X and bar-X (stable label SNCtau)",
+      "evidence": "`07_Worldsheet`: X/bar-X duality, unit wedge determinant and exact frame reconstruction; `08_Uplift_Killing`: corresponding frame blocks. The stable label SNCtau and legacy tauP/tauM variable names do not change the current X/bar-X notation.",
+      "status": "V"
+    },
+    {
+      "part": "SM",
       "number": "SM 56",
-      "label": null,
-      "topic": "Unlabeled display",
-      "evidence": "No separate full-expression check assigned; see neighboring named identities and file-specific scope.",
-      "status": "N"
+      "label": "SNCdualB",
+      "topic": "Dual vectors Y, bar-Y and the Kalb–Ramond two-form",
+      "evidence": "`07_Worldsheet`: all four dual contractions, X wedge bar-X = dx+ wedge dx-, the two-form components and B transforms of both exact frames.",
+      "status": "V"
     },
     {
       "part": "SM",
       "number": "SM 57",
-      "label": "SMlongstringE",
-      "topic": "Winding-string energy of the static constant-L probe (SM4.1)",
-      "evidence": "Retained scoped check: `07_Worldsheet`: static constant-L probe with the specified winding orientation; not a general time-dependent background energy calculation.",
+      "label": "SNCreconstruction",
+      "topic": "Generalized-metric reconstruction from X/bar-X and the Kalb–Ramond two-form",
+      "evidence": "`07_Worldsheet`: exact lower-right generalized-metric components and both frame B transforms, with the manuscript mixed-block and dual-vector conventions.",
       "status": "V"
     },
     {
       "part": "SM",
       "number": "SM 58",
-      "label": "SNCtau",
-      "topic": "SNC clock forms",
-      "evidence": "Retained scoped check: `07_Worldsheet` \"SM: the dual vectors Y, Ybar exist at every radius (unit clock determinant)\"; `08_Uplift_Killing` \"x rows = Sqrt[2] tau^pm, x~ rows = the dual vectors -Y/Sqrt[2], Ybar/Sqrt[2], and the W entries = -(W/(2 Sq…\"",
+      "label": "SMdygconstraints",
+      "topic": "Longitudinal auxiliary equations give the X/bar-X chirality constraints",
+      "evidence": "`07_Worldsheet`: reduces the full Lorentzian doubled-yet-gauged Lagrangian at finite chi, verifies transverse elimination and the absence of a longitudinal auxiliary bilinear, and obtains the constraint multipliers before imposing the constraints.",
       "status": "V"
     },
     {
       "part": "SM",
       "number": "SM 59",
-      "label": "SNCdualB",
-      "topic": "SNCdualB",
-      "evidence": "`07_Worldsheet`: dual-vector contractions, tau wedge determinant, all lower-right metric components and B transformation of both exact frames checked symbolically.",
+      "label": "SMdygGO",
+      "topic": "Exact finite-radius first-order non-Riemannian worldsheet form",
+      "evidence": "`07_Worldsheet`: exact finite-chi classical auxiliary reduction, constraint multipliers and unit-Jacobian beta shift give the displayed W coupling in the X/bar-X basis. Quantum equivalence and an all-order dressed W1 deformation are not established.",
       "status": "V"
     },
     {
       "part": "SM",
       "number": "SM 60",
-      "label": "SNCreconstruction",
-      "topic": "SNCreconstruction",
-      "evidence": "`07_Worldsheet`: dual-vector contractions, tau wedge determinant, all lower-right metric components and B transformation of both exact frames checked symbolically.",
-      "status": "V"
-    },
-    {
-      "part": "SM",
-      "number": "SM 61",
-      "label": "SMdygconstraints",
-      "topic": "Worldsheet constraints from the auxiliary field",
-      "evidence": "Retained scoped check: `07_Worldsheet`: null-clock and dual-vector identities supporting the constraints; not a complete variation and elimination of all auxiliary components.",
-      "status": "V°"
-    },
-    {
-      "part": "SM",
-      "number": "SM 62",
-      "label": "SMdygGO",
-      "topic": "Finite-radius first-order non-Riemannian worldsheet form",
-      "evidence": "Retained scoped check: `07_Worldsheet`: chi-to-zero W coupling and constraint-term algebra; the full finite-radius auxiliary-field elimination is not independently reproduced by that predicate.",
-      "status": "V°"
-    },
-    {
-      "part": "SM",
-      "number": "SM 63",
       "label": "SMGO",
       "topic": "Gomis–Ooguri limit",
       "evidence": "Retained scoped check: `07_Worldsheet` \"at chi -> 0 the W coupling reduces to (W/2) dx^+ dbar x^- (+ constraint terms)\"",
@@ -700,15 +678,15 @@
     },
     {
       "part": "SM",
-      "number": "SM 64",
+      "number": "SM 61",
       "label": "SMvertex",
-      "topic": "V_W = (1/4πα′)W∂x⁺∂̄x⁻",
-      "evidence": "Retained scoped check: `07_Worldsheet` \"with the 1/(2 pi alpha') prefactor this is V_W = (1/(4 pi alpha')) W dx+ dbar x-\"",
+      "topic": "V_W = W partial x+ bar-partial x-/(4 pi alpha-prime)",
+      "evidence": "`07_Worldsheet`: boundary coupling normalization, absence of a longitudinal W0 self-contraction and the W0 primary OPE. The radially dressed W1 operator has separate weight/fusion checks and is not assumed exactly marginal to all orders.",
       "status": "V"
     },
     {
       "part": "SM",
-      "number": "SM 65",
+      "number": "SM 62",
       "label": "SMWisB",
       "topic": "H(W) = Ω_bH(0)Ω_bᵀ, b_{+−} = −W/2",
       "evidence": "Retained scoped check: `03_RadialSolutionDerivation` \"SMBtransform, SMWshift: Omega_b H(W) Omega_b^T = H(W - 2 b_{+-}) exactly, d untouched\"",
@@ -716,23 +694,23 @@
     },
     {
       "part": "SM",
-      "number": "SM 66",
+      "number": "SM 63",
       "label": "SMdeltaL",
-      "topic": "antisymmetric clock coupling",
-      "evidence": "Retained scoped check: `07_Worldsheet` \"symmetric-block route - antisymmetric-clock route = W (tau- . dx)(tau+ . dbar x)\"",
+      "topic": "Antisymmetric X/bar-X coupling from the Kalb–Ramond representative",
+      "evidence": "`07_Worldsheet`: the symmetric-block and antisymmetric-clock routes differ by W (bar-X . partial x)(X . bar-partial x), which is proportional to the chirality constraints.",
       "status": "V"
     },
     {
       "part": "SM",
-      "number": "SM 67",
+      "number": "SM 64",
       "label": "SMFTsector",
-      "topic": "Radial kinetic and Fradkin-Tseytlin sectors",
-      "evidence": "Retained scoped check: Definitions; used in the radial BRST condition, SM82.",
-      "status": "D"
+      "topic": "Lorentzian radial kinetic and Fradkin–Tseytlin sectors",
+      "evidence": "`07_Worldsheet`: verifies the Lorentzian orientation and both chiral stress normalizations, then the associated radial conformal weights and central term. This is not a full Lorentzian path-integral derivation.",
+      "status": "V°"
     },
     {
       "part": "SM",
-      "number": "SM 68",
+      "number": "SM 65",
       "label": "SMWZWlevel",
       "topic": "k = l²/α′",
       "evidence": "Retained scoped check: `07_Worldsheet` \"k = \\|Int_{S^3} H\\| / (4 pi^2 alpha') = l^2/alpha'\"",
@@ -740,7 +718,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 69",
+      "number": "SM 66",
       "label": "SMFTweight",
       "topic": "T_y, h_y(a)",
       "evidence": "Retained scoped check: `07_Worldsheet` \"the two OPE contributions assemble to h_y(a)/(z-w)^2\"",
@@ -748,7 +726,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 70",
+      "number": "SM 67",
       "label": "SMBRSTradial",
       "topic": "(∂²_y + (2/l)∂_y)f = 0",
       "evidence": "Retained scoped check: `07_Worldsheet` \"the marginal roots of h_y are a = 0 and a = -2/l (modes {1, e^{-2y/l}})\", \"(d_y^2 + (2/l) d_y) f = 0 for f = W0 + W1 e^{-2y/l}\"",
@@ -756,7 +734,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 71",
+      "number": "SM 68",
       "label": "SMBRSTmomentum",
       "topic": "h_y(p_y), roots p_y = 0, 2i/l",
       "evidence": "Retained scoped check: `07_Worldsheet` \"h_y(i p_y) = (alpha'/4) p_y (p_y - 2 i/l) and P_y = p_y - i/l gives (alpha'/4)(P_y^2 + 1/l^2)\"",
@@ -764,7 +742,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 72",
+      "number": "SM 69",
       "label": "SMBRSTvertex",
       "topic": "Radially dressed W1 vertex and its linearized conformal weights",
       "evidence": "Retained scoped check: `07_Worldsheet`: radial conformal-weight and longitudinal-contraction checks. The undressed W0 contraction test alone does not establish exact marginality or self-OPE regularity of the dressed W1 vertex.",
@@ -772,7 +750,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 73",
+      "number": "SM 70",
       "label": "SMBRSTcentral",
       "topic": "c_y = 1 + 6α′/l², total 3(k+2)/k",
       "evidence": "Retained scoped check: `07_Worldsheet` \"c_{beta gamma} + c_y = 2 + (1 + 6/k) = 3(k+2)/k\"",
@@ -780,7 +758,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 74",
+      "number": "SM 71",
       "label": "SMWgaugeobstruction",
       "topic": "W₀ gauge, e^{−2y/l}W₁ not",
       "evidence": "Retained scoped check: `07_Worldsheet` \"Lhat_xi H^infty = D H^infty + H^infty D^T with D = ((-(dv)^T, 0), (b, dv)), b = d lambda~\", \"the conditions force d_y v^mu = 0, d_- v^+ = 0 = d_+ v^-, b_{+-} = -varpi/2, b_{+y} = d_+ v^y, b_{-y} = -d_…\"",
@@ -788,15 +766,15 @@
     },
     {
       "part": "SM",
-      "number": "SM 75",
+      "number": "SM 72",
       "label": "SMBRSTfusion",
-      "topic": "self-contraction, h_n, resonances",
-      "evidence": "Retained scoped check: `07_Worldsheet` \"e^{a y(z)} e^{a y(0)} ~ \\|z\\|^{-alpha' a^2} = \\|z\\|^{-4 alpha'/l^2} for a = -2/l (from <y y> = -(alpha'/2) Log\\|…\", \"the n-fold fused weight h_n = n + q n(1-n) equals n + h_y(-2n/l) with q = alpha'/l^2\" (+1 more)",
+      "topic": "Radial self-contraction, fused conformal weight and resonance conditions",
+      "evidence": "`07_Worldsheet`: per-chiral Lorentzian radial fusion exponent, n-fold weight h_n=n+q n(1-n) and resonance at q=1/n. The nontrivial dressed W1 self-OPE is retained; an all-order marginal completion is not constructed.",
       "status": "V"
     },
     {
       "part": "SM",
-      "number": "SM 76",
+      "number": "SM 73",
       "label": "SMupliftblocks",
       "topic": "Ten-dimensional uplift blocks and sector curvature cancellation",
       "evidence": "Retained scoped check: `08_Uplift_Killing`: arbitrary-chiral R uplift and the one-sided NR uplift L_-=0 with arbitrary W0/W1. No direct full two-sided NR uplift run.",
@@ -804,7 +782,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 77",
+      "number": "SM 74",
       "label": "SMDFTKilling",
       "topic": "DFT Killing equations",
       "evidence": "Retained scoped check: Defining equations; `08_Uplift_Killing` checks their explicit vacuum realization, not arbitrary backgrounds.",
@@ -812,7 +790,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 78",
+      "number": "SM 75",
       "label": "SMtypeIIKS",
       "topic": "Type-II Killing-spinor equations",
       "evidence": "Retained scoped check: Stated framework; `08_Uplift_Killing` checks selected reductions and Clifford algebra, not the complete current ten-dimensional system in the real Majorana basis.",
@@ -820,7 +798,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 79",
+      "number": "SM 76",
       "label": "SMsusyclosure",
       "topic": "Supersymmetry closure and the Killing parameter from a spinor bilinear",
       "evidence": "Retained scoped check: `08_Uplift_Killing`: reduced vacuum bilinear and vanishing generalized Lie derivative; not the full supersymmetry commutator with compensating transformations.",
@@ -828,15 +806,15 @@
     },
     {
       "part": "SM",
-      "number": "SM 80",
+      "number": "SM 77",
       "label": "SMsemicov",
-      "topic": "semi-covariant connection",
+      "topic": "DFT Christoffel connection in the uplift",
       "evidence": "Retained scoped check: `04_GeneralBackground_LEDFE` \"SMbackgroundconnection on R: nabla_C P_AB = 0 through z^2\", \"SMbackgroundconnection on NR: nabla_C P_AB = 0 through z^2\" (+4 more); `08_Uplift_Killing` \"R(S3) = +6/l^2 and H^2(S3) = +24/l^2 (pairwise cancellation with AdS3)\", \"S_(0)(S3 block) = +4/l^2 via the closed form (cancels -4/l^2 of either 3d saddle)\"",
       "status": "V°"
     },
     {
       "part": "SM",
-      "number": "SM 81",
+      "number": "SM 78",
       "label": "SMuplift",
       "topic": "AdS₃×S³×R⁴ with flux",
       "evidence": "Retained scoped check: `08_Uplift_Killing` \"R(S3) = +6/l^2 and H^2(S3) = +24/l^2 (pairwise cancellation with AdS3)\", \"S_(0)(S3 block) = +4/l^2 via the closed form (cancels -4/l^2 of either 3d saddle)\" (+1 more)",
@@ -844,7 +822,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 82",
+      "number": "SM 79",
       "label": "SMRDFTKilling",
       "topic": "Ordinary-field form of the generalized Killing equations",
       "evidence": "Retained scoped check: Cited decomposition; the ordinary Killing vectors are not enumerated in the suite.",
@@ -852,7 +830,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 83",
+      "number": "SM 80",
       "label": "SMRlocaliso",
       "topic": "k^{(ij)} = s_is_j stabilizers",
       "evidence": "Retained scoped check: `08_Uplift_Killing` \"k = s_i s_j with (l^2/2) s'' = L s obeys k L' + 2 L k' - (l^2/4) k''' = 0 (the stabilizer equation)\"",
@@ -860,23 +838,23 @@
     },
     {
       "part": "SM",
-      "number": "SM 84",
       "label": null,
-      "topic": "Unlabeled display",
+      "topic": "Unlabeled numbered display",
       "evidence": "No separate full-expression check assigned; see neighboring named identities and file-specific scope.",
-      "status": "N"
+      "status": "N",
+      "number": "SM 81"
     },
     {
       "part": "SM",
-      "number": "SM 85",
       "label": null,
-      "topic": "Unlabeled display",
+      "topic": "Unlabeled numbered display",
       "evidence": "No separate full-expression check assigned; see neighboring named identities and file-specific scope.",
-      "status": "N"
+      "status": "N",
+      "number": "SM 82"
     },
     {
       "part": "SM",
-      "number": "SM 86",
+      "number": "SM 83",
       "label": "SMRcomponentHill",
       "topic": "first-order pair → Hill equation",
       "evidence": "Retained scoped check: `08_Uplift_Killing` \"the first-order pair (d+ u = Sqrt[2]/l v, d+ v = Sqrt[2]/l L u) closes into (l^2/2) s'' = L s\"",
@@ -884,7 +862,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 87",
+      "number": "SM 84",
       "label": "SMRlocalKS",
       "topic": "Hill equations for s±",
       "evidence": "Retained scoped check: `08_Uplift_Killing` \"the first-order pair (d+ u = Sqrt[2]/l v, d+ v = Sqrt[2]/l L u) closes into (l^2/2) s'' = L s\", \"massless BTZ (L = 0): the (u, v) pair shifts by exactly 2 pi v over one circuit (unipotent)\" (+1 more)",
@@ -892,15 +870,15 @@
     },
     {
       "part": "SM",
-      "number": "SM 88",
       "label": null,
-      "topic": "Unlabeled display",
+      "topic": "Unlabeled numbered display",
       "evidence": "No separate full-expression check assigned; see neighboring named identities and file-specific scope.",
-      "status": "N"
+      "status": "N",
+      "number": "SM 85"
     },
     {
       "part": "SM",
-      "number": "SM 89",
+      "number": "SM 86",
       "label": "SMNRlocalstabilizer",
       "topic": "Non-Riemannian local stabilizer conditions",
       "evidence": "Retained scoped check: `08_Uplift_Killing`: epsilon=c/sqrt(L) and the exact one-sided transformation identity. The full arbitrary two-sided W0/W1 stabilizer system is not checked.",
@@ -908,7 +886,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 90",
+      "number": "SM 87",
       "label": "SMexactiso",
       "topic": "vacuum isometries",
       "evidence": "Retained scoped check: `08_Uplift_Killing` \"Lhat_xi H^infty = 0 for arbitrary chiral v^pm and omega_pm\", \"X^M = (omega_+, 0, -(l/2) v'; v^+, 0, -(l/2) v') with v^+ = 2 f1 f2, omega_+ = -2 l^2 f1' f2'\"",
@@ -916,7 +894,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 91",
+      "number": "SM 88",
       "label": "SMweighteddilaton",
       "topic": "weighted dilaton condition",
       "evidence": "Retained scoped check: `08_Uplift_Killing` \"Lhat_xi d = 0 (the radial component compensates the divergence)\", \"equivalently d_M(e^{-2d} xi^M) = 0\"",
@@ -924,7 +902,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 92",
+      "number": "SM 89",
       "label": "SMkillingspinor",
       "topic": "vacuum Killing spinor E = (√2f, l∂₊f)",
       "evidence": "Retained scoped check: `08_Uplift_Killing` \"SM: vacuum spin connection = displayed Phi_{~+ oplus y} = 1/(2l), Phi_{+ ominus y} = -1/l (raised slots)\", \"D_{pbar} E = 0 for E = (Sqrt[2] f(x+), l f'(x+)), arbitrary chiral f\" (+2 more)",
@@ -932,7 +910,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 93",
+      "number": "SM 90",
       "label": "SMcomplexblocks",
       "topic": "σ_i, τ_i, ρ_m",
       "evidence": "Retained scoped check: `08_Uplift_Killing` \"rep: {gamma^p, gamma^q} = 2 eta^{pq} (3d lightcone blocks)\"",
@@ -940,15 +918,15 @@
     },
     {
       "part": "SM",
-      "number": "SM 94",
       "label": null,
-      "topic": "Unlabeled display",
+      "topic": "Unlabeled numbered display",
       "evidence": "No separate full-expression check assigned; see neighboring named identities and file-specific scope.",
-      "status": "N"
+      "status": "N",
+      "number": "SM 91"
     },
     {
       "part": "SM",
-      "number": "SM 95",
+      "number": "SM 92",
       "label": "SMgammaten",
       "topic": "ten-dimensional Γ^p̂, Γ₁₁",
       "evidence": "Retained scoped check: `08_Uplift_Killing` \"{Gamma^p, Gamma^q} = 2 eta_{(10)}^{pq} I_32\", \"Gamma_11^2 = 1 and {Gamma_11, Gamma^p} = 0\"",
@@ -956,7 +934,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 96",
+      "number": "SM 93",
       "label": "SMgammaMajorana",
       "topic": "Majorana intertwiner",
       "evidence": "Retained scoped check: `08_Uplift_Killing` \"BB10 Gamma^p BB10^{-1} = (Gamma^p)^*, same for Gamma_11, and BB10 BB10^* = 1\"",
@@ -964,7 +942,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 97",
+      "number": "SM 94",
       "label": "SMgammabarred",
       "topic": "barred Clifford algebra",
       "evidence": "Retained scoped check: `08_Uplift_Killing` \"{Gammabar, Gammabar} = -2 eta, Gammabar_{pq} = -Gamma_{pq}, same Majorana intertwiner\"",
@@ -972,7 +950,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 98",
+      "number": "SM 95",
       "label": "SMreducedDirac",
       "topic": "reduced two-component system",
       "evidence": "Retained scoped check: `08_Uplift_Killing` \"SM text after SMreducedDirac: D_{pbar} E has the components 0, -L+ u e0/l, em0/Sqrt2, em1/Sqrt2 - W1 u e0/(…\", \"SM text after SMreducedDirac: gamma^p D_p E + E/(Sqrt2 l) has the components ey0/Sqrt2 + Sqrt2 e0/l and ep0…\"",
@@ -980,7 +958,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 99",
+      "number": "SM 96",
       "label": "SMinternalprojectors",
       "topic": "Internal projectors and complex product-spinor representatives",
       "evidence": "Retained scoped check: `08_Uplift_Killing`: historical complex rank count only; it does not verify the current product representatives or their real Majorana combinations.",
@@ -988,15 +966,15 @@
     },
     {
       "part": "SM",
-      "number": "SM 100",
       "label": null,
-      "topic": "Unlabeled display",
+      "topic": "Unlabeled numbered display",
       "evidence": "No separate full-expression check assigned; see neighboring named identities and file-specific scope.",
-      "status": "N"
+      "status": "N",
+      "number": "SM 97"
     },
     {
       "part": "SM",
-      "number": "SM 101",
+      "number": "SM 98",
       "label": "SMspinorcountchain",
       "topic": "Majorana, Weyl and background-projector polarization counts",
       "evidence": "Retained scoped check: `08_Uplift_Killing`: algebraic ranks and arithmetic consistency. Arbitrary chiral functions are not discarded; this is not a construction of global spinor spaces or nonzero integrable supercharges.",
@@ -1004,7 +982,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 102",
+      "number": "SM 99",
       "label": "SMhairyKS",
       "topic": "four arbitrary real chiral functions on each one-sided NR branch (hairy Killing spinors)",
       "evidence": "Retained scoped check: the reduced one-sided jet system in the printed frame is verified; the full ten-dimensional fermionic equations with the current internal basis and nonzero supercharges are not; `08_Uplift_Killing` \"the displayed system has rank six (seven relations, one dependent) and spans the derived equations\", \"the solution space is exactly {e_1, d_+ e_1}: e_0 = 0, e_1 = F_+(x^+) with d_+ e_1 unconstrained\" (+1 more)",
@@ -1012,23 +990,23 @@
     },
     {
       "part": "SM",
-      "number": "SM 103",
       "label": null,
-      "topic": "Unlabeled display",
+      "topic": "Unlabeled numbered display",
       "evidence": "No separate full-expression check assigned; see neighboring named identities and file-specific scope.",
-      "status": "N"
+      "status": "N",
+      "number": "SM 100"
     },
     {
       "part": "SM",
-      "number": "SM 104",
       "label": null,
-      "topic": "Unlabeled display",
+      "topic": "Unlabeled numbered display",
       "evidence": "No separate full-expression check assigned; see neighboring named identities and file-specific scope.",
-      "status": "N"
+      "status": "N",
+      "number": "SM 101"
     },
     {
       "part": "SM",
-      "number": "SM 105",
+      "number": "SM 102",
       "label": "SMcandidateD",
       "topic": "Gauge-covariant derivative for the boundary candidate",
       "evidence": "Retained scoped check: Definition; used in `09_BoundaryCandidate`.",
@@ -1036,7 +1014,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 106",
+      "number": "SM 103",
       "label": "SMcandidateaction",
       "topic": "candidate action and its reduction",
       "evidence": "Retained scoped check: `09_BoundaryCandidate` \"the P^(0) term contains only D_+ and the Pbar^(0) term only D_-\", \"each term selects a single independent component of phi_A\"",
@@ -1044,7 +1022,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 107",
+      "number": "SM 104",
       "label": "SMcandidategauge",
       "topic": "Non-Abelian gauge transformation of the classical candidate",
       "evidence": "Retained scoped check: `09_BoundaryCandidate`: non-Abelian bosonic sector; the entire covariant Grassmann system is not checked by this predicate.",
@@ -1052,7 +1030,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 108",
+      "number": "SM 105",
       "label": "SMcandidateWitt",
       "topic": "Witt transformations",
       "evidence": "Retained scoped check: `09_BoundaryCandidate`: Grassmann realization with ordinary partial derivatives and vanishing gauge connection (A=0); not a full non-Abelian covariant calculation.",
@@ -1060,7 +1038,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 109",
+      "number": "SM 106",
       "label": "SMcandidateWittL",
       "topic": "δ_vL = ∂(vL)",
       "evidence": "Retained scoped check: `09_BoundaryCandidate`: Grassmann realization with ordinary partial derivatives and vanishing gauge connection (A=0); not a full non-Abelian covariant calculation.",
@@ -1068,7 +1046,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 110",
+      "number": "SM 107",
       "label": "SMcandidatefermionic",
       "topic": "chiral fermionic transformations",
       "evidence": "Retained scoped check: `09_BoundaryCandidate`: Grassmann realization with ordinary partial derivatives and vanishing gauge connection (A=0); not a full non-Abelian covariant calculation.",
@@ -1076,7 +1054,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 111",
+      "number": "SM 108",
       "label": "SMcandidatefermionicL",
       "topic": "their total-derivative variations",
       "evidence": "Retained scoped check: `09_BoundaryCandidate`: Grassmann realization with ordinary partial derivatives and vanishing gauge connection (A=0); not a full non-Abelian covariant calculation.",
@@ -1084,7 +1062,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 112",
+      "number": "SM 109",
       "label": "SMcandidateextra",
       "topic": "Grassmann-even chiral transformation",
       "evidence": "Retained scoped check: `09_BoundaryCandidate` \"delta_zeta L = (1/2) d_+ Tr[zetabar (D_- phi^-)^2] + (1/2) d_- Tr[zeta (D_+ phi^+)^2]\"",
@@ -1092,7 +1070,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 113",
+      "number": "SM 110",
       "label": "SMcandidateextraL",
       "topic": "its variation",
       "evidence": "Retained scoped check: `09_BoundaryCandidate` \"delta_zeta L = (1/2) d_+ Tr[zetabar (D_- phi^-)^2] + (1/2) d_- Tr[zeta (D_+ phi^+)^2]\"",
@@ -1100,7 +1078,7 @@
     },
     {
       "part": "SM",
-      "number": "SM 114",
+      "number": "SM 111",
       "label": "SMcandidatetrivial",
       "topic": "equation-of-motion redundancies",
       "evidence": "Retained scoped check: `09_BoundaryCandidate`: Grassmann realization with ordinary partial derivatives and vanishing gauge connection (A=0); not a full non-Abelian covariant calculation.",
@@ -1108,11 +1086,45 @@
     },
     {
       "part": "SM",
-      "number": "SM 115",
+      "number": "SM 112",
       "label": "SMcandidatetrivialL",
       "topic": "δ_αL total derivative",
       "evidence": "Retained scoped check: `09_BoundaryCandidate`: Grassmann realization with ordinary partial derivatives and vanishing gauge connection (A=0); not a full non-Abelian covariant calculation.",
       "status": "V°"
     }
+  ],
+  "unnumbered_coverage": [
+    {
+      "section": "SM2.2",
+      "topic": "Common source-to-response normalization and regular exchange defect",
+      "programs": [
+        "05_QuadraticRenormalization_TwoPoint",
+        "13_TwoPointFunctions"
+      ]
+    },
+    {
+      "section": "SM2.3",
+      "topic": "Explicit H_R decomposition plus F_R, and R source-response derivation",
+      "programs": [
+        "04_GeneralBackground_LEDFE",
+        "13_TwoPointFunctions"
+      ],
+      "limitation": "General F_R[source] and interior completion remain unspecified."
+    },
+    {
+      "section": "SM2.4",
+      "topic": "NR particular diagonal/mixed source-response derivation",
+      "programs": [
+        "05_QuadraticRenormalization_TwoPoint",
+        "13_TwoPointFunctions"
+      ],
+      "limitation": "Does not determine the full NR hair self-response."
+    }
+  ],
+  "retired_labels": [
+    "SMsub:kernels",
+    "SMgeneralpositionkernels",
+    "SMstatefluctuations",
+    "SMlongstringE"
   ]
 }
