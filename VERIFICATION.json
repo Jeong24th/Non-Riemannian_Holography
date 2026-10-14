@@ -1,7 +1,7 @@
 {
-  "version": "submission-2026-10-14-core",
+  "version": "submission-2026-10-14-core-v2",
   "date_kst": "2026-10-14",
-  "manuscript_sha256": "31AE91B7E6FD951C532B84C77967A7F77F4E3D2BED463B3B414FD9C8AC928579",
+  "manuscript_sha256": "7BFD34C2D514F78EA169FD56C258A0052F022952AC39F36809F9D0E0634ACF0E",
   "scope": "27 selected algebraic checks mirrored by five short WL programs; no full tensor EDFE, counterterm or charge derivation.",
   "python": {
     "version": "3.12.10",
@@ -10,7 +10,7 @@
     "total": 27,
     "exit": 0,
     "log": "results/python.txt",
-    "source_sha256": "0BD79DF2E4E9B86832A9C74594AC61EF382ACCDFA548091D08C63C24FA005691",
+    "source_sha256": "774111EE65057B8E43D3DC463623EC20E5FC4554FCC9C53875F8A4B5BD1405E8",
     "method": "Standalone file copied to an empty temporary directory and executed in a separate process by run_verification.py."
   },
   "mathematica": {
@@ -19,28 +19,28 @@
     "files": [
       {
         "file": "01_Geometry.wl",
-        "lines": 35,
-        "sha256": "C3A7216B888FF58C5401A6DFC9525D79D5C8F202BB0D27EA4C6822AE2000C683"
+        "lines": 38,
+        "sha256": "A70F8B1D87B7A1ABFAA29347C15C9CBDCD5E4D0F1C46A61F17ED4ECC05D81C9A"
       },
       {
         "file": "02_HairAndAction.wl",
-        "lines": 39,
-        "sha256": "340914614BA79670A046A109CB372925CCFB48070C98C7030F8D9FD2EC9665E0"
+        "lines": 43,
+        "sha256": "2017036972EF5A3B39AE5852207950A3F7736DB6C8120325B1B43D6AEBBF690A"
       },
       {
         "file": "03_TwoPointKernels.wl",
-        "lines": 32,
-        "sha256": "8AECD975CCFDABB5FCFE641DBB89C770A4DBB28EBF7AE06D4C69AC6908576FB0"
+        "lines": 36,
+        "sha256": "C19E9507E64A9C3EFCDBEA298BFFFCA57A2449027FC627F4C44E656EDF0064C3"
       },
       {
         "file": "04_StringsAndSpinors.wl",
-        "lines": 31,
-        "sha256": "A0391223635FEABB0549701A2047F2FB96978530B8B4C0239886B3E657EDE8DC"
+        "lines": 38,
+        "sha256": "EBA89E9040AD7E7436732EAACADCE0BE4EBC2BA254614C3F50BF0F0CC8EDEC4B"
       },
       {
         "file": "05_AbelianBoundary.wl",
-        "lines": 38,
-        "sha256": "C4332C63ED4B5EA25EC225F23975BCEC4423854D812F89077B2ADC5C8EFFEB8D"
+        "lines": 40,
+        "sha256": "7D81728905D9720BA771CDBF170D3A53AD7D30ADD6FDD7B8770B373721B76960"
       }
     ]
   },
