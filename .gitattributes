@@ -1,0 +1,9 @@
+/run_verification.py text eol=lf
+/checks/verify_sm5_abelian_rr.py text eol=lf
+/README.md text eol=lf
+/MANIFEST.sha256 text eol=lf
+/mathematica/*.wl text eol=lf
+/mathematica/*.nb text eol=lf
+/mathematica/*.md text eol=lf
+/mathematica/*.json text eol=lf
+/mathematica/runs/2026-10-14/* text eol=lf

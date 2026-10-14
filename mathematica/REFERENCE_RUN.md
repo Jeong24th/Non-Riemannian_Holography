@@ -1,31 +1,14 @@
-# Mathematica execution — October 8, 2026
+# Execution record — submission-2026-10-14
 
-**451/451 checks passed in 14 independent programs**, using Mathematica 13.2.1 on Windows (64-bit).
-Pinned manuscript SHA-256: `2E6A7A8A20D581043D6457865662E76F7D46433AF29847393F1DBA4BF753F822`.
+Manuscript SHA-256: `1DADD2A6F4A65E2D142A1086CE907176B8C4677951D877F3076A6077D03C9B55`.
 
-Each program was copied into its own isolated directory and executed by a fresh `wolframscript -file` process. No sibling source, package, or manuscript input was available there. All exit codes were zero; no Wolfram diagnostic messages or failed assertions appeared. Source hashes were rechecked after execution. Each matching notebook's complete embedded program was parsed and compared with its WL source, normalizing line endings and the final newline.
+| Evidence | Result | Scope |
+|---|---|---|
+| Current SM5 Python, Python 3.12.10 / SymPy 1.14.0 | **46/46 passed** | Fresh exact checks; [log](runs/2026-10-14/sm5-python.txt) |
+| Mathematica programs 01–08 and 10–14 | **437 historical passes** | Their LF-normalized hashes match the October 8 executed files; not rerun October 14 |
+| Rewritten Mathematica 09 | **Not executed** | No Mathematica installation on the preparation PC |
+| 14 notebook/WL pairs | Payloads match | Source comparison only, not Mathematica or front-end execution |
 
-The [machine-readable receipt](RUN_RESULTS.json) records execution times, counts, exact executed hashes and LF-normalized hashes. The [notebook validation log](runs/2026-10-08/notebooks.txt) covers all 14 pairs. Notebook payload equivalence was checked in the kernel; this does not claim a separate front-end execution of every notebook.
+The [current machine-readable receipt](RUN_RESULTS.json) records the exact code hashes and individual historical records. The [October 8 full receipt](runs/2026-10-08/RUN_RESULTS.json) has 451/451 passes, including 14 checks of the retired program 09. **451/451 is not a result for this submission version.** Its old source and notebooks are available at Git commit `ebf7f5b76046f379d84ecb10eed4d1d1a8e2e4ed`.
 
-| Program | Checks | Seconds | Log |
-|---|---:|---:|---|
-| [01_ExactBackgrounds_EDFE.wl](01_ExactBackgrounds_EDFE.wl) | 49/49 | 39.4 | [output](runs/2026-10-08/01_ExactBackgrounds_EDFE.txt) |
-| [02_RenormalizedOnShellAction.wl](02_RenormalizedOnShellAction.wl) | 15/15 | 16.8 | [output](runs/2026-10-08/02_RenormalizedOnShellAction.txt) |
-| [03_RadialSolutionDerivation.wl](03_RadialSolutionDerivation.wl) | 20/20 | 18.5 | [output](runs/2026-10-08/03_RadialSolutionDerivation.txt) |
-| [04_GeneralBackground_LEDFE.wl](04_GeneralBackground_LEDFE.wl) | 61/61 | 76.3 | [output](runs/2026-10-08/04_GeneralBackground_LEDFE.txt) |
-| [05_QuadraticRenormalization_TwoPoint.wl](05_QuadraticRenormalization_TwoPoint.wl) | 67/67 | 76.9 | [output](runs/2026-10-08/05_QuadraticRenormalization_TwoPoint.txt) |
-| [06_NoetherCharges.wl](06_NoetherCharges.wl) | 31/31 | 3.1 | [output](runs/2026-10-08/06_NoetherCharges.txt) |
-| [07_Worldsheet.wl](07_Worldsheet.wl) | 49/49 | 3.5 | [output](runs/2026-10-08/07_Worldsheet.txt) |
-| [08_Uplift_Killing.wl](08_Uplift_Killing.wl) | 55/55 | 61.7 | [output](runs/2026-10-08/08_Uplift_Killing.txt) |
-| [09_BoundaryCandidate.wl](09_BoundaryCandidate.wl) | 14/14 | 2.7 | [output](runs/2026-10-08/09_BoundaryCandidate.txt) |
-| [10_AsymptoticSymmetries.wl](10_AsymptoticSymmetries.wl) | 7/7 | 3.6 | [output](runs/2026-10-08/10_AsymptoticSymmetries.txt) |
-| [11_ZeroL_ExactLEDFE.wl](11_ZeroL_ExactLEDFE.wl) | 5/5 | 7.2 | [output](runs/2026-10-08/11_ZeroL_ExactLEDFE.txt) |
-| [12_RiemannianVacuum_ExactLEDFE.wl](12_RiemannianVacuum_ExactLEDFE.wl) | 8/8 | 10.8 | [output](runs/2026-10-08/12_RiemannianVacuum_ExactLEDFE.txt) |
-| [13_TwoPointFunctions.wl](13_TwoPointFunctions.wl) | 19/19 | 7.0 | [output](runs/2026-10-08/13_TwoPointFunctions.txt) |
-| [14_SM29_IntrinsicCounterterm.wl](14_SM29_IntrinsicCounterterm.wl) | 51/51 | 4.2 | [output](runs/2026-10-08/14_SM29_IntrinsicCounterterm.txt) |
-
-This is a fresh October 8 run. The retained [October 6 logs](runs/2026-10-06/) are historical evidence for their earlier sources, not the current execution receipt. The totals include retained ancillary calculations, including seven checks of a classical winding-energy passage deleted from the current manuscript.
-
-File 14 derives the intrinsic SM29 quadratic expansion. It verifies the NR-vacuum divergent and finite match, the R-vacuum divergent match with an explicit finite local contact difference, and a nonzero divergent obstruction for generic constant L_pm on both branches. The program prints the intermediate curvatures, candidate densities, finite difference and obstruction. Passing its obstruction checks establishes the stated failure away from the vacua, not a universal nonlinear counterterm.
-
-Exact L_pm=0 and order-z general-background checks remain distinct. These tests do not settle all interior conditions, homogeneous responses, zero modes or quotient prescriptions. The [equation ledger](EQUATION_LEDGER.md) records the individual scopes and uncovered identities.
+Reproduce the current Python checks and source-integrity checks with `python run_verification.py`. Add `--mathematica` to run every WL file in an isolated directory and fresh kernel. Current SM5 checks use arbitrary function jets, not numerical samples; the exterior algebra keeps field derivatives independent. The test includes both fermion kinetic reductions and wrong-sign controls. The coverage ledger distinguishes checked fixed-background components from cited general identities and uncomputed quantum/background-response questions.

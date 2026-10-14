@@ -1,0 +1,47 @@
+[PASS] 4b: DFT vielbein normalization and orthogonality
+[PASS] 4b: generalized metric constraint
+[PASS] SM105 unbarred Clifford 00
+[PASS] SM105 unbarred Clifford 01
+[PASS] SM105 unbarred Clifford 10
+[PASS] SM105 unbarred Clifford 11
+[PASS] SM105 unbarred chirality definition
+[PASS] SM92 unbarred conjugation 0
+[PASS] SM92 unbarred conjugation 1
+[PASS] SM105 barred Clifford 00
+[PASS] SM105 barred Clifford 01
+[PASS] SM105 barred Clifford 10
+[PASS] SM105 barred Clifford 11
+[PASS] SM105 barred chirality definition
+[PASS] SM92 barred conjugation 0
+[PASS] SM92 barred conjugation 1
+[PASS] SM94/106 D_plus squared
+[PASS] SM94/106 D_minus squared
+[PASS] SM107 unrestricted field strength
+[PASS] SM108 bosonic action
+[PASS] SM96/108 bosonic equation
+[PASS] SM99 RR invariance and reducibility
+[PASS] SM110 RR leaves phi unchanged
+[PASS] SM93 Christoffel trace
+[PASS] SM93-95 unbarred half-density Dirac d cancellation
+[PASS] SM93-95 barred half-density Dirac d cancellation
+[PASS] SM94 D_+1 d cancellation
+[PASS] SM94 D_-1 d cancellation
+[PASS] SM103 Cartan identity
+[PASS] SM98 Witt algebra on unrestricted B
+[PASS] SM109 phi is a scalar
+[PASS] SM94/98 Kosmann compatibility D_+1
+[PASS] SM94/98 Kosmann compatibility D_-1
+[PASS] SM101/112 physical fermion SUSY signs
+[PASS] negative control: removing gamma(3) changes the minus-sector sign
+[PASS] SM95/108 unbarred fermion kinetic reduction
+[PASS] SM95/108 barred fermion kinetic reduction
+[PASS] Grassmann kinetic terms are not identically zero
+[PASS] SM102/113 arbitrary chiral SUSY: off-shell total divergence
+[PASS] negative control: wrong gamma(3) sign breaks SUSY
+[PASS] SM98 Witt invariance: weight-one action
+[PASS] SM115 trivial variations: off-shell total divergence
+[PASS] SM115 trivial variations vanish on shell
+[PASS] SM114 scalar SUSY closure off shell
+[PASS] SM114 plus SUSY closure modulo fermion equations
+[PASS] SM114 minus SUSY closure modulo fermion equations
+{"passed": 46, "total": 46, "python": "3.12.10", "sympy": "1.14.0"}
