@@ -1,7 +1,7 @@
 """Reproduce the public checks without the manuscript or private files.
 
-Default: verify payload hashes/notebooks and run current SM5 Python checks.
---mathematica: additionally run all 14 standalone WL programs in separate
+Default: verify payload hashes/notebooks and run current core Python checks.
+--mathematica: additionally run all 5 standalone WL programs in separate
 temporary directories and fresh kernels. Logs and receipt go in --output.
 """
 from pathlib import Path
@@ -32,14 +32,13 @@ def verify_payload():
             raise ValueError('Payload hash mismatch: '+name)
     for wl in sorted((ROOT/'mathematica').glob('*.wl')):
         nb = wl.with_suffix('.nb').read_text(encoding='utf-8')
-        marker = 'RowBox[{"ToExpression","[",'
-        if nb.count(marker) != 1:
-            raise ValueError('Expected one embedded input: '+wl.name)
-        encoded, _ = json.JSONDecoder().raw_decode(nb.split(marker,1)[1])
-        payload = json.loads(encoded)
+        matches = re.findall(r'Cell\[("(?:\\.|[^"\\])*"),"Program"\]', nb)
+        if len(matches) != 1:
+            raise ValueError('Expected one readable source cell: '+wl.name)
+        payload = json.loads(matches[0])
         if payload.replace('\r\n','\n').rstrip() != wl.read_text(encoding='utf-8').rstrip():
             raise ValueError('Notebook/WL mismatch: '+wl.name)
-    print(f'Payload hashes: {len(entries)} matched; 14 notebook payloads matched.')
+    print(f'Payload hashes: {len(entries)} matched; 5 notebook payloads matched.')
 
 
 def run_one(command, cwd, output, timeout):
@@ -63,13 +62,13 @@ def main():
     args.output.mkdir(parents=True,exist_ok=True)
     results = []
     # Also demonstrate that the Python calculation has no repository inputs.
-    with tempfile.TemporaryDirectory(prefix='nrh-sm5-', dir=args.output) as directory:
-        copied = Path(directory)/'verify_sm5_abelian_rr.py'
+    with tempfile.TemporaryDirectory(prefix='nrh-core-', dir=args.output) as directory:
+        copied = Path(directory)/'verify_core.py'
         shutil.copyfile(ROOT/'checks'/copied.name,copied)
         code,log,seconds = run_one([sys.executable,str(copied)], directory,
-                                   args.output/'sm5-python.txt', args.timeout)
+                                   args.output/'core-python.txt', args.timeout)
     passed = log.count('[PASS]'); failed = log.count('[FAIL]')
-    results.append(dict(program='verify_sm5_abelian_rr.py',exit=code,passed=passed,
+    results.append(dict(program='verify_core.py',exit=code,passed=passed,
                         failed=failed,seconds=seconds,status='passed' if code==0 and passed>0 and failed==0 else 'failed'))
     if args.mathematica:
         executable = shutil.which(args.wolframscript)

@@ -1,0 +1,28 @@
+[PASS] 01 R: H J H = J
+[PASS] 01 R: measure squared = -det(g)
+[PASS] 01 NR: H J H = J
+[PASS] 01 NR: inverse-metric block
+[PASS] 01 R boundary
+[PASS] 01 NR boundary at W0=0
+[PASS] 02 radial hair equation
+[PASS] 02 W0 boundary value
+[PASS] 02 W1 radial slope
+[PASS] 02 integral leading order
+[PASS] 02 radial boundary flux
+[PASS] 02 finite saddle action
+[PASS] 03 NR diagonal kernel
+[PASS] 03 R central term
+[PASS] 03 NR mixed kernel
+[PASS] 03 R-vacuum hair self-correlator
+[PASS] 04 auxiliary worldsheet reduction
+[PASS] 04 clock wedge
+[PASS] 04 hair metric block
+[PASS] 04 arbitrary chiral f channel
+[PASS] 04 arbitrary chiral g channel
+[PASS] 05 D_plus nilpotency and RR invariance
+[PASS] 05 D_minus nilpotency
+[PASS] 05 scalar action
+[PASS] 05 unbarred fermion kinetic term
+[PASS] 05 barred fermion kinetic term
+[PASS] 05 Cartan anticommutator equals Kosmann
+{"passed": 27, "total": 27, "python": "3.12.10", "sympy": "1.14.0"}

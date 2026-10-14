@@ -1,0 +1,52 @@
+{
+  "version": "submission-2026-10-14-core",
+  "date_kst": "2026-10-14",
+  "manuscript_sha256": "31AE91B7E6FD951C532B84C77967A7F77F4E3D2BED463B3B414FD9C8AC928579",
+  "scope": "27 selected algebraic checks mirrored by five short WL programs; no full tensor EDFE, counterterm or charge derivation.",
+  "python": {
+    "version": "3.12.10",
+    "sympy": "1.14.0",
+    "passed": 27,
+    "total": 27,
+    "exit": 0,
+    "log": "results/python.txt",
+    "source_sha256": "0BD79DF2E4E9B86832A9C74594AC61EF382ACCDFA548091D08C63C24FA005691",
+    "method": "Standalone file copied to an empty temporary directory and executed in a separate process by run_verification.py."
+  },
+  "mathematica": {
+    "status": "not_executed",
+    "reason": "Not installed on the preparation PC; confirmed by author.",
+    "files": [
+      {
+        "file": "01_Geometry.wl",
+        "lines": 35,
+        "sha256": "C3A7216B888FF58C5401A6DFC9525D79D5C8F202BB0D27EA4C6822AE2000C683"
+      },
+      {
+        "file": "02_HairAndAction.wl",
+        "lines": 39,
+        "sha256": "340914614BA79670A046A109CB372925CCFB48070C98C7030F8D9FD2EC9665E0"
+      },
+      {
+        "file": "03_TwoPointKernels.wl",
+        "lines": 32,
+        "sha256": "8AECD975CCFDABB5FCFE641DBB89C770A4DBB28EBF7AE06D4C69AC6908576FB0"
+      },
+      {
+        "file": "04_StringsAndSpinors.wl",
+        "lines": 31,
+        "sha256": "A0391223635FEABB0549701A2047F2FB96978530B8B4C0239886B3E657EDE8DC"
+      },
+      {
+        "file": "05_AbelianBoundary.wl",
+        "lines": 38,
+        "sha256": "C4332C63ED4B5EA25EC225F23975BCEC4423854D812F89077B2ADC5C8EFFEB8D"
+      }
+    ]
+  },
+  "notebooks": {
+    "format": "readable Program source cell plus Get of the adjacent WL file",
+    "source_pairs_matched": 5,
+    "front_end_executed": false
+  }
+}
